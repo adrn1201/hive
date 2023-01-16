@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+
+<p>{{ category.name }}</p>
+<p>{{ product_count }}</p>
+
+
+<table>
+    <thead>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Size</th>
+        <th>Unit Price</th>
+        <th>Category</th>
+        <th>Date Added</th>
+        <th></th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.product_name }}</td>
+            <td>{{ product.actual_quantity }}</td>
+            <td>{{ product.size }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{product.created }}</td>
+            <td>{{ product.product_image.url }}</td>
+            <td><a href="{% url 'view-product' product.id %}">Details</a></td>
+            <td><a href="{% url 'edit-product' product.id %} ">Edit</a></td>
+            <td><a href="{% url 'delete-product' product.id %} ">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+{% endblock content %}
