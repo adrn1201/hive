@@ -24,3 +24,10 @@ def create_product(request):
     context = {"form":form}
     return render(request, "products/product_form.html", context)
 
+def view_product(request, pk):
+
+    product = Inventory.objects.get(id=pk)
+
+    context ={'product':product}
+    return render(request, "products/view_product.html", context)
+
