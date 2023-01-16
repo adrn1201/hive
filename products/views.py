@@ -31,6 +31,20 @@ def view_product(request, pk):
     context ={'product':product}
     return render(request, "products/view_product.html", context)
 
+def edit_product(request, pk):
+    product = Inventory.objects.get(id=pk)
+    form = InventoryForm(instance=product) 
+
+    if request.method == "POST":
+        form = InventoryForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            #save to database
+            form.save()
+            return redirect('products')
+    
+    context = {"form":form}
+    return render(request, "products/product_form.html", context)
+
 def delete_product(request, pk):
     product = Inventory.objects.get(id=pk)
     if request.method == 'POST':
@@ -38,5 +52,6 @@ def delete_product(request, pk):
         return redirect("products")
     context={'product':product}
     return render(request, "products/delete_product.html", context)
+
 
 

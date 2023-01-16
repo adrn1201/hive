@@ -25,7 +25,7 @@
             <td>{{product.created }}</td>
             <td>{{ product.product_image.url }}</td>
             <td><a href="{% url 'view-product' product.id %}">Details</a></td>
-            <td><a href="">Edit</a></td>
+            <td><a href="{% url 'edit-product' product.id %} ">Edit</a></td>
             <td><a href="{% url 'delete-product' product.id %} ">Delete</a></td>
         </tr>
         {% endfor %}
