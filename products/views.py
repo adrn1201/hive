@@ -31,3 +31,12 @@ def view_product(request, pk):
     context ={'product':product}
     return render(request, "products/view_product.html", context)
 
+def delete_product(request, pk):
+    product = Inventory.objects.get(id=pk)
+    if request.method == 'POST':
+        product.delete()
+        return redirect("products")
+    context={'product':product}
+    return render(request, "products/delete_product.html", context)
+
+
