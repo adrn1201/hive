@@ -7,7 +7,7 @@ def index(request):
     # Display all products
     products = Inventory.objects.all() 
     context = {"products":products}
-    return render(request, "products/index.html", context)
+    return render(request, "main.html", context)
 
 
 def create_product(request):
