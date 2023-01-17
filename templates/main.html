@@ -20,7 +20,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png'}">
     <title>
         Argon Dashboard 2 by Creative Tim
     </title>
@@ -33,7 +33,7 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="{% static 'assets/css/nucleo-svg.css'%}" rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css?v=2.0.4'%}" rel="stylesheet" />
+    <link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css'%}" rel="stylesheet" />
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -46,7 +46,7 @@
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
                 target="_blank">
-                <img src="../assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
+                <img src="{% static 'assets/img/logo-ct-dark.png' %}" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="ms-1 font-weight-bold">Argon Dashboard 2</span>
             </a>
         </div>
@@ -132,7 +132,7 @@
         </div>
         <div class="sidenav-footer mx-3 ">
             <div class="card card-plain shadow-none" id="sidenavCard">
-                <img class="w-50 mx-auto" src="../assets/img/illustrations/icon-documentation.svg"
+                <img class="w-50 mx-auto" src="{% static 'assets/img/illustrations/icon-documentation.svg'%}"
                     alt="sidebar_illustration">
                 <div class="card-body text-center p-3 w-100 pt-0">
                     <div class="docs-info">
@@ -201,7 +201,7 @@
                                     <a class="dropdown-item border-radius-md" href="javascript:;">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
-                                                <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
+                                                <img src="{% static 'assets/img/team-2.jpg' }" class="avatar avatar-sm  me-3 ">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="text-sm font-weight-normal mb-1">
@@ -406,8 +406,7 @@
                     <div class="card card-carousel overflow-hidden h-100 p-0">
                         <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
                             <div class="carousel-inner border-radius-lg h-100">
-                                <div class="carousel-item h-100 active" style="background-image: url('../assets/img/carousel-1.jpg');
-      background-size: cover;">
+                                <div class="carousel-item h-100 active" style="background-image: url('{% static "assets/img/carousel-1.jpg" %}'); background-size: cover;">
                                     <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                                         <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
                                             <i class="ni ni-camera-compact text-dark opacity-10"></i>
@@ -417,7 +416,7 @@
                                             at.</p>
                                     </div>
                                 </div>
-                                <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-2.jpg');
+                                <div class="carousel-item h-100" style="background-image: url('{% static "assets/img/carousel-2.jpg" %}');
       background-size: cover;">
                                     <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                                         <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
@@ -428,7 +427,7 @@
                                             the ability to learn.</p>
                                     </div>
                                 </div>
-                                <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-3.jpg');
+                                <div class="carousel-item h-100" style="background-image: url('{% static "assets/img/carousel-3.jpg" %}');
       background-size: cover;">
                                     <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
                                         <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
