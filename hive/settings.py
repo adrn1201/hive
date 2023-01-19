@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     
     
-    "products.apps.ProductsConfig"
+    "products.apps.ProductsConfig",
+    "w_dashboard.apps.WDashboardConfig",
 ]
 
 MIDDLEWARE = [
