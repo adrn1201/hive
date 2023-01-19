@@ -20,7 +20,10 @@
     <link href="{% static 'assets/css/nucleo-svg.css'%}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css'%}" rel="stylesheet" />
+
+
 </head>
+    
 
 <body class="g-sidenav-show bg-gray-100">
 
@@ -28,6 +31,8 @@
     {% block content %}
     {% endblock content %}
 
+        <!-- SWEET ALERT-->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!--   Core JS Files   -->
     <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
