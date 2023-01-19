@@ -4,24 +4,51 @@
 
 {% block content %}
 
-<table>
-    <thead>
-        <th>Name</th>
-        <th>No. of Products</th>
-        <th></th>
-        <th></th>
-    </thead>
-    <tbody>
-        {% for category in categories %}
-        <tr>
-            <td><a href="{% url 'show-category' category.id %}">{{ category.name }}</a></td>
-            <td>{{ category.inventory_set.all.count }}</td>
-            <td><a href="{% url 'edit-category' category.id %} ">Edit</a></td>
-            <td><a href="{% url 'delete-category' category.id %} ">Delete</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Name</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        No. of Products</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category in categories %}
+                                <tr>
+                                    <td class="text-center">
+                                        <a href="{% url 'show-category' category.id %}">{{ category.name }}</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ category.inventory_set.all.count }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-link text-dark text-xs px-2 mb-0" href="{% url 'edit-category' category.id %}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
+
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-link text-danger text-xs text-gradient px-3 mb-0" href="{% url 'delete-category' category.id %}"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock content %}
