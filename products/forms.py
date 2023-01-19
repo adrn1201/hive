@@ -8,9 +8,22 @@ class InventoryForm(ModelForm):
         fields = '__all__'
         exclude = ['tempo_quantity']
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+        
         
 class CategoryForm(ModelForm):
     class Meta:
         model = Category
         fields = '__all__'
+        
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
         
