@@ -2,41 +2,74 @@
 {% block title %}{% endblock title %}
 
 {% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex card mb-4">
 
-<p>{{ category.name }}</p>
-<p>{{ product_count }}</p>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Product Name</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Quantity</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Size</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Unit Price</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Category</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Date Added</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ product.product_name }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ product.actual_quantity }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ product.size }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ product.price }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{ product.category }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="text-xs font-weight-bold mb-0">{{product.created }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-link text-dark text-xs px-2 mb-0" href="{% url 'edit-category' category.id %}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
 
-
-<table>
-    <thead>
-        <th>Product Name</th>
-        <th>Quantity</th>
-        <th>Size</th>
-        <th>Unit Price</th>
-        <th>Category</th>
-        <th>Date Added</th>
-        <th></th>
-        <th></th>
-    </thead>
-    <tbody>
-        {% for product in products %}
-        <tr>
-            <td>{{ product.product_name }}</td>
-            <td>{{ product.actual_quantity }}</td>
-            <td>{{ product.size }}</td>
-            <td>{{ product.price }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{product.created }}</td>
-            <td>{{ product.product_image.url }}</td>
-            <td><a href="{% url 'view-product' product.id %}">Details</a></td>
-            <td><a href="{% url 'edit-product' product.id %} ">Edit</a></td>
-            <td><a href="{% url 'delete-product' product.id %} ">Delete</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-
-
-
-{% endblock content %}
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-link text-danger text-xs text-gradient px-3 mb-0" href="{% url 'delete-category' category.id %}"><i class="far fa-trash-alt me-2"></i>Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %} 
