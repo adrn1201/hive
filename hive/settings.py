@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     
     "products.apps.ProductsConfig",
     "w_dashboard.apps.WDashboardConfig",
+    "shop.apps.ShopConfig",
 ]
 
 MIDDLEWARE = [
