@@ -3,6 +3,8 @@ from .models import Inventory, Category
 from .forms import InventoryForm, CategoryForm
 
 
+
+
 def index(request):
     # Display all products
     products = Inventory.objects.all() 
