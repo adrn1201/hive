@@ -8,6 +8,7 @@ urlpatterns = [
     path("", include("w_dashboard.urls")),
     path("products/", include("products.urls")),
     path("shop/", include("shop.urls")),
+    path("retailers/", include("retailers.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
