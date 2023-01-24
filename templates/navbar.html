@@ -100,6 +100,10 @@
         <div class="container-fluid py-1 px-3">
                 <h6 class="font-weight-bolder text-white mb-0">
                     <br>
+                    {% if request.path != '/' %}
+                        <a href="../"><i class='far fa-arrow-alt-circle-left' style='color:white'></i></a>
+                    {%endif%}
+                    &nbsp;
                     {% if request.path == '/products/' %}
                     List of Products
                     {% elif request.path == '/' %}
