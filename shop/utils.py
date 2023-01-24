@@ -3,18 +3,18 @@ from products.models import Inventory, Category
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
-def paginate_products(request, profiles, results):
+def paginate_products(request, products, results):
     page = request.GET.get('page')
-    paginator = Paginator(profiles, results)
+    paginator = Paginator(products, results)
     
     try:
-        profiles = paginator.page(page)  
+        products = paginator.page(page)  
     except PageNotAnInteger:
         page = 1 
-        profiles = paginator.page(page)  
+        products = paginator.page(page)  
     except EmptyPage:
         page = paginator.num_pages 
-        profiles = paginator.page(page)  
+        products = paginator.page(page)  
         
     left_index = (int(page) - 4)
     
@@ -27,7 +27,7 @@ def paginate_products(request, profiles, results):
         right_index = paginator.num_pages + 1
     
     custom_range = range(left_index, right_index)
-    return custom_range, profiles
+    return custom_range, products
 
 
 def search_products(request):

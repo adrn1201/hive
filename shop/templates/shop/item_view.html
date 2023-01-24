@@ -1,0 +1,38 @@
+{% extends 'main2.html' %}
+{% load static %}
+
+{% block title %}Shop{% endblock title %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ item.product_image.url }}" alt="..." /></div>
+            <div class="col-md-6">
+                <div class="small mb-1">{{ item.category }}</div>
+                <h1 class="display-5 fw-bolder">{{ item.product_name }}</h1>
+                <div class="fs-5 mb-5">
+                    <span><b>Price: </b></span><span>₱{{ item.price }}</span>
+                </div>
+              
+                <p class="lead">{{ item.description|linebreaksbr}}</p>
+                <hr>
+                <div class="fs-5 mb-3">
+                    <span><b>Remaining Stocks: </b></span> <span> </span>{{ item.actual_quantity }}
+                </div>
+                
+                
+                <div class="form-inline">
+                    <label><b>Quantity: </b></label>  <input class="form-control text-center me-1 ml-3" id="inputQuantity" type="num" value="{{ item.min_orders }}" style="max-width: 3rem"/>
+                </div>
+                <br>
+                <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                    <i class="bi-cart-fill me-1"></i>
+                    Add to cart
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
