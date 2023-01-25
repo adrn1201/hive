@@ -19,8 +19,9 @@ def create_product(request):
     if request.method == "POST":
         form = InventoryForm(request.POST, request.FILES)
         if form.is_valid():
-            #save to database
-            form.save()
+            product = form.save(commit=False)
+            product.tempo_quantity = product.actual_quantity
+            product.save()
             return redirect('products')
     
     context = {"form":form}
