@@ -13,7 +13,7 @@ SECRET_KEY = "django-insecure-iw%tqa!g4toz*1sdl&uk=qs@j$y@0mrizqe#0b6n7e^bu^ju4z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*','127.0.0.1','localhost']
 
 
 # Application definition
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "cart.apps.CartConfig",
     
     'rest_framework',
+    'corsheaders', 
 ]
 
 MIDDLEWARE = [
@@ -45,6 +46,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "hive.urls"
@@ -110,6 +112,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+CORS_ALLOW_ALL_ORIGINS = True
 STATIC_URL = "static/"
 MEDIA_URL = "/images/"
 

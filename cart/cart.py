@@ -53,7 +53,7 @@ class Cart():
         if product_id in self.basket:
             del self.basket[product_id]
             self.save()
-            
+          
                
     def update(self, product, qty):        
         product_id = str(product)

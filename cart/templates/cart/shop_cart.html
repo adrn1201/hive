@@ -15,7 +15,7 @@
 
 <section class="h-100 h-custom">
   <div class="container h-100 py-5">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="row d-flex justify-content-center  h-100">
       <div class="col">
 
         <div class="table-responsive">
@@ -35,7 +35,7 @@
 
               {% for item in cart %}
               {% with product=item.product %}
-              <tr>
+              <tr class = "items_cart" data-index="{{product.id}}">
                 <th scope="row">
                   <div class="d-flex align-items-center">
                     <img src="{{ product.product_image.url }}" class="img-fluid rounded-3" style="width: 120px;"
@@ -50,7 +50,7 @@
                 </td>
                 <td class="align-middle">
                   <div class="d-flex flex-row">
-                    <button class="btn btn-link px-2"
+                    <button id = "update-quantity" class="btn btn-link px-2"
                       onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                       <i class="fas fa-minus"></i>
                     </button>
@@ -58,7 +58,7 @@
                     <input id="form1" min="0" name="quantity" value="{{item.qty}}" type="number"
                       class="form-control form-control-sm" style="width: 50px;" />
 
-                    <button class="btn btn-link px-2"
+                    <button id = "update-quantity" class="btn btn-link px-2"
                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                       <i class="fas fa-plus"></i>
                     </button>
@@ -71,7 +71,8 @@
                   <p class="mb-0" style="font-weight: 500;">{{item.total_price }}</p>
                 </td>
                 <td class="align-middle">
-                  <i class="fas fa-trash text-danger"></i>
+                 <!-- <i id = "remove-cart" class="fas fa-trash text-danger"></i> -->
+                  <button id="remove-cart" data-index="{{product.id}}" class="btn btn-danger delete-button" type = "button"> Remove </button>
                 </td>
               </tr>
               {% endwith %}
@@ -81,6 +82,8 @@
           </table>
         </div>
 
+        <!-- PAYMENT -->
+        
         <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;">
           <div class="card-body p-4">
 
@@ -177,5 +180,62 @@
     </div>
   </div>
 </section>
+
+<script>
+  const deleteButtons = document.querySelectorAll('.delete-button');
+  const updateQuantity = document.querySelector('#update-quantity');
+  
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              // Does this cookie string begin with the name we want?
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+
+  const csrftoken = getCookie('csrftoken');
+
+
+  for (const delBtn of deleteButtons) {
+        delBtn.addEventListener('click', async function (e) {
+            e.preventDefault();
+            let prodId = delBtn.dataset.index
+            const response = await fetch("http://127.0.0.1:8000/cart/remove/", {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({
+                    productid: prodId,
+                    csrfmiddlewaretoken: "{{csrf_token}}",
+                    action: 'post'
+                })
+            });
+            const data = await response.json();
+            if (data) {
+                const prodItem = document.querySelectorAll('.items_cart')
+                for (const item of prodItem) {
+                    if (item.dataset.index === prodId) {
+                        item.remove()
+                    }
+                }
+                document.querySelector('#cart-qty').innerHTML = data.qty
+               
+            }
+        });
+    }
+</script>
 
 {% endblock content %}
