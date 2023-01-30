@@ -5,8 +5,10 @@ from rest_framework.response import Response
 from products.models import Inventory
 from .cart import Cart
 
+
 def show_cart(request):
     return render(request, "cart/shop_cart.html")
+
 
 @api_view(['POST'])
 def cart_delete(request):
@@ -23,6 +25,7 @@ def cart_delete(request):
         return response
     return Response({'none':'none'})
     
+    
 @api_view(['POST'])
 def cart_add(request):
     cart = Cart(request)
@@ -38,5 +41,23 @@ def cart_add(request):
     
     return Response({'none':'none'})
 
+
+@api_view(['POST'])
+def cart_update(request):
+    cart = Cart(request)
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        product_id = request.data['productid']
+        product_qty = request.data['productqty']
+        cart.update(product=product_id, qty=product_qty)
+        
+        cart_qty = cart.__len__()
+        cart_total = cart.get_total_price()
+ 
+        response = Response({
+            'qty': cart_qty, 
+            'subtotal':cart_total
+        })
+        return response
+    return Response({'none':'none'})
 
 
