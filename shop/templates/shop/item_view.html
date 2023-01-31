@@ -39,12 +39,56 @@
                     </button>
                 </form>
              
+
+                <div class="form-inline">
+                    <label><b>Quantity: </b></label> 
+                    <input class="form-control text-center me-1 ml-3"
+                        id="inputQuantity" type="num" value="{{ item.min_orders }}" style="max-width: 3rem" />
+                </div>
+                <button class="btn btn-outline-dark flex-shrink-0 mt-3" id="add-button" value="{{item.id}}" type="button">
+                    <i class="bi-cart-fill me-1"></i>
+                    Add to cart
+                </button>
+
+                <div id="alert-container-1" class="d-none">
+                    <div class="alert alert-success alert-dismissible fade show mt-3" id="success" role="alert" style="text-align: center;">
+                        Added to cart
+                    </div>
+                </div>
+
+                <div id="alert-container-2" class="d-none">
+                    <div class="alert alert-danger alert-dismissible fade show mt-3" id="error" role="alert" style="text-align: center;">
+                        Already exists
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 <script>
+    // get the value from the cookie
+    var value = getCookie(name);
+
+    // check if the value exists in the cookie
+    if (value) {
+        document.getElementById("add-button").addEventListener("click", function() {
+            document.getElementById("alert-container-2").classList.remove("d-none");
+        });
+        setTimeout(function () {
+        // Closing the alert
+        $('#error').alert('close');
+        }, 3000);
+    } else {
+        document.getElementById("add-button").addEventListener("click", function() {
+            document.getElementById("alert-container-1").classList.remove("d-none");
+        });
+        setTimeout(function () {
+        // Closing the alert
+        $('#success').alert('close');
+        }, 3000);
+    }
+
     const addButton = document.querySelector('#add-button');
     const inputQuantity = document.querySelector('#inputQuantity');
     
@@ -101,8 +145,9 @@
         if (data) {
             document.querySelector('#cart-qty').innerHTML = data.qty;
         }
-        }
-        document.getElementById("demo").innerHTML = text;
+
+
     });
 </script>
+
 {% endblock content %}
