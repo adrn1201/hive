@@ -44,11 +44,11 @@
                         </div>
                     </div>
     
-                    <div id="alert-container-2" class="d-none">
+                    <!-- <div id="alert-container-2" class="d-none">
                         <div class="alert alert-danger alert-dismissible fade show mt-3" id="error" role="alert" style="text-align: center;">
                             Already exists
                         </div>
-                    </div>
+                    </div> -->
 
                 </form>
             </div>
@@ -58,15 +58,6 @@
 
 <script>
    
-    document.getElementById("add-button").addEventListener("click", function() {
-        document.getElementById("alert-container-1").classList.remove("d-none");
-    });
-
-    setTimeout(function () {
-    // Closing the alert
-    $('#error').alert('close');
-    }, 3000);
-
     const addButton = document.querySelector('#add-button');
     const inputQuantity = document.querySelector('#inputQuantity');
     
@@ -87,21 +78,23 @@
     }
 
     const csrftoken = getCookie('csrftoken');
+
+    // ADD TO CART
     addButton.addEventListener('click', async function (e) {
         e.preventDefault();
         let x = document.getElementById("inputQuantity").value;
-        let text;
+        const text = document.getElementById("demo")
         const iStocks = document.getElementById("item_quantity").innerText;
         const iMinimum= document.getElementById("item_minimum").innerText;
 
         if (isNaN(x) || x < parseInt(iMinimum)) {
-            text = "Note: Minimum Quantity is " + iMinimum;
+            text.innerText = "Note: Minimum Quantity is " + iMinimum;
         } 
         else if (x > parseInt(iStocks)) {
-            text = "Note: Maximum Quantity is " + iStocks;;
+            text.innerText = "Note: Maximum Quantity is " + iStocks;
         }
         else {
-            text = "";
+            text.innerText = "";
             const response = await fetch("http://127.0.0.1:8000/cart/add/", {
             method: 'POST',
             credentials: 'same-origin',
@@ -122,6 +115,11 @@
         const data = await response.json();
         if (data) {
             document.querySelector('#cart-qty').innerHTML = data.qty;
+            document.getElementById("alert-container-1").classList.remove("d-none")
+             // Closing the alert
+            setTimeout(function () {
+            $('#success').alert('close');
+            }, 3000);
         }
         }
 });
