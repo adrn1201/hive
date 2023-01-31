@@ -68,7 +68,7 @@
                   <p id="prod-uprice{{product.id}}" class="mb-0" style="font-weight: 500;">{{product.price}}</p>
                 </td>
                 <td class="align-middle">
-                  <p id="prod-tprice{{product.id}}" class="mb-0" style="font-weight: 500;">{{item.total_price }}</p>
+                  <p id="prod-tprice{{product.id}}" class="mb-0" style="font-weight: 500;">{{item.subtotal_price }}</p>
                 </td>
                 <td class="align-middle">
                   <!-- <i id = "remove-cart" class="fas fa-trash text-danger"></i> -->
@@ -149,9 +149,10 @@
               <div class="col-lg-4 col-xl-3" id="amount">
                 <div class="d-flex justify-content-between" style="font-weight: 500;">
                   <p class="mb-2">Subtotal</p>
-                  <p id="subtotal" class="mb-2"></p>
+                  {% for item in cart %}
+                  {% with product=item.product %}
+                  <p id="subtotal" class="mb-2">{{item.subtotal_price }}</p>
                 </div>
-
                 <div id="" class="d-flex justify-content-between" style="font-weight: 500;">
                   <p class="mb-0">Shipping</p>
                   <p class="mb-0">50.00</p>
@@ -161,16 +162,15 @@
 
                 <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
                   <p class="mb-2">Total</p>
-                  <p id="total" class="mb-2">$26.48</p>
+                  <p id="total" class="mb-2">{{item.total_price }}</p>
                 </div>
-
+                {% endwith %}
+                {% endfor %}
                 <button type="button" class="btn btn-primary btn-block btn-lg">
                   <div class="d-flex justify-content-between">
                     <span>Checkout</span>
-                    <span>$26.48</span>
                   </div>
                 </button>
-
               </div>
             </div>
 
@@ -329,7 +329,7 @@ function text(x)
       const data = await response.json();
       if (data) {
         const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
-        total = (parseFloat(data.subtotal) + 50.00)
+        total = (parseFloat(data.subtotal + 50))
         document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
         document.querySelector('#total').innerHTML = total.toFixed(2)
         document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);

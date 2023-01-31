@@ -45,7 +45,8 @@ class Cart():
 
         for item in basket.values():
             item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * int(item['qty'])
+            item['subtotal_price'] = item['price'] * int(item['qty'])
+            item['total_price'] = item['price'] * int(item['qty']) + 50
             yield item
 
     def __len__(self):
@@ -75,7 +76,7 @@ class Cart():
         else:
             shipping = Decimal(50.00)
 
-        total = subtotal + Decimal(shipping)
+        total = subtotal 
         return total
 
     def delete(self, product):
