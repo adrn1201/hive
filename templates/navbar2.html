@@ -4,7 +4,7 @@
 <header class="header_section">
    <div class="container">
       <nav class="navbar navbar-expand-lg custom_nav-container ">
-         <a class="navbar-brand" href="index.html"><img width="250" src="{% static 'assets2/images/logo.png'%}"
+         <a class="navbar-brand" href="index.html"><img width="400" src="{% static 'assets2/images/HIVE.png'%}"
                alt="#" /></a>
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,7 +15,7 @@
                <li class="nav-item ">
                   <a class="nav-link" href="index.html">Dashboard <span class="sr-only">(current)</span></a>
                </li>
-               <li class="nav-item active">
+               <li class="nav-item">
                   <a class="nav-link" href="{% url 'show_shop'%}">Shop</a>
                </li>
                <li class="nav-item">
@@ -51,11 +51,6 @@
                      </div>
                   </a>
                </li>
-               <form class="form-inline">
-                  <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                     <i class="fa fa-search" aria-hidden="true"></i>
-                  </button>
-               </form>
             </ul>
          </div>
       </nav>
@@ -63,3 +58,19 @@
 </header>
 <!-- end header section -->
 </div>
+
+<!-- <script>
+   const links = document.querySelectorAll('.nav-item');
+    
+    if (links.length) {
+      links.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          links.forEach((link) => {
+              link.classList.remove('active');
+          });
+          e.preventDefault();
+          link.classList.add('active');
+        });
+      });
+    }
+</script> -->
