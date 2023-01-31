@@ -71,7 +71,7 @@
                   <p class="mb-0" style="font-weight: 500;">{{item.total_price }}</p>
                 </td>
                 <td class="align-middle">
-                 <!-- <i id = "remove-cart" class="fas fa-trash text-danger"></i> -->
+                 
                   <button id="remove-cart" data-index="{{product.id}}" class="btn btn-danger delete-button" type = "button"> Remove </button>
                 </td>
               </tr>
@@ -83,17 +83,17 @@
         </div>
 
         <!-- PAYMENT -->
-        
-        <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;">
-          <div class="card-body p-4">
+
+        <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 8px" id ="payment-card">
+          <div class="card-body px-5" id="borderpayment">
 
             <div class="row">
-              <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0">
+              <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0" id ="checkout-button">
                 <form>
                   <div class="d-flex flex-row pb-3">
                     <div class="d-flex align-items-center pe-2">
                       <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel2v" value=""
-                        aria-label="..." />
+                        aria-label="..." onclick="text(0)" checked/>
                     </div>
                     <div class="rounded border w-100 p-3">
                       <p class="d-flex align-items-center mb-0">
@@ -104,7 +104,7 @@
                   <div class="d-flex flex-row">
                     <div class="d-flex align-items-center pe-2">
                       <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel3v" value=""
-                        aria-label="..." />
+                        aria-label="..." onclick="text(1)" />
                     </div>
                     <div class="rounded border w-100 p-3">
                       <p class="d-flex align-items-center mb-0">
@@ -114,11 +114,12 @@
                   </div>
                 </form>
               </div>
-              <div class="col-md-6 col-lg-4 col-xl-6">
+             <!--INPUT FIELDS-->
+              <div class="col-md-6 col-lg-4 col-xl-6" id="inputfields">
                 <div class="row">
                   <div class="col-12 col-xl-6">
                     <div class="form-floating mb-4 mb-xl-5">
-                      <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
+                      <input type="text" id="typeName" class="form-control form-control-lg" size="17"
                         placeholder="Name on card" />
                       <label class="form-label" for="typeName">Name on card</label>
                     </div>
@@ -131,9 +132,9 @@
                   </div>
                   <div class="col-12 col-xl-6">
                     <div class="form-floating mb-4 mb-xl-5">
-                      <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
+                      <input type="text" id="typeCd" class="form-control form-control-lg" size="17"
                         placeholder="1111 2222 3333 4444" minlength="19" maxlength="19" />
-                      <label class="form-label" for="typeText">Card Number</label>
+                      <label class="form-label" for="typeCd">Card Number</label>
                     </div>
 
                     <div class="form-floating mb-4 mb-xl-5">
@@ -144,7 +145,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-4 col-xl-3">
+              <div class="col-lg-4 col-xl-3" id="amount">
                 <div class="d-flex justify-content-between" style="font-weight: 500;">
                   <p class="mb-2">Subtotal</p>
                   <p class="mb-2">$23.49</p>
@@ -158,7 +159,7 @@
                 <hr class="my-4">
 
                 <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
-                  <p class="mb-2">Total (tax included)</p>
+                  <p class="mb-2">Total</p>
                   <p class="mb-2">$26.48</p>
                 </div>
 
@@ -181,6 +182,43 @@
 </section>
 
 <script>
+function text(x)
+  {
+    if (x == 0){ 
+    
+      document.getElementById("inputfields").style.display= "block";
+      document.getElementById("payment-card").style.width= "100%"
+      document.getElementById("payment-card").style.margin= "0";
+      document.getElementById("amount").style.marginLeft= "0";
+      document.getElementById("checkout-button").style.width= "25%"; 
+
+    }
+    else
+    {
+     document.getElementById("inputfields").style.display = "none";
+     document.getElementById("payment-card").style.width= "65%";
+     document.getElementById("payment-card").style.margin= "auto";
+     document.getElementById("amount").style.marginLeft= "50%";
+     document.getElementById("checkout-button").style.width= "25%"; 
+    
+    
+    return;
+    
+  }
+}
+/*
+  function text(b)
+  {
+    if (b == 0) 
+      document.getElementById("payment-card").style.width= "100%";
+    
+    else
+     document.getElementById("payment-card").style.width= "80%";
+    return;
+    
+  }
+*/
+
   const deleteButtons = document.querySelectorAll('.delete-button');
   const updateQuantity = document.querySelector('#update-quantity');
   
