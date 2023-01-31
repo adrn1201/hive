@@ -21,20 +21,24 @@
                 <p class="lead">{{ item.description|linebreaksbr}}</p>
                 <hr>
                 <div class="fs-5 mb-3">
-                    <span><b>Remaining Stocks: </b></span> <span> </span>{{ item.tempo_quantity }}
+                    <span><b>Remaining Stocks: </b></span> <span id="item_quantity">{{ item.tempo_quantity }} </span>
+                    <br>
+                    <span><b>Minimum Order: </b></span> <span id ="item_minimum">{{ item.min_orders }}</span>
                 </div>
 
-
-                <div class="form-inline">
-                    <label><b>Quantity: </b></label> 
-                    <input class="form-control text-center me-1 ml-3"
-                        id="inputQuantity" type="num" value="{{ item.min_orders }}" style="max-width: 3rem" />
-                </div>
-                <br>
-                <button class="btn btn-outline-dark flex-shrink-0" id="add-button" value="{{item.id}}" type="button">
-                    <i class="bi-cart-fill me-1"></i>
-                    Add to cart
-                </button>
+                <form class ="needs-validation" novalidate>
+                    <div class="form-inline has-validation">
+                        <label><b>Quantity: </b></label>
+                        <input min="{{ item.min_orders }}" max="{{ item.tempo_quantity }}" type="number" value="{{ item.min_orders }}" id="inputQuantity" class="form-control text-center me-1 ml-3" required>
+                    </div>
+                    <p style="color:red;" id="demo"></p>
+                    <br>
+                    <button class="btn btn-outline-dark flex-shrink-0" id="add-button" value="{{item.id}}" type="button">
+                        <i class="bi-cart-fill me-1"></i>
+                        Add to cart
+                    </button>
+                </form>
+             
             </div>
         </div>
     </div>
@@ -61,11 +65,22 @@
     }
 
     const csrftoken = getCookie('csrftoken');
-
-
     addButton.addEventListener('click', async function (e) {
         e.preventDefault();
-        const response = await fetch("http://127.0.0.1:8000/cart/add/", {
+        let x = document.getElementById("inputQuantity").value;
+        let text;
+        const iStocks = document.getElementById("item_quantity").innerText;
+        const iMinimum= document.getElementById("item_minimum").innerText;
+
+        if (isNaN(x) || x < parseInt(iMinimum)) {
+            text = "Note: Minimum Quantity is " + iMinimum;
+        } 
+        else if (x > parseInt(iStocks)) {
+            text = "Note: Maximum Quantity is " + iStocks;;
+        }
+        else {
+            text = "";
+            const response = await fetch("http://127.0.0.1:8000/cart/add/", {
             method: 'POST',
             credentials: 'same-origin',
             headers: {
@@ -86,8 +101,8 @@
         if (data) {
             document.querySelector('#cart-qty').innerHTML = data.qty;
         }
-
-
+        }
+        document.getElementById("demo").innerHTML = text;
     });
 </script>
 {% endblock content %}
