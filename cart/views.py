@@ -51,11 +51,13 @@ def cart_update(request):
         cart.update(product=product_id, qty=product_qty)
         
         cart_qty = cart.__len__()
+        cart_subtotal = cart.get_subtotal_price()
         cart_total = cart.get_total_price()
  
         response = Response({
             'qty': cart_qty, 
-            'subtotal':cart_total
+            'subtotal':cart_subtotal,
+            'total': cart_total
         })
         return response
     return Response({'none':'none'})

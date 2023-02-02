@@ -292,9 +292,9 @@ function text(x)
       const data = await response.json();
       if (data) {
         const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
-        total = (parseFloat(data.subtotal) + 50.00)
+        total = (parseFloat(data.subtotal))
         document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
-        document.querySelector('#total').innerHTML = total.toFixed(2)
+        document.querySelector('#total').innerHTML = data.total.toFixed(2)
         document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
       }
     });
@@ -327,9 +327,9 @@ function text(x)
       const data = await response.json();
       if (data) {
         const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
-        total = (parseFloat(data.subtotal + 50))
+        total = (parseFloat(data.subtotal))
         document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
-        document.querySelector('#total').innerHTML = total.toFixed(2)
+        document.querySelector('#total').innerHTML = data.total.toFixed(2)
         document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
       }
     });
