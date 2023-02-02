@@ -174,7 +174,9 @@
 
       </div>
       {% else %}
-      <p>No ietms in cart</p>
+        <div class="alert alert-warning mx-auto" role="alert" style="text-align: center; width: 40%;">
+          Your cart is empty!
+      </div>
     </div>
     {% endif %}
   </div>
@@ -297,6 +299,7 @@ function text(x)
         if(data.qty === 0){
           total = 0
           subtotal = 0;
+          location.reload();
         }else{
             total = (parseFloat(data.subtotal) + 50.00).toFixed(2);
             subtotal = data.subtotal
