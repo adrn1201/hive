@@ -17,10 +17,13 @@ def cart_delete(request):
         product_id = request.data['productid']
         cart.delete(product=product_id)
         cart_qty = cart.__len__()
+        cart_subtotal = cart.get_subtotal_price()
         cart_total = cart.get_total_price()
+ 
         response = Response({
             'qty': cart_qty, 
-            'subtotal':cart_total
+            'subtotal':cart_subtotal,
+            'total': cart_total
         })
         return response
     return Response({'none':'none'})

@@ -15,6 +15,7 @@
 
 <section class="h-100 h-custom">
   <div class="container h-100 py-5">
+    {% if cart %}
     <div class="row d-flex justify-content-center  h-100">
       <div class="col">
 
@@ -68,7 +69,7 @@
                   <p id="prod-uprice{{product.id}}" class="mb-0" style="font-weight: 500;">{{product.price}}</p>
                 </td>
                 <td class="align-middle">
-                  <p id="prod-tprice{{product.id}}" class="mb-0" style="font-weight: 500;">{{item.subtotal_price }}</p>
+                  <p id="prod-tprice{{product.id}}" class="mb-0 subtotal" style="font-weight: 500;" data-subtotal="{{item.subtotal_price }}">{{item.subtotal_price }}</p>
                 </td>
                 <td class="align-middle">
                   <!-- <i id = "remove-cart" class="fas fa-trash text-danger"></i> -->
@@ -149,9 +150,7 @@
               <div class="col-lg-4 col-xl-3" id="amount">
                 <div class="d-flex justify-content-between" style="font-weight: 500;">
                   <p class="mb-2">Subtotal</p>
-                  {% for item in cart %}
-                  {% with product=item.product %}
-                  <p id="subtotal" class="mb-2">{{item.subtotal_price }}</p>
+                  <p id="subtotal" class="mb-2">{{cart.get_subtotal_price}}</p>
                 </div>
                 <div id="" class="d-flex justify-content-between" style="font-weight: 500;">
                   <p class="mb-0">Shipping</p>
@@ -162,10 +161,8 @@
 
                 <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
                   <p class="mb-2">Total</p>
-                  <p id="total" class="mb-2">{{item.total_price }}</p>
+                  <p id="total" class="mb-2">{{cart.get_total_price}}</p>
                 </div>
-                {% endwith %}
-                {% endfor %}
                 <button type="button" class="btn btn-primary btn-block btn-lg">
                   Checkout
                 </button>
@@ -176,7 +173,10 @@
         </div>
 
       </div>
+      {% else %}
+      <p>No ietms in cart</p>
     </div>
+    {% endif %}
   </div>
 </section>
 
@@ -231,6 +231,41 @@ function text(x)
 
   const csrftoken = getCookie('csrftoken');
 
+  const inputs = document.querySelectorAll('.item-qty');
+  
+  for(const inp of inputs){
+      inp.addEventListener('keyup', async function (e) {
+      let prodId = inp.dataset.index
+      const inputTag = document.querySelector(`#qty-input${prodId}`)
+      
+      const response = await fetch("{% url 'cart_update' %}", {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+          productid: prodId,
+          productqty: inp.value,
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        })
+      });
+
+      const data = await response.json();
+      if (data) {
+        document.querySelector('#cart-qty').innerHTML = data.qty
+        const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
+        total = (parseFloat(data.subtotal))
+        document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
+        document.querySelector('#total').innerHTML = data.total.toFixed(2)
+        document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
+      }
+    });
+  }
 
   for (const delBtn of deleteButtons) {
     delBtn.addEventListener('click', async function (e) {
@@ -259,8 +294,18 @@ function text(x)
             item.remove()
           }
         }
+        if(data.qty === 0){
+          total = 0
+          subtotal = 0;
+        }else{
+            total = (parseFloat(data.subtotal) + 50.00).toFixed(2);
+            subtotal = data.subtotal
+        }
+        
         document.querySelector('#cart-qty').innerHTML = data.qty
-
+        document.querySelector('#subtotal').innerHTML = subtotal
+        document.querySelector('#total').innerHTML = total
+ 
       }
     });
   }
@@ -291,6 +336,7 @@ function text(x)
 
       const data = await response.json();
       if (data) {
+        document.querySelector('#cart-qty').innerHTML = data.qty
         const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
         total = (parseFloat(data.subtotal))
         document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
@@ -299,6 +345,7 @@ function text(x)
       }
     });
   }
+
 
   
   for (const inc of increaseButtons) {
@@ -326,6 +373,7 @@ function text(x)
 
       const data = await response.json();
       if (data) {
+        document.querySelector('#cart-qty').innerHTML = data.qty
         const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
         total = (parseFloat(data.subtotal))
         document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
@@ -334,6 +382,8 @@ function text(x)
       }
     });
   }
+
+ 
 </script>
 
 {% endblock content %}
