@@ -11,6 +11,19 @@
       height: 100vh !important;
     }
   }
+
+  /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+
+}
 </style>
 
 <section class="h-100 h-custom">
@@ -45,13 +58,21 @@
                 </th>
                 <td class="class-middle">
                   <p class="mb-0 ml-3" style="font-weight: 500;">{{ product.product_name }}</p>
+                  <br>
+                  <!-- <p id = "item_quantity" class="mb-0 ml-3" style="font-weight: 500;"><b>Available Stocks:</b> {{ product.tempo_quantity }}</p>
+                  <p id = "item_minimum" class="mb-0 ml-3" style="font-weight: 500;"><b>Minimum Order:</b> </p> <span> {{ product.min_orders }} </span>  -->
+                 <div class = "mb-0 ml-3">
+                  <span><b>Remaining Stocks: </b></span> <span id="item_quantity{{product.id}}">{{ product.tempo_quantity }} </span>
+                    <br>
+                    <span><b>Minimum Order: </b></span> <span id ="item_minimum{{product.id}}">{{ product.min_orders }}</span>
+                  </div>
                 </td>
                 <td class="align-middle">
                   <p class="mb-0" style="font-weight: 500;">{{ product.category }}</p>
                 </td>
                 <td class="align-middle">
                   <div class="d-flex flex-row">
-                    <button id="update-quantity" data-index="{{product.id}}" class="btn btn-link px-2 reduce-quantity"
+                    <button id="decrease-quantity{{product.id}}" name = "decreaseq" data-index="{{product.id}}" class="btn btn-link px-2 reduce-quantity"
                       onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                       <i class="fas fa-minus"></i>
                     </button>
@@ -59,7 +80,7 @@
                     <input id="qty-input{{product.id}}" data-index="{{product.id}}" min="0" name="quantity" value="{{item.qty}}" type="number"
                       class="form-control form-control-sm item-qty ml-1" style="width: 70px;" />
 
-                    <button id="update-quantity" data-index="{{product.id}}" class="btn btn-link px-2 increase-quantity"
+                    <button id="increase-quantity{{product.id}}" data-index="{{product.id}}" class="btn btn-link px-2 increase-quantity"
                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                       <i class="fas fa-plus"></i>
                     </button>
@@ -239,6 +260,9 @@ function text(x)
       inp.addEventListener('keyup', async function (e) {
       let prodId = inp.dataset.index
       const inputTag = document.querySelector(`#qty-input${prodId}`)
+      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
+      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
+      document.getElementById(`increase-quantity${prodId}`).disabled = false
       
       const response = await fetch("{% url 'cart_update' %}", {
         method: 'POST',
@@ -265,9 +289,21 @@ function text(x)
         document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
         document.querySelector('#total').innerHTML = data.total.toFixed(2)
         document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
+
+        // if ( parseInt(data.qty) < parseInt(iMinimum)) {
+        // // alert("Quantity Input is less than the Minimum Order! ");
+        //   // inputTag.value = iMinimum;
+          console.log(data.qty);
+        // }   
+        // else if (parseInt(inputTag.value) > parseInt(iStocks)) {
+        //   alert("Quantity Input is more than the Available Stocks!");
+        //   inputTag.value = iStocks;
+        // }
       }
     });
   }
+
+    // DELETE BUTTON
 
   for (const delBtn of deleteButtons) {
     delBtn.addEventListener('click', async function (e) {
@@ -313,14 +349,27 @@ function text(x)
     });
   }
 
+  // DECREASE QUANTITY BUTTON 
 
   for (const dec of decreaseButtons) {
     dec.addEventListener('click', async function (e) {
       e.preventDefault();
       let prodId = dec.dataset.index
-      const inputTag = document.querySelector(`#qty-input${prodId}`)
+      const inputTag = document.querySelector(`#qty-input${prodId}`);
+      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
+      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
+      document.getElementById(`increase-quantity${prodId}`).disabled = false
       
-      const response = await fetch("{% url 'cart_update' %}", {
+
+      if ( parseInt(inputTag.value) < parseInt(iMinimum)) {
+        alert("Quantity Input is less then the Minimum Order! ");
+        this.disabled = true;
+        inputTag.value = iMinimum;
+        }   
+      
+        else {
+          
+          const response = await fetch("{% url 'cart_update' %}", {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
@@ -334,30 +383,45 @@ function text(x)
           productqty: inputTag.value,
           csrfmiddlewaretoken: "{{csrf_token}}",
           action: 'post'
-        })
-      });
+          })
+        });
 
-      const data = await response.json();
-      if (data) {
-        document.querySelector('#cart-qty').innerHTML = data.qty
-        const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
-        total = (parseFloat(data.subtotal))
-        document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
-        document.querySelector('#total').innerHTML = data.total.toFixed(2)
-        document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
-      }
+        const data = await response.json();
+          if (data) {
+           document.querySelector('#cart-qty').innerHTML = data.qty
+           const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
+           total = (parseFloat(data.subtotal))
+          document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
+          document.querySelector('#total').innerHTML = data.total.toFixed(2)
+          document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
+      
+        }
+        }
     });
   }
 
 
-  
+  // INCREASE BUTTON
+
   for (const inc of increaseButtons) {
     inc.addEventListener('click', async function (e) {
       e.preventDefault();
       let prodId = inc.dataset.index
       const inputTag = document.querySelector(`#qty-input${prodId}`)
+      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
+      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
+      document.getElementById(`decrease-quantity${prodId}`).disabled = false
+      
 
-      const response = await fetch("{% url 'cart_update' %}", {
+      if ( parseInt(inputTag.value) > parseInt(iStocks)) {
+        alert("Quantity Input is more than the Available Stocks! ");
+        this.disabled = true;
+        inputTag.value = iStocks;
+        }  
+      
+      else {
+
+        const response = await fetch("{% url 'cart_update' %}", {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
@@ -383,6 +447,10 @@ function text(x)
         document.querySelector('#total').innerHTML = data.total.toFixed(2)
         document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
       }
+
+      }
+
+      
     });
   }
 
