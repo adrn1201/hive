@@ -1,17 +1,24 @@
 from pathlib import Path
+import environ
+import os
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    EMAIL_USE_TLS=(bool, True)
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-iw%tqa!g4toz*1sdl&uk=qs@j$y@0mrizqe#0b6n7e^bu^ju4z"
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.localhost']
 
@@ -68,9 +75,9 @@ TENANT_MODEL = "wholesalers.Wholesaler"
 
 TENANT_DOMAIN_MODEL = "wholesalers.Domain"
 
-SITE_ID = 1
+# SITE_ID = 1
 
-PUBLIC_SCHEMA_URL_CONF = 'wholesalers.public_urls'
+# PUBLIC_SCHEMA_URL_CONF = 'wholesalers.public_urls'
 
 MIDDLEWARE = [
     'django_tenants.middleware.main.TenantMainMiddleware',
@@ -126,12 +133,12 @@ DATABASES = {
         # Tenant Engine
         'ENGINE': 'django_tenants.postgresql_backend',
         # set database name
-        'NAME': 'hive',
+        'NAME': env('NAME'),
         # set your user details
-        "USER": "postgres",
-        "PASSWORD": "",
-        "HOST": "localhost",
-        "PORT": "5433"
+        "USER": env('USER'),
+        "PASSWORD": env('PASSWORD'),
+        "HOST": env('HOST'),
+        "PORT": env('PORT')
     }
 }
 
