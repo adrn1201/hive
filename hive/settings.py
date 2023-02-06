@@ -13,31 +13,69 @@ SECRET_KEY = "django-insecure-iw%tqa!g4toz*1sdl&uk=qs@j$y@0mrizqe#0b6n7e^bu^ju4z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.localhost']
 
 
 # Application definition
 
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    
-    
-    "products.apps.ProductsConfig",
-    "w_dashboard.apps.WDashboardConfig",
-    "shop.apps.ShopConfig",
-    "retailers.apps.RetailersConfig",
-    "cart.apps.CartConfig",
+SHARED_APPS = [
+    'django_tenants',  # mandatory
+    'wholesalers',  # you must list the app where your tenant model resides in
+
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # we place blog here since we want 
+    # public schema to have the same structure like tenant apps
+    'products',
+    'w_dashboard',
+    'shop',
+    'retailers',
+    'cart',
     
     'rest_framework',
-    'corsheaders', 
+    'corsheaders'
 ]
 
+TENANT_APPS = [
+    # The following Django contrib apps must be in TENANT_APPS
+    'django.contrib.contenttypes',
+    'django.contrib.auth',
+    'django.contrib.admin',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+
+    # we place blog here since we want 
+    # public schema to have the same structure like tenant apps
+    'products',
+    'w_dashboard',
+    'shop',
+    'retailers',
+    'cart',
+    
+    'rest_framework',
+    'corsheaders'
+]
+
+INSTALLED_APPS = list(SHARED_APPS) + [
+    app for app in TENANT_APPS if app not in SHARED_APPS
+]
+
+TENANT_MODEL = "wholesalers.Wholesaler"
+
+TENANT_DOMAIN_MODEL = "wholesalers.Domain"
+
+SITE_ID = 1
+
+PUBLIC_SCHEMA_URL_CONF = 'wholesalers.public_urls'
+
 MIDDLEWARE = [
+    'django_tenants.middleware.main.TenantMainMiddleware',
+      # custom tenant middleware
+    'hive.middleware.TenantMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -76,12 +114,30 @@ WSGI_APPLICATION = "hive.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        # Tenant Engine
+        'ENGINE': 'django_tenants.postgresql_backend',
+        # set database name
+        'NAME': 'hive',
+        # set your user details
+        "USER": "postgres",
+        "PASSWORD": "",
+        "HOST": "localhost",
+        "PORT": "5433"
     }
 }
+
+DATABASE_ROUTERS = (
+    'django_tenants.routers.TenantSyncRouter',
+)
 
 
 # Password validation
