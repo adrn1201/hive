@@ -113,7 +113,7 @@ input[type=number] {
             <div class="row">
               <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0" id ="checkout-button">
                 <form>
-                  <div class="d-flex flex-row pb-3">
+                  <div class="d-flex flex-row pb-4">
                     <div class="d-flex align-items-center pe-2">
                       <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel2v" value=""
                         aria-label="..." onclick="text(0)" checked/>
@@ -218,7 +218,7 @@ function text(x)
     else
     {
      document.getElementById("inputfields").style.display = "none";
-     document.getElementById("payment-card").style.width= "63%";
+     document.getElementById("payment-card").style.width= "100%";
      document.getElementById("payment-card").style.margin= "auto";
      document.getElementById("amount").style.marginLeft= "40%";
      document.getElementById("checkout-button").style.width= "25%"; 
@@ -264,6 +264,18 @@ function text(x)
       const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
       document.getElementById(`increase-quantity${prodId}`).disabled = false
       
+        setTimeout(()=> {
+         if ( parseInt(inputTag.value) < parseInt(iMinimum)) {
+          alert("Quantity Input is less than the Minimum Order! ");
+          inputTag.value = iMinimum;
+        }
+          else if (parseInt(inputTag.value) > parseInt(iStocks)){
+          alert("Quantity Input is greater than the Available Stocks! ");
+          inputTag.value = iMinimum;
+          }
+      }
+      ,2000);
+       
       const response = await fetch("{% url 'cart_update' %}", {
         method: 'POST',
         credentials: 'same-origin',
@@ -289,16 +301,6 @@ function text(x)
         document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
         document.querySelector('#total').innerHTML = data.total.toFixed(2)
         document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
-
-        // if ( parseInt(data.qty) < parseInt(iMinimum)) {
-        // // alert("Quantity Input is less than the Minimum Order! ");
-        //   // inputTag.value = iMinimum;
-          console.log(data.qty);
-        // }   
-        // else if (parseInt(inputTag.value) > parseInt(iStocks)) {
-        //   alert("Quantity Input is more than the Available Stocks!");
-        //   inputTag.value = iStocks;
-        // }
       }
     });
   }
