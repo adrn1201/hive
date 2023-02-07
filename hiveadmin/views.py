@@ -1,3 +1,23 @@
 from django.shortcuts import render
+from wholesalers.models import Wholesaler
+from django.core.mail import send_mail
+from django.conf import settings
 
-# Create your views here.
+def list_wholesalers(request):
+
+    wholesalers = Wholesaler.objects.filter(is_active=True)
+    context = {'wholesalers':wholesalers}
+    return render(request, 'hiveadmin/wholesalers_list.html',context)
+
+
+def email_wholesaler(request):
+    if(request.method == "POST"):
+        send_mail(
+            'Hive Account Registration',
+            'Please click the link to register your account http://localhost:8000/wholesalers/register',
+            settings.EMAIL_HOST_USER,
+            [request.POST['email']],
+            fail_silently=False  
+        )
+        return redirect('products')
+    return render(request, 'hiveadmin/email_wholesaler.html')
