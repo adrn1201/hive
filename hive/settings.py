@@ -135,10 +135,10 @@ DATABASES = {
         # set database name
         'NAME': env('NAME'),
         # set your user details
-        "USER": env('USER'),
-        "PASSWORD": env('PASSWORD'),
-        "HOST": env('HOST'),
-        "PORT": env('PORT')
+        'USER': "postgres",
+        'PASSWORD': env('PASSWORD'),
+        'HOST': env('HOST'),
+        'PORT': env('PORT')
     }
 }
 
