@@ -42,6 +42,7 @@ SHARED_APPS = [
     'shop',
     'retailers',
     'cart',
+    'hiveadmin'
     
     'rest_framework',
     'corsheaders'
@@ -141,6 +142,14 @@ DATABASES = {
         'PORT': env('PORT')
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'hiveorderingsystem@gmail.com'
+EMAIL_HOST_PASSWORD = 'mvovfhbbzpinosfm'
+
 
 DATABASE_ROUTERS = (
     'django_tenants.routers.TenantSyncRouter',
