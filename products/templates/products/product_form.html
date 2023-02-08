@@ -27,6 +27,7 @@ Darren Wu
                                     {% endif %}
                                 {% endfor %}
                                 
+<<<<<<< HEAD
                                 <label >With Size</label>
                                 <select id="id_with_size">
                                     <option id="yes">Yes</option>
@@ -34,12 +35,43 @@ Darren Wu
                                 </select>
                                 <br>
                                 <div id="size_id">
+=======
+                                <!--<label >With Size</label>
+                                <select id="id_with_size" onchange="showDiv(this)">
+                                    <option id="1">Yes</option>
+                                    <option id="2">No</option>
+                                </select>
+                                <br>
+                                <div id="size_id" style="display:none;">
+>>>>>>> 2c1ef82e67367b13e2b8a1ff2662169d16c62523
                                     <label for="{{ form.size.id_for_label }}">Size</label>
                                     {{ form.size }}
                                 </div>
                                 <br>
+<<<<<<< HEAD
                                 <p id="demo"></p>
+=======
+                                <p id="demo"></p>-->
+                                <label >With Size</label>
+                                <select id="test" name="form_select" onchange="showDiv(this)">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                 </select>
+                                 
+                                 <div id="hidden_div" style="display:none;">
+                                    <label>Size</label>
+                                    <div id="textbox-container"><br>{{ form.size }}</div>
+                                    <br>
+
+                                    <button class="btn btn-info btn-sm" id="add-textbox-button" onclick="addTextbox(event)">Add size</button>
+                                    <button class="btn btn-danger btn-sm" id="delete-textbox-button" onclick="deleteTextbox(event)">Delete size</button>
+
+                                </div>
+                                &nbsp;
+>>>>>>> 2c1ef82e67367b13e2b8a1ff2662169d16c62523
                                 <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+
+
                             </form>
                         </div>
                     </div>
@@ -49,23 +81,40 @@ Darren Wu
     </div>
 
 <script>
+<<<<<<< HEAD
     const getSelectedText = (el) => {
+=======
+    /*const getSelectedText = (el) => {
+>>>>>>> 2c1ef82e67367b13e2b8a1ff2662169d16c62523
         if (el.selectedIndex === -1) {
             return null;
         }
             return el.options[el.selectedIndex].text;
+<<<<<<< HEAD
     }
 
     const select = document.querySelector('#id_with_size')
+=======
+    }*/
+
+    const select = document.querySelector('#id_with_size')
+    let textboxCount = 0;
+    //const addTextbox = document.querySelector('#add-textbox-button')
+>>>>>>> 2c1ef82e67367b13e2b8a1ff2662169d16c62523
     //const sizeID = document.getElementById('#size_id')
    // const text = getSelectedText(select);
    // console.log(text)
 
+<<<<<<< HEAD
     select.addEventListener("change", function(e){
+=======
+    /*select.addEventListener("change", function(e){
+>>>>>>> 2c1ef82e67367b13e2b8a1ff2662169d16c62523
         const text = getSelectedText(e.target);
         console.log(text)
         document.getElementById("demo").innerHTML = text
 
+<<<<<<< HEAD
         if (select.value === "1") {
             document.getElementById('size_id').style.display = "block";
         } else {
@@ -73,6 +122,42 @@ Darren Wu
         }
 
     });
+=======
+        if(select.value==1){
+            document.getElementById('size_id').style.display = "visible";
+        }else{
+            document.getElementById('size_id').style.display = "hidden";
+        }
+
+    });*/
+
+    function showDiv(select){
+        if(select.value==1){
+            document.getElementById('hidden_div').style.display = "block";
+        } else{
+            document.getElementById('hidden_div').style.display = "none";
+        }
+    } 
+
+    function addTextbox(e) {
+        e.preventDefault();
+        var container = document.getElementById("textbox-container");
+        var textbox = document.createElement("div");
+        textbox.innerHTML = `{{ form.size }}`;
+        container.appendChild(textbox);
+        textboxCount++;
+    }
+
+    function deleteTextbox(e) {
+        e.preventDefault();
+        if (textboxCount > 0) {
+            var container = document.getElementById("textbox-container");
+            var textbox = document.getElementById("textbox-container" + (textboxCount - 1));
+            container.removeChild(textbox);
+            textboxCount--;
+        }
+    }
+>>>>>>> 2c1ef82e67367b13e2b8a1ff2662169d16c62523
 
 </script>
 

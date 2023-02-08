@@ -26839,6 +26839,7 @@ pre[class*="language-"] {
   bottom: 0px;
   /* please don't change 'position' */
   position: absolute;
+  overflow: hidden;
 }
 
 .ps__rail-y {
@@ -26851,12 +26852,14 @@ pre[class*="language-"] {
   right: 0;
   /* please don't change 'position' */
   position: absolute;
+  overflow: hidden;
 }
 
 .ps--active-x>.ps__rail-x,
 .ps--active-y>.ps__rail-y {
   display: block;
   background-color: transparent;
+  overflow: hidden;
 }
 
 .ps:hover>.ps__rail-x,
@@ -26891,10 +26894,12 @@ pre[class*="language-"] {
   bottom: 2px;
   /* please don't change 'position' */
   position: absolute;
+  overflow: hidden;
 }
 
 .ps__thumb-y {
   background-color: #aaa;
+  overflow: hidden;
   border-radius: 6px;
   transition: background-color .2s linear, width .2s ease-in-out;
   -webkit-transition: background-color .2s linear, width .2s ease-in-out;
