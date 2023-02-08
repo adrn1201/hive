@@ -3,7 +3,6 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import django_tenants.postgresql_backend.base
 
 
 class Migration(migrations.Migration):
@@ -12,11 +11,12 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ("wholesalers", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name="Wholesaler",
+            name="Retailer",
             fields=[
                 (
                     "id",
@@ -27,22 +27,12 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                (
-                    "schema_name",
-                    models.CharField(
-                        db_index=True,
-                        max_length=63,
-                        unique=True,
-                        validators=[
-                            django_tenants.postgresql_backend.base._check_schema_name
-                        ],
-                    ),
-                ),
                 ("business_name", models.CharField(max_length=255)),
                 ("address", models.TextField()),
                 ("contact_name", models.CharField(max_length=255)),
                 ("contact_number", models.CharField(max_length=50)),
                 ("is_active", models.BooleanField(default=False)),
+                ("is_retailer", models.BooleanField(default=True)),
                 ("created", models.DateTimeField(auto_now_add=True)),
                 (
                     "user",
@@ -52,35 +42,15 @@ class Migration(migrations.Migration):
                         to=settings.AUTH_USER_MODEL,
                     ),
                 ),
-            ],
-            options={"abstract": False,},
-        ),
-        migrations.CreateModel(
-            name="Domain",
-            fields=[
                 (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "domain",
-                    models.CharField(db_index=True, max_length=253, unique=True),
-                ),
-                ("is_primary", models.BooleanField(db_index=True, default=True)),
-                (
-                    "tenant",
+                    "wholesaler",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="domains",
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="wholesaler",
                         to="wholesalers.wholesaler",
                     ),
                 ),
             ],
-            options={"abstract": False,},
         ),
     ]

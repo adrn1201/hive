@@ -4,8 +4,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.conf import settings
-from .models import Domain
-
+from .models import Domain, Wholesaler
+from django_tenants.utils import remove_www
 
 
 def register_wholesalers(request):
@@ -18,7 +18,7 @@ def register_wholesalers(request):
             user.username = user.username.lower()
             user.save()
             login(request, user)
-            return redirect('profile_wholesalers')
+            return redirect('wholesaler_create_profile')
 
         else:
           pass
@@ -26,7 +26,7 @@ def register_wholesalers(request):
     return render(request, "wholesalers/create_wholesalers.html", context)
 
 
-def wholesaler_profile(request):
+def wholesaler_create_profile(request):
     form = WholesalerCreationForm()
     if request.method == "POST":
         form = WholesalerCreationForm(request.POST)
@@ -40,14 +40,46 @@ def wholesaler_profile(request):
 
             domain = Domain()
             domain.domain = str(wholesaler.business_name.replace(' ', '-').lower())+'.localhost'
+            redirect_url = domain.domain
             domain.tenant = wholesaler
             domain.is_primary = True
             domain.save()
             
-            return redirect('products')
+            return redirect(f'http://{redirect_url}:8000')
 
     context = {'form':form}
     return render(request, 'wholesalers/wholesaler_profile.html', context)
+
+
+def wholesaler_edit_profile(request):
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    form = WholesalerCreationForm(instance=wholesaler)
+    if request.method == "POST":
+        form = WholesalerCreationForm(request.POST, instance=wholesaler)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_profile')
+
+
+    context = {'form':form}
+    return render(request, 'wholesalers/wholesaler_profile.html', context)
+
+
+def email_retailer(request):
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    if(request.method == "POST"):
+        send_mail(
+            'Hive Account Registration',
+            f'Please click the link to register your account http://{hostname_without_port}:8000/retailers/register',
+            settings.EMAIL_HOST_USER,
+            [request.POST['email']],
+            fail_silently=False  
+        )
+        return redirect('retailers')
+    return render(request, 'wholesalers/email_retailer.html')
     
     
 
