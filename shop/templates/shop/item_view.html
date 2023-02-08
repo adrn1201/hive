@@ -29,7 +29,17 @@
                 <form class ="needs-validation" novalidate>
                     <div class="form-inline has-validation">
                         <label><b>Quantity: </b></label>
+                        <button id="decrease-quantity{{product.id}}" name = "decreaseq" data-index="{{product.id}}" class="btn btn-link px-2 reduce-quantity"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                            <i class="fas fa-minus"></i>
+                        </button>
+
                         <input min="{{ item.min_orders }}" max="{{ item.tempo_quantity }}" type="number" value="{{ item.min_orders }}" id="inputQuantity" class="form-control text-center me-1 ml-3" required>
+                        
+                        <button id="increase-quantity{{product.id}}" data-index="{{product.id}}" class="btn btn-link px-2 increase-quantity"
+                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </div>
                     <p style="color:red;" id="demo"></p>
                     <br>
@@ -37,19 +47,6 @@
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>
-
-                    <div id="alert-container-1" class="d-none">
-                        <div class="alert alert-success alert-dismissible fade show mt-3" id="success" role="alert" style="text-align: center;">
-                            Added to cart
-                        </div>
-                    </div>
-    
-                    <!-- <div id="alert-container-2" class="d-none">
-                        <div class="alert alert-danger alert-dismissible fade show mt-3" id="error" role="alert" style="text-align: center;">
-                            Already exists
-                        </div>
-                    </div> -->
-
                 </form>
             </div>
         </div>
@@ -57,10 +54,13 @@
 </section>
 
 <script>
-   
+    
+
     const addButton = document.querySelector('#add-button');
     const inputQuantity = document.querySelector('#inputQuantity');
-    
+    const increaseButtons = document.querySelectorAll('.increase-quantity');
+    const decreaseButtons = document.querySelectorAll('.reduce-quantity');
+
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -89,9 +89,11 @@
 
         if (isNaN(x) || x < parseInt(iMinimum)) {
             text.innerText = "Note: Minimum Quantity is " + iMinimum;
+            inputQuantity.value = iMinimum;
         } 
         else if (x > parseInt(iStocks)) {
             text.innerText = "Note: Maximum Quantity is " + iStocks;
+            inputQuantity.value = iMinimum;
         }
         else {
             text.innerText = "";
@@ -111,18 +113,111 @@
                 action: 'post'
             })
         })
+        
+        swal("Item has been added to cart", {
+            icon: 'success',
+            buttons: false,
+            timer: 2000,
+            });
 
         const data = await response.json();
         if (data) {
             document.querySelector('#cart-qty').innerHTML = data.qty;
-            document.getElementById("alert-container-1").classList.remove("d-none")
-             // Closing the alert
-            setTimeout(function () {
-            $('#success').alert('close');
-            }, 3000);
         }
         }
 });
+
+  // DECREASE QUANTITY BUTTON 
+
+  for (const dec of decreaseButtons) {
+    dec.addEventListener('click', async function (e) {
+      e.preventDefault();
+      let prodId = dec.dataset.index
+      //const inputTag = document.querySelector(`#qty-input${prodId}`);
+      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
+      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
+      document.getElementById(`increase-quantity${prodId}`).disabled = false
+      
+
+      if ( parseInt(inputTag.value) < parseInt(iMinimum)) {
+        alert("Quantity Input is less then the Minimum Order! ");
+        this.disabled = true;
+        inputTag.value = iMinimum;
+        }   
+      
+        else {
+          
+          const response = await fetch("{% url 'cart_update' %}", {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+          productid: prodId,
+          productqty: inputTag.value,
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+          })
+        });
+
+        const data = await response.json();
+          if (data) {
+           document.querySelector('#cart-qty').innerHTML = data.qty
+        }
+        }
+    });
+  }
+
+
+  // INCREASE BUTTON
+
+  for (const inc of increaseButtons) {
+    inc.addEventListener('click', async function (e) {
+      e.preventDefault();
+      let prodId = inc.dataset.index
+      //const inputTag = document.querySelector(`#qty-input${prodId}`)
+      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
+      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
+      document.getElementById(`decrease-quantity${prodId}`).disabled = false
+      
+
+      if ( parseInt(inputTag.value) > parseInt(iStocks)) {
+        alert("Quantity Input is more than the Available Stocks! ");
+        this.disabled = true;
+        inputTag.value = iStocks;
+        }  
+      
+      else {
+
+        const response = await fetch("{% url 'cart_update' %}", {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+          productid: prodId,
+          productqty: inputTag.value,
+          csrfmiddlewaretoken: "{{csrf_token}}",
+          action: 'post'
+        })
+      });
+
+      const data = await response.json();
+      if (data) {
+        document.querySelector('#cart-qty').innerHTML = data.qty;
+      }
+
+      }
+    });
+  }
 </script>
 
 {% endblock content %}

@@ -18,12 +18,45 @@
                             <form action="" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {% for field in form %}
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
-                                    {{ field }}
-                                </div>
+                                    {% if field.name != "with_size" and field.name != "size" %}
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
+                                            {{ field }}
+                                        </div>
+                                    {% endif %}
                                 {% endfor %}
+                                
+                                <!--<label >With Size</label>
+                                <select id="id_with_size" onchange="showDiv(this)">
+                                    <option id="1">Yes</option>
+                                    <option id="2">No</option>
+                                </select>
+                                <br>
+                                <div id="size_id" style="display:none;">
+                                    <label for="{{ form.size.id_for_label }}">Size</label>
+                                    {{ form.size }}
+                                </div>
+                                <br>
+                                <p id="demo"></p>-->
+                                <label >With Size</label>
+                                <select id="test" name="form_select" onchange="showDiv(this)">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                 </select>
+                                 
+                                 <div id="hidden_div" style="display:none;">
+                                    <label>Size</label>
+                                    <div id="textbox-container"><br>{{ form.size }}</div>
+                                    <br>
+
+                                    <button class="btn btn-info btn-sm" id="add-textbox-button" onclick="addTextbox(event)">Add size</button>
+                                    <button class="btn btn-danger btn-sm" id="delete-textbox-button" onclick="deleteTextbox(event)">Delete size</button>
+
+                                </div>
+                                &nbsp;
                                 <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+
+
                             </form>
                         </div>
                     </div>
@@ -32,4 +65,61 @@
         </div>
     </div>
 
-{% endblock content %}
+<script>
+    /*const getSelectedText = (el) => {
+        if (el.selectedIndex === -1) {
+            return null;
+        }
+            return el.options[el.selectedIndex].text;
+    }*/
+
+    const select = document.querySelector('#id_with_size')
+    let textboxCount = 0;
+    //const addTextbox = document.querySelector('#add-textbox-button')
+    //const sizeID = document.getElementById('#size_id')
+   // const text = getSelectedText(select);
+   // console.log(text)
+
+    /*select.addEventListener("change", function(e){
+        const text = getSelectedText(e.target);
+        console.log(text)
+        document.getElementById("demo").innerHTML = text
+
+        if(select.value==1){
+            document.getElementById('size_id').style.display = "visible";
+        }else{
+            document.getElementById('size_id').style.display = "hidden";
+        }
+
+    });*/
+
+    function showDiv(select){
+        if(select.value==1){
+            document.getElementById('hidden_div').style.display = "block";
+        } else{
+            document.getElementById('hidden_div').style.display = "none";
+        }
+    } 
+
+    function addTextbox(e) {
+        e.preventDefault();
+        var container = document.getElementById("textbox-container");
+        var textbox = document.createElement("div");
+        textbox.innerHTML = `{{ form.size }}`;
+        container.appendChild(textbox);
+        textboxCount++;
+    }
+
+    function deleteTextbox(e) {
+        e.preventDefault();
+        if (textboxCount > 0) {
+            var container = document.getElementById("textbox-container");
+            var textbox = document.getElementById("textbox-container" + (textboxCount - 1));
+            container.removeChild(textbox);
+            textboxCount--;
+        }
+    }
+
+</script>
+
+{% endblock %}

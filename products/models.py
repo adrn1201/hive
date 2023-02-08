@@ -17,6 +17,7 @@ class Category(models.Model):
     
     
 class Inventory(models.Model):
+
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True) 
     product_name = models.CharField(max_length=200, null=True, blank=True)
     actual_quantity = models.IntegerField(default=0, null=True, blank=True)
