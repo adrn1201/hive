@@ -6,17 +6,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from .models import Domain
 
-def email_wholesaler(request):
-    if(request.method == "POST"):
-        send_mail(
-            'Hive Account Registration',
-            'Please click the link to register your account http://localhost:8000/wholesalers/register',
-            settings.EMAIL_HOST_USER,
-            [request.POST['email']],
-            fail_silently=False  
-        )
-        return redirect('products')
-    return render(request, 'wholesalers/email_wholesaler.html')
 
 
 def register_wholesalers(request):

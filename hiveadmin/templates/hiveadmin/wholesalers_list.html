@@ -1,10 +1,56 @@
+{% extends 'main_admin.html' %}
+{% block title %}Admin{% endblock title %}
+{% block content %}
 
-<p>test</p>
+<div class="container-fluid">
+    <h1>HIVE Admin</h1>
+<br>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-warning text-dark" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop1">
+    Add Wholesaler
+</button>
 
-{% for wholesaler in wholesalers %}
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog d-flex justify-content-center">
+        <div class="modal-content w-75">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Add a Wholesaler</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-outline mb-4">
+                        <input type="email"  name="email" id="email" class="form-control" />
+                        <label class="form-label" for="email">Wholesaler's Email address</label>
+                    </div>
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block">Send Email</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<br><br>
+<table class="table table-striped">
+    <thead class="table-warning white-text">
+      <tr>
+        <th scope="col">Business Name</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for wholesaler in wholesalers %}
+      <tr>
+        <td>
+            {{ wholesaler.business_name }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
+{% endblock content %}
 
-{{ wholesaler.business_name }}
-
-
-{% endfor %}
