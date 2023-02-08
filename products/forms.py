@@ -6,7 +6,7 @@ class InventoryForm(ModelForm):
     class Meta:
         model = Inventory
         fields = '__all__'
-        exclude = ['tempo_quantity']
+        exclude = ['tempo_quantity', 'wholesaler']
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,6 +19,7 @@ class CategoryForm(ModelForm):
     class Meta:
         model = Category
         fields = '__all__'
+        exclude = ['wholesaler']
         
         
     def __init__(self, *args, **kwargs):

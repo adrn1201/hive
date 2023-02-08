@@ -1,9 +1,11 @@
 from django.db import models
 import uuid
+from wholesalers.models import Wholesaler
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200, null=True, blank=True)
+    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
     
@@ -17,19 +19,20 @@ class Category(models.Model):
     
     
 class Inventory(models.Model):
-
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True) 
-    product_name = models.CharField(max_length=200, null=True, blank=True)
-    actual_quantity = models.IntegerField(default=0, null=True, blank=True)
-    tempo_quantity = models.IntegerField(default=0, null=True, blank=True)
-    price = models.FloatField(null=True, blank=True)
-    with_size = models.BooleanField(default=False, null=True)
-    size = models.CharField(max_length=200, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    min_orders = models.IntegerField(null=True, default=0, blank=True)
-    product_image = models.ImageField(null=True, blank=True, default='products/default.jpg', upload_to="products/")
+    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='categories') 
+    product_name = models.CharField(max_length=200)
+    actual_quantity = models.IntegerField(default=0)
+    tempo_quantity = models.IntegerField(default=0)
+    price = models.FloatField()
+    with_size = models.BooleanField(default=False)
+    size = models.CharField(max_length=200)
+    description = models.TextField()
+    min_orders = models.IntegerField(default=0)
+    product_image = models.ImageField(default='products/default.jpg', upload_to="products/")
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
+    
     
     class Meta:
         verbose_name_plural = 'Inventories'

@@ -10,7 +10,7 @@
                 <div class="card-header pb-0">
                     <div class="d-flex align-items-center">
                         <p class="mb-0">Manage Retailers</p>
-                        <a class="btn btn-primary btn-sm ms-auto" href="{%url 'categories'%}">Add Retailer</a>
+                        <a class="btn btn-primary btn-sm ms-auto" href="{%url 'email_retailer'%}">Register Retailer</a>
                       </div>
                     </div>
 
@@ -39,33 +39,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for product in products %}
+                                {% for retailer in retailers %}
                                 <tr>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ product.product_name }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ retailer.business_name }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ product.actual_quantity }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ retailer.address }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ product.size }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ retailer.contact_name }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ product.price }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ retailer.user.email }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ product.category }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{ retailer.is_active }}</p>
                                     </td>
-                                    <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{product.created }}</p>
-                                    </td>
-                                    <td class="text-center">
+
+                                    {% comment %} <td class="text-center">
                                         <a class="btn btn-link text-dark text-xs px-2 mb-0" href="{% url 'edit-category' category.id %}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
 
                                     </td>
                                     <td class="text-center">
                                         <a class="btn btn-link text-danger text-xs text-gradient px-3 mb-0" href="{% url 'delete-category' category.id %}"><i class="far fa-trash-alt me-2"></i>Delete</a>
-                                    </td>
+                                    </td> {% endcomment %}
                                 </tr>
                                 {% endfor %}
                             </tbody>
