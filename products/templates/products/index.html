@@ -10,11 +10,21 @@
     <div class="row">
         <div class="col-12">
             <div class="d-flex card mb-4">
-                <!-- <div class="card-header pb-0">
-                    <h6>Products</h6>
-                    <h7></h7><a class="btn bg-gradient-dark mb-0" href="{%url 'create-product'%}"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add Product</a>
-                    <a class="btn bg-gradient-dark mb-0" href="{%url 'categories'%}"><i class="fas fa-plus"></i>&nbsp;&nbsp;Manage Categories</a>
-                </div> -->
+                <section class="product_section layout_padding">
+                    <div class="container">
+                       <div class="heading_container heading_center">
+                          <div class="ms-auto">
+                             <div class="col-lg-5 ">
+                                &nbsp; 
+                                <form action="{% url 'products' %}" method="GET" id="searchForm">
+                                   <div class="form-group has-search">
+                                        <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category"> 
+                                     </div>
+                                </form>
+                             </div>
+                          </div>
+                       </div>
+                    </div> 
                 <div class="card-header pb-0">
                 <div class="d-flex align-items-center">
                     <p class="mb-0">Products</p>

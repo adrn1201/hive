@@ -32,11 +32,24 @@
                         <input min="{{ item.min_orders }}" max="{{ item.tempo_quantity }}" type="number" value="{{ item.min_orders }}" id="inputQuantity" class="form-control text-center me-1 ml-3" required>
                     </div>
                     <p style="color:red;" id="demo"></p>
-                    <br>
+
+
+                    <div class="flex items-center bR6mEk">
+                        <button class="btn btn-outline-secondary flex-shrink-0" aria-label="28(50-55kg)" aria-disabled="false" type="button">28(50-55kg)</button>
+                        &nbsp;
+                        <button class="btn btn-outline-secondary flex-shrink-0" aria-label="30(55-60kg)" aria-disabled="false" type="button">30(55-60kg)</button>
+                        &nbsp;
+                        <button class="btn btn-outline-secondary flex-shrink-0" aria-label="32(60-65kg)" aria-disabled="false" type="button">32(60-65kg)</button>
+                        &nbsp;
+                        <button class="btn btn-outline-secondary flex-shrink-0" aria-label="34(65-70kg)" aria-disabled="false" type="button">34(65-70kg)</button>
+                        &nbsp;
+                    </div>
+                   <br>
                     <button class="btn btn-outline-dark flex-shrink-0" id="add-button" value="{{item.id}}" type="button">
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>
+                 
 
                     <div id="alert-container-1" class="d-none">
                         <div class="alert alert-success alert-dismissible fade show mt-3" id="success" role="alert" style="text-align: center;">
@@ -119,8 +132,14 @@
              // Closing the alert
             setTimeout(function () {
             $('#success').alert('close');
-            }, 3000);
+            }, 3000);   
         }
+
+        const updatedstocks = document.getElementById("updatedstocks")
+        if (updatedstocks) {
+            
+        }
+
         }
 });
 </script>

@@ -1,3 +1,4 @@
+Darren Wu
 {% extends 'main.html' %}
 {% block title %}{% endblock title %}
 
@@ -18,11 +19,26 @@
                             <form action="" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {% for field in form %}
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
-                                    {{ field }}
-                                </div>
+                                    {% if field.name != "with_size" and field.name != "size" %}
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
+                                            {{ field }}
+                                        </div>
+                                    {% endif %}
                                 {% endfor %}
+                                
+                                <label >With Size</label>
+                                <select id="id_with_size">
+                                    <option id="yes">Yes</option>
+                                    <option id="no">No</option>
+                                </select>
+                                <br>
+                                <div id="size_id">
+                                    <label for="{{ form.size.id_for_label }}">Size</label>
+                                    {{ form.size }}
+                                </div>
+                                <br>
+                                <p id="demo"></p>
                                 <button class="btn btn-primary btn-sm" type="submit">Submit</button>
                             </form>
                         </div>
@@ -32,4 +48,32 @@
         </div>
     </div>
 
-{% endblock content %}
+<script>
+    const getSelectedText = (el) => {
+        if (el.selectedIndex === -1) {
+            return null;
+        }
+            return el.options[el.selectedIndex].text;
+    }
+
+    const select = document.querySelector('#id_with_size')
+    //const sizeID = document.getElementById('#size_id')
+   // const text = getSelectedText(select);
+   // console.log(text)
+
+    select.addEventListener("change", function(e){
+        const text = getSelectedText(e.target);
+        console.log(text)
+        document.getElementById("demo").innerHTML = text
+
+        if (select.value === "1") {
+            document.getElementById('size_id').style.display = "block";
+        } else {
+            document.getElementById('size_id').style.display = "none";
+        }
+
+    });
+
+</script>
+
+{% endblock %}

@@ -1,14 +1,18 @@
 from django.shortcuts import render, redirect
 from .models import Inventory, Category
 from .forms import InventoryForm, CategoryForm
+from .utils import search_products
+from products.models import Inventory
 
 
 
 
 def index(request):
     # Display all products
+    
     products = Inventory.objects.all() 
-    context = {"products":products}
+    products, search_query = search_products(request)
+    context = {"products":products, "search_query": search_query}
     return render(request, "products/index.html", context)
 
 
