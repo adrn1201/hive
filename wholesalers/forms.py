@@ -19,7 +19,7 @@ class CustomUserCreationForm(UserCreationForm):
 class WholesalerCreationForm(ModelForm):
     class Meta: 
         model = Wholesaler 
-        exclude = ['schema_name', 'domain', 'is_active', 'user']
+        exclude = ['schema_name', 'domain', 'is_active', 'is_wholesaler', 'user']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
