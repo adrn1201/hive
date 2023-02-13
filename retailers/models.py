@@ -11,6 +11,5 @@ class Retailer(models.Model):
     contact_name = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=50)
     is_active = models.BooleanField(default=False)
-    is_retailer = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     

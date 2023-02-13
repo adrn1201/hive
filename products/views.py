@@ -1,27 +1,31 @@
 from django.shortcuts import render, redirect
-from .models import Inventory, Category
+from django.http import HttpResponseForbidden
 from .forms import InventoryForm, CategoryForm
+from .utils import search_products, paginate_products
 from django_tenants.utils import remove_www
 from wholesalers.models import Domain, Wholesaler
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='login_wholesaler')
 def index(request):
-    hostname_without_port = remove_www(request.get_host().split(':')[0])
-    domain = Domain.objects.get(domain=hostname_without_port)
-    wholesaler_id = domain.tenant.id
-    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-    products = wholesaler.inventory_set.filter(wholesaler=wholesaler)
-    context = {"products":products}
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    products, search_query = search_products(request)
+    custom_range, products = paginate_products(request, products, 15)
+    context = {'products': products, 'search_query': search_query, 'custom_range':custom_range}
     return render(request, "products/index.html", context)
 
-    # #products = Inventory.objects.all() 
-    # products, search_query = search_products(request)
-    # context = {"products":products, "search_query": search_query}
-    # return render(request, "products/index.html", context)
 
-
-
+@login_required(login_url='login_wholesaler')
 def create_product(request):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -41,7 +45,13 @@ def create_product(request):
     return render(request, "products/product_form.html", context)
 
 
+@login_required(login_url='login_wholesaler')
 def view_product(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -52,7 +62,13 @@ def view_product(request, pk):
     return render(request, "products/view_product.html", context)
 
 
+@login_required(login_url='login_wholesaler')
 def edit_product(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -71,7 +87,13 @@ def edit_product(request, pk):
     return render(request, "products/product_form.html", context)
 
 
+@login_required(login_url='login_wholesaler')
 def delete_product(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -85,7 +107,13 @@ def delete_product(request, pk):
     return render(request, "products/delete_product.html", context)
 
 
+@login_required(login_url='login_wholesaler')
 def show_categories(request):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -96,7 +124,13 @@ def show_categories(request):
     return render(request, "products/categories.html", context)
 
 
+@login_required(login_url='login_wholesaler')
 def show_category(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -109,7 +143,13 @@ def show_category(request, pk):
     return render(request, "products/category_detail.html", context)
 
 
+@login_required(login_url='login_wholesaler')
 def create_category(request):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -128,7 +168,13 @@ def create_category(request):
     return render(request, "products/category_form.html", context)
 
 
+@login_required(login_url='login_wholesaler')
 def edit_category(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -146,7 +192,13 @@ def edit_category(request, pk):
     return render(request, "products/category_form.html", context)
 
 
+@login_required(login_url='login_wholesaler')
 def delete_category(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
