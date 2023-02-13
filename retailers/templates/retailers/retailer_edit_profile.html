@@ -1,0 +1,31 @@
+{% extends 'main2.html' %}
+{% load static %}
+
+{% block title %}Profile - Retailer{% endblock title %}
+{% block content %}
+
+
+
+
+ <div class="container shadow p-3 mb-5 bg-white rounded" >
+   <form action="" method="post">
+      <div class="row">
+   {% for field in form %}
+         
+            <div class="col-md-6">
+               <div class="form-group">
+                  <label for="example-text-input" class="form-control-label">{{field.label}}</label>
+                  {{field}}
+               </div>
+            </div>
+            {%endfor%}
+         </div>
+         <div class="text-center">
+            <button class="btn btn-success btn-sm ms-auto">Update</button>
+         </div>
+   </div>
+</form>
+</div>
+
+
+  {% endblock %}
