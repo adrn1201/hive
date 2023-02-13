@@ -91,3 +91,10 @@ def index(request):
     retailers = Retailer.objects.filter(wholesaler=wholesaler_id)
     context = {'retailers':retailers}
     return render(request, "retailers/retailers.html", context)
+
+
+@login_required(login_url='login_wholesaler')
+def dashboard_retailer(request):
+   
+    context = {}
+    return render(request, "retailers/dashboard.html", context)
