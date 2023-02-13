@@ -16,7 +16,7 @@
                                     <form action="{% url 'display_orders' %}" method="GET" id="searchForm">
                                         <div class="form-group has-search">
                                             <input type="search" value="{{ search_query }}" class="form-control"
-                                                name="search_query" placeholder="Search Orders">
+                                                name="search_query" placeholder="Search Transactions">
                                         </div>
                                     </form>
                                 </div>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <p class="mb-0">Orders</p>
+                            <p class="mb-0">Transactions</p>
                         </div>
                     </div>
 
@@ -36,7 +36,7 @@
                                     <tr>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Reference Number</th>
+                                            Transaction ID</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Business Name</th>
@@ -45,10 +45,13 @@
                                             Order Date</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Order Status</th>
+                                            Total Amount</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Payment Method</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Order Status</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -57,7 +60,7 @@
                                     <tr>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0 text-center">
-                                                {{ order.reference_number }}</p>
+                                                {{ order.reference_num }}</p>
                                         </td>
                                         <td>
                                             <p class="text-center text-xs font-weight-bold mb-0">
@@ -70,7 +73,7 @@
                                             <span class="badge badge-sm bg-gradient-success">{{order.status}}</span>
                                         </td>
                                         <td>
-                                            <p class="text-center text-xs font-weight-bold mb-0">{{ order.mode_of_payment }}
+                                            <p class="text-center text-xs font-weight-bold mb-0">{{ order.payment_method }}
                                             </p>
                                         </td>
                                         <td>

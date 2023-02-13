@@ -13,13 +13,13 @@
   }
 
   /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-/* Firefox
+  /* Firefox
 input[type=number] {
   -moz-appearance: textfield;
 
@@ -28,7 +28,7 @@ input[type=number] {
 
 <section id="test">
   <div class="container h-100 py-5">
-   
+
     {% if cart %}
     <div class="row d-flex justify-content-center  h-100">
       <div class="col">
@@ -62,10 +62,12 @@ input[type=number] {
                   <br>
                   <!-- <p id = "item_quantity" class="mb-0 ml-3" style="font-weight: 500;"><b>Available Stocks:</b> {{ product.tempo_quantity }}</p>
                   <p id = "item_minimum" class="mb-0 ml-3" style="font-weight: 500;"><b>Minimum Order:</b> </p> <span> {{ product.min_orders }} </span>  -->
-                 <div class = "mb-0 ml-3">
-                  <span><b>Remaining Stocks: </b></span> <span id="item_quantity{{product.id}}">{{ product.tempo_quantity }} </span>
+                  <div class="mb-0 ml-3">
+                    <span><b>Remaining Stocks: </b></span> <span
+                      id="item_quantity{{product.id}}">{{ product.tempo_quantity }} </span>
                     <br>
-                    <span><b>Minimum Order: </b></span> <span id ="item_minimum{{product.id}}">{{ product.min_orders }}</span>
+                    <span><b>Minimum Order: </b></span> <span
+                      id="item_minimum{{product.id}}">{{ product.min_orders }}</span>
                   </div>
                 </td>
                 <td class="align-middle">
@@ -73,15 +75,18 @@ input[type=number] {
                 </td>
                 <td class="align-middle">
                   <div class="d-flex flex-row">
-                    <button id="decrease-quantity{{product.id}}" name = "decreaseq" data-index="{{product.id}}" class="btn btn-link px-2 reduce-quantity"
+                    <button id="decrease-quantity{{product.id}}" name="decreaseq" data-index="{{product.id}}"
+                      class="btn btn-link px-2 reduce-quantity"
                       onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                       <i class="fas fa-minus"></i>
                     </button>
 
-                    <input id="qty-input{{product.id}}" data-index="{{product.id}}" min="0" name="quantity" value="{{item.qty}}" type="number"
-                      class="form-control form-control-sm item-qty ml-1" style="width: 70px;" />
+                    <input id="qty-input{{product.id}}" data-index="{{product.id}}" min="0" name="quantity"
+                      value="{{item.qty}}" type="number" class="form-control form-control-sm item-qty ml-1"
+                      style="width: 70px;" />
 
-                    <button id="increase-quantity{{product.id}}" data-index="{{product.id}}" class="btn btn-link px-2 increase-quantity"
+                    <button id="increase-quantity{{product.id}}" data-index="{{product.id}}"
+                      class="btn btn-link px-2 increase-quantity"
                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                       <i class="fas fa-plus"></i>
                     </button>
@@ -91,7 +96,8 @@ input[type=number] {
                   <p id="prod-uprice{{product.id}}" class="mb-0" style="font-weight: 500;">{{product.price}}</p>
                 </td>
                 <td class="align-middle">
-                  <p id="prod-tprice{{product.id}}" class="mb-0 subtotal" style="font-weight: 500;" data-subtotal="{{item.subtotal_price }}">{{item.subtotal_price }}</p>
+                  <p id="prod-tprice{{product.id}}" class="mb-0 subtotal" style="font-weight: 500;"
+                    data-subtotal="{{item.subtotal_price }}">{{item.subtotal_price }}</p>
                 </td>
                 <td class="align-middle">
                   <!-- <i id = "remove-cart" class="fas fa-trash text-danger"></i> -->
@@ -108,17 +114,19 @@ input[type=number] {
 
         <!-- PAYMENT -->
 
-       
+
         <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;" id="payment">
           <div class="card-body p-4">
+            <form action="{% url 'create_order' %}" method="POST">
+              <div class="row">
 
-            <div class="row">
-              <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1" id ="mop">
-                <form>
+                {% csrf_token %}
+                <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1" id="mop">
+
                   <div class="d-flex flex-row pb-4">
                     <div class="d-flex align-items-center pe-2">
-                      <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel2v" value=""
-                        aria-label="..." onclick="text(0)" checked/>
+                      <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="radioNoLabel2v"
+                        value="Credit Card/Debit Card" aria-label="..." onclick="text(0)" checked />
                     </div>
                     <div class="rounded border w-100 p-3 mx-auto">
                       <p class="d-flex align-items-center mb-0">
@@ -128,8 +136,8 @@ input[type=number] {
                   </div>
                   <div class="d-flex flex-row">
                     <div class="d-flex align-items-center pe-2">
-                      <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel3v" value=""
-                        aria-label="..." onclick="text(1)" />
+                      <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="radioNoLabel3v"
+                        value="Cash on Delivery" aria-label="..." onclick="text(1)" />
                     </div>
                     <div class="rounded border w-100 p-3">
                       <p class="d-flex align-items-center mb-0">
@@ -137,70 +145,72 @@ input[type=number] {
                       </p>
                     </div>
                   </div>
-                </form>
-              </div>
+                </div>
 
-             <!--INPUT FIELDS-->
+                <!--INPUT FIELDS-->
 
-              <div class="col-md-6 col-lg-4 col-xl-6" id="inputfields">
-                <div class="row">
-                  <div class="col-12 col-xl-6">
-                    <div class="form-floating mb-4 mb-xl-5">
-                      <input type="text" id="typeName" class="form-control form-control-lg" size="17"
-                        placeholder="Name on card" />
-                      <label class="form-label" for="typeName">Name on card</label>
+                <div class="col-md-6 col-lg-4 col-xl-6" id="inputfields">
+                  <div class="row">
+                    <div class="col-12 col-xl-6">
+                      <div class="form-floating mb-4 mb-xl-5">
+                        <input type="text" id="typeName" class="form-control form-control-lg" size="17"
+                          placeholder="Name on card" />
+                        <label class="form-label" for="typeName">Name on card</label>
+                      </div>
+
+                      <div class="form-floating mb-4 mb-xl-5">
+                        <input type="text" id="typeExp" class="form-control form-control-lg" placeholder="MM/YY"
+                          size="7" id="exp" minlength="7" maxlength="7" />
+                        <label class="form-label" for="typeExp">Expiration</label>
+                      </div>
                     </div>
+                    <div class="col-12 col-xl-6">
+                      <div class="form-floating mb-4 mb-xl-5">
+                        <input type="text" id="typeCd" class="form-control form-control-lg" size="17"
+                          placeholder="1111 2222 3333 4444" minlength="19" maxlength="19" />
+                        <label class="form-label" for="typeCd">Card Number</label>
+                      </div>
 
-                    <div class="form-floating mb-4 mb-xl-5">
-                      <input type="text" id="typeExp" class="form-control form-control-lg" placeholder="MM/YY" size="7"
-                        id="exp" minlength="7" maxlength="7" />
-                      <label class="form-label" for="typeExp">Expiration</label>
+                      <div class="form-floating mb-4 mb-xl-5">
+                        <input type="password" id="typeText" class="form-control form-control-lg"
+                          placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                        <label class="form-label" for="typeText">Cvv</label>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-12 col-xl-6">
-                    <div class="form-floating mb-4 mb-xl-5">
-                      <input type="text" id="typeCd" class="form-control form-control-lg" size="17"
-                        placeholder="1111 2222 3333 4444" minlength="19" maxlength="19" />
-                      <label class="form-label" for="typeCd">Card Number</label>
-                    </div>
+                </div>
 
-                    <div class="form-floating mb-4 mb-xl-5">
-                      <input type="password" id="typeText" class="form-control form-control-lg"
-                        placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
-                      <label class="form-label" for="typeText">Cvv</label>
-                    </div>
+                <!-- AMOUNT -->
+
+                <div class="col-lg-4 col-xl-3" id="amount">
+                  <div class="d-flex justify-content-between" style="font-weight: 500;">
+                    <p class="mb-2">Subtotal</p>
+                    <p id="subtotal" class="mb-2">{{cart.get_subtotal_price}}</p>
                   </div>
-                </div>
-              </div>
+                  <div id="" class="d-flex justify-content-between" style="font-weight: 500;">
+                    <p class="mb-0">Shipping</p>
+                    <p class="mb-0">50.00</p>
+                  </div>
 
-              <!-- AMOUNT -->
+                  <hr class="my-4">
 
-              <div class="col-lg-4 col-xl-3" id="amount">
-                <div class="d-flex justify-content-between" style="font-weight: 500;">
-                  <p class="mb-2">Subtotal</p>
-                  <p id="subtotal" class="mb-2">{{cart.get_subtotal_price}}</p>
-                </div>
-                <div id="" class="d-flex justify-content-between" style="font-weight: 500;">
-                  <p class="mb-0">Shipping</p>
-                  <p class="mb-0">50.00</p>
-                </div>
+                  <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                    <p class="mb-2">Total</p>
+                    <p id="total" class="mb-2">{{cart.get_total_price}}</p>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-lg mt-3 ">
+                    Checkout
+                  </button>
 
-                <hr class="my-4">
-
-                <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
-                  <p class="mb-2">Total</p>
-                  <p id="total" class="mb-2">{{cart.get_total_price}}</p>
                 </div>
-                <button type="button" class="btn btn-primary btn-block btn-lg mt-3 ">
-                  Checkout
-                </button>
-              </div>
-            </div>
+            </form>
+
           </div>
         </div>
-      
+      </div>
 
-         <!-- CASH ON DELIVERY
+
+      <!-- CASH ON DELIVERY
         <section id = "cod" style ="display: none;">
          <div class="card shadow-2-strong mt-4 mb-lg-0 mx-auto"  style="border-radius: 16px; width: 70%;" id="cod-view">
           <div class="card-body p-4">
@@ -231,8 +241,8 @@ input[type=number] {
                   </div>
                 </form>
               </div> -->
-              <!-- SECOND COLUMN -->
-              <!-- <div class="col-md-7">
+      <!-- SECOND COLUMN -->
+      <!-- <div class="col-md-7">
                 <div class="row" style="font-weight: bold;">
                   <div class="col-md-6">
                     <p class="mb-2">Subtotal</p>
@@ -265,50 +275,47 @@ input[type=number] {
         </div>
       </div>
     </section> -->
-     
+
 
       {% else %}
-        <div class="alert alert-warning mx-auto" role="alert" style="text-align: center; width: 40%;">
-          Your cart is empty!
-        </div>
-      
-      {% endif %}
-  
+      <div class="alert alert-warning mx-auto" role="alert" style="text-align: center; width: 40%;">
+        Your cart is empty!
       </div>
+
+      {% endif %}
+
+    </div>
   </div>
   </div>
 </section>
 
 <script>
-function text(x)
-  {
-    if (x == 0){ 
-    
+  function text(x) {
+    if (x == 0) {
 
-      document.getElementById("inputfields").style.display= "block";
-      document.getElementById("mop").className= "col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1";
-      document.getElementById("amount").className= "col-lg-4 col-xl-3";
-      document.getElementById("payment-card").style.width= "100%"
-      document.getElementById("payment-card").style.margin= "0";
-      document.getElementById("amount").style.marginLeft= "0";
-      document.getElementById("checkout-button").style.width= "25%"; 
+
+      document.getElementById("inputfields").style.display = "block";
+      document.getElementById("mop").className = "col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1";
+      document.getElementById("amount").className = "col-lg-4 col-xl-3";
+      document.getElementById("payment-card").style.width = "100%"
+      document.getElementById("payment-card").style.margin = "0";
+      document.getElementById("amount").style.marginLeft = "0";
+      document.getElementById("checkout-button").style.width = "25%";
+
+    } else {
+      document.getElementById("amount").className = "col-md-6";
+      document.getElementById("mop").className = "col-md-6";
+      document.getElementById("inputfields").style.display = "none";
+      document.getElementById("payment-card").style.width = "100%";
+      document.getElementById("payment-card").style.margin = "auto";
+      document.getElementById("amount").style.marginLeft = "40%";
+      document.getElementById("checkout-button").style.width = "25%";
+
+
+      return;
 
     }
-    else
-    {
-      document.getElementById("amount").className= "col-md-6";
-      document.getElementById("mop").className= "col-md-6";
-     document.getElementById("inputfields").style.display = "none";
-     document.getElementById("payment-card").style.width= "100%";
-     document.getElementById("payment-card").style.margin= "auto";
-     document.getElementById("amount").style.marginLeft= "40%";
-     document.getElementById("checkout-button").style.width= "25%"; 
- 
-    
-    return;
-    
   }
-}
 
 
 
@@ -338,27 +345,25 @@ function text(x)
   const csrftoken = getCookie('csrftoken');
 
   const inputs = document.querySelectorAll('.item-qty');
-  
-  for(const inp of inputs){
-      inp.addEventListener('keyup', async function (e) {
+
+  for (const inp of inputs) {
+    inp.addEventListener('keyup', async function (e) {
       let prodId = inp.dataset.index
       const inputTag = document.querySelector(`#qty-input${prodId}`)
       const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
-      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
+      const iMinimum = document.getElementById(`item_minimum${prodId}`).innerText;
       document.getElementById(`increase-quantity${prodId}`).disabled = false
-      
-        setTimeout(()=> {
-         if ( parseInt(inputTag.value) < parseInt(iMinimum)) {
+
+      setTimeout(() => {
+        if (parseInt(inputTag.value) < parseInt(iMinimum)) {
           alert("Quantity Input is less than the Minimum Order! ");
           inputTag.value = iMinimum;
-        }
-          else if (parseInt(inputTag.value) > parseInt(iStocks)){
+        } else if (parseInt(inputTag.value) > parseInt(iStocks)) {
           alert("Quantity Input is greater than the Available Stocks! ");
           inputTag.value = iMinimum;
-          }
-      }
-      ,2000);
-       
+        }
+      }, 2000);
+
       const response = await fetch("{% url 'cart_update' %}", {
         method: 'POST',
         credentials: 'same-origin',
@@ -383,12 +388,13 @@ function text(x)
         total = (parseFloat(data.subtotal))
         document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
         document.querySelector('#total').innerHTML = data.total.toFixed(2)
-        document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
+        document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(
+          uPrice)).toFixed(2);
       }
     });
   }
 
-    // DELETE BUTTON
+  // DELETE BUTTON
 
   for (const delBtn of deleteButtons) {
     delBtn.addEventListener('click', async function (e) {
@@ -417,19 +423,19 @@ function text(x)
             item.remove()
           }
         }
-        if(data.qty === 0){
+        if (data.qty === 0) {
           total = 0
           subtotal = 0;
           location.reload();
-        }else{
-            total = (parseFloat(data.subtotal) + 50.00).toFixed(2);
-            subtotal = data.subtotal
+        } else {
+          total = (parseFloat(data.subtotal) + 50.00).toFixed(2);
+          subtotal = data.subtotal
         }
-        
+
         document.querySelector('#cart-qty').innerHTML = data.qty
         document.querySelector('#subtotal').innerHTML = subtotal
         document.querySelector('#total').innerHTML = total
- 
+
       }
     });
   }
@@ -442,46 +448,45 @@ function text(x)
       let prodId = dec.dataset.index
       const inputTag = document.querySelector(`#qty-input${prodId}`);
       const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
-      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
+      const iMinimum = document.getElementById(`item_minimum${prodId}`).innerText;
       document.getElementById(`increase-quantity${prodId}`).disabled = false
-      
 
-      if ( parseInt(inputTag.value) < parseInt(iMinimum)) {
+
+      if (parseInt(inputTag.value) < parseInt(iMinimum)) {
         alert("Quantity Input is less then the Minimum Order! ");
         this.disabled = true;
         inputTag.value = iMinimum;
-        }   
-      
-        else {
-          
-          const response = await fetch("{% url 'cart_update' %}", {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRFToken': csrftoken,
-        },
-        body: JSON.stringify({
-          productid: prodId,
-          productqty: inputTag.value,
-          csrfmiddlewaretoken: "{{csrf_token}}",
-          action: 'post'
+      } else {
+
+        const response = await fetch("{% url 'cart_update' %}", {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': csrftoken,
+          },
+          body: JSON.stringify({
+            productid: prodId,
+            productqty: inputTag.value,
+            csrfmiddlewaretoken: "{{csrf_token}}",
+            action: 'post'
           })
         });
 
         const data = await response.json();
-          if (data) {
-           document.querySelector('#cart-qty').innerHTML = data.qty
-           const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
-           total = (parseFloat(data.subtotal))
+        if (data) {
+          document.querySelector('#cart-qty').innerHTML = data.qty
+          const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
+          total = (parseFloat(data.subtotal))
           document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
           document.querySelector('#total').innerHTML = data.total.toFixed(2)
-          document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
-      
+          document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(
+            uPrice)).toFixed(2);
+
         }
-        }
+      }
     });
   }
 
@@ -494,52 +499,49 @@ function text(x)
       let prodId = inc.dataset.index
       const inputTag = document.querySelector(`#qty-input${prodId}`)
       const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
-      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
+      const iMinimum = document.getElementById(`item_minimum${prodId}`).innerText;
       document.getElementById(`decrease-quantity${prodId}`).disabled = false
-      
 
-      if ( parseInt(inputTag.value) > parseInt(iStocks)) {
+
+      if (parseInt(inputTag.value) > parseInt(iStocks)) {
         alert("Quantity Input is more than the Available Stocks! ");
         this.disabled = true;
         inputTag.value = iStocks;
-        }  
-      
-      else {
+      } else {
 
         const response = await fetch("{% url 'cart_update' %}", {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-          'X-CSRFToken': csrftoken,
-        },
-        body: JSON.stringify({
-          productid: prodId,
-          productqty: inputTag.value,
-          csrfmiddlewaretoken: "{{csrf_token}}",
-          action: 'post'
-        })
-      });
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': csrftoken,
+          },
+          body: JSON.stringify({
+            productid: prodId,
+            productqty: inputTag.value,
+            csrfmiddlewaretoken: "{{csrf_token}}",
+            action: 'post'
+          })
+        });
 
-      const data = await response.json();
-      if (data) {
-        document.querySelector('#cart-qty').innerHTML = data.qty
-        const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
-        total = (parseFloat(data.subtotal))
-        document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
-        document.querySelector('#total').innerHTML = data.total.toFixed(2)
-        document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(uPrice)).toFixed(2);
+        const data = await response.json();
+        if (data) {
+          document.querySelector('#cart-qty').innerHTML = data.qty
+          const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
+          total = (parseFloat(data.subtotal))
+          document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
+          document.querySelector('#total').innerHTML = data.total.toFixed(2)
+          document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(
+            uPrice)).toFixed(2);
+        }
+
       }
 
-      }
 
-      
     });
   }
-
- 
 </script>
 
 {% endblock content %}
