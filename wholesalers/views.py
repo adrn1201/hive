@@ -82,8 +82,10 @@ def email_retailer(request):
         return redirect('retailers')
     return render(request, 'wholesalers/email_retailer.html')
     
+def login_wholesalers(request):
     
-    
+	context = {}
+	return render(request, 'wholesalers/login.html', context)
 
 
 
