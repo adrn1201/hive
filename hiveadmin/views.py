@@ -19,3 +19,6 @@ def list_wholesalers(request):
         return redirect('products')
     return render(request, 'hiveadmin/wholesalers_list.html',context)
 
+
+
+      
