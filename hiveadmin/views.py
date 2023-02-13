@@ -22,12 +22,8 @@ def list_wholesalers(request):
             fail_silently=False
         )
         return redirect('products')
-<<<<<<< HEAD
     return render(request, 'hiveadmin/wholesalers_list.html',context)
 
 
 
       
-=======
-    return render(request, 'hiveadmin/wholesalers_list.html', context)
->>>>>>> testcarlos
