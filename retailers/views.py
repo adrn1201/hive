@@ -65,6 +65,10 @@ def retailer_create_profile(request):
 
 @login_required(login_url='login_wholesaler')
 def retailer_edit_profile(request):
+    try:
+        request.user.retailer
+    except:
+        return HttpResponseForbidden()
     retailer = request.user.retailer
     form = RetailerCreationForm(instance=retailer)
     if request.method == "POST":
@@ -75,7 +79,7 @@ def retailer_edit_profile(request):
 
 
     context = {'form':form}
-    return render(request, 'retailers/retailers_edit_profile.html', context)
+    return render(request, 'retailers/retailer_edit_profile.html', context)
 
 
 @login_required(login_url='login_wholesaler')

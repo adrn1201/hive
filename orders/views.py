@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def display_orders(request):
+    return render(request, 'orders/orders.html')
