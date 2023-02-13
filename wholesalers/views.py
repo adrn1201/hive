@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, WholesalerCreationForm
+from django.core.exceptions import ValidationError  
 from django.contrib.auth import login, authenticate, logout
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
