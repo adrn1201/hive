@@ -65,8 +65,8 @@ def wholesaler_edit_profile(request):
 
 
     context = {'form':form}
-    return render(request, 'wholesalers/wholesaler_profile.html', context)
-
+    return render(request, 'wholesalers/wholesaler_edit_profile.html', context)
+   
 
 def email_retailer(request):
     hostname_without_port = remove_www(request.get_host().split(':')[0])
@@ -80,6 +80,7 @@ def email_retailer(request):
         )
         return redirect('retailers')
     return render(request, 'wholesalers/email_retailer.html')
+    
     
     
 
