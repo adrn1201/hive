@@ -22,7 +22,7 @@
               <div class="row justify-content-center">
                 <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                   <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Enter your Business Details</p>
-                  <form class="mx-1 mx-md-4" method = "POST">
+                  <form class="mx-1 mx-md-4" method = "POST" id="wholesaler_profile">
                     {% csrf_token %}
                     {%for field in form%}
                     <div class="d-flex flex-row align-items-center mb-4">
@@ -48,4 +48,29 @@
       </div>
     </div>
   </section>
+
+  <script>
+
+    const form = document.querySelector('#wholesaler_profile');
+    
+    form.addEventListener('submit',function(e){
+
+      var format = /^\d{11}$/;
+      const number = document.querySelector('#id_contact_number')
+
+      if (number.value.match(format))
+      {
+        return true;
+      }
+
+      else {
+        alert("Please enter an 11-digit phone number");
+        document.querySelector('#id_contact_number').style.borderColor = "red";
+        e.preventDefault(); 
+      }
+    
+    } ) 
+  
+  </script>
+
 {% endblock %}

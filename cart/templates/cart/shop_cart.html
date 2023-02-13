@@ -26,8 +26,9 @@ input[type=number] {
 } */
 </style>
 
-<section class="h-100 h-custom">
+<section id="test">
   <div class="container h-100 py-5">
+   
     {% if cart %}
     <div class="row d-flex justify-content-center  h-100">
       <div class="col">
@@ -106,19 +107,20 @@ input[type=number] {
         </div>
 
         <!-- PAYMENT -->
-        
-        <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;" id="payment-card">
+
+       
+        <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;" id="payment">
           <div class="card-body p-4">
 
             <div class="row">
-              <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0" id ="checkout-button">
+              <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1" id ="mop">
                 <form>
                   <div class="d-flex flex-row pb-4">
                     <div class="d-flex align-items-center pe-2">
                       <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel2v" value=""
                         aria-label="..." onclick="text(0)" checked/>
                     </div>
-                    <div class="rounded border w-100 p-3">
+                    <div class="rounded border w-100 p-3 mx-auto">
                       <p class="d-flex align-items-center mb-0">
                         <i class="fab fa-cc-visa fa-2x text-dark pe-2"></i>Debit Card
                       </p>
@@ -137,7 +139,9 @@ input[type=number] {
                   </div>
                 </form>
               </div>
+
              <!--INPUT FIELDS-->
+
               <div class="col-md-6 col-lg-4 col-xl-6" id="inputfields">
                 <div class="row">
                   <div class="col-12 col-xl-6">
@@ -168,6 +172,9 @@ input[type=number] {
                   </div>
                 </div>
               </div>
+
+              <!-- AMOUNT -->
+
               <div class="col-lg-4 col-xl-3" id="amount">
                 <div class="d-flex justify-content-between" style="font-weight: 500;">
                   <p class="mb-2">Subtotal</p>
@@ -184,22 +191,91 @@ input[type=number] {
                   <p class="mb-2">Total</p>
                   <p id="total" class="mb-2">{{cart.get_total_price}}</p>
                 </div>
-                <button type="button" class="btn btn-primary btn-block btn-lg">
+                <button type="button" class="btn btn-primary btn-block btn-lg mt-3 ">
                   Checkout
                 </button>
               </div>
             </div>
-
           </div>
         </div>
+      
 
+         <!-- CASH ON DELIVERY
+        <section id = "cod" style ="display: none;">
+         <div class="card shadow-2-strong mt-4 mb-lg-0 mx-auto"  style="border-radius: 16px; width: 70%;" id="cod-view">
+          <div class="card-body p-4">
+            <div class ="row">
+              <div class="col-md-5">
+                <form>
+                  <div class="d-flex flex-row pb-4">
+                    <div class="d-flex align-items-center pe-2">
+                      <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel2v" value=""
+                        aria-label="..." onclick="text(0)" />
+                    </div>
+                    <div class="rounded border p-3" style="width: 60%;">
+                      <p class="d-flex align-items-center mb-0">
+                        <i class="fab fa-cc-visa fa-2x text-dark pe-2"></i>Debit Card
+                      </p>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-row">
+                    <div class="d-flex align-items-center pe-2">
+                      <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel3v" value=""
+                        aria-label="..." onclick="text(1)" checked/>
+                    </div>
+                    <div class="rounded border p-3" style="width: 60%;" >
+                      <p class="d-flex align-items-center mb-0">
+                        <i class="fab fa-cc-paypal fa-2x text-dark pe-2"></i>Cash on Delivery
+                      </p>
+                    </div>
+                  </div>
+                </form>
+              </div> -->
+              <!-- SECOND COLUMN -->
+              <!-- <div class="col-md-7">
+                <div class="row" style="font-weight: bold;">
+                  <div class="col-md-6">
+                    <p class="mb-2">Subtotal</p>
+                    <p class="mb-0">Shipping</p>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <p id="subtotal" class="mb-2">{{cart.get_subtotal_price}}</p>
+                    <p class="mb-0">50.00</p>
+                  </div>
+              
+                </div>
+              <hr class="my-4" style="width: 90%;">
+
+              <div class="row" style="font-weight: bold;">
+                <div class="col-md-6">
+                  <p class="mb-2">Total</p>
+                </div>
+                
+                <div class="col-md-6">
+                  <p id="total" class="mb-2">{{cart.get_total_price}}</p>
+                </div>
+
+                <button type="button" class="btn btn-primary btn-block btn-lg mt-3" style ="width: 60%;">
+                  Checkout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </section> -->
+     
+
       {% else %}
         <div class="alert alert-warning mx-auto" role="alert" style="text-align: center; width: 40%;">
           Your cart is empty!
+        </div>
+      
+      {% endif %}
+  
       </div>
-    </div>
-    {% endif %}
+  </div>
   </div>
 </section>
 
@@ -208,7 +284,10 @@ function text(x)
   {
     if (x == 0){ 
     
+
       document.getElementById("inputfields").style.display= "block";
+      document.getElementById("mop").className= "col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1";
+      document.getElementById("amount").className= "col-lg-4 col-xl-3";
       document.getElementById("payment-card").style.width= "100%"
       document.getElementById("payment-card").style.margin= "0";
       document.getElementById("amount").style.marginLeft= "0";
@@ -217,17 +296,22 @@ function text(x)
     }
     else
     {
+      document.getElementById("amount").className= "col-md-6";
+      document.getElementById("mop").className= "col-md-6";
      document.getElementById("inputfields").style.display = "none";
      document.getElementById("payment-card").style.width= "100%";
      document.getElementById("payment-card").style.margin= "auto";
      document.getElementById("amount").style.marginLeft= "40%";
      document.getElementById("checkout-button").style.width= "25%"; 
+ 
     
     
     return;
     
   }
 }
+
+
 
   const deleteButtons = document.querySelectorAll('.delete-button');
   const increaseButtons = document.querySelectorAll('.increase-quantity');
@@ -311,7 +395,7 @@ function text(x)
     delBtn.addEventListener('click', async function (e) {
       e.preventDefault();
       let prodId = delBtn.dataset.index
-      const response = await fetch("http://localhost:8000/cart/remove/", {
+      const response = await fetch(`http://${window.location.hostname}:8000/cart/remove/`, {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
