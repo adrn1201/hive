@@ -44,6 +44,8 @@ SHARED_APPS = [
     'cart',
     'hiveadmin',
     'account',
+    'orders',
+    'transactions',
     
     'rest_framework',
     'corsheaders'
@@ -65,6 +67,9 @@ TENANT_APPS = [
     'retailers',
     'cart',
     'account',
+    'orders',
+    'transactions',
+    
     'rest_framework',
     'corsheaders'
 ]
