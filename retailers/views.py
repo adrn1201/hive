@@ -66,3 +66,8 @@ def index(request):
     retailers = Retailer.objects.filter(wholesaler=wholesaler_id)
     context = {'retailers':retailers}
     return render(request, "retailers/retailers.html", context)
+
+def login_retailers(request):
+    
+	context = {}
+	return render(request, 'retailers/login.html', context)

@@ -3039,7 +3039,7 @@ textarea.form-control-lg {
 }
 
 .form-switch .form-check-input {
-  width: 2.5rem;
+  width: 3.8rem;
   margin-left: -3rem;
   background-image: none;
   background-position: left center;
@@ -21531,8 +21531,8 @@ fieldset:disabled .btn {
   transition: opacity 0.25s ease-in-out;
   font-family: "FontAwesome";
   content: "\f00c";
-  width: 100%;
-  height: 100%;
+  width: 10%;
+  height: 10%;
   color: #fff;
   position: absolute;
   display: flex;
@@ -21543,7 +21543,7 @@ fieldset:disabled .btn {
 }
 
 .form-check:not(.form-switch) .form-check-input[type="checkbox"]:checked:after {
-  opacity: 1;
+  opacity: 100;
 }
 
 .form-check:not(.form-switch) .form-check-input[type="radio"] {
@@ -21592,7 +21592,7 @@ fieldset:disabled .btn {
 
 .form-switch .form-check-input {
   border: 1px solid #e9ecef;
-  position: relative;
+  position: relav;
   background-color: rgba(33, 37, 41, 0.1);
   height: 1.25em;
 }
