@@ -395,7 +395,7 @@ function text(x)
     delBtn.addEventListener('click', async function (e) {
       e.preventDefault();
       let prodId = delBtn.dataset.index
-      const response = await fetch("http://localhost:8000/cart/remove/", {
+      const response = await fetch(`http://${window.location.hostname}:8000/cart/remove/`, {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
