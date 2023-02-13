@@ -75,7 +75,7 @@ def retailer_edit_profile(request):
 
 
     context = {'form':form}
-    return render(request, 'wholesalers/wholesaler_profile.html', context)
+    return render(request, 'retailers/retailers_edit_profile.html', context)
 
 
 @login_required(login_url='login_wholesaler')
