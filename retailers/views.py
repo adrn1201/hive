@@ -42,7 +42,7 @@ def retailer_create_profile(request):
             return redirect('show_shop')
 
     context = {'form':form}
-    return render(request, 'retailers/retailer_create_profile.html', context)
+    return render(request, 'retailers/retailers_profile.html', context)
 
 
 def retailer_edit_profile(request):
@@ -66,8 +66,3 @@ def index(request):
     retailers = Retailer.objects.filter(wholesaler=wholesaler_id)
     context = {'retailers':retailers}
     return render(request, "retailers/retailers.html", context)
-
-def login_retailers(request):
-    
-	context = {}
-	return render(request, 'retailers/login.html', context)
