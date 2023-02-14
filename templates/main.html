@@ -20,6 +20,19 @@
             <link href="{% static 'assets/css/nucleo-svg.css'%}" rel="stylesheet" />
             <!-- CSS Files -->
             <link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css'%}" rel="stylesheet" />
+
+            <!-- Favicon -->
+            <link href="{% static 'assets/img/brand/favicon.png'%}" rel="icon" type="image/png">
+
+            <!-- Fonts -->
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+
+            <!-- Icons -->
+            <link href="{% static 'assets/vendor/nucleo/css/nucleo.min.css'%}" rel="stylesheet">
+            <link href="{% static 'assets/vendor/@fortawesome/fontawesome-free/css/all.min.css'%}" rel="stylesheet">
+
+            <!-- Argon CSS -->
+            <link href="{% static 'assets/css/argon.min.css'%}" rel="stylesheet">
             
 
         </head>
@@ -39,6 +52,16 @@
             <script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
             <script src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
             <script src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
+            <!-- Core -->
+            <script src="{% static 'assets/vendor/jquery/dist/jquery.min.js' %}"></script>
+            <script src="{% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+
+            <!-- Argon JS -->
+            <script src="{% static 'assets/js/argon.min.js' %}"></script>
+            <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+            <script src="{% static 'assets/js/argon-dashboard.min.js'%}"></script>
+            <script src="{% static 'assets/vendor/chart.js/dist/Chart.min.js' %}"></script>
+            <script src="{% static 'assets/vendor/chart.js/dist/Chart.extension.js' %}"></script>
             <script>
                 var ctx1 = document.getElementById("chart-line").getContext("2d");
 
@@ -133,8 +156,6 @@
             </script>
             <!-- Github buttons -->
             <script async defer src="https://buttons.github.io/buttons.js"></script>
-            <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-            <script src="{% static 'assets/js/argon-dashboard.min.js'%}"></script>
         </body>
 
         </html>
