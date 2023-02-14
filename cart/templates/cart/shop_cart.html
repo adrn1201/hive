@@ -117,7 +117,7 @@ input[type=number] {
 
         <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;" id="payment">
           <div class="card-body p-4">
-            <form action="{% url 'create_order' %}" method="POST">
+            <form action="{% url 'create_order' %}" method="POST" id="checkout-form">
               <div class="row">
 
                 {% csrf_token %}
@@ -198,7 +198,7 @@ input[type=number] {
                     <p class="mb-2">Total</p>
                     <p id="total" class="mb-2">{{cart.get_total_price}}</p>
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block btn-lg mt-3 ">
+                  <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
                     Checkout
                   </button>
 
@@ -290,6 +290,19 @@ input[type=number] {
 </section>
 
 <script>
+  const checkoutForm = document.querySelector('#checkout-form');
+
+  checkoutForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    swal("Place Order?", {
+      buttons: ["Cancel", true],
+    }).then(data => {
+      if(data){
+        e.target.submit()
+      }
+    });
+  });
+
   function text(x) {
     if (x == 0) {
 

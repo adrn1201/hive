@@ -56,12 +56,31 @@
 <body class="g-sidenav-show bg-gray-100">
 
     {% include 'navbar2.html' %}
+
     {% block content %}
+
+
+
     {% endblock content %}
     {% include 'footer2.html' %}
 
         <!-- SWEET ALERT-->
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  {% if messages %}
+    {% for message in messages %}
+      <script>
+        swal("{{message}}", "", "success");
+      </script>
+
+
+      {% comment %} <div style="display: flex; justify-content: center;">
+          <div class="alert alert--{{message.tags}}">
+              <p class="alert__message">{{message}}</p>
+              <button class="alert__close">x</button>
+          </div>
+      </div> {% endcomment %}
+    {% endfor %}
+  {% endif %}
   <!-- jQery -->
   <script src="{% static 'assets2/js/jquery-3.4.1.min.js'%}"></script>
   <!-- popper js -->
