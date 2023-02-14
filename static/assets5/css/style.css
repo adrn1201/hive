@@ -579,7 +579,7 @@ aside.left-panel {
 .small-device .right-panel {
   margin-left: 83px; }
 
-.navbar {
+/*.navbar {
   background: #fff;
   border-radius: 0;
   border: none;
@@ -816,7 +816,7 @@ aside.left-panel {
     background-color: #dc3545;
     color: #fff !important;
     right: -20px;
-    text-align: center; }
+    text-align: center; } */
 
 /* Right panel */
 .right-panel {
@@ -1333,9 +1333,10 @@ header .form-inline {
   .card .card-right {
     width: 40%; }
   .card .card-body {
-    float: left;
+    display: flex;
+    float: right;
     padding: 1.25em;
-    position: relative;
+    position: static;
     width: 100%; }
   .card h4 {
     font-size: 1.1rem; }
@@ -2416,7 +2417,7 @@ footer.site-footer {
         -ms-flex: none;
             flex: none; } }
 @media (max-width: 768px) {
-  .navbar {
+  /*.navbar {
     height: 100vh; }
     .navbar .navbar-nav li.menu-item-has-children > a:before {
       display: block !important; }
@@ -2487,7 +2488,7 @@ footer.site-footer {
 
   .right-panel .navbar-brand {
     width: 220px;
-    padding-bottom: 5px; }
+    padding-bottom: 5px; } */
   .right-panel .menutoggle {
     width: 20px; } }
 #cellPaiChart {
