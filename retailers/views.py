@@ -7,6 +7,7 @@ from django.http import HttpResponseForbidden
 from wholesalers.models import Wholesaler
 from wholesalers.models import Domain
 from .models import Retailer
+from orders.models import Order, OrderItem
 from .forms import RetailerCreationForm, CustomUserCreationForm
 
 user_credentials = ''
@@ -97,8 +98,8 @@ def index(request):
     return render(request, "retailers/retailers.html", context)
 
 
-@login_required(login_url='login_wholesaler')
+@login_required(login_url='login_retailer')
 def dashboard_retailer(request):
-   
-    context = {}
+    orders = request.user.order_set.all()   
+    context = {'orders': orders}
     return render(request, "retailers/dashboard.html", context)
