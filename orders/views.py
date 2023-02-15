@@ -4,7 +4,7 @@ from django.contrib import messages
 from cart.cart import Cart
 from .models import Order, OrderItem
 from django.contrib.auth.decorators import login_required
-
+from .utils import search_orders, paginate_orders
 
 @login_required(login_url='login_wholesaler')
 def display_orders(request):
@@ -12,10 +12,9 @@ def display_orders(request):
         request.user.wholesaler
     except:
         return HttpResponseForbidden()
-    
-    wholesaler = request.user.wholesaler
-    orders = wholesaler.order_set.all()
-    context = {'orders':orders}
+    orders, search_query = search_orders(request)
+    custom_range, orders = paginate_orders(request, orders, 15)
+    context = {'orders': orders, 'search_query': search_query, 'custom_range':custom_range}
     return render(request, 'orders/orders.html', context)
 
 
