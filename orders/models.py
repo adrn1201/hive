@@ -11,7 +11,7 @@ class Order(models.Model):
         ('pending', 'Pending'),
         ('preparing', 'Preparing'),
         ('shipped', 'Shipped'),
-        ('confirmed', 'Confirmed')
+        ('completed', 'Completed')
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django_tenants.utils import remove_www
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -12,13 +12,14 @@ from .forms import RetailerCreationForm, CustomUserCreationForm
 
 user_credentials = ''
 
+
 def register_retailer(request):
     try:
         if request.user.is_authenticated and request.user.retailer:
             return redirect('show_shop')
-    except:
+    except BaseException:
         return HttpResponseForbidden()
-    
+
     form = CustomUserCreationForm()
 
     if request.method == 'POST':
@@ -31,8 +32,8 @@ def register_retailer(request):
             return redirect('retailer_create_profile')
 
         else:
-          pass
-    context = {'form':form}
+            pass
+    context = {'form': form}
     return render(request, "retailers/create_retailer.html", context)
 
 
@@ -40,27 +41,27 @@ def retailer_create_profile(request):
     try:
         if request.user.is_authenticated and request.user.retailer:
             return redirect('show_shop')
-    except:
+    except BaseException:
         return HttpResponseForbidden()
-    
+
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     form = RetailerCreationForm()
-    
+
     if request.method == "POST":
         form = RetailerCreationForm(request.POST)
         if form.is_valid():
             retailer = form.save(commit=False)
             user_credentials.save()
-            retailer.user = user_credentials    
+            retailer.user = user_credentials
             retailer.wholesaler = Wholesaler.objects.get(id=wholesaler_id)
             retailer.is_active = True
             retailer.save()
             login(request, user_credentials)
             return redirect('show_shop')
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'retailers/retailers_profile.html', context)
 
 
@@ -68,7 +69,7 @@ def retailer_create_profile(request):
 def retailer_edit_profile(request):
     try:
         request.user.retailer
-    except:
+    except BaseException:
         return HttpResponseForbidden()
     retailer = request.user.retailer
     form = RetailerCreationForm(instance=retailer)
@@ -78,8 +79,7 @@ def retailer_edit_profile(request):
             form.save()
             return redirect('retailer_edit_profile')
 
-
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'retailers/retailer_edit_profile.html', context)
 
 
@@ -87,19 +87,39 @@ def retailer_edit_profile(request):
 def index(request):
     try:
         request.user.wholesaler
-    except:
+    except BaseException:
         return HttpResponseForbidden()
-    
+
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     retailers = Retailer.objects.filter(wholesaler=wholesaler_id)
-    context = {'retailers':retailers}
+    context = {'retailers': retailers}
     return render(request, "retailers/retailers.html", context)
 
 
 @login_required(login_url='login_retailer')
 def dashboard_retailer(request):
-    orders = request.user.order_set.all()   
-    context = {'orders': orders}
+    order_status = ''
+    if request.GET.get('status'):
+        order_status = request.GET.get('status')
+    orders = request.user.order_set.distinct().filter(status=order_status)
+    pending_count = request.user.order_set.distinct().filter(status="pending").count()
+    preparing_count = request.user.order_set.distinct().filter(status="preparing").count()
+    shipped_count = request.user.order_set.distinct().filter(status="shipped").count()
+    completed_count = request.user.order_set.distinct().filter(status="confirmed").count()
+    context = {
+        'orders': orders,
+        'pending': pending_count,
+        'preparing': preparing_count,
+        'shipped': shipped_count,
+        'completed': completed_count}
     return render(request, "retailers/dashboard.html", context)
+
+
+@login_required(login_url='login_retailer')
+def order_items(request, pk):
+    order = Order.objects.get(id=pk)
+    order_items = order.items.all()
+    context = {'order_items': order_items}
+    return render(request, "retailers/order_items.html", context)

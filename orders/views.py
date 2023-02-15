@@ -27,21 +27,17 @@ def create_order(request):
         return HttpResponseForbidden()
     
     cart = Cart(request)
-    order_status = ''
     retailer = request.user.retailer
     wholesaler = request.user.retailer.wholesaler
     cart_total = cart.get_total_price()
-    
-    if request.POST['modeOfPayment'] == 'Cash on Delivery':
-        order_status = 'pending'
-        
+            
     order = Order.objects.create(
         user=request.user,
         wholesaler=wholesaler,
         business_name=retailer.business_name, 
         total_paid=cart_total,
         mode_of_payment=request.POST['modeOfPayment'],
-        status=order_status
+        status='pending'
     )
     
     for item in cart:
