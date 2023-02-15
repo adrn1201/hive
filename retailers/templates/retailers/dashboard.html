@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="content">
+<<<<<<< HEAD
     <div class="animated fadeIn">
         <div class="row justify-content-center">
             <div class="col-lg-3">
@@ -12,6 +13,21 @@
                         <div class="stat-widget-five">
                             <div class="stat-icon dib flat-color-6">
                                 <i class="fas fa-hourglass"></i>
+=======
+<div class="animated fadeIn">
+    <div class="row justify-content-center">
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib flat-color-6">
+                            <i class="fas fa-hourglass"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text"><span class="count">3435</span></div>
+                                <div class="stat-heading">Pending orders</div>
+>>>>>>> b8806df44fff9916ad7547cfa2164eb24273d3a0
                             </div>
                             <a href="{% url 'dashboard_retailer' %}?status=pending">
                                 <div class="stat-content">
@@ -28,12 +44,26 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             <div class="col-lg-3">
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-five">
                             <div class="stat-icon dib flat-color-3">
                                 <i class="fas fa-tasks"></i>
+=======
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib flat-color-3">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text"><span class="count">349</span></div>
+                                <div class="stat-heading">Preparing orders</div>
+>>>>>>> b8806df44fff9916ad7547cfa2164eb24273d3a0
                             </div>
                             <a href="{% url 'dashboard_retailer' %}?status=preparing">
                                 <div class="stat-content">
@@ -48,12 +78,26 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
             <div class="col-lg-3">
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-five">
                             <div class="stat-icon dib flat-color-1">
                                 <i class="fas fa-shipping-fast"></i>
+=======
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib flat-color-4">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text"><span class="count">2986</span></div>
+                                <div class="stat-heading">Shipped orders</div>
+>>>>>>> b8806df44fff9916ad7547cfa2164eb24273d3a0
                             </div>
                             <a href="{% url 'dashboard_retailer' %}?status=shipped">
                                 <div class="stat-content">
@@ -68,6 +112,49 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
+=======
+
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib flat-color-1">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text"><span class="count">3435</span></div>
+                                <div class="stat-heading">Complete orders</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Orders -->
+    <div class="orders">
+        <div class="row">
+            <div class="col-xl-8" style="float:none;margin:auto;">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="box-title">Recent orders </h4>
+                    </div>
+                    <div class="card-body--">
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="avatar">Product</th>
+                                        <th>Unit Price</th>
+                                        <th>Quantity</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in order_items %}
+>>>>>>> b8806df44fff9916ad7547cfa2164eb24273d3a0
 
         <div class="orders">
             <div class="row">
