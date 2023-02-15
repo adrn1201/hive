@@ -101,13 +101,17 @@ def index(request):
 @login_required(login_url='login_retailer')
 def dashboard_retailer(request):
     order_status = ''
+    orders = ''
     if request.GET.get('status'):
         order_status = request.GET.get('status')
-    orders = request.user.order_set.distinct().filter(status=order_status)
+        orders = request.user.order_set.distinct().filter(status=order_status)
+    else:
+        orders = request.user.order_set.all()
     pending_count = request.user.order_set.distinct().filter(status="pending").count()
     preparing_count = request.user.order_set.distinct().filter(status="preparing").count()
     shipped_count = request.user.order_set.distinct().filter(status="shipped").count()
-    completed_count = request.user.order_set.distinct().filter(status="confirmed").count()
+    completed_count = request.user.order_set.distinct().filter(status="completed").count()
+    
     context = {
         'orders': orders,
         'pending': pending_count,

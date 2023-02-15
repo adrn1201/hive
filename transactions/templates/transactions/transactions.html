@@ -56,11 +56,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for order in orders %}
+                                    {% for order in completed_orders %}
                                     <tr>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0 text-center">
-                                                {{ order.reference_num }}</p>
+                                                {{ order.reference_number }}</p>
                                         </td>
                                         <td>
                                             <p class="text-center text-xs font-weight-bold mb-0">
@@ -74,7 +74,7 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="text-center text-xs font-weight-bold mb-0">{{ order.payment_method }}
+                                            <p class="text-center text-xs font-weight-bold mb-0">{{ order.mode_of_payment }}
                                             </p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
