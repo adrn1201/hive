@@ -84,35 +84,8 @@
   </nav>
 <br>
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-warning text-dark" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop1">
-    Add Wholesaler
-</button>
-<a class="btn btn-warning text-dark" href="{%url 'list_deac'%}">Inactive Wholesalers</a>
+<input type=button class="btn btn-warning text-dark" value="Previous Page" onClick="javascript:history.go(-1);">
 
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-    <div class="modal-dialog d-flex justify-content-center">
-        <div class="modal-content w-75">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">Add a Wholesaler</h5>
-                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-4">
-                <form action="" method="POST" class = "form">
-                    {% csrf_token %}
-                    <div class="form-outline mb-4">
-                        <input type="email"  name="email" id="email" class="form-control" />
-                        <label class="form-label" for="email">Wholesaler's Email address</label>
-                    </div>
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-block">Send Email</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal -->
 
 <!-- Modal2 -->
   <!--Modal: modalConfirmDelete-->
@@ -137,13 +110,8 @@
   
         <!--Footer-->
         <div class="modal-footer flex-center">
-          <form action ="{%  url 'deac_acc' user.pk%}" method ="POST"> 
-            {% csrf_token %}
-
-          <button type ="submit" class="btn btn-outline-secondary">Yes</button>
-          <a type="button" class="btn  btn-outline-secondary" data-mdb-dismiss="modal">No</a>
-
-          </form>
+          <a href="" class="btn  btn-outline-secondary">Yes</a>
+          <a type="button" class="btn  btn-outline-secondary" data-dismiss="modal">No</a>
         </div>
       </div>
       <!--/.Content-->

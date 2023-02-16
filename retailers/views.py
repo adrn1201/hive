@@ -1,7 +1,14 @@
 from django.shortcuts import render, redirect
 from django_tenants.utils import remove_www
 from django.contrib.auth import login, authenticate, logout
+<<<<<<< Updated upstream
+=======
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+from django.core.mail import send_mail
+>>>>>>> Stashed changes
 from wholesalers.models import Wholesaler
+from django.conf import settings
 from wholesalers.models import Domain
 from .models import Retailer
 from .forms import RetailerCreationForm, CustomUserCreationForm
@@ -65,4 +72,25 @@ def index(request):
     wholesaler_id = domain.tenant.id
     retailers = Retailer.objects.filter(wholesaler=wholesaler_id)
     context = {'retailers':retailers}
+<<<<<<< Updated upstream
     return render(request, "retailers/retailers.html", context)
+=======
+
+    if(request.method == "POST"):
+        send_mail(
+            'Hive Account Registration',
+            f'Please click the link to register your account http://{hostname_without_port}:8000/retailers/register',
+            settings.EMAIL_HOST_USER,
+            [request.POST['email']],
+            fail_silently=False
+        )
+        return redirect('retailers')
+    return render(request, "retailers/retailers.html", context)
+
+
+@login_required(login_url='login_retailer')
+def dashboard_retailer(request):
+    orders = request.user.order_set.all()   
+    context = {'orders': orders}
+    return render(request, "retailers/dashboard.html", context)
+>>>>>>> Stashed changes
