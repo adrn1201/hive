@@ -7,6 +7,7 @@ from wholesalers.models import Wholesaler
 class Category(models.Model):
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
+    sold = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
     
@@ -33,6 +34,7 @@ class Inventory(models.Model):
     price = models.FloatField()
     with_size = models.BooleanField(default=False, choices=STATUS)
     size = models.CharField(max_length=200)
+    sold = models.IntegerField(default=0)
     description = models.TextField()
     min_orders = models.IntegerField(default=0)
     product_image = models.ImageField(default='products/default.jpg', upload_to="products/")

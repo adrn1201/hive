@@ -3,6 +3,7 @@ from django.http import HttpResponseForbidden
 from django.contrib import messages
 from cart.cart import Cart
 from .models import Order, OrderItem
+from products.models import Inventory, Category
 from django.contrib.auth.decorators import login_required
 from .utils import search_orders, paginate_orders
 
@@ -40,12 +41,19 @@ def create_order(request):
     )
     
     for item in cart:
-        OrderItem.objects.create(
+        order_item = OrderItem.objects.create(
             order=order, 
             product=item['product'], 
             price=item['price'], 
             quantity=item['qty']
         )
+        inventory = Inventory.objects.get(id=order_item.product.id)
+        category = Category.objects.get(id=inventory.category.id)
+        category.sold += int(order_item.quantity)
+        inventory.sold += int(order_item.quantity)
+        inventory.actual_quantity -= int(order_item.quantity)
+        category.save()
+        inventory.save()
     
     cart.clear()
     request.user.cart_db_set.filter(user=request.user).delete()
