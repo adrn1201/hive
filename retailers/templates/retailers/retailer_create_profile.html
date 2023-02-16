@@ -1,0 +1,129 @@
+{% extends 'main_admin.html' %}
+{% load static %}
+
+{% block title %}Profile - Retailer{% endblock title %}
+{% block content %}
+
+<div class="container">
+      <nav class="navbar navbar-expand-lg custom_nav-container ">
+         <a class="navbar-brand" href="index.html"><img width="400" src="{% static 'assets2/images/HIVE.png'%}"
+               alt="#" /></a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+               <li class="nav-item ">
+                  <a class="nav-link" href="index.html">Dashboard <span class="sr-only">(current)</span></a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="{% url 'show_shop'%}">Shop</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="blog_list.html">About Us</a>
+               </li>
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
+                     aria-expanded="true"> <span class="nav-label">Profile <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                     <li><a href="{% url 'retailer_create_profile' %}">View Profile</a></li>
+                     <li><a href="testimonial.html">Sign Out</a></li>
+                  </ul>
+               </li>
+               <li class="nav-item">
+                  <a type="button" role="button" href="{% url 'show_cart' %}"
+                     class="btn btn-outline-secondary border-0 cart-btn">
+
+                     {% with total_qty=cart|length %}
+                     <div id="cart-qty" class="cart-qty">
+                        {% if total_qty > 0 %}
+                        {{ total_qty }}
+                        {% else %}
+                        0
+                        {% endif %}
+                     </div>
+                     {% endwith %}
+                     <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                           class="bi bi-cart3" viewBox="0 0 16 16">
+                           <path
+                              d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>
+                     </div>
+                  </a>
+               </li>
+            </ul>
+
+      </nav>
+
+</header>
+<!-- end header section -->
+
+  
+<br>
+      <!-- End Navbar -->
+    <div class="card shadow-lg mx-4 card-profile-bottom"> 
+        <div class="row gx-4">
+         
+          <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+            <div class="nav-wrapper position-relative end-0">
+            
+            </div>
+          </div>
+        </div>
+      
+    </div>
+
+        <div class="container-fluid py-4">
+            <div class="row">
+                    <div class="card">
+                    
+                        <div class="card-body">
+                            <p class="text-uppercase text-sm text-center"><b>Profile</b></p>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Business Name:</label>
+                                    <input class="form-control" type="text" value="Hiluck">
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Contact Name:</label>
+                                    <input class="form-control" type="email" value="77777777777">
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Address:</label>
+                                    <input class="form-control" type="text" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Contact Number:</label>
+                                    <input class="form-control" type="text" value="Lucky">
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Bank Details:</label>
+                                    <input class="form-control" type="text" value="BPI - 1234567890">
+                                </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br> 
+                            <div class="text-center">
+                                <button class="btn btn-success btn-sm ms-auto">Update</button>
+                            </div>
+                        </div>
+                    </div>   
+            </div>
+        </div>
+
+  </section>
+
+  {% endblock %}

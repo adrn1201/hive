@@ -1,30 +1,47 @@
+{% extends 'main_retailer.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
 
-      <form action="" method="POST">
-        {% csrf_token %}
- 
-        <div class="form__field">
-          <label for="username">Username: </label>
-          <input
-            id="username"
-            type="text"
-            name="username"
-            placeholder="Enter your username"
-          />
+{% block content %}
+
+<style>
+    img {
+        border-radius: 50%;
+    }
+</style>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="login-wrap py-5 shadow-lg">
+              <div class="img d-flex align-items-center justify-content-center">
+                <img src="{% static 'assets4/images/bg.jpg'%}" width="100" height="100">
+              </div>
+              <h3 class="text-center mb-0">Hiluck</h3>
+              <p class="text-center">Login</p>
+          <form action="" method="POST">
+            {% csrf_token %}
+                  <div class="form-group">
+                      <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
+                      <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                  </div>
+            <div class="form-group">
+                <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
+              <input type="password" class="form-control" placeholder="Enter your Password" id="passowrd" name="password" required>
+            </div>
+            <div class="form-group d-md-flex">
+                <div class="w-100 text-md-right">
+                  <a href="#">Forgot Password</a>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn form-control btn-primary rounded submit px-3">Log In</button>
+            </div>
+          </form>
         </div>
-
-   
-        <div class="form__field">
-          <label for="password">Password: </label>
-          <input
-            id="passowrd"
-            type="password"
-            name="password"
-            placeholder="••••••••"
-          />
+            </div>
         </div>
-
-        <button>Submit</button>
-      </form>
-
     </div>
-  </div>
+</section>
+{% endblock %}

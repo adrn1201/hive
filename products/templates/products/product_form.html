@@ -38,25 +38,29 @@
                                 </div>
                                 <br>
                                 <p id="demo"></p>-->
+
                                 <label >With Size</label>
                                 <select id="test" name="form_select" onchange="showDiv(this)">
                                     <option value="0">No</option>
                                     <option value="1">Yes</option>
                                  </select>
-                                 
-                                 <div id="hidden_div" style="display:none;">
-                                    <label>Size</label>
-                                    <div id="textbox-container"><br>{{ form.size }}</div>
+                                 <!-- <label>With size</label>
+                                 {{ form.with_size }}
+                                 {% if form.with_size.value == True %}
+                                     <p>hotdog</p>
+                                 {% endif %} -->
+
+                                <div id="hidden_div" style="display:none;">
+                                    <div class="row" id="size-inputs">
+                                        
+                                    </div>
                                     <br>
-
-                                    <button class="btn btn-info btn-sm" id="add-textbox-button" onclick="addTextbox(event)">Add size</button>
-                                    <button class="btn btn-danger btn-sm" id="delete-textbox-button" onclick="deleteTextbox(event)">Delete size</button>
-
-                                </div>
-                                &nbsp;
+                                      <button class="btn btn-info btn-sm" id="add-textbox-button" onclick="addTextbox(event)">Add size</button>
+                                      <button class="btn btn-danger btn-sm" id="delete-textbox-button" onclick="deleteTextbox(event)">Delete size</button>
+  
+                                 </div>
+                                <br><br>
                                 <button class="btn btn-primary btn-sm" type="submit">Submit</button>
-
-
                             </form>
                         </div>
                     </div>
@@ -74,7 +78,6 @@
     }*/
 
     const select = document.querySelector('#id_with_size')
-    let textboxCount = 0;
     //const addTextbox = document.querySelector('#add-textbox-button')
     //const sizeID = document.getElementById('#size_id')
    // const text = getSelectedText(select);
@@ -93,6 +96,7 @@
 
     });*/
 
+
     function showDiv(select){
         if(select.value==1){
             document.getElementById('hidden_div').style.display = "block";
@@ -101,23 +105,41 @@
         }
     } 
 
+    let textboxCount = 0;
     function addTextbox(e) {
         e.preventDefault();
-        var container = document.getElementById("textbox-container");
-        var textbox = document.createElement("div");
-        textbox.innerHTML = `{{ form.size }}`;
-        container.appendChild(textbox);
-        textboxCount++;
+        var textbox1 = document.createElement("div");
+        textbox1.classList.add("col")
+        textbox1.innerHTML = `
+                        <label>Size</label>
+                        {{form.size}}
+                        `;
+
+        
+        var textbox2 = document.createElement("div");
+        textbox2.classList.add("col")
+        textbox2.innerHTML =`
+                        <label>Quantity</label>
+                        {{form.actual_quantity}}
+                        `;
+
+        var textboxRow = document.createElement("div");
+        textboxRow.classList.add("row");
+        textboxRow.appendChild(textbox1);
+        textboxRow.appendChild(textbox2);
+
+        var container = document.getElementById("size-inputs");
+        container.appendChild(textboxRow);
+        textboxCount += 2;
     }
 
     function deleteTextbox(e) {
         e.preventDefault();
         if (textboxCount > 0) {
-            var container = document.getElementById("textbox-container");
-            var textbox = document.getElementById("textbox-container" + (textboxCount - 1));
-            container.removeChild(textbox);
-            textboxCount--;
-        }
+        var container = document.getElementById("size-inputs");
+        container.removeChild(container.lastChild);
+        textboxCount -= 2;
+    }
     }
 
 </script>

@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseForbidden
 from django.contrib import messages
 from cart.cart import Cart
-from .models import Order, OrderItem, Inventory
+from .models import Order, OrderItem
+from products.models import Inventory, Category
 from django.contrib.auth.decorators import login_required
 from .utils import search_orders, paginate_orders
 
@@ -47,9 +48,11 @@ def create_order(request):
             quantity=item['qty']
         )
         inventory = Inventory.objects.get(id=order_item.product.id)
-        inventory.categories.sold += order_item.quantity
-        inventory.sold += order_item.quantity
-        inventory.actual_quantity -= order_item.quantity
+        category = Category.objects.get(id=inventory.category.id)
+        category.sold += int(order_item.quantity)
+        inventory.sold += int(order_item.quantity)
+        inventory.actual_quantity -= int(order_item.quantity)
+        category.save()
         inventory.save()
     
     cart.clear()

@@ -9,7 +9,7 @@ from .cart import Cart
 from .models import Cart_DB
 
 
-@login_required(login_url='login_wholesaler')
+@login_required(login_url='login_retailer')
 def show_cart(request):
     return render(request, "cart/shop_cart.html")
 

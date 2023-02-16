@@ -90,9 +90,10 @@ def wholesaler_edit_profile(request):
             form.save()
             return redirect('edit_profile')
 
-    context = {'form': form}
-    return render(request, 'wholesalers/wholesaler_profile.html', context)
 
+    context = {'form':form}
+    return render(request, 'wholesalers/wholesaler_edit_profile.html', context)
+   
 
 @login_required(login_url='login_wholesaler')
 def email_retailer(request):

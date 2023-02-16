@@ -161,7 +161,7 @@
             {{ wholesaler.business_name }}
         </td>
         <td class="text-center"> 
-            <span class="badge badge-success rounded-pill d-inline">{{ wholesaler.is_active }}</span>  
+            <span id = "status" class="badge badge-success rounded-pill d-inline">{{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>  
         </td>
         <td class="text-center">
             {{ wholesaler.created}}

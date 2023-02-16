@@ -8,4 +8,6 @@ urlpatterns = [
     path('profile/', views.wholesaler_create_profile, name="wholesaler_create_profile"),
     path('edit-profile/', views.wholesaler_edit_profile, name="wholesaler_edit_profile"),
     path('retailers/email/', views.email_retailer, name="email_retailer"),
+
+
 ]
