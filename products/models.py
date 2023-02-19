@@ -32,14 +32,9 @@ class Inventory(models.Model):
     actual_quantity = models.IntegerField(default=0)
     tempo_quantity = models.IntegerField(default=0)
     price = models.FloatField()
-<<<<<<< HEAD
-    with_size = models.BooleanField(default=False, choices=STATUS)
-    size = models.CharField(max_length=200)
-    sold = models.IntegerField(default=0)
-=======
     with_size = models.BooleanField(default=0, choices=STATUS, null=True, blank=True)
     size = models.CharField(max_length=200, null=True, blank=True)
->>>>>>> Test_Darren
+    sold = models.IntegerField(default=0)
     description = models.TextField()
     min_orders = models.IntegerField(default=0)
     product_image = models.ImageField(default='products/default.jpg', upload_to="products/")
