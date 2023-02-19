@@ -52,6 +52,8 @@ def create_order(request):
         category.sold += int(order_item.quantity)
         inventory.sold += int(order_item.quantity)
         inventory.actual_quantity -= int(order_item.quantity)
+        if inventory.actual_quantity < 0:
+            inventory.actual_quantity = 0
         category.save()
         inventory.save()
     

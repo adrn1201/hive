@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django_tenants.utils import remove_www
 from django.contrib.auth import login, authenticate, logout
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-
+from django.core.mail import send_mail
 from wholesalers.models import Wholesaler
 from wholesalers.models import Domain
 from .models import Retailer
@@ -94,7 +95,7 @@ def index(request):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     retailers = Retailer.objects.filter(wholesaler=wholesaler_id)
-    context = {'retailers': retailers}
+    context = {'retailers':retailers}
     return render(request, "retailers/retailers.html", context)
 
 
@@ -111,7 +112,6 @@ def dashboard_retailer(request):
     preparing_count = request.user.order_set.distinct().filter(status="preparing").count()
     shipped_count = request.user.order_set.distinct().filter(status="shipped").count()
     completed_count = request.user.order_set.distinct().filter(status="completed").count()
-    
     context = {
         'orders': orders,
         'pending': pending_count,
