@@ -61,3 +61,17 @@ def create_order(request):
     request.user.cart_db_set.filter(user=request.user).delete()
     messages.success(request, 'Your Order is successfully placed!')
     return redirect('show_shop')
+
+
+@login_required(login_url='login_wholesaler')
+def order_details(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
+    order = Order.objects.get(id=pk)
+    order_items = order.items.all()
+    context = {'order_items':order_items}
+    return render(request, 'orders/order_details.html', context)    
+    
