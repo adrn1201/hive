@@ -126,6 +126,17 @@ def dashboard_retailer(request):
 def order_items(request, pk):
     order = Order.objects.get(id=pk)
     order_items = order.items.all()
-    context = {'order_items': order_items}
+
+    pending_count = request.user.order_set.distinct().filter(status="pending").count()
+    preparing_count = request.user.order_set.distinct().filter(status="preparing").count()
+    shipped_count = request.user.order_set.distinct().filter(status="shipped").count()
+    completed_count = request.user.order_set.distinct().filter(status="completed").count()
+
+    context = {
+        'pending': pending_count,
+        'preparing': preparing_count,
+        'shipped': shipped_count,
+        'completed': completed_count,
+        'order_items': order_items}
     return render(request, "retailers/order_items.html", context)
 

@@ -107,6 +107,29 @@
                         </table>
                     </div>
                 </div>
+
+                <nav aria-label="Page navigation example">
+                    {% if products.has_other_pages %}
+                    <ul class="pagination justify-content-center">
+                        {% if products.has_previous %}
+                        <li class="page-item"><a href="?page={{products.previous_page_number}}" class="btn page-link" tabindex="-1" data-page="{{ products.previous_page_number }}">&#10094;</a></li>
+                        {% endif %}
+
+                        {% for page in custom_range %}
+                        {% if page == products.number %}
+                        <li class="page-item active"><a class="page-link" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
+                        {% endif %}
+       
+                        {% endfor %}
+
+                        {% if products.has_next %}
+                        <li class="page-item"><a href="?page={{products.next_page_number}}" class="btn page-link" data-page="{{ products.next_page_number }}">&#10095;</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                    {% endif %}
             </div>
         </div>
     </div>

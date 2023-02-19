@@ -1,0 +1,96 @@
+{% extends 'main.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+
+<div class="container-fluid py-4">
+  <div class="row">
+      <div class="col-12">
+          <div class="d-flex card mb-4">
+              <section class="product_section layout_padding">
+                  <div class="card-header pb-0">
+                      <div class="d-flex align-items-center">
+                          <p class="mb-0">Product forecast</p>
+                      </div>
+                  </div>
+
+                  <div class="card-body px-0 pt-0 pb-2">
+                      <div class="table-responsive p-0">
+                          <table class="table align-items-center mb-0">
+                              <thead>
+                                  <tr>
+                                      <th
+                                          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                          Dates</th>
+                                      <th
+                                          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                          Predicted demand</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  
+                                  <tr>
+                                      <td>
+                                          <p class="text-xs font-weight-bold mb-0 text-center">
+                                              </p>
+                                      </td>
+                                  </tr>
+                                 
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+          </div>
+      </div>
+  </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <h6>List of Products</h6>
+            <div class="col-lg-5 ">
+                &nbsp;
+                <form action="{% url 'display_orders' %}" method="GET" id="searchForm">
+                    <div class="form-group has-search">
+                      <input type="search" value="{{ search_query }}" class="form-control"
+                            name="search_query" placeholder="Search Category">
+                    </div>
+                </form>
+            </div>
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center justify-content-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product name</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Size</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Quantity</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2">
+
+                        <div class="my-auto">
+                          <h6 class="mb-0 text-sm"></h6>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

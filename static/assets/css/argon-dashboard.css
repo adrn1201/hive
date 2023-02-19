@@ -5578,8 +5578,8 @@ fieldset:disabled .btn {
 .active>.page-link {
   z-index: 3;
   color: var(--bs-pagination-active-color);
-  background-color: var(--bs-pagination-active-bg);
-  border-color: var(--bs-pagination-active-border-color);
+  background-color: #adb5bd;
+  /* border-color: var(--bs-pagination-active-border-color); */
 }
 
 .page-link.disabled,
@@ -23782,7 +23782,7 @@ hr.horizontal.gray-light {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #8392ab;
+  color: #212529;
   padding: 0;
   margin: 0 3px;
   border-radius: 50% !important;

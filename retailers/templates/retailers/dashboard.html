@@ -5,87 +5,7 @@
 {% block content %}
 <div class="content">
     <div class="animated fadeIn">
-        <div class="row justify-content-center">
-            <div class="col-md-2">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-6">
-                                <i class="fas fa-hourglass"></i>
-                            </div>
-                            <a href="{% url 'dashboard_retailer' %}?status=pending">
-                                <div class="stat-content">
-                                    <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">{{ pending }}</span></div>
-                                        <div class="stat-heading">Pending orders</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-3">
-                                <i class="fas fa-tasks"></i>
-                            </div>
-                            <a href="{% url 'dashboard_retailer' %}?status=preparing">
-                                <div class="stat-content">
-                                    <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">{{preparing}}</span></div>
-                                        <div class="stat-heading">Preparing orders</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-4">
-                                <i class="fas fa-shipping-fast"></i>
-                            </div>
-                            <a href="{% url 'dashboard_retailer' %}?status=shipped">
-                                <div class="stat-content">
-                                    <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">{{ shipped }}</span></div>
-                                        <div class="stat-heading">Shipped orders</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-1">
-                                <i class="fa fa-check"></i>
-                            </div>
-                            <a href="{% url 'dashboard_retailer' %}?status=completed">
-                                <div class="stat-content">
-                                    <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">{{ completed }}</span></div>
-                                        <div class="stat-heading">Complete orders</div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% include 'retailers/cards.html' %}
         <!-- Orders -->
         <div class="orders">
             <div class="row">
@@ -145,4 +65,5 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

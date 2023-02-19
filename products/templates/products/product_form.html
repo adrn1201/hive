@@ -9,7 +9,6 @@
                 <div class="card-header pb-0">
                     <div class="d-flex align-items-center">
                         <p class="mb-0">Products</p>
-                        <button class="btn btn-primary btn-sm ms-auto">Settings</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -25,33 +24,21 @@
                                         </div>
                                     {% endif %}
                                 {% endfor %}
-                                
-                                <!--<label >With Size</label>
-                                <select id="id_with_size" onchange="showDiv(this)">
-                                    <option id="1">Yes</option>
-                                    <option id="2">No</option>
-                                </select>
-                                <br>
-                                <div id="size_id" style="display:none;">
-                                    <label for="{{ form.size.id_for_label }}">Size</label>
-                                    {{ form.size }}
-                                </div>
-                                <br>
-                                <p id="demo"></p>-->
 
-                                <label >With Size</label>
-                                <select id="test" name="form_select" onchange="showDiv(this)">
-                                    <option value="0">No</option>
-                                    <option value="1">Yes</option>
-                                 </select>
-                                 <!-- <label>With size</label>
-                                 {{ form.with_size }}
-                                 {% if form.with_size.value == True %}
-                                     <p>hotdog</p>
-                                 {% endif %} -->
+                                 <label>With size</label>
+                                 <div>{{ form.with_size }}</div>
 
                                 <div id="hidden_div" style="display:none;">
                                     <div class="row" id="size-inputs">
+                                        <div class="col">
+                                            <label>Size</label>
+                                            {{form.size}}
+                                        </div>
+
+                                        <div class="col">
+                                           <label>Quantity</label>
+                                            {{form.actual_quantity}}
+                                        </div>
                                         
                                     </div>
                                     <br>
@@ -68,51 +55,27 @@
             </div>
         </div>
     </div>
+</div>
 
 <script>
-    /*const getSelectedText = (el) => {
-        if (el.selectedIndex === -1) {
-            return null;
-        }
-            return el.options[el.selectedIndex].text;
-    }*/
-
-    const select = document.querySelector('#id_with_size')
-    //const addTextbox = document.querySelector('#add-textbox-button')
-    //const sizeID = document.getElementById('#size_id')
-   // const text = getSelectedText(select);
-   // console.log(text)
-
-    /*select.addEventListener("change", function(e){
-        const text = getSelectedText(e.target);
-        console.log(text)
-        document.getElementById("demo").innerHTML = text
-
-        if(select.value==1){
-            document.getElementById('size_id').style.display = "visible";
-        }else{
-            document.getElementById('size_id').style.display = "hidden";
-        }
-
-    });*/
-
-
-    function showDiv(select){
-        if(select.value==1){
-            document.getElementById('hidden_div').style.display = "block";
-        } else{
-            document.getElementById('hidden_div').style.display = "none";
-        }
-    } 
-
+    const element = document.getElementById("id_with_size");
+    
+    element.addEventListener("change", function() {
+    if (element.value == 1) {
+        document.getElementById('hidden_div').style.display = "block";
+    } else {
+        document.getElementById('hidden_div').style.display = "none";
+    }
+    });
+    
     let textboxCount = 0;
     function addTextbox(e) {
         e.preventDefault();
         var textbox1 = document.createElement("div");
         textbox1.classList.add("col")
         textbox1.innerHTML = `
-                        <label>Size</label>
-                        {{form.size}}
+                            <label>Size</label>
+                            {{form.size}}
                         `;
 
         
