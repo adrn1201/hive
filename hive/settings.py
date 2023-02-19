@@ -46,6 +46,7 @@ SHARED_APPS = [
     'account',
     'orders',
     'transactions',
+    'analytics',
     
     'rest_framework',
     'corsheaders'
@@ -69,6 +70,7 @@ TENANT_APPS = [
     'account',
     'orders',
     'transactions',
+    'analytics',
     
     'rest_framework',
     'corsheaders'
