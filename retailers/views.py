@@ -1,19 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django_tenants.utils import remove_www
 from django.contrib.auth import login, authenticate, logout
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
-from django.core.mail import send_mail
->>>>>>> Stashed changes
-=======
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.core.mail import send_mail
->>>>>>> testcarlos
 from wholesalers.models import Wholesaler
 from django.conf import settings
 from wholesalers.models import Domain
@@ -106,9 +97,6 @@ def index(request):
     wholesaler_id = domain.tenant.id
     retailers = Retailer.objects.filter(wholesaler=wholesaler_id)
     context = {'retailers':retailers}
-<<<<<<< HEAD
-    return render(request, "retailers/retailers.html", context)
-=======
     return render(request, "retailers/retailers.html", context)
 
 
@@ -140,4 +128,4 @@ def order_items(request, pk):
     order_items = order.items.all()
     context = {'order_items': order_items}
     return render(request, "retailers/order_items.html", context)
->>>>>>> testcarlos
+
