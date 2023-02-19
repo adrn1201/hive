@@ -1,12 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django_tenants.utils import remove_www
 from django.contrib.auth import login, authenticate, logout
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.core.mail import send_mail
 >>>>>>> Stashed changes
+=======
+
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+from django.core.mail import send_mail
+>>>>>>> testcarlos
 from wholesalers.models import Wholesaler
 from django.conf import settings
 from wholesalers.models import Domain
@@ -99,4 +106,38 @@ def index(request):
     wholesaler_id = domain.tenant.id
     retailers = Retailer.objects.filter(wholesaler=wholesaler_id)
     context = {'retailers':retailers}
+<<<<<<< HEAD
     return render(request, "retailers/retailers.html", context)
+=======
+    return render(request, "retailers/retailers.html", context)
+
+
+@login_required(login_url='login_retailer')
+def dashboard_retailer(request):
+    order_status = ''
+    orders = ''
+    if request.GET.get('status'):
+        order_status = request.GET.get('status')
+        orders = request.user.order_set.distinct().filter(status=order_status)
+    else:
+        orders = request.user.order_set.all()
+    pending_count = request.user.order_set.distinct().filter(status="pending").count()
+    preparing_count = request.user.order_set.distinct().filter(status="preparing").count()
+    shipped_count = request.user.order_set.distinct().filter(status="shipped").count()
+    completed_count = request.user.order_set.distinct().filter(status="completed").count()
+    context = {
+        'orders': orders,
+        'pending': pending_count,
+        'preparing': preparing_count,
+        'shipped': shipped_count,
+        'completed': completed_count}
+    return render(request, "retailers/dashboard.html", context)
+
+
+@login_required(login_url='login_retailer')
+def order_items(request, pk):
+    order = Order.objects.get(id=pk)
+    order_items = order.items.all()
+    context = {'order_items': order_items}
+    return render(request, "retailers/order_items.html", context)
+>>>>>>> testcarlos

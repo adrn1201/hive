@@ -12,7 +12,6 @@ urlpatterns = [
     path("shop/", include("shop.urls")),
     path("cart/", include("cart.urls")),
     path("orders/", include("orders.urls")),
-    path("transactions/", include("transactions.urls")),
     path("retailers/", include("retailers.urls")),
     path("wholesalers/", include("wholesalers.urls")),
     path("hiveadmin/", include("hiveadmin.urls")),

@@ -22,13 +22,16 @@ def w_dashboard(request):
     preparing = wholesaler.order_set.filter(status='preparing').count()
     shipped = wholesaler.order_set.filter(status='shipped').count()
     completed = wholesaler.order_set.filter(status='completed').count()
-    
+    orders = wholesaler.order_set.all().order_by('-created')
+    products_stock_level = wholesaler.inventory_set.filter(actual_quantity__lte='15')
     context = {
         'products':products, 
         'categories':categories,
         'pending' :pending,
         'preparing': preparing,
         'shipped':shipped,
-        'completed':completed
+        'completed':completed,
+        'orders':orders,
+        'products_stock_level':products_stock_level
     }
     return render(request, 'w_dashboard/dashboard.html', context)
