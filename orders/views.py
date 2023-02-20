@@ -73,7 +73,7 @@ def order_details(request, pk):
 
         if form.is_valid():
             order_form = form.save(commit=False)
-            if order_form.status == 'pending':
+            if order_form.status == 'preparing':
                 for item in order_items:
                     inventory = Inventory.objects.get(id=item.product.id)
                     category = Category.objects.get(id=inventory.category.id)
