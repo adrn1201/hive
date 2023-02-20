@@ -22,8 +22,8 @@ class Category(models.Model):
     
 class Inventory(models.Model):
     STATUS = (
-		('True', 'Yes'),
-		('False', 'No'),
+		(1, 'Yes'),
+		(0, 'No'),
 	)
 
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
@@ -32,8 +32,8 @@ class Inventory(models.Model):
     actual_quantity = models.IntegerField(default=0)
     tempo_quantity = models.IntegerField(default=0)
     price = models.FloatField()
-    with_size = models.BooleanField(default=False, choices=STATUS)
-    size = models.CharField(max_length=200)
+    with_size = models.BooleanField(default=0, choices=STATUS, null=True, blank=True)
+    size = models.CharField(max_length=200, null=True, blank=True)
     sold = models.IntegerField(default=0)
     description = models.TextField()
     min_orders = models.IntegerField(default=0)

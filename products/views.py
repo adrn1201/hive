@@ -14,7 +14,7 @@ def index(request):
     except:
         return HttpResponseForbidden()
     products, search_query = search_products(request)
-    custom_range, products = paginate_products(request, products, 15)
+    custom_range, products = paginate_products(request, products, 10)
     context = {'products': products, 'search_query': search_query, 'custom_range':custom_range}
     return render(request, "products/index.html", context)
 

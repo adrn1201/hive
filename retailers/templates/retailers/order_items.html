@@ -4,104 +4,48 @@
 
 {% block content %}
 <div class="content">
-    <div class="animated fadeIn">
-        <div class="row justify-content-center">
-            <div class="col-lg-3">
+{% include 'retailers/cards.html' %}
+    <div class="orders">
+        <div class="row">
+            <div class="col-xl-8" style="float:none;margin:auto;">
                 <div class="card">
                     <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-6">
-                                <i class="fas fa-hourglass"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">3435</span></div>
-                                    <div class="stat-heading">Pending orders</div>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="{% url 'dashboard_retailer' %}"><i class='far fa-arrow-alt-circle-left mb-4' style='color:black; font-size:medium;'></i></a>
+                        <h4 class="box-title">Orders Items</h4>
                     </div>
-                </div>
-            </div>
+                    <div class="card-body--">
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Product Image</th>
+                                        <th class="text-center">Product Name</th>
+                                        <th class="text-center">Price</th>
+                                        <th class="text-center">Quantity</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in order_items %}
 
-            <div class="col-lg-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-3">
-                                <i class="fas fa-tasks"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">349</span></div>
-                                    <div class="stat-heading">Preparing orders</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="">
+                                                <a href="#"><img class=""src="{{ item.product.product_image.url }}" style="max-width:80%; height:80px;" alt=""></a>
+                                            </div7
+                                        </td>
+                                        <td class="text-center"> {{ item.product.product_name }}</td>
+                                        <td class="text-center"> ₱{{ item.price }}</td>
+                                        <td class="text-center"><span class="name">{{ item.quantity }}</span></td>
+                                    </tr>
+                                    {% endfor %}
 
-            <div class="col-lg-3">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-1">
-                                <i class="fas fa-shipping-fast"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">2986</span></div>
-                                    <div class="stat-heading">Shipped orders</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="orders">
-            <div class="row">
-                <div class="col-xl-9" style="float:none;margin:auto;">
-                    <div class="card">
-                        <div class="card-body">
-                            <a href="../"><i class='far fa-arrow-alt-circle-left mb-4' style='color:black; font-size:medium;'></i></a>
-                            <h4 class="box-title">Orders Items</h4>
-                        </div>
-                        <div class="card-body--">
-                            <div class="table-stats order-table ov-h">
-                                <table class="table ">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">Product Image</th>
-                                            <th class="text-center">Product Name</th>
-                                            <th class="text-center">Price</th>
-                                            <th class="text-center">Quantity</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for item in order_items %}
-
-                                        <tr>
-                                            <td class="text-center">
-                                                <div class="">
-                                                    <a href="#"><img class=""src="{{ item.product.product_image.url }}" style="max-width:80%; height:80px;" alt=""></a>
-                                                </div7
-                                            </td> 
-                                            <td class="text-center"> {{ item.product.product_name }}</td>
-                                            <td class="text-center"> ₱{{ item.price }}</td>
-                                            <td class="text-center"><span class="name">{{ item.quantity }}</span></td>
-                                        </tr>
-                                        {% endfor %}
-
-                                    </tbody>
-                                </table>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
