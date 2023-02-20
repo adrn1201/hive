@@ -1,14 +1,155 @@
-{% extends 'main.html' %}
-{% block title %}{% endblock title %}
 
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Products{% endblock title %}
 
 {% block content %}
 
 
 
+<div class="container-fluid py-4">
+    <div class="ms-auto">
+        <div class="col-lg-5 ">
+           &nbsp; 
+           <form action="{% url 'products' %}" method="GET" id="searchForm">
+              <div class="form-group has-search">
+                   <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category"> 
+                </div>
+           </form>
+        </div>
+     </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
 
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Reference ID: <p class = "text-dark text-xxs font-weight-bolder">11928108</p></th>
+                                    
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Business Name:<p class = "text-dark text-xxs font-weight-bolder">Hiluck</p> </th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Address: <p class = "text-dark text-xxs font-weight-bolder">Zamboanga City</p> </th>
+                                <th
+                                    class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    Status: <p class = "text-dark text-xxs font-weight-bolder">Pending</p> </th>
+                                
+                            </tr>
+                        </thead>
+              <table class="table align-items-center mb-0">
+                <br>
+                <thead>
+        
+                  <tr>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">Description</th>
+                    <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">Quantity</th>
+                    <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">Unit Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div>
+                        <figure>
+                          <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                          <figcaption class="text-xs text-secondary mb-0">Total: 600php</figcaption>
+                        </figure>
+                        </div>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">3D Mask Face Mask</h6>
+                          
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0">6</p>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">100php</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div>
+                            <figure>
+                              <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                              <figcaption class="text-xs text-secondary mb-0">Total: 600php</figcaption>
+                            </figure>
+                            </div>
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">Rubber Slippers</h6>
+                          <p class="text-xs text-secondary mb-0">Size EU: 36</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0">1</p>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">250php</p>
+                    </td>
+                  </tr>
 
+                  </tr>
+       
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <!---Another table-->
 
-
+    <div class="row">
+            <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-body px-0 pt-0 pb-2">
+                    
+        <div class="container-fluid py-4">
+            <div class="card-header pb-0">
+            <div class="d-flex flex-md-row  p-1 px-md-3 mb-4">
+                <!-- Example single danger button -->
+                <div class="dropdown">
+                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                      Order Status
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                      <li><a class="dropdown-item active" href="#">Pending</a></li>
+                      <li><a class="dropdown-item" href="#">Preparing</a></li>
+                      <li><a class="dropdown-item" href="#">Shipped</a></li>
+                    </ul>
+                  </div>
+                <h6 class="ms-md-auto  text-dark font-weight-bold">Total Amount to Pay: <p class="ms-auto text-md text-secondary font-weight-bold">800php</p></h6>
+            </div>
+        </div>
+        
+            <div class="position-absolute bottom-4 end-4">
+            <button type="button" class="btn btn-success btn-lg">Success</button>
+        </div>
+        </div>
+         </div>
+          
+            </div>
+        </div>
+    </div>
 {% endblock content %}
