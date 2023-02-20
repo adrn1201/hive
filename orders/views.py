@@ -6,6 +6,8 @@ from .models import Order, OrderItem
 from products.models import Inventory, Category
 from django.contrib.auth.decorators import login_required
 from .utils import search_orders, paginate_orders
+from .forms import OrderForm
+
 
 @login_required(login_url='login_wholesaler')
 def display_orders(request):
@@ -35,6 +37,7 @@ def create_order(request):
         user=request.user,
         wholesaler=wholesaler,
         business_name=retailer.business_name, 
+        address=retailer.address,
         total_paid=cart_total,
         mode_of_payment=request.POST['modeOfPayment'],
         status='pending'
@@ -71,7 +74,16 @@ def order_details(request, pk):
         return HttpResponseForbidden()
     
     order = Order.objects.get(id=pk)
+    form = OrderForm(instance=order)
     order_items = order.items.all()
-    context = {'order_items':order_items}
+    
+    if request.method == "POST":
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Order status successfully updated!')
+            return redirect('order_details', pk=order.id)
+    
+    context = {'order':order, 'order_items':order_items, 'form':form}
     return render(request, 'orders/order_details.html', context)    
     

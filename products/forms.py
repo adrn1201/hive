@@ -6,14 +6,14 @@ class InventoryForm(ModelForm):
     class Meta:
         model = Inventory
         fields = '__all__'
-        exclude = ['tempo_quantity', 'wholesaler', 'size', 'actual_quantity']
+        exclude = ['tempo_quantity', 'wholesaler', 'size', 'sold']
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
-        
+    
         
 class CategoryForm(ModelForm):
     class Meta:
