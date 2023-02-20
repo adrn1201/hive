@@ -143,3 +143,43 @@ def index(request):
         messages.success(request, 'Registration has been successfully sent!')
         return redirect('retailers')             
     return render(request, "retailers/retailers.html", context)
+
+@login_required(login_url='login_retailer')
+def dashboard_retailer(request):
+    order_status = ''
+    orders = ''
+    if request.GET.get('status'):
+        order_status = request.GET.get('status')
+        orders = request.user.order_set.distinct().filter(status=order_status)
+    else:
+        orders = request.user.order_set.all()
+    pending_count = request.user.order_set.distinct().filter(status="pending").count()
+    preparing_count = request.user.order_set.distinct().filter(status="preparing").count()
+    shipped_count = request.user.order_set.distinct().filter(status="shipped").count()
+    completed_count = request.user.order_set.distinct().filter(status="completed").count()
+    context = {
+        'orders': orders,
+        'pending': pending_count,
+        'preparing': preparing_count,
+        'shipped': shipped_count,
+        'completed': completed_count}
+    return render(request, "retailers/dashboard.html", context)
+
+
+@login_required(login_url='login_retailer')
+def order_items(request, pk):
+    order = Order.objects.get(id=pk)
+    order_items = order.items.all()
+
+    pending_count = request.user.order_set.distinct().filter(status="pending").count()
+    preparing_count = request.user.order_set.distinct().filter(status="preparing").count()
+    shipped_count = request.user.order_set.distinct().filter(status="shipped").count()
+    completed_count = request.user.order_set.distinct().filter(status="completed").count()
+
+    context = {
+        'pending': pending_count,
+        'preparing': preparing_count,
+        'shipped': shipped_count,
+        'completed': completed_count,
+        'order_items': order_items}
+    return render(request, "retailers/order_items.html", context)
