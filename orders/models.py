@@ -17,6 +17,7 @@ class Order(models.Model):
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
     reference_number = models.UUIDField(editable=False, default=uuid.uuid4, unique=True)
     business_name = models.CharField(max_length=255)
+    address =  models.CharField(max_length=255, null=True, blank=True)
     total_paid = models.FloatField()
     mode_of_payment = models.CharField(max_length=255)
     status = models.CharField(max_length=255, choices=ORDER_STATUS)

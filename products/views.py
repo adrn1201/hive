@@ -33,22 +33,24 @@ def create_product(request):
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     form = InventoryForm()
-    formset = modelformset_factory(Inventory, fields=('size', 'actual_quantity'), extra=0)
+    # InventoryFormset = modelformset_factory(Inventory, fields=('size', 'actual_quantity', ))
+    # formset = InventoryFormset(queryset=Inventory.objects.filter(wholesaler=wholesaler_id))
     
     if request.method == "POST":
         form = InventoryForm(request.POST, request.FILES)
-        if all([form.is_valid(), formset.is_valid()]):
+        if form.is_valid():
             product = form.save(commit=False)
             product.wholesaler = wholesaler
+            product.tempo_quantity = product.actual_quantity
             product.save()
-            for i in formset:
-                i.save()
+            # for i in formset:
+            #     i.save()
                 
             return redirect('products')
     
-    context = {"form":form, 'formset':formset}
-    return render(request, "products/product_form.html", context)
+    context = {"form":form}
 
+    return render(request, "products/product_form.html", context)
 
 @login_required(login_url='login_wholesaler')
 def view_product(request, pk):

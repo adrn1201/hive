@@ -28,18 +28,10 @@
                                 <label>With size</label>
                                 <div>{{ form.with_size }}</div>
 
-                                <div id="hidden_div" style="display:none;">
+                                {% comment %} <div id="hidden_div" style="display:none;">
                                     <div class="row" id="size-inputs">
-                                        {{ formset.management_form }}
-                                        <div class="col">
-                                            <label>Size</label>
-                                            {{ formset.empty_form.size }}
-                                        </div>
+                                        {{ formset.management_form }} {% endcomment %}
 
-                                        <div class="col">
-                                            <label>Quantity</label>
-                                            {{ formset.empty_form.size }}
-                                        </div>
                                         {% comment %} {% for form in formset %}
                                         <div class="col">
                                             <label>Size</label>
@@ -51,14 +43,24 @@
                                             {{form.actual_quantity}}
                                         </div>
                                         {% endfor %} {% endcomment %}
+{% comment %} 
+                                        <div class="col" id="empty-form-size">
+                                            <label>Size</label>
+                                            {{ formset.empty_form.size }}
+                                        </div>
+
+                                        <div class="col" id="empty-form-quantity">
+                                            <label>Quantity</label>
+                                            {{ formset.empty_form.size }}
+                                        </div> {% endcomment %}
 
 
-                                    </div>
+                                    {% comment %} </div>
                                     <br>
                                     <button class="btn btn-info btn-sm" type="button" id="add-textbox-button">Add size</button>
                                     <button class="btn btn-danger btn-sm" type="button" id="delete-textbox-button">Delete size</button>
 
-                                </div>
+                                </div> {% endcomment %}
                                 <br><br>
                                 <button class="btn btn-primary btn-sm" type="submit">Submit</button>
                             </form>
@@ -74,7 +76,8 @@
     const element = document.getElementById("id_with_size");
     const addButton = document.getElementById("add-textbox-button");
     const delButton = document.getElementById("delete-textbox-button");
-    
+    const totalNewForms = document.getElementById("id_form-TOTAL_FORMS");
+    const currentSizeForms = document.getElementsByClassName('row')
     let textboxCount = 0;
 
     element.addEventListener("change", function () {
@@ -87,29 +90,14 @@
     
     addButton.addEventListener('click', function (e) {
         e.preventDefault();
-        var textbox1 = document.createElement("div");
-        textbox1.classList.add("col")
-        textbox1.innerHTML = `
-                            <label>Size</label>
-                            {{form.size}}
-                        `;
-
-
-        var textbox2 = document.createElement("div");
-        textbox2.classList.add("col")
-        textbox2.innerHTML = `
-                        <label>Quantity</label>
-                        {{form.actual_quantity}}
-                        `;
-
-        var textboxRow = document.createElement("div");
-        textboxRow.classList.add("row");
-        textboxRow.appendChild(textbox1);
-        textboxRow.appendChild(textbox2);
-
-        var container = document.getElementById("size-inputs");
-        container.appendChild(textboxRow);
-        textboxCount += 2;
+        console.log(currentSizeForms.length)
+        const rowTarget = document.getElementById('size-inputs');
+        const sizeEl = document.getElementById("empty-form-size").cloneNode(true)
+        const qtyEl = document.getElementById("empty-form-quantity").cloneNode(true)
+        sizeEl.setAttribute('class', 'form-control')
+        qtyEl.setAttribute('class', 'form-control')
+        rowTarget.append(sizeEl)
+        rowTarget.append(qtyEl)
     });
 
     delButton.addEventListener('click', function (e) {
