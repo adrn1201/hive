@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+
+
 
 
 def login_user(request, redirect_page, template_name):
@@ -20,8 +23,11 @@ def login_user(request, redirect_page, template_name):
             return redirect(
                 request.GET['next'] if 'next' in request.GET else redirect_page)
         else:
-            pass
+            messages.error(request, 'Invalid Username or Password!')
+            return redirect(
+                request.GET['next'] if 'next' in request.GET else redirect_page)
 
+    
     return render(request, template_name)
 
 

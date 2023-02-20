@@ -137,7 +137,7 @@
   
         <!--Footer-->
         <div class="modal-footer flex-center">
-          <form action ="{%  url 'deac_acc' user.pk%}" method ="POST"> 
+          <form action ="#"> 
             {% csrf_token %}
 
           <button type ="submit" class="btn btn-outline-secondary">Yes</button>
@@ -182,18 +182,6 @@
 </div>
 </div>
 
-<script>
-
-$(document).ready(function(){
-        $('.form').on('submit', function(){
-            swal("Success!", "Registration Link has been sent!", "success", {
-  button: "Ok",
-});
-        });
-    });
-
-
-</script>
 
 {% endblock content %}
 

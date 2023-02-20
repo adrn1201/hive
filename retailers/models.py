@@ -11,5 +11,7 @@ class Retailer(models.Model):
     contact_name = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=50)
     is_active = models.BooleanField(default=False)
+    retailer_image = models.ImageField(default='products/default.jpg', upload_to="products/")
+
     created = models.DateTimeField(auto_now_add=True)
     

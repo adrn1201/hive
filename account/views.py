@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseForbidden
+
 from django.contrib.auth.decorators import login_required
 from .utils import login_user, logout_user
 
@@ -10,10 +11,14 @@ def login_wholesaler(request):
     '''
     try:
         if request.user.is_authenticated and request.user.wholesaler:
+            
+            
             return redirect('w_dashboard')
     except:
+        
         return HttpResponseForbidden()
-            
+
+         
     return login_user(request, 'w_dashboard', 'account/wholesaler_login.html')
 
 

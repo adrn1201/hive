@@ -1,0 +1,57 @@
+{% extends 'main2.html' %}
+{% load static %}
+
+{% block title %}About Us - Retailer{% endblock title %}
+{% block content %}
+
+<br>
+<div class="container">
+    <div class="main-body">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Wholesaler's Business Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{wholesaler.business_name}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Address</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{wholesaler.address}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Contact Person</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{wholesaler.contact_name}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Contact Number</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{wholesaler.contact_number}}
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </div>
+<br>
+
+{% endblock %}

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from wholesalers.models import Wholesaler
 from django.core.mail import send_mail
 from django.conf import settings
-from wholesalers.forms import WholesalerCreationForm
+from django.contrib import messages
 
 
 def list_wholesalers(request):
@@ -18,6 +18,7 @@ def list_wholesalers(request):
             [request.POST['email']],
             fail_silently=False
         )
+        messages.success(request, 'Registration has been successfully sent!')
         return redirect('list_wholesalers')
     return render(request, 'hiveadmin/wholesalers_list.html',context)
 

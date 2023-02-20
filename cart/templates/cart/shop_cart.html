@@ -209,74 +209,6 @@ input[type=number] {
         </div>
       </div>
 
-
-      <!-- CASH ON DELIVERY
-        <section id = "cod" style ="display: none;">
-         <div class="card shadow-2-strong mt-4 mb-lg-0 mx-auto"  style="border-radius: 16px; width: 70%;" id="cod-view">
-          <div class="card-body p-4">
-            <div class ="row">
-              <div class="col-md-5">
-                <form>
-                  <div class="d-flex flex-row pb-4">
-                    <div class="d-flex align-items-center pe-2">
-                      <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel2v" value=""
-                        aria-label="..." onclick="text(0)" />
-                    </div>
-                    <div class="rounded border p-3" style="width: 60%;">
-                      <p class="d-flex align-items-center mb-0">
-                        <i class="fab fa-cc-visa fa-2x text-dark pe-2"></i>Debit Card
-                      </p>
-                    </div>
-                  </div>
-                  <div class="d-flex flex-row">
-                    <div class="d-flex align-items-center pe-2">
-                      <input class="form-check-input p-2" type="radio" name="radioNoLabel" id="radioNoLabel3v" value=""
-                        aria-label="..." onclick="text(1)" checked/>
-                    </div>
-                    <div class="rounded border p-3" style="width: 60%;" >
-                      <p class="d-flex align-items-center mb-0">
-                        <i class="fab fa-cc-paypal fa-2x text-dark pe-2"></i>Cash on Delivery
-                      </p>
-                    </div>
-                  </div>
-                </form>
-              </div> -->
-      <!-- SECOND COLUMN -->
-      <!-- <div class="col-md-7">
-                <div class="row" style="font-weight: bold;">
-                  <div class="col-md-6">
-                    <p class="mb-2">Subtotal</p>
-                    <p class="mb-0">Shipping</p>
-                  </div>
-                  
-                  <div class="col-md-6">
-                    <p id="subtotal" class="mb-2">{{cart.get_subtotal_price}}</p>
-                    <p class="mb-0">50.00</p>
-                  </div>
-              
-                </div>
-              <hr class="my-4" style="width: 90%;">
-
-              <div class="row" style="font-weight: bold;">
-                <div class="col-md-6">
-                  <p class="mb-2">Total</p>
-                </div>
-                
-                <div class="col-md-6">
-                  <p id="total" class="mb-2">{{cart.get_total_price}}</p>
-                </div>
-
-                <button type="button" class="btn btn-primary btn-block btn-lg mt-3" style ="width: 60%;">
-                  Checkout
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
-
-
       {% else %}
       <div class="alert alert-warning mx-auto" role="alert" style="text-align: center; width: 40%;">
         Your cart is empty!
@@ -294,7 +226,7 @@ input[type=number] {
 
   checkoutForm.addEventListener('submit', (e)=>{
     e.preventDefault();
-    swal("Place Order?", {
+    swal("Do you want to place your order?", {
       buttons: ["Cancel", true],
     }).then(data => {
       if(data){
