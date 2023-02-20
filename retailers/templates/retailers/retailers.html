@@ -26,7 +26,7 @@ Manage Retailer
           <h5 class="modal-title" id="staticBackdropLabel">Add a Retailer</h5>
         </div>
         <div class="modal-body">
-            <form action="" method="POST" class ="form">
+            <form action="" method ="POST"class ="form">
                 {% csrf_token %}
                 <div class="form-outline mb-4">
                     <br>
@@ -64,10 +64,14 @@ Manage Retailer
         </div>
   
         <!--Footer-->
-        <div class="modal-footer flex-center">
-          <a href="" class="btn  btn-outline-secondary">Yes</a>
-          <a type="button" class="btn  btn-outline-secondary" data-dismiss="modal">No</a>
-        </div>
+        <form action= "" method ="POST"> 
+            {% csrf_token %}
+            <div class="modal-footer flex-center">
+                <button href="{url 'deactivate_retailer' pk=retailer.user.id %}"  type="submit" class="btn btn-primary btn-block">Yes</button>
+                <a type="button" class="btn  btn-outline-secondary" data-bs-dismiss="modal">No</a>
+              </div>
+        </form>
+       
       </div>
       <!--/.Content-->
     </div>
@@ -131,16 +135,4 @@ Manage Retailer
     </div>
 </div>
 
-
-<script>
-
-let form = document.getElementsByTagName("form")[0];
-form.addEventListener("submit", (e) => {
-    swal("Success!", "Registration Link has been sent!", "success", {
-  button: "Ok",
-});
-});
-    
-    
-</script>
 {% endblock content %} 

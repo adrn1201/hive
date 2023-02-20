@@ -4,29 +4,87 @@
 {% block title %}Profile - Retailer{% endblock title %}
 {% block content %}
 
+<div class="container-xl px-4 mt-4">
+   <div class="row">
+       <div class="col-xl-4">
+           <!-- Profile picture card-->
+           <div class="card mb-4 mb-xl-0">
+               <div class="card-header">Profile Picture</div>
+               <form  action = "" method = "POST" id="retailer_edit_profile" enctype="multipart/form-data">
+                  {% csrf_token %}
+               <div class="card-body text-center">
+                   <!-- Profile picture image-->
+                   {{form.retailer_image}} 
+                   <!-- Profile picture help block-->
+                   <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                   <!-- Profile picture upload button-->
+                   
+               </div>
+           </div>
+       </div>
+       <div class="col-xl-8">
+           <!-- Account details card-->
+           <!-- Account details card-->
+           <div class="card mb-4">
+            <div class="card-header">Account Details</div>
+            <div class="card-body">
+               
+                    <!-- Form Group (username)-->
+                    <div class="mb-3">
+                        <label class="small mb-1" for="inputUsername">Business Name</label>
+                        {{form.business_name}}
+                    </div>
+                    <!-- Form Row-->
+                    <div class="row gx-3 mb-3">
+                        <!-- Form Group (first name)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputFirstName">Contact Name</label>
+                            {{form.contact_name}}
+                        </div>
+                        <!-- Form Group (last name)-->
+                        <div class="col-md-6">
+                            <label class="small mb-1" for="inputLastName">Contact Number</label>
+                            {{form.contact_number}}
+                        </div>
+                    </div>
+           
 
+                        <div class="mb-3">
+                           <label class="small mb-1" for="inputEmailAddress">Address</label>
+                          {{form.address}}
+                       </div>
 
-
-<div class="container shadow p-3 mb-5 bg-white rounded">
-   <form action="" method="post">
-      {% csrf_token %}
-      <div class="row">
-         {% for field in form %}
-         <div class="col-md-6">
-            <div class="form-group">
-               <label for="example-text-input" class="form-control-label">{{field.label}}</label>
-               {{field}}
-            </div>
-         </div>
-         {%endfor%}
-      </div>
-      <div class="text-center">
-         <button class="btn btn-success btn-sm ms-auto">Update</button>
-      </div>
-   </form>
+                   
+                       <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                </form>
+               </div>
+           </div>
+       </div>
+   </div>
 </div>
 
-</div>
+<script>
 
+   const form = document.querySelector('#retailer_edit_profile');
+   
+   form.addEventListener('submit',function(e){
+
+     var format = /^\d{11}$/;
+     const number = document.querySelector('#id_contact_number')
+
+     if (number.value.match(format))
+     {
+       return true;
+     }
+
+     else {
+       alert("Please enter an 11-digit phone number");
+       document.querySelector('#id_contact_number').style.borderColor = "red";
+       e.preventDefault(); 
+     }
+   
+   } ) 
+ 
+ </script>
 
 {% endblock %}

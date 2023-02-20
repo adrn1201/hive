@@ -46,6 +46,21 @@
 
             <!-- SWEET ALERT-->
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+            {% if messages %}
+                {% for message in messages %}
+                    <script>
+                    swal("{{message}}", "", "success");
+                    </script>
+
+
+            {% comment %} <div style="display: flex; justify-content: center;">
+                <div class="alert alert--{{message.tags}}">
+                    <p class="alert__message">{{message}}</p>
+                    <button class="alert__close">x</button>
+                </div>
+                        </div> {% endcomment %}
+    {% endfor %}
+  {% endif %}
             <!--   Core JS Files   -->
             <script src="{% static 'assets/js/core/popper.min.js' %}"></script>
             <script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>

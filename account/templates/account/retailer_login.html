@@ -1,4 +1,4 @@
-{% extends 'main_retailer.html' %}
+{% extends 'main_account.html' %}
 {% load static %}
 {% block title %}{% endblock title %}
 
@@ -18,8 +18,13 @@
               <div class="img d-flex align-items-center justify-content-center">
                 <img src="{% static 'assets4/images/bg.jpg'%}" width="100" height="100">
               </div>
-              <h3 class="text-center mb-0">Hiluck</h3>
+              <h3 class="text-center mb-0">Shop</h3>
               <p class="text-center">Login</p>
+              {% if messages %}
+              {% for message in messages %}
+                <p class="alert alert-danger" role="alert">{{message}}</p>
+              {% endfor %}
+            {% endif %}
           <form action="" method="POST">
             {% csrf_token %}
                   <div class="form-group">

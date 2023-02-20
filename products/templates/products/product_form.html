@@ -1,29 +1,23 @@
 {% extends 'main.html' %}
 {% block title %}{% endblock title %}
-
 {% block content %}
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header pb-0">
-                    <div class="d-flex align-items-center">
-                        <p class="mb-0">Products</p>
-                        <button class="btn btn-primary btn-sm ms-auto">Settings</button>
-                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <form action="" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
-                                {% for field in form %}
-                                    {% if field.name != "with_size" and field.name != "size" %}
-                                        <div class="form-group">
+                                {% for field in form %}     
+                                    <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
                                             {{ field }}
-                                        </div>
-                                    {% endif %}
+                                    </div>
+                                    
                                 {% endfor %}
                                 
                                 <!--<label >With Size</label>
@@ -39,27 +33,27 @@
                                 <br>
                                 <p id="demo"></p>-->
 
-                                <label >With Size</label>
+                                <!-- <label >With Size</label>
                                 <select id="test" name="form_select" onchange="showDiv(this)">
                                     <option value="0">No</option>
                                     <option value="1">Yes</option>
-                                 </select>
+                                 </select> -->
                                  <!-- <label>With size</label>
                                  {{ form.with_size }}
                                  {% if form.with_size.value == True %}
                                      <p>hotdog</p>
                                  {% endif %} -->
 
-                                <div id="hidden_div" style="display:none;">
+                                <!-- <div id="hidden_div" style="display:none;">
                                     <div class="row" id="size-inputs">
-                                        
+
                                     </div>
                                     <br>
                                       <button class="btn btn-info btn-sm" id="add-textbox-button" onclick="addTextbox(event)">Add size</button>
                                       <button class="btn btn-danger btn-sm" id="delete-textbox-button" onclick="deleteTextbox(event)">Delete size</button>
-  
+
                                  </div>
-                                <br><br>
+                                <br><br> -->
                                 <button class="btn btn-primary btn-sm" type="submit">Submit</button>
                             </form>
                         </div>
@@ -68,8 +62,7 @@
             </div>
         </div>
     </div>
-
-<script>
+<!-- <script>
     /*const getSelectedText = (el) => {
         if (el.selectedIndex === -1) {
             return null;
@@ -81,25 +74,24 @@
     //const addTextbox = document.querySelector('#add-textbox-button')
     //const sizeID = document.getElementById('#size_id')
    // const text = getSelectedText(select);
-   // console.log(text)
 
+   // console.log(text)
     /*select.addEventListener("change", function(e){
         const text = getSelectedText(e.target);
         console.log(text)
         document.getElementById("demo").innerHTML = text
-
         if(select.value==1){
             document.getElementById('size_id').style.display = "visible";
         }else{
             document.getElementById('size_id').style.display = "hidden";
         }
-
     });*/
-
 
     function showDiv(select){
         if(select.value==1){
             document.getElementById('hidden_div').style.display = "block";
+
+    
         } else{
             document.getElementById('hidden_div').style.display = "none";
         }
@@ -115,7 +107,7 @@
                         {{form.size}}
                         `;
 
-        
+
         var textbox2 = document.createElement("div");
         textbox2.classList.add("col")
         textbox2.innerHTML =`
@@ -142,6 +134,5 @@
     }
     }
 
-</script>
-
+</script> -->
 {% endblock %}

@@ -2,23 +2,20 @@ from django.db import models
 from django.core.exceptions import ValidationError
 import uuid
 from wholesalers.models import Wholesaler
-
-
 class Category(models.Model):
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
     
-
     class Meta:
         verbose_name_plural = 'Categories'
         
         
     def __str__(self):
         return self.name
-    
-    
+
+
 class Inventory(models.Model):
     STATUS = (
 		('True', 'Yes'),
@@ -45,6 +42,3 @@ class Inventory(models.Model):
          
     def __str__(self):
         return self.product_name
-
-
-    
