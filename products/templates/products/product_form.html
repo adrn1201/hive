@@ -17,35 +17,48 @@
                             <form action="" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {% for field in form %}
-                                    {% if field.name != "with_size" and field.name != "size" %}
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
-                                            {{ field }}
-                                        </div>
-                                    {% endif %}
+                                {% if field.name != "with_size" and field.name != "size" %}
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                                {% endif %}
                                 {% endfor %}
 
-                                 <label>With size</label>
-                                 <div>{{ form.with_size }}</div>
+                                <label>With size</label>
+                                <div>{{ form.with_size }}</div>
 
                                 <div id="hidden_div" style="display:none;">
                                     <div class="row" id="size-inputs">
+                                        {{ formset.management_form }}
+                                        <div class="col">
+                                            <label>Size</label>
+                                            {{ formset.empty_form.size }}
+                                        </div>
+
+                                        <div class="col">
+                                            <label>Quantity</label>
+                                            {{ formset.empty_form.size }}
+                                        </div>
+                                        {% comment %} {% for form in formset %}
                                         <div class="col">
                                             <label>Size</label>
                                             {{form.size}}
                                         </div>
 
                                         <div class="col">
-                                           <label>Quantity</label>
+                                            <label>Quantity</label>
                                             {{form.actual_quantity}}
                                         </div>
-                                        
+                                        {% endfor %} {% endcomment %}
+
+
                                     </div>
                                     <br>
-                                      <button class="btn btn-info btn-sm" id="add-textbox-button" onclick="addTextbox(event)">Add size</button>
-                                      <button class="btn btn-danger btn-sm" id="delete-textbox-button" onclick="deleteTextbox(event)">Delete size</button>
-  
-                                 </div>
+                                    <button class="btn btn-info btn-sm" type="button" id="add-textbox-button">Add size</button>
+                                    <button class="btn btn-danger btn-sm" type="button" id="delete-textbox-button">Delete size</button>
+
+                                </div>
                                 <br><br>
                                 <button class="btn btn-primary btn-sm" type="submit">Submit</button>
                             </form>
@@ -59,17 +72,20 @@
 
 <script>
     const element = document.getElementById("id_with_size");
-    
-    element.addEventListener("change", function() {
-    if (element.value == 1) {
-        document.getElementById('hidden_div').style.display = "block";
-    } else {
-        document.getElementById('hidden_div').style.display = "none";
-    }
-    });
+    const addButton = document.getElementById("add-textbox-button");
+    const delButton = document.getElementById("delete-textbox-button");
     
     let textboxCount = 0;
-    function addTextbox(e) {
+
+    element.addEventListener("change", function () {
+        if (element.value == 1) {
+            document.getElementById('hidden_div').style.display = "block";
+        } else {
+            document.getElementById('hidden_div').style.display = "none";
+        }
+    });
+    
+    addButton.addEventListener('click', function (e) {
         e.preventDefault();
         var textbox1 = document.createElement("div");
         textbox1.classList.add("col")
@@ -78,10 +94,10 @@
                             {{form.size}}
                         `;
 
-        
+
         var textbox2 = document.createElement("div");
         textbox2.classList.add("col")
-        textbox2.innerHTML =`
+        textbox2.innerHTML = `
                         <label>Quantity</label>
                         {{form.actual_quantity}}
                         `;
@@ -94,16 +110,20 @@
         var container = document.getElementById("size-inputs");
         container.appendChild(textboxRow);
         textboxCount += 2;
-    }
+    });
 
-    function deleteTextbox(e) {
+    delButton.addEventListener('click', function (e) {
         e.preventDefault();
         if (textboxCount > 0) {
-        var container = document.getElementById("size-inputs");
-        container.removeChild(container.lastChild);
-        textboxCount -= 2;
-    }
-    }
+            var container = document.getElementById("size-inputs");
+            container.removeChild(container.lastChild);
+            textboxCount -= 2;
+        }
+    })
+
+
+
+
 
 </script>
 

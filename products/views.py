@@ -4,7 +4,9 @@ from .forms import InventoryForm, CategoryForm
 from .utils import search_products, paginate_products
 from django_tenants.utils import remove_www
 from wholesalers.models import Domain, Wholesaler
+from .models import Inventory
 from django.contrib.auth.decorators import login_required
+from django.forms import modelformset_factory
 
 
 @login_required(login_url='login_wholesaler')
@@ -31,17 +33,20 @@ def create_product(request):
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     form = InventoryForm()
+    formset = modelformset_factory(Inventory, fields=('size', 'actual_quantity'), extra=0)
     
     if request.method == "POST":
         form = InventoryForm(request.POST, request.FILES)
-        if form.is_valid():
+        if all([form.is_valid(), formset.is_valid()]):
             product = form.save(commit=False)
-            product.tempo_quantity = product.actual_quantity
             product.wholesaler = wholesaler
             product.save()
+            for i in formset:
+                i.save()
+                
             return redirect('products')
     
-    context = {"form":form}
+    context = {"form":form, 'formset':formset}
     return render(request, "products/product_form.html", context)
 
 
