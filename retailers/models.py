@@ -14,6 +14,8 @@ class Retailer(models.Model):
     retailer_image = models.ImageField(default='products/default.jpg', upload_to="products/")
     created = models.DateTimeField(auto_now_add=True)
 
+    class Meta: 
+        ordering = ['business_name'] 
     @property
     def image_url(self):
         try:

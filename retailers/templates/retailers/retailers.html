@@ -26,7 +26,7 @@ Manage Retailer
           <h5 class="modal-title" id="staticBackdropLabel">Add a Retailer</h5>
         </div>
         <div class="modal-body">
-            <form action="" method ="POST"class ="form">
+            <form action="" method = 'POST' class ="form">
                 {% csrf_token %}
                 <div class="form-outline mb-4">
                     <br>
@@ -64,10 +64,10 @@ Manage Retailer
         </div>
   
         <!--Footer-->
-        <form action= "" method ="POST"> 
+        <form action= "" method =""> 
             {% csrf_token %}
             <div class="modal-footer flex-center">
-                <button href="{url 'deactivate_retailer' pk=retailer.user.id %}"  type="submit" class="btn btn-primary btn-block">Yes</button>
+                <button href=""  type="submit" class="btn btn-primary btn-block">Yes</button>
                 <a type="button" class="btn  btn-outline-secondary" data-bs-dismiss="modal">No</a>
               </div>
         </form>
@@ -122,7 +122,12 @@ Manage Retailer
                                         <span class="text-xs font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
                                     </td>
                                     <td class="text-center">
-                                        <a href="#"> <i class="fas fa-cog" data-bs-toggle="modal" data-bs-target="#staticBackdrop2"  ></i></a>
+                                        <form method = "POST" action="{% url 'deactivate_retailer' retailer.id %}" class = "updateForm"  value = {{retailer.business_name}}>
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-primary btn-block btn-xs mt-3"><i class="far fa fa-refresh me-2"></i>
+                                                Update
+                                              </button>
+                                        </form>
                                      </td>
                                 </tr>
                                 {% endfor %}
@@ -158,4 +163,30 @@ Manage Retailer
     </div>
 </div>
 
+<script>
+
+    const updateForms = document.querySelectorAll('.updateForm');
+    
+    for (const item of updateForms) {
+        item.addEventListener('click', (e) => {
+            e.preventDefault()
+          let name = e.target.dataset.value
+          swal({
+      title: `Update the account status of ${name}?`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        item.submit() 
+      } 
+      
+    });
+        })
+     
+    }
+    </script>
+
 {% endblock content %} 
+

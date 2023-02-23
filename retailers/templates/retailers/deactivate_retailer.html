@@ -1,0 +1,11 @@
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+
+{% block content %}
+<h1>{{retailer.business_name}}</h1>
+<form method="POST" action="">
+    {% csrf_token %}
+    <button type="submit">Deactivate</button>
+</form>
+
+{% endblock content %}

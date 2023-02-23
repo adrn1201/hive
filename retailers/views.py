@@ -183,3 +183,38 @@ def order_items(request, pk):
         'completed': completed_count,
         'order_items': order_items}
     return render(request, "retailers/order_items.html", context)
+
+
+@login_required(login_url='login_wholesaler')
+def deactivate_retailer(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
+    retailer = Retailer.objects.get(id=pk)
+    
+    
+    if request.method == "POST":
+    
+        if retailer.is_active & retailer.user.is_active == False:
+            retailer.is_active = True
+            retailer.user.is_active = True
+            retailer.user.save()
+            retailer.save()
+            
+        
+        elif retailer.is_active & retailer.user.is_active == True:
+            retailer.is_active = False
+            retailer.user.is_active = False
+            retailer.user.save()
+            retailer.save()
+
+
+        messages.success(request, 'Account status successfully updated!') 
+        return redirect('retailers')
+    context = {"retailer":retailer}
+    return render(request, "retailers/retailers.html", context)
+
+ 
+      
