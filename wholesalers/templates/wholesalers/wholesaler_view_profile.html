@@ -4,15 +4,15 @@
 {% block content %}
 
 <style>
-  #image{
+  #image {
     width: 50%;
     height: 75%;
     border-radius: 50%;
     border: solid;
-    border-color:#404040;
+    border-color: #404040;
     margin: 0 auto;
     display: block;
-}
+  }
 </style>
 
 <div class="container-fluid py-4">
@@ -29,32 +29,38 @@
             <div class="row gx-3 mb-3">
 
               <div class="col-md-6">
-                  <label class="small mb-1" for="inputFirstName"> Business Name:</label>
-                  <p>{{wholesaler.business_name}}</p>
+                <label class="small mb-1" for="inputFirstName"> Business Name:</label>
+                <p>{{wholesaler.business_name}}</p>
               </div>
               <div class="col-md-6">
-                  <label class="small mb-1" for="inputLastName">Business Address:</label>
-                  <p>{{wholesaler.address}}</p>
+                <label class="small mb-1" for="inputLastName">Business Address:</label>
+                <p>{{wholesaler.address}}</p>
               </div>
             </div>
             <div class="row gx-3 mb-3">
               <div class="col-md-6">
-                  <label class="small mb-1" for="inputEmailAddress">Contact Name:</label>
-                  <p>{{wholesaler.contact_name}}</p>
+                <label class="small mb-1" for="inputEmailAddress">Contact Name:</label>
+                <p>{{wholesaler.contact_name}}</p>
               </div>
 
               <div class="col-md-6">
-                  <label class="small mb-1" for="inputPhone">Contact Number:</label>
-                  <p>{{wholesaler.contact_number}}</p>
+                <label class="small mb-1" for="inputPhone">Contact Number:</label>
+                <p>{{wholesaler.contact_number}}</p>
               </div>
             </div>
-            <a href = "{% url 'wholesaler_edit_profile'%}" class="btn btn-primary">Edit Details</a>
+            <div class="row gx-3 mb-3">
+              <div class="col-md-6">
+                <label class="small mb-1" for="inputEmailAddress">Color:</label>
+                <input type="color" name="color" value="{{wholesaler.color}}" disabled>
+              </div>
+            </div>
+            <a href="{% url 'wholesaler_edit_profile'%}" class="btn btn-primary">Edit Details</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-      
+
 
 {% endblock %}

@@ -98,11 +98,13 @@ def wholesaler_edit_profile(request):
     if request.method == "POST":
         form = WholesalerCreationForm(request.POST, request.FILES, instance=wholesaler)
         if form.is_valid():
-            form.save()
+            wholesaler = form.save(commit=False)
+            wholesaler.color = request.POST['color']
+            wholesaler.save()
             return redirect('wholesaler_view_profile')
 
 
-    context = {'form':form}
+    context = {'form':form, 'wholesaler':wholesaler}
     return render(request, 'wholesalers/wholesaler_edit_profile.html', context)
    
 
