@@ -10,13 +10,15 @@
                         <p class="mb-0">Products</p>
                     </div>
                 </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form action="" method="POST" enctype="multipart/form-data">
-                                {% csrf_token %}
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
                                 {% for field in form %}
-                                {% if field.name != "with_size" and field.name != "size" %}
+                                {% if field.name != "with_variation" and field.name != "actual_stocks" %}
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
                                     {{ field }}
@@ -24,93 +26,100 @@
                                 {% endif %}
                                 {% endfor %}
 
-                                <label>With size</label>
-                                <div>{{ form.with_size }}</div>
 
-                                {% comment %} <div id="hidden_div" style="display:none;">
-                                    <div class="row" id="size-inputs">
-                                        {{ formset.management_form }} {% endcomment %}
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">With variation</label>
+                                    <select name="with_variation" class="form-control" required id="id_with_variation">
+                                        {% for value, text in form.with_variation.field.choices %}
+                                        <option value="{{ value }}"
+                                            {% if product_variation and value in product_variation %}selected{% endif %}>
+                                            {{ text }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
-                                        {% comment %} {% for form in formset %}
-                                        <div class="col">
-                                            <label>Size</label>
-                                            {{form.size}}
-                                        </div>
+                                <div id="hidden_stocks" style="display:none;">
+                                    <div class="form-group">
+                                        <label for="example-text-input"
+                                            class="form-control-label">{{ form.actual_stocks.label }}</label>
+                                        {{ form.actual_stocks }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="hidden_variation" style="display:none;">
+                                <div class="row" id="size-inputs"> 
+                                    <div class="col">
+                                        <label>{{variation_form.name.label}}</label>
+                                        {{variation_form.name}}
+                                    </div>
 
-                                        <div class="col">
-                                            <label>Quantity</label>
-                                            {{form.actual_quantity}}
-                                        </div>
-                                        {% endfor %} {% endcomment %}
-{% comment %} 
-                                        <div class="col" id="empty-form-size">
-                                            <label>Size</label>
-                                            {{ formset.empty_form.size }}
-                                        </div>
-
-                                        <div class="col" id="empty-form-quantity">
-                                            <label>Quantity</label>
-                                            {{ formset.empty_form.size }}
-                                        </div> {% endcomment %}
-
-
-                                    {% comment %} </div>
-                                    <br>
-                                    <button class="btn btn-info btn-sm" type="button" id="add-textbox-button">Add size</button>
-                                    <button class="btn btn-danger btn-sm" type="button" id="delete-textbox-button">Delete size</button>
-
-                                </div> {% endcomment %}
-                                <br><br>
-                                <button class="btn btn-primary btn-sm" type="submit">Submit</button>
-                            </form>
+                                    <div class="col">
+                                        <label>{{variation_form.actual_stocks_var.label}}</label>
+                                        {{variation_form.actual_stocks_var}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="hidden_btns" style="display:none;">
+                                <button class="btn btn-info btn-sm mt-3" type="button" hx-get="{% url 'size-form' %}"
+                                    hx-target="#hidden_variation" hx-swap="beforeend" id="add-textbox-button">Add
+                                    variation</button>
+                                <button class="btn btn-danger btn-sm mt-3" type="button"
+                                    id="delete-textbox-button">Delete
+                                    variation</button>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="w-25 mx-auto">
+                                <button class="btn btn-success btn-sm" type="submit">Submit</button>
+                            </div>
+                        </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    const element = document.getElementById("id_with_size");
-    const addButton = document.getElementById("add-textbox-button");
+    const element = document.getElementById("id_with_variation");
     const delButton = document.getElementById("delete-textbox-button");
-    const totalNewForms = document.getElementById("id_form-TOTAL_FORMS");
-    const currentSizeForms = document.getElementsByClassName('row')
+    const addButton = document.getElementById("add-textbox-button")
     let textboxCount = 0;
 
     element.addEventListener("change", function () {
-        if (element.value == 1) {
-            document.getElementById('hidden_div').style.display = "block";
-        } else {
-            document.getElementById('hidden_div').style.display = "none";
+        if (element.value == '1') {
+            document.getElementById('hidden_variation').style.display = "block";
+            document.getElementById('hidden_btns').style.display = "block";
+            document.getElementById('hidden_stocks').style.display = "none";
+        } else if (element.value == '0') {
+            document.getElementById('hidden_variation').style.display = "none";
+            document.getElementById('hidden_btns').style.display = "none";
+            document.getElementById('hidden_stocks').style.display = "block";
         }
     });
-    
+    window.addEventListener("load", (event) => {
+        if (element.value == '1') {
+            document.getElementById('hidden_variation').style.display = "block";
+            document.getElementById('hidden_btns').style.display = "block";
+            document.getElementById('hidden_stocks').style.display = "none";
+        } else if (element.value == '0') {
+            document.getElementById('hidden_variation').style.display = "none";
+            document.getElementById('hidden_btns').style.display = "none";
+            document.getElementById('hidden_stocks').style.display = "block";
+        }
+    });
+
     addButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        console.log(currentSizeForms.length)
-        const rowTarget = document.getElementById('size-inputs');
-        const sizeEl = document.getElementById("empty-form-size").cloneNode(true)
-        const qtyEl = document.getElementById("empty-form-quantity").cloneNode(true)
-        sizeEl.setAttribute('class', 'form-control')
-        qtyEl.setAttribute('class', 'form-control')
-        rowTarget.append(sizeEl)
-        rowTarget.append(qtyEl)
+        textboxCount++
     });
 
     delButton.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (textboxCount > 0) {
-            var container = document.getElementById("size-inputs");
+        if (textboxCount >= 0) {
+            const container = document.getElementById("hidden_variation");
             container.removeChild(container.lastChild);
-            textboxCount -= 2;
+            textboxCount -= 1;
         }
-    })
-
-
-
-
-
-</script> -->
+    });
+</script>
 {% endblock %}

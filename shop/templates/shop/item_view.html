@@ -21,45 +21,52 @@
                 <p class="lead">{{ item.description|linebreaksbr}}</p>
                 <hr>
                 <div class="fs-5 mb-3">
-                    <span><b>Remaining Stocks: </b></span> <span id="item_quantity">{{ item.tempo_quantity }} </span>
+                    <span><b>Remaining Stocks: </b></span> <span id="item_quantity">{{ item.tempo_stocks }} </span>
                     <br>
-                    <span><b>Minimum Order: </b></span> <span id ="item_minimum">{{ item.min_orders }}</span>
+                    <span><b>Minimum Order: </b></span> <span id="item_minimum">{{ item.min_orders }}</span>
                 </div>
 
-                <form class ="needs-validation" novalidate>
+                <form class="needs-validation" novalidate>
                     <div class="form-inline has-validation">
                         <label><b>Quantity: </b></label>
-                        <button id="decrease-quantity{{product.id}}" name = "decreaseq" data-index="{{product.id}}" class="btn btn-link px-2 pt-2 reduce-quantity"
+                        <button id="decrease-quantity" name="decreaseq" data-index="{{item.id}}"
+                            class="btn btn-link px-2 pt-2 reduce-quantity"
                             onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                             <i class="fas fa-minus"></i>
                         </button>
 
-                        <input min="{{ item.min_orders }}" max="{{ item.tempo_quantity }}" type="number" value="{{ item.min_orders }}" id="inputQuantity" class="form-control text-center px-2" required>
-                        
-                        <button id="increase-quantity{{product.id}}" data-index="{{product.id}}" class="btn btn-link px-2 pt-2 increase-quantity"
+                        <input min="{{ item.min_orders }}" max="{{ item.tempo_stocks }}" type="number"
+                            value="{{ item.min_orders }}" id="inputQuantity" class="form-control text-center px-2"
+                            required>
+
+                        <button id="increase-quantity" data-index="{{item.id}}"
+                            class="btn btn-link px-2 pt-2 increase-quantity"
                             onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
                     <p style="color:red;" id="demo"></p>
-                    
 
+                    {% if item.variation_set.count %}
+                    <p class="font-weight-bold">Variation:</p>
                     <div class="flex items-center bR6mEk">
-                        <input type="radio" class="btn-check"  name="options-outlined" id="btn-check-outlined" autocomplete="off" checked>
-                        <label class="btn btn-outline-primary" for="btn-check-outlined">28(50-55kg)</label>
+                        {% for size in sizes %}
+                        {% if forloop.first %}
+                        <input type="radio" class="btn-check" name="options-outlined" id="{{size.id}}"
+                            autocomplete="off" value="{{ size.id }}" data-quantity="{{size.tempo_stocks_var}}" checked>
+                        {% else %}
+                        <input type="radio" class="btn-check" name="options-outlined" id="{{size.id}}"
+                            autocomplete="off" value="{{ size.id }}" data-quantity="{{size.tempo_stocks_var}}">
+                        {% endif %}
+
+                        <label class="btn btn-outline-primary" for="{{size.id}}">{{ size.name }}</label>
                         &nbsp;
-                        <input type="radio" class="btn-check" name="options-outlined" id="btn-check-outlined1" autocomplete="off" >
-                        <label class="btn btn-outline-primary" for="btn-check-outlined1">30(55-60kg)</label>
-                        &nbsp;
-                        <input type="radio" class="btn-check" name="options-outlined" id="btn-check-outlined2" autocomplete="off" >
-                        <label class="btn btn-outline-primary" for="btn-check-outlined2">32(60-65kg))</label>
-                        &nbsp;
-                        <input type="radio" class="btn-check" name="options-outlined" id="btn-check-outlined3" autocomplete="off" >
-                        <label class="btn btn-outline-primary" for="btn-check-outlined3">34(65-70kg)</label>
-                        &nbsp;
+                        {% endfor %}
                     </div>
-                   <br>
-                    <button class="btn btn-outline-dark flex-shrink-0" id="add-button" value="{{item.id}}" type="button">
+                    {% endif %}
+                    <br>
+                    <button class="btn btn-outline-dark flex-shrink-0" id="add-button" value="{{item.id}}"
+                        type="button">
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>
@@ -70,12 +77,46 @@
 </section>
 
 <script>
-    
-
     const addButton = document.querySelector('#add-button');
     const inputQuantity = document.querySelector('#inputQuantity');
     const increaseButtons = document.querySelectorAll('.increase-quantity');
     const decreaseButtons = document.querySelectorAll('.reduce-quantity');
+    const radioBtns = document.querySelectorAll('.btn-check');
+    const iStocks = document.getElementById("item_quantity");
+    const inputTag = document.querySelector('#inputQuantity')
+    
+    window.addEventListener("load", (event) => {
+        if (radioBtns) {
+            for (const btn of radioBtns) {
+                if(btn.checked){
+                    iStocks.innerText = btn.dataset.quantity
+                }
+            }
+        }
+    });
+
+    let isUpdated = false
+    let numOfStocks = 0
+    let variationId = ''
+    if (radioBtns) {
+        for (const btn of radioBtns) {
+            btn.addEventListener('click', e => {
+                if(!isUpdated){
+                    iStocks.innerText = e.target.dataset.quantity
+                }
+                else{
+                    if(btn.value == variationId){
+                        iStocks.innerText = numOfStocks
+                    }else{
+                        iStocks.innerText = e.target.dataset.quantity    
+                    }
+                    
+                }
+                
+            });
+        }
+    }
+
 
     function getCookie(name) {
         let cookieValue = null;
@@ -94,97 +135,106 @@
     }
 
     const csrftoken = getCookie('csrftoken');
-console.log()
+    console.log()
     // ADD TO CART
     addButton.addEventListener('click', async function (e) {
         e.preventDefault();
         let x = document.getElementById("inputQuantity").value;
         const text = document.getElementById("demo")
-        const iStocks = document.getElementById("item_quantity").innerText;
-        const iMinimum= document.getElementById("item_minimum").innerText;
+        const stocks = iStocks.innerText;
+        const iMinimum = document.getElementById("item_minimum").innerText;
 
         if (isNaN(x) || x < parseInt(iMinimum)) {
             text.innerText = "Note: Minimum Quantity is " + iMinimum;
             inputQuantity.value = iMinimum;
-        } 
-        else if (x > parseInt(iStocks)) {
-            text.innerText = "Note: Maximum Quantity is " + iStocks;
+        } else if (x > parseInt(stocks)) {
+            text.innerText = "Note: Maximum Quantity is " + stocks;
             inputQuantity.value = iMinimum;
-        }
-        else {
+        } else {
             text.innerText = "";
+            let variation = ''
+            if (radioBtns) {
+                for (const btn of radioBtns) {
+                    if(btn.checked){
+                        variation = btn.value
+                        console.log(variation)
+                    }
+                }
+            }
+            console.log(variation)
             const response = await fetch(`http://${window.location.hostname}:8000/cart/add/`, {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': csrftoken,
-            },
-            body: JSON.stringify({
-                productid: addButton.value,
-                productqty: inputQuantity.value,
-                csrfmiddlewaretoken: "{{csrf_token}}",
-                action: 'post'
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({
+                    productid: addButton.value,
+                    productqty: inputQuantity.value,
+                    variation:variation,
+                    csrfmiddlewaretoken: "{{csrf_token}}",
+                    action: 'post'
+                })
             })
-        })
-        
-        swal("Item has been added to cart", {
-            icon: 'success',
-            buttons: false,
-            timer: 2000,
-            });
 
-        const data = await response.json();
-        if (data) {
-            document.querySelector('#cart-qty').innerHTML = data.qty;
+
+
+            const data = await response.json();
+            if (data) {
+                swal("Item has been added to cart", {
+                    icon: 'success',
+                    buttons: false,
+                    timer: 2000,
+                });
+                document.querySelector('#cart-qty').innerHTML = data.qty;
+                iStocks.innerText = data.new_quantity
+                isUpdated = true
+                numOfStocks = data.new_quantity
+                if(data.var_id)
+                    variationId = data.var_id
+            }
         }
-
-        const updatedstocks = document.getElementById("updatedstocks")
-        if (updatedstocks) {
-            
-        }
-
-        }
-});
-
-  // DECREASE QUANTITY BUTTON 
-
-  for (const dec of decreaseButtons) {
-    dec.addEventListener('click', async function (e) {
-      e.preventDefault();
-      let prodId = dec.dataset.index
-      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
-      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
-      document.getElementById(`increase-quantity${prodId}`).disabled = false
-      
-      if ( parseInt(inputTag.value) < parseInt(iMinimum)) {
-        alert("Quantity Input is less then the Minimum Order! ");
-        this.disabled = true;
-        inputTag.value = iMinimum;
-        }  
     });
-  }
+
+    // DECREASE QUANTITY BUTTON 
+
+    for (const dec of decreaseButtons) {
+        dec.addEventListener('click', async function (e) {
+            e.preventDefault();
+            let prodId = dec.dataset.index
+            const iStocks = document.getElementById(`item_quantity`).innerText;
+            const iMinimum = document.getElementById(`item_minimum`).innerText;
+            document.getElementById(`increase-quantity`).disabled = false
+
+            if (parseInt(inputTag.value) < parseInt(iMinimum)) {
+                alert("Quantity Input is less then the Minimum Order! ");
+                this.disabled = true;
+                inputTag.value = iMinimum;
+            }
+        });
+    }
 
 
-  // INCREASE BUTTON
+    // INCREASE BUTTON
 
-  for (const inc of increaseButtons) {
-    inc.addEventListener('click', async function (e) {
-      e.preventDefault();
-      let prodId = inc.dataset.index
-      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
-      const iMinimum= document.getElementById(`item_minimum${prodId}`).innerText;
-      document.getElementById(`decrease-quantity${prodId}`).disabled = false
+    for (const inc of increaseButtons) {
+        inc.addEventListener('click', async function (e) {
+            e.preventDefault();
+            let prodId = inc.dataset.index
+            const iStocks = document.getElementById(`item_quantity`).innerText;
+            const iMinimum = document.getElementById(`item_minimum`).innerText;
+            document.getElementById(`decrease-quantity`).disabled = false
 
-      if ( parseInt(inputTag.value) > parseInt(iStocks)) {
-        alert("Quantity Input is more than the Available Stocks! ");
-        this.disabled = true;
-        inputTag.value = iStocks;
-        } 
-    });
-  }
+            if (parseInt(inputTag.value) > parseInt(iStocks)) {
+                alert("Quantity Input is more than the Available Stocks! ");
+                this.disabled = true;
+                inputTag.value = iStocks;
+            }
+        });
+    }
 </script>
 
 {% endblock content %}

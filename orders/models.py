@@ -1,7 +1,6 @@
 from django.db import models
 from wholesalers.models import Wholesaler
-from retailers.models import Retailer
-from products.models import Inventory
+from products.models import Product, Variation
 import uuid
 from django.contrib.auth.models import User
 
@@ -29,9 +28,10 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order,
                               related_name='items',
                               on_delete=models.CASCADE)
-    product = models.ForeignKey(Inventory,
+    product = models.ForeignKey(Product,
                                 related_name='order_items',
                                 on_delete=models.CASCADE)
+    variation = models.ForeignKey(Variation, on_delete=models.CASCADE, null=True)
     price = models.FloatField()
     quantity = models.PositiveIntegerField(default=1)
 

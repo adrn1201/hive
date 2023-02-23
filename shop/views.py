@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from products.models import Inventory
+from products.models import Product
 from django.contrib.auth.decorators import login_required
 from products.utils import search_products, paginate_products
 
@@ -13,7 +13,7 @@ def show_shop(request):
 
 @login_required(login_url='login_retailer')
 def view_item (request,pk):
-    item = Inventory.objects.get(id=pk)
-
-    context ={'item':item}
+    item = Product.objects.get(id=pk)
+    sizes = item.variation_set.all()
+    context ={'item':item, 'sizes':sizes}
     return render(request, "shop/item_view.html", context)

@@ -46,15 +46,14 @@
                   <a type="button" role="button" href="{% url 'show_cart' %}"
                      class="btn btn-outline-secondary border-0 cart-btn">
 
-                     {% with total_qty=cart|length %}
+
                      <div id="cart-qty" class="cart-qty">
-                        {% if total_qty > 0 %}
-                        {{ total_qty }}
+                        {% if cart_length > 0 %}
+                        {{ cart_length }}
                         {% else %}
                         0
                         {% endif %}
                      </div>
-                     {% endwith %}
                      <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                            class="bi bi-cart3 mt-2" viewBox="0 0 16 16" style="color: black;">

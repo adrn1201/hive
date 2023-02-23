@@ -44,7 +44,7 @@ def search_products(request):
     
     categories = wholesaler.category_set.filter(name__icontains=search_query)
 
-    products = wholesaler.inventory_set.distinct().filter(Q(product_name__icontains=search_query) | Q(category__in=categories))
+    products = wholesaler.product_set.distinct().filter(Q(product_name__icontains=search_query) | Q(category__in=categories))
 
     return products, search_query
 

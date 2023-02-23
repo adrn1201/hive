@@ -29,7 +29,7 @@ input[type=number] {
 <section id="test">
   <div class="container h-100 py-5">
 
-    {% if cart %}
+    {% if cart_items %}
     <div class="row d-flex justify-content-center  h-100">
       <div class="col">
 
@@ -37,9 +37,10 @@ input[type=number] {
           <table class="table">
             <thead>
               <tr>
-                <th scope="col" class="h5">Shopping Bag</th>
+                <th scope="col" class="h5">Cart Items</th>
                 <th scope="col">Product</th>
                 <th scope="col">Category</th>
+                <th scope="col">Variation</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Unit Price</th>
                 <th scope="col">Subtotal</th>
@@ -48,44 +49,63 @@ input[type=number] {
             </thead>
             <tbody>
 
-              {% for item in cart %}
-              {% with product=item.product %}
-              <tr class="items_cart" data-index="{{product.id}}">
+              {% for item in cart_items %}
+
+              <tr class="items_cart" data-cart="{{item.id}}" data-index="{{item.products.id}}">
                 <th scope="row">
                   <div class="d-flex align-items-center">
-                    <img src="{{ product.product_image.url }}" class="img-fluid rounded-3" style="width: 120px;"
+                    <img src="{{ item.products.product_image.url }}" class="img-fluid rounded-3" style="width: 120px;"
                       alt="Book">
                   </div>
                 </th>
                 <td class="class-middle">
-                  <p class="mb-0 ml-3" style="font-weight: 500;">{{ product.product_name }}</p>
+                  <p class="mb-0 text-left" style="font-weight: 500;">{{ item.products.product_name }}</p>
                   <br>
-                  <!-- <p id = "item_quantity" class="mb-0 ml-3" style="font-weight: 500;"><b>Available Stocks:</b> {{ product.tempo_quantity }}</p>
-                  <p id = "item_minimum" class="mb-0 ml-3" style="font-weight: 500;"><b>Minimum Order:</b> </p> <span> {{ product.min_orders }} </span>  -->
-                  <div class="mb-0 ml-3">
-                    <span><b>Remaining Stocks: </b></span> <span
-                      id="item_quantity{{product.id}}">{{ product.tempo_quantity }} </span>
+                  <div class="mb-0 text-left">
+                    <span><b>Remaining Stocks: </b></span> <span id="item_quantity{{item.id}}">
+                      {% if item.variation_id %}
+                      {{ item.variation_id.tempo_stocks_var }}
+                      {% else %}
+                      {{ item.products.tempo_stocks }}
+                      {% endif %}
+                    </span>
                     <br>
                     <span><b>Minimum Order: </b></span> <span
-                      id="item_minimum{{product.id}}">{{ product.min_orders }}</span>
+                      id="item_minimum{{item.id}}">{{ item.products.min_orders }}</span>
                   </div>
                 </td>
                 <td class="align-middle">
-                  <p class="mb-0" style="font-weight: 500;">{{ product.category }}</p>
+                  <p class="mb-0" style="font-weight: 500;">{{ item.products.category }}</p>
+                </td>
+                <td class="align-middle">
+                  <p class="mb-0 text-center variations-text" id="vari{{item.id}}" style="font-weight: 500;"
+                    data-variation="{{ item.variation_id.id }}">
+                    {% if item.variation_id %}
+                    {{ item.variation_id.name }}
+                    {% else %}
+                    N/A
+                    {% endif %}
+                  </p>
                 </td>
                 <td class="align-middle">
                   <div class="d-flex flex-row">
-                    <button id="decrease-quantity{{product.id}}" name="decreaseq" data-index="{{product.id}}"
-                      class="btn btn-link px-2 reduce-quantity"
+                    <button id="decrease-quantity{{item.id}}" {% if item.variation_id %}
+                      data-quantity="{{item.variation_id.tempo_stocks_var}}" {% else %}
+                      data-quantity="{{item.products.tempo_stocks}}" {% endif %} data-cart="{{item.id}}"
+                      name="decreaseq" data-index="{{item.products.id}}" class="btn btn-link px-2 reduce-quantity"
                       onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                       <i class="fas fa-minus"></i>
                     </button>
 
-                    <input id="qty-input{{product.id}}" data-index="{{product.id}}" min="0" name="quantity"
-                      value="{{item.qty}}" type="number" class="form-control form-control-sm item-qty ml-1"
-                      style="width: 70px;" />
+                    <input id="qty-input{{item.id}}" data-cart="{{item.id}}" data-index="{{item.products.id}}" min="0"
+                      name="quantity" value="{{item.qty}}" type="number" {% if item.variation_id %}
+                      data-quantity="{{item.variation_id.tempo_stocks_var}}" {% else %}
+                      data-quantity="{{item.products.tempo_stocks}}" {% endif %} data-qtysel="{{item.qty}}"
+                      class="form-control form-control-sm item-qty ml-1" style="width: 70px;" />
 
-                    <button id="increase-quantity{{product.id}}" data-index="{{product.id}}"
+                    <button id="increase-quantity{{item.id}}" data-cart="{{item.id}}" data-index="{{item.products.id}}"
+                      {% if item.variation_id %} data-quantity="{{item.variation_id.tempo_stocks_var}}" {% else %}
+                      data-quantity="{{item.products.tempo_stocks}}" {% endif %}
                       class="btn btn-link px-2 increase-quantity"
                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                       <i class="fas fa-plus"></i>
@@ -93,19 +113,20 @@ input[type=number] {
                   </div>
                 </td>
                 <td class="align-middle">
-                  <p id="prod-uprice{{product.id}}" class="mb-0" style="font-weight: 500;">{{product.price}}</p>
+                  <p id="prod-uprice{{item.id}}" class="mb-0" style="font-weight: 500;">
+                    {{item.products.price|floatformat:2}}</p>
                 </td>
                 <td class="align-middle">
-                  <p id="prod-tprice{{product.id}}" class="mb-0 subtotal" style="font-weight: 500;"
-                    data-subtotal="{{item.subtotal_price }}">{{item.subtotal_price }}</p>
+                  <p id="prod-tprice{{item.id}}" class="mb-0 subtotal" style="font-weight: 500;"
+                    data-subtotal="{{ item.subtotal }}">{{item.subtotal|floatformat:2 }}</p>
                 </td>
                 <td class="align-middle">
-                  <!-- <i id = "remove-cart" class="fas fa-trash text-danger"></i> -->
-                  <button id="remove-cart" data-index="{{product.id}}" class="btn btn-danger delete-button"
-                    type="button"> Remove </button>
+                  <button id="remove-cart" data-cart="{{item.id}}" data-index="{{item.products.id}}"
+                    data-variation="{{item.variation_id.id}}" class="btn btn-danger delete-button"
+                    type="button">Remove</button>
                 </td>
               </tr>
-              {% endwith %}
+
               {% endfor %}
               </tr>
             </tbody>
@@ -185,7 +206,7 @@ input[type=number] {
                 <div class="col-lg-4 col-xl-3" id="amount">
                   <div class="d-flex justify-content-between" style="font-weight: 500;">
                     <p class="mb-2">Subtotal</p>
-                    <p id="subtotal" class="mb-2">{{cart.get_subtotal_price}}</p>
+                    <p id="subtotal" class="mb-2">{{cart_subtotal|floatformat:2}}</p>
                   </div>
                   <div id="" class="d-flex justify-content-between" style="font-weight: 500;">
                     <p class="mb-0">Shipping</p>
@@ -196,7 +217,7 @@ input[type=number] {
 
                   <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
                     <p class="mb-2">Total</p>
-                    <p id="total" class="mb-2">{{cart.get_total_price}}</p>
+                    <p id="total" class="mb-2">{{cart_total|floatformat:2}}</p>
                   </div>
                   <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
                     Checkout
@@ -224,12 +245,12 @@ input[type=number] {
 <script>
   const checkoutForm = document.querySelector('#checkout-form');
 
-  checkoutForm.addEventListener('submit', (e)=>{
+  checkoutForm.addEventListener('submit', (e) => {
     e.preventDefault();
     swal("Do you want to place your order?", {
       buttons: ["Cancel", true],
     }).then(data => {
-      if(data){
+      if (data) {
         e.target.submit()
       }
     });
@@ -294,16 +315,30 @@ input[type=number] {
   for (const inp of inputs) {
     inp.addEventListener('keyup', async function (e) {
       let prodId = inp.dataset.index
-      const inputTag = document.querySelector(`#qty-input${prodId}`)
-      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
-      const iMinimum = document.getElementById(`item_minimum${prodId}`).innerText;
-      document.getElementById(`increase-quantity${prodId}`).disabled = false
+      let cartId = inp.dataset.cart
+      console.log(cartId)
+      const inputTag = document.querySelector(`#qty-input${cartId}`)
+      const iStocks = document.getElementById(`item_quantity${cartId}`);
+      const iMinimum = document.getElementById(`item_minimum${cartId}`).innerText;
+      document.getElementById(`increase-quantity${cartId}`).disabled = false
+
+      let statusUpdate = ''
+
+
+      if (parseInt(inputTag.value) > parseInt(inp.dataset.qtysel) && parseInt(inputTag.value) > parseInt(
+        iMinimum)) {
+        statusUpdate = 'increase'
+      } else if (parseInt(inputTag.value) < parseInt(inp.dataset.qtysel) && parseInt(inputTag.value) > parseInt(
+          iMinimum)) {
+        statusUpdate = 'decrease'
+      }
+
 
       setTimeout(() => {
         if (parseInt(inputTag.value) < parseInt(iMinimum)) {
           alert("Quantity Input is less than the Minimum Order! ");
           inputTag.value = iMinimum;
-        } else if (parseInt(inputTag.value) > parseInt(iStocks)) {
+        } else if (parseInt(inputTag.value) > parseInt(iStocks.innerText)) {
           alert("Quantity Input is greater than the Available Stocks! ");
           inputTag.value = iMinimum;
         }
@@ -321,6 +356,8 @@ input[type=number] {
         body: JSON.stringify({
           productid: prodId,
           productqty: inp.value,
+          cartId: cartId,
+          status: statusUpdate,
           csrfmiddlewaretoken: "{{csrf_token}}",
           action: 'post'
         })
@@ -328,13 +365,15 @@ input[type=number] {
 
       const data = await response.json();
       if (data) {
+        console.log('cart')
         document.querySelector('#cart-qty').innerHTML = data.qty
-        const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
+        const uPrice = document.querySelector(`#prod-uprice${cartId}`).innerText
         total = (parseFloat(data.subtotal))
         document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
         document.querySelector('#total').innerHTML = data.total.toFixed(2)
-        document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(
+        document.querySelector(`#prod-tprice${cartId}`).innerText = (parseInt(inputTag.value) * parseFloat(
           uPrice)).toFixed(2);
+        iStocks.innerText = data.new_quantity
       }
     });
   }
@@ -344,7 +383,12 @@ input[type=number] {
   for (const delBtn of deleteButtons) {
     delBtn.addEventListener('click', async function (e) {
       e.preventDefault();
+
       let prodId = delBtn.dataset.index
+      let cartId = delBtn.dataset.cart
+      const inputTag = document.querySelector(`#qty-input${cartId}`);
+
+
       const response = await fetch(`http://${window.location.hostname}:8000/cart/remove/`, {
         method: 'POST',
         credentials: 'same-origin',
@@ -356,6 +400,8 @@ input[type=number] {
         },
         body: JSON.stringify({
           productid: prodId,
+          productqty: inputTag.value,
+          cartId: cartId,
           csrfmiddlewaretoken: "{{csrf_token}}",
           action: 'post'
         })
@@ -364,7 +410,7 @@ input[type=number] {
       if (data) {
         const prodItem = document.querySelectorAll('.items_cart')
         for (const item of prodItem) {
-          if (item.dataset.index === prodId) {
+          if (item.dataset.cart === cartId) {
             item.remove()
           }
         }
@@ -391,10 +437,11 @@ input[type=number] {
     dec.addEventListener('click', async function (e) {
       e.preventDefault();
       let prodId = dec.dataset.index
-      const inputTag = document.querySelector(`#qty-input${prodId}`);
-      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
-      const iMinimum = document.getElementById(`item_minimum${prodId}`).innerText;
-      document.getElementById(`increase-quantity${prodId}`).disabled = false
+      let cartId = dec.dataset.cart
+      const inputTag = document.querySelector(`#qty-input${cartId}`);
+      const iStocks = document.getElementById(`item_quantity${cartId}`);
+      const iMinimum = document.getElementById(`item_minimum${cartId}`).innerText;
+      document.getElementById(`increase-quantity${cartId}`).disabled = false
 
 
       if (parseInt(inputTag.value) < parseInt(iMinimum)) {
@@ -415,6 +462,8 @@ input[type=number] {
           body: JSON.stringify({
             productid: prodId,
             productqty: inputTag.value,
+            cartId: cartId,
+            status: 'decrease-btn',
             csrfmiddlewaretoken: "{{csrf_token}}",
             action: 'post'
           })
@@ -423,35 +472,33 @@ input[type=number] {
         const data = await response.json();
         if (data) {
           document.querySelector('#cart-qty').innerHTML = data.qty
-          const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
+          const uPrice = document.querySelector(`#prod-uprice${cartId}`).innerText
           total = (parseFloat(data.subtotal))
           document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
           document.querySelector('#total').innerHTML = data.total.toFixed(2)
-          document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(
+          document.querySelector(`#prod-tprice${cartId}`).innerText = (parseInt(inputTag.value) * parseFloat(
             uPrice)).toFixed(2);
-
+          iStocks.innerText = data.new_quantity
         }
       }
     });
   }
 
-
-  // INCREASE BUTTON
-
   for (const inc of increaseButtons) {
     inc.addEventListener('click', async function (e) {
       e.preventDefault();
       let prodId = inc.dataset.index
-      const inputTag = document.querySelector(`#qty-input${prodId}`)
-      const iStocks = document.getElementById(`item_quantity${prodId}`).innerText;
-      const iMinimum = document.getElementById(`item_minimum${prodId}`).innerText;
-      document.getElementById(`decrease-quantity${prodId}`).disabled = false
+      let cartId = inc.dataset.cart
+      const inputTag = document.querySelector(`#qty-input${cartId}`)
+      const iStocks = document.getElementById(`item_quantity${cartId}`);
+      const iMinimum = document.getElementById(`item_minimum${cartId}`).innerText;
+      document.getElementById(`decrease-quantity${cartId}`).disabled = false
 
 
       if (parseInt(inputTag.value) > parseInt(iStocks)) {
         alert("Quantity Input is more than the Available Stocks! ");
         this.disabled = true;
-        inputTag.value = iStocks;
+        inputTag.value = iStocks.innerText;
       } else {
 
         const response = await fetch("{% url 'cart_update' %}", {
@@ -466,6 +513,8 @@ input[type=number] {
           body: JSON.stringify({
             productid: prodId,
             productqty: inputTag.value,
+            cartId: cartId,
+            status: 'increase-btn',
             csrfmiddlewaretoken: "{{csrf_token}}",
             action: 'post'
           })
@@ -474,12 +523,13 @@ input[type=number] {
         const data = await response.json();
         if (data) {
           document.querySelector('#cart-qty').innerHTML = data.qty
-          const uPrice = document.querySelector(`#prod-uprice${prodId}`).innerText
+          const uPrice = document.querySelector(`#prod-uprice${cartId}`).innerText
           total = (parseFloat(data.subtotal))
           document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
           document.querySelector('#total').innerHTML = data.total.toFixed(2)
-          document.querySelector(`#prod-tprice${prodId}`).innerText = (parseInt(inputTag.value) * parseFloat(
+          document.querySelector(`#prod-tprice${cartId}`).innerText = (parseInt(inputTag.value) * parseFloat(
             uPrice)).toFixed(2);
+          iStocks.innerText = data.new_quantity
         }
 
       }

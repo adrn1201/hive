@@ -15,7 +15,7 @@ def w_dashboard(request):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-    products = wholesaler.inventory_set.all()
+    products = wholesaler.product_set.all()
     categories = wholesaler.category_set.all()
     
     pending = wholesaler.order_set.filter(status='pending').count()
@@ -23,7 +23,7 @@ def w_dashboard(request):
     shipped = wholesaler.order_set.filter(status='shipped').count()
     completed = wholesaler.order_set.filter(status='completed').count()
     orders = wholesaler.order_set.all().order_by('-created')
-    products_stock_level = wholesaler.inventory_set.filter(actual_quantity__lte='15')
+    products_stock_level = wholesaler.product_set.filter(actual_stocks__lte='15')
     context = {
         'products':products, 
         'categories':categories,

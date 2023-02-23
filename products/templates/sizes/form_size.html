@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <div class="mb-0">
+                            <img src="{{ product.product_image.url }}" class="avatar avatar-sm me-3" alt="user1">
+                        </div>
+                        <div class="mb-0">
+                            <h6 class="mb-0 text-sm">{{ product.product_name }}</h6>
+                        </div>
+                    </div>
+                </div>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div id="sizes">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row" id="size-inputs">
+                                        <div class="col">
+                                            <label>{{form.name.label}}</label>
+                                            {{form.name}}
+                                        </div>
+
+                                        <div class="col">
+                                            <label>{{form.actual_stocks_var.label}}</label>
+                                            {{form.actual_stocks_var}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if no_btns %}
+                        <div style="display:none">
+                        {% else %}
+                        <div>
+                        {% endif %}
+                            <button class="btn btn-info btn-sm mt-3" type="button" hx-get="{% url 'size-form' %}"
+                                hx-target="#sizes" hx-swap="beforeend" id="add-textbox-button">Add
+                                variation</button>
+                            <button class="btn btn-danger btn-sm mt-3" type="button"
+                                id="delete-textbox-button">Delete
+                                variation</button>
+                        </div>
+                        
+                        <br><br>
+                        <div class="row">
+                            <div class="w-25 mx-auto">
+                                <button class="btn btn-success btn-sm" type="submit">Submit</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const element = document.getElementById("id_with_variation");
+    const delButton = document.getElementById("delete-textbox-button");
+    const addButton = document.getElementById("add-textbox-button")
+    let textboxCount = 0;
+
+    addButton.addEventListener('click', function (e) {
+        textboxCount++
+    });
+
+    delButton.addEventListener('click', function (e) {
+        if (textboxCount >= 0) {
+            const container = document.getElementById("sizes");
+            container.removeChild(container.lastChild);
+            textboxCount -= 1;
+        }
+    });
+</script>
+{% endblock %}

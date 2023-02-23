@@ -1,0 +1,93 @@
+{% extends 'main.html' %}
+{% block title %}{% endblock title %}
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0">Products</p>
+                    </div>
+                </div>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                {% for field in form %}
+                                {% if field.name != "with_variation" and field.name != "actual_stocks" %}
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+
+
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">With variation</label>
+                                    <select name="with_variation" class="form-control" required id="id_with_variation">
+                                        {% for value, text in form.with_variation.field.choices %}
+                                        <option value="{{ value }}"
+                                            {% if product_variation and value in product_variation %}selected{% endif %}>
+                                            {{ text }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div id="hidden_stocks" style="display:none;">
+                                    <div class="form-group">
+                                        <label for="example-text-input"
+                                            class="form-control-label">{{ form.actual_stocks.label }}</label>
+                                        {{ form.actual_stocks }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="hidden_variation" style="display:none;">
+                                <div class="row" id="size-inputs">
+                                    <a class="col-6 mx-auto btn btn-info btn-sm mt-3" href="{% url 'display_sizes' product.id%}">Edit Variations</a>
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="w-25 mx-auto">
+                                <button class="btn btn-success btn-sm" type="submit">Submit</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const element = document.getElementById("id_with_variation");
+
+    element.addEventListener("change", function () {
+        if (element.value == '1') {
+            document.getElementById('hidden_variation').style.display = "block";
+            document.getElementById('hidden_stocks').style.display = "none";
+        } else if (element.value == '0') {
+            document.getElementById('hidden_variation').style.display = "none";
+            document.getElementById('hidden_stocks').style.display = "block";
+        }
+    });
+    window.addEventListener("load", (event) => {
+        if (element.value == '1') {
+            document.getElementById('hidden_variation').style.display = "block";
+            document.getElementById('hidden_stocks').style.display = "none";
+        } else if (element.value == '0') {
+            document.getElementById('hidden_variation').style.display = "none";
+            document.getElementById('hidden_stocks').style.display = "block";
+        }
+    });
+
+
+</script>
+{% endblock %}

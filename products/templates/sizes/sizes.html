@@ -1,0 +1,137 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex card mb-4">
+                <section class="product_section layout_padding">
+
+                    <div class="card-header pb-0">
+
+
+                        <div class="d-flex align-items-center">
+                            <div class="mb-0">
+                                <img src="{{ product.product_image.url }}" class="avatar avatar-sm me-3" alt="user1">
+                            </div>
+                            <div class="mb-0">
+                                <h6 class="mb-0 text-sm">{{ product.product_name }}</h6>
+                            </div>
+                            <a class="btn btn-primary btn-sm ms-auto mt-3" href="{%url 'create-size' product.id%}">Add
+                                Sizes</a>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Variation</th>
+
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Stocks</th>
+
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for variation in variations %}
+                                    <tr>
+                                        <td>
+                                            <p class="text-center text-xs font-weight-bold mb-0">{{ variation.name }}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="text-center text-xs font-weight-bold mb-0">
+                                                {{ variation.actual_stocks_var }}
+                                            </p>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a class="btn btn-link text-dark text-xs px-2 mb-0"
+                                                href="{%url 'edit_size' pk=variation.product.id size_pk=variation.id %}"><i
+                                                    class="fas fa-pencil-alt text-dark me-2"
+                                                    aria-hidden="true"></i>Edit</a>
+                                        </td>
+                                        <td class="align-middle">
+                                            <form method="POST"
+                                                action="{%url 'delete_size' pk=variation.product.id size_pk=variation.id %}"
+                                                class="deleteSize" data-variation="{{variation.name}}">
+                                                {% csrf_token %}
+                                                <button type="submit"
+                                                    class="btn btn-link text-danger text-xs text-gradient px-3 mb-0"><i
+                                                        class="far fa-trash-alt me-2"></i>Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <nav aria-label="Page navigation example">
+                        {% if products.has_other_pages %}
+                        <ul class="pagination justify-content-center">
+                            {% if products.has_previous %}
+                            <li class="page-item"><a href="?page={{products.previous_page_number}}"
+                                    class="btn page-link" tabindex="-1"
+                                    data-page="{{ products.previous_page_number }}">&#10094;</a></li>
+                            {% endif %}
+
+                            {% for page in custom_range %}
+                            {% if page == products.number %}
+                            <li class="page-item active"><a class="page-link" href="?page={{page}}"
+                                    data-page="{{ page }}">{{ page }}</a></li>
+                            {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{page}}"
+                                    data-page="{{ page }}">{{ page }}</a></li>
+                            {% endif %}
+
+                            {% endfor %}
+
+                            {% if products.has_next %}
+                            <li class="page-item"><a href="?page={{products.next_page_number}}" class="btn page-link"
+                                    data-page="{{ products.next_page_number }}">&#10095;</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const deleteItem = document.querySelectorAll('.deleteSize');
+
+    for (const item of deleteItem) {
+        item.addEventListener('click', (e) => {
+            e.preventDefault()
+            const itemName = item.dataset.variation
+            swal({
+                    title: `Are you sure you want to delete? ${itemName}`,
+                    text: "This product will be removed to your product variation list",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        item.submit()
+                    }
+
+                });
+        })
+
+    }
+</script>
+
+
+
+
+{% endblock content %}

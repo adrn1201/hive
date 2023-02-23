@@ -1,35 +1,55 @@
 from django.shortcuts import render, get_object_or_404
-from products.models import Inventory
+from products.models import Product
 from rest_framework.decorators import api_view
 from django.contrib.auth.decorators import login_required
-
 from rest_framework.response import Response
-from products.models import Inventory
-from .cart import Cart
+from products.models import Product
 from .models import Cart_DB
 
 
 @login_required(login_url='login_retailer')
 def show_cart(request):
-    return render(request, "cart/shop_cart.html")
+    cart_items = request.user.cart_db_set.all()
+    
+    cart_subtotal = sum(float(item.products.price) * int(item.qty) for item in cart_items)
+    
+    if cart_subtotal == 0:
+        shipping = float(0.00)
+    else:
+        shipping = float(50.00)
+    cart_total = cart_subtotal + shipping
+    context = {'cart_items':cart_items, 'cart_total':cart_total, 'cart_subtotal':cart_subtotal}
+    return render(request, "cart/shop_cart.html", context)
 
 
 @api_view(['POST'])
 def cart_delete(request):
-    cart= Cart(request)
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         product_id = request.data['productid']
-        cart.delete(product=product_id)
-        
-        item = request.user.cart_db_set.get(product_id=product_id)
+        product_qty = request.data['productqty']
+        item = request.user.cart_db_set.get(id=int(request.data['cartId']))
         item.delete()
+        product = get_object_or_404(Product, id=product_id)
         
-        cart_qty = cart.__len__()
-        cart_subtotal = cart.get_subtotal_price()
-        cart_total = cart.get_total_price()
+        if item.variation_id:
+            variation = product.variation_set.get(id=item.variation_id.id)
+            variation.tempo_stocks_var += int(product_qty)
+            variation.save()
+        else:
+            product.tempo_stocks += int(product_qty)
+            product.save()
+                
+        cart_items = request.user.cart_db_set.all()
+        cart_subtotal = sum(float(item.products.price) * int(item.qty) for item in cart_items)
+        
+        if cart_subtotal == 0:
+            shipping = float(0.00)
+        else:
+            shipping = float(50.00)
+        cart_total = cart_subtotal + shipping
  
         response = Response({
-            'qty': cart_qty, 
+            'qty': request.user.cart_db_set.all().count(), 
             'subtotal':cart_subtotal,
             'total': cart_total
         })
@@ -39,21 +59,85 @@ def cart_delete(request):
     
 @api_view(['POST'])
 def cart_add(request):
-    cart = Cart(request)
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         product_id = request.data['productid']
         product_qty = request.data['productqty']
-        product = get_object_or_404(Inventory, id=product_id)
-        cart.add(product=product, qty=product_qty)
-        cart_db = Cart_DB(
-            user=request.user,
-            product_id=product.id,
-            qty=product_qty
-        )
-        cart_db.save()
+        variation_id = ''
+        variation = ''
+        product = get_object_or_404(Product, id=product_id)
+        if request.data['variation']:
+            variation_id = request.data['variation']
+            variation = product.variation_set.get(id=variation_id)
         
-        cart_qty = cart.__len__()
-        response = Response({'qty': cart_qty})
+        data_created = False
+        products_data = request.user.cart_db_set.filter(products=product)
+        if variation and not products_data:
+            Cart_DB.objects.create(
+                user=request.user,
+                products=product,
+                variation_id=variation,
+                qty=product_qty,
+                subtotal=product.price * int(product_qty)
+            )
+            variation.tempo_stocks_var -= int(product_qty)
+            if variation.tempo_stocks_var < 0:
+                variation.tempo_stocks_var = 0
+            variation.save()
+        elif variation and products_data:
+            for item in products_data:
+                if variation.id == item.variation_id.id:
+                    item.qty += int(product_qty)
+                    item.subtotal+=product.price * int(product_qty)
+                    item.save()
+                    variation.tempo_stocks_var -= int(product_qty)
+                    if variation.tempo_stocks_var < 0:
+                        variation.tempo_stocks_var = 0
+                    variation.save()
+                    data_created = True
+                    
+        elif not variation and not products_data:
+            Cart_DB.objects.create(
+                user=request.user,
+                products=product,
+                qty=product_qty,
+                subtotal=product.price * int(product_qty)
+            )
+            product.tempo_stocks -= int(product_qty)
+            if product.tempo_stocks < 0:
+                product.tempo_stocks = 0
+            product.save()
+        elif not variation and products_data:
+            for item in products_data:
+                cart_item = product.products_cart.get(products=product)
+                cart_item.qty += int(product_qty)
+                cart_item.subtotal+=product.price * int(product_qty)
+                cart_item.save()
+                product.tempo_stocks -= int(product_qty)
+                if product.tempo_stocks < 0:
+                    product.tempo_stocks = 0
+                product.save()
+
+        if variation and products_data and not data_created:
+            Cart_DB.objects.create(
+                user=request.user,
+                products=product,
+                variation_id=variation,
+                qty=product_qty,
+                subtotal=product.price * int(product_qty)
+            )
+            variation.tempo_stocks_var -= int(product_qty)
+            if variation.tempo_stocks_var < 0:
+                variation.tempo_stocks_var = 0
+                variation.save()
+        
+        cart_qty = request.user.cart_db_set.all().count()
+        if variation:
+            new_quantity = variation.tempo_stocks_var
+            var_id = variation.id
+        else:
+            new_quantity = product.tempo_stocks
+            var_id = ''
+        response = Response({'qty': cart_qty, 'new_quantity': new_quantity, 'var_id': var_id})
         return response
     
     return Response({'none':'none'})
@@ -61,23 +145,70 @@ def cart_add(request):
 
 @api_view(['POST'])
 def cart_update(request):
-    cart = Cart(request)
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         product_id = request.data['productid']
         product_qty = request.data['productqty']
-        cart.update(product=product_id, qty=product_qty)
-        item = request.user.cart_db_set.get(product_id=product_id)
+        cart_id = request.data['cartId']
+        product = get_object_or_404(Product, id=product_id)
+        
+        item = request.user.cart_db_set.get(id=int(cart_id))
         item.qty = product_qty
+        item.subtotal=product.price * int(product_qty)
         item.save()
         
-        cart_qty = cart.__len__()
-        cart_subtotal = cart.get_subtotal_price()
-        cart_total = cart.get_total_price()
+        variation = ''
+        if item.variation_id:
+            variation = product.variation_set.get(id=item.variation_id.id)
+            
+            if request.data['status'] == 'increase-btn':
+                variation.tempo_stocks_var -= 1
+            elif request.data['status'] == 'decrease-btn':
+                variation.tempo_stocks_var += 1
+            elif request.data['status'] == 'increase':
+                variation.tempo_stocks_var -=  int(product_qty)
+            elif request.data['status'] == 'decrease':
+                variation.tempo_stocks_var +=  int(product_qty)
+                
+            if variation.tempo_stocks_var < 0:
+                variation.tempo_stocks_var = 0
+            variation.save()
+        else:
+            if request.data['status'] == 'increase-btn':
+                product.tempo_stocks -= 1
+            elif request.data['status'] == 'decrease-btn':
+                product.tempo_stocks += 1
+            elif request.data['status'] == 'increase':
+                product.tempo_stocks -=  int(product_qty)
+            elif request.data['status'] == 'decrease':
+                product.tempo_stocks +=  int(product_qty)
+            
+            if product.tempo_stocks < 0:
+                product.tempo_stocks = 0
+            product.save()
+        
+        cart_items = request.user.cart_db_set.all()
+        cart_subtotal = sum(float(item.products.price) * int(item.qty) for item in cart_items)
+        
+        if cart_subtotal == 0:
+            shipping = float(0.00)
+        else:
+            shipping = float(50.00)
+        cart_total = cart_subtotal + shipping
  
+        if variation:
+            new_quantity = variation.tempo_stocks_var
+            print(new_quantity)
+            var_id = variation.id
+        else:
+            new_quantity = product.tempo_stocks
+            var_id = ''
+            
         response = Response({
-            'qty': cart_qty, 
+            'qty': request.user.cart_db_set.all().count(),
             'subtotal':cart_subtotal,
-            'total': cart_total
+            'total': cart_total, 
+            'new_quantity': new_quantity, 
+            'var_id': var_id
         })
         return response
     return Response({'none':'none'})

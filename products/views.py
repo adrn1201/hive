@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseForbidden
-from .forms import InventoryForm, CategoryForm
+from .forms import ProductForm, CategoryForm, VariationForm
 from .utils import search_products, paginate_products
 from django_tenants.utils import remove_www
 from wholesalers.models import Domain, Wholesaler
-from .models import Inventory
 from django.contrib.auth.decorators import login_required
-from django.forms import modelformset_factory
+from django.contrib import messages
+from .models import Product, Variation
 
-
+product_object = ''
 @login_required(login_url='login_wholesaler')
 def index(request):
     try:
@@ -32,25 +32,42 @@ def create_product(request):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-    form = InventoryForm()
-    # InventoryFormset = modelformset_factory(Inventory, fields=('size', 'actual_quantity', ))
-    # formset = InventoryFormset(queryset=Inventory.objects.filter(wholesaler=wholesaler_id))
-    
+    form = ProductForm(request.POST, request.FILES)
+    variation_form = VariationForm(request.POST or None)
+
     if request.method == "POST":
-        form = InventoryForm(request.POST, request.FILES)
-        if form.is_valid():
+        if form.is_valid() and request.POST['with_variation'] == '0':
             product = form.save(commit=False)
             product.wholesaler = wholesaler
-            product.tempo_quantity = product.actual_quantity
+            product.tempo_stocks = product.actual_stocks
             product.save()
-            # for i in formset:
-            #     i.save()
-                
-            return redirect('products')
+        elif (form.is_valid() and request.POST['with_variation'] == '1'): 
+            print(request.POST)
+            product = form.save(commit=False)
+            product.wholesaler = wholesaler
+            product.save() 
+            if variation_form.is_valid():
+                for i in range(len(request.POST.getlist('name'))):                
+                    Variation.objects.create(
+                        product=product,
+                        name=request.POST.getlist('name')[i],
+                        actual_stocks_var=int(request.POST.getlist('actual_stocks_var')[i]),
+                        tempo_stocks_var=int(request.POST.getlist('actual_stocks_var')[i])
+                    )
+        messages.success(request, 'Product record successfully created!')
+        return redirect('products')
+
+
     
-    context = {"form":form}
+    context = {"form":form, 'variation_form':variation_form}
 
     return render(request, "products/product_form.html", context)
+
+
+def create_size_form(request):
+    context = {'form':VariationForm()}
+    return render(request, 'partials/size_form.html', context)
+
 
 @login_required(login_url='login_wholesaler')
 def view_product(request, pk):
@@ -63,7 +80,7 @@ def view_product(request, pk):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-    product = wholesaler.inventory_set.get(id=pk)
+    product = wholesaler.product_set.get(id=pk)
     
     context ={'product':product}
     return render(request, "products/view_product.html", context)
@@ -80,18 +97,21 @@ def edit_product(request, pk):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-    product = wholesaler.inventory_set.get(id=pk)
+    product = wholesaler.product_set.get(id=pk)
     
-    form = InventoryForm(instance=product) 
+    form = ProductForm(instance=product)
 
     if request.method == "POST":
-        form = InventoryForm(request.POST, request.FILES, instance=product)
+        form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
-            form.save()
+            product = form.save(commit=False)
+            product.tempo_stocks = product.actual_stocks
+            product.save()
+            messages.success(request, 'Product details successfully updated!')
             return redirect('products')
-    
-    context = {"form":form}
-    return render(request, "products/product_form.html", context)
+            
+    context = {"form":form, 'product_variation':[product.with_variation], 'edit_page' : True, 'product':product}
+    return render(request, "products/edit_product.html", context)
 
 
 @login_required(login_url='login_wholesaler')
@@ -105,10 +125,11 @@ def delete_product(request, pk):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-    product = wholesaler.inventory_set.get(id=pk)
+    product = wholesaler.product_set.get(id=pk)
     
     if request.method == 'POST':
         product.delete()
+        messages.success(request, 'Product record successfully deleted!')
         return redirect("products")
     context={'product':product}
     return render(request, "products/delete_product.html", context)
@@ -144,8 +165,8 @@ def show_category(request, pk):
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     
     category = wholesaler.category_set.get(id=pk)
-    products = category.inventory_set.all()
-    product_count = category.inventory_set.all().count()
+    products = category.product_set.all()
+    product_count = category.product_set.all().count()
     context = {"category":category, "product_count":product_count, "products":products}
     return render(request, "products/category_detail.html", context)
 
@@ -169,6 +190,7 @@ def create_category(request):
             category = form.save(commit=False)
             category.wholesaler = wholesaler
             category.save()
+            messages.success(request, 'Category record successfully created!')
             return redirect('categories')
     
     context = {"form":form}
@@ -193,6 +215,7 @@ def edit_category(request, pk):
         form = CategoryForm(request.POST, instance=category)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Category record successfully updated!')
             return redirect('categories')
     
     context = {"form":form}
@@ -214,8 +237,103 @@ def delete_category(request, pk):
     
     if request.method == "POST":
         category.delete()
+        messages.success(request, 'Category record successfully deleted!')
         return redirect('categories')
     
     context = {"category":category}
     return render(request, "products/category_delete.html", context)
 
+
+@login_required(login_url='login_wholesaler')
+def display_sizes(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    product = wholesaler.product_set.get(id=pk)
+    
+    variations = product.variation_set.all()
+    context = {'variations': variations, 'product':product}
+    return render(request, 'sizes/sizes.html', context)
+    
+
+@login_required(login_url='login_wholesaler')
+def create_size(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    
+    product = wholesaler.product_set.get(id=pk)
+    variation_form = VariationForm(request.POST or None)
+
+    if variation_form.is_valid():
+        for i in range(len(request.POST.getlist('name'))):                
+            Variation.objects.create(
+                product=product,
+                name=request.POST.getlist('name')[i],
+                actual_stocks_var=int(request.POST.getlist('actual_stocks_var')[i]),
+                tempo_stocks_var=int(request.POST.getlist('actual_stocks_var')[i])
+            )
+        messages.success(request, 'Variation record successfully created!')
+        return redirect('display_sizes', pk=product.id)
+    
+    context = {'form':variation_form, 'product':product}
+    return render(request, 'sizes/form_size.html', context)
+
+
+@login_required(login_url='login_wholesaler')
+def edit_size(request, pk, size_pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    product = wholesaler.product_set.get(id=pk)
+    variation = product.variation_set.get(id=size_pk)
+    variation_form = VariationForm(request.POST or None, instance=variation)
+
+    if request.method == "POST":
+        if variation_form.is_valid():
+            variation_data = variation_form.save(commit=False)
+            variation_data.tempo_stocks_var = variation_data.actual_stocks_var
+            variation_data.save()
+            messages.success(request, 'Variation record successfully updated!')
+            return redirect('display_sizes', pk=product.id)
+    
+    context = {"form":variation_form,'product':product, 'no_btns':True}
+    return render(request, 'sizes/form_size.html', context)
+
+
+@login_required(login_url='login_wholesaler')
+def delete_size(request, pk, size_pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+    
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    product = wholesaler.product_set.get(id=pk)
+    variation = product.variation_set.get(id=size_pk)
+    
+    if request.method == 'POST':
+        variation.delete()
+    messages.success(request, 'Variation record successfully deleted!')
+    return redirect('display_sizes', pk=product.id)
