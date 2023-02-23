@@ -11,12 +11,30 @@ Manage Retailer
         <div class="col-12">
             <div class="d-flex card mb-4">
 
-                <div class="card-header pb-0">
-                    <div class="d-flex align-items-center">
-                        <p class="mb-0">Manage Retailers</p>
-                        <button type = "button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#RegisterRetailer">Register Retailer</button>
-                      </div>
-                    </div>
+            <div class="card-header pb-0">
+
+            <div class="ms-auto">
+                <div class="col-lg-5 d-flex mt-4">
+                    <form action="{% url 'display_orders' %}" method="GET" id="searchForm">
+                        <div class="form-group has-search">
+                            <input type="search" value="{{ search_query }}" class="form-control"
+                                name="q" placeholder="Search Orders">
+                        </div>
+                    </form>
+                    <select class="form-select" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 40px;">
+                        <option selected> Filter Category </option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                        </select>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <p class="mb-0">Manage Retailers</p>
+                <button type = "button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#RegisterRetailer">Register Retailer</button>
+                </div>
+            </div>
 
                     <!-- Modal -->
 <div class="modal fade" id="RegisterRetailer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
