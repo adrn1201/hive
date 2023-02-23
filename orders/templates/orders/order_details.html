@@ -9,18 +9,18 @@
 
 <div class="container-fluid py-4">
   <div class="row">
-      <div class="col-12">
-        <div class="card mb-4">
+    <div class="col-12">
+      <div class="table-responsive p-0">
+      <div class="card mb-4">
 
-          <div class="card-body px-0 pt-0 pb-2">
-            <div class="table-responsive p-0">
-              <div class="table-responsive p-0">
-                <table class="table align-items-center mb-0">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                        Reference ID: <p class="text-dark text-xxs font-weight-bolder">{{ order.reference_number }}</p>
-                      </th>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      Reference ID: <p class="text-dark text-xxs font-weight-bolder">{{ order.reference_number }}</p>
+                    </th>
 
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                         Business Name:<p class="text-dark text-xxs font-weight-bolder">{{ order.business_name }}</p>
@@ -84,30 +84,31 @@
 
     <div class="row">
       <div class="col-12">
-        <div class="card mb-4">
-          <div class="card-body px-0 pt-0 pb-2">
-
+        <div class="card mb-4 w-70 mx-auto">
+          <div class="card-body px-0 pt-2 pb-0">
+           
             <div class="container-fluid py-4">
+              <h5 class="mb-0 container-fluid">Shipment Status:</h5>
               <div class="card-header pb-0">
+              
                 <form action="" method="POST">
                   {% csrf_token %}
                   <div class="row">
-                    <div class="col-6">
-                      <div class="form-group">
+                    <div class="d-flex justify-content-between ">
+                      <div class="form-group col-lg-8">
                         {% for field in form %}
                         {{ field }}
                         {% endfor %}
                       </div>
-                    </div>
-                    <div class="col-6">
                       <p class="text-dark font-weight-bold">Total Amount: 
                         <span class="text-md text-secondary font-weight-bold">₱{{ order.total_paid }}</span>
                       </p>
                     </div>
                   </div>
-                  <div class="position-absolute bottom-4 end-4">
-                    <button type="submit" class="btn btn-success btn-md">Update Order Status</button>
-                  </div>
+                  <br>
+                  <div class="position-absolute bottom-0 end-5">
+                  <button type="submit" class="btn btn-success btn-md ms-auto">Update Order Status</button>
+                </div>
                 </form>
               </div>
             </div>
