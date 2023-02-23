@@ -43,8 +43,8 @@
 /* Bootstrap 4 text input with search icon */
 
 .has-search .form-control {
-    padding-left: 2.375rem;
-    width: 30em;
+    /* padding-left: 2.375rem; */
+    width: 20em;
 }
 
 .has-search .form-control-feedback {
@@ -1009,12 +1009,11 @@ a:focus {
 
 li.nav-item ul {
     background: #fff;
-    border: solid #000 2px;
+    /* border: solid #000 2px; */
     border-radius: 0;
     padding: 10px 20px;
-    margin-left: 10px;
-    margin-top: 10px;
-    box-shadow: 4px 4px 0px 0 #000;
+    margin-left: 23px;
+    /* box-shadow: 4px 4px 0px 0 #000; */
     width: 190px;
 }
 
@@ -1057,6 +1056,7 @@ li.nav-item ul li a:focus {
 footer {
     background: #f8f8f8;
     padding: 90px 0 70px;
+    bottom: 0;
 }
 
 .logo_footer {

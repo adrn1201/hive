@@ -66,15 +66,22 @@
                <li class="nav-item dropdown">
                   <a class="nav-link" href="#" data-toggle="dropdown" role="button" aria-haspopup="true"
                      aria-expanded="true">
-                  <span class="nav-label">
-                     <div class="logo-image">
-                        <img src="{{request.user.retailer.image_url}}" id="sample">
-                     </div>  
+                  <span class="row nav-label">
+                     <div style="display: flex;">
+                        <div class="logo-image">
+                           <img src="{{request.user.retailer.image_url}}" id="sample">
+                        </div> 
+                        &nbsp;
+                        {{request.user.retailer.business_name}} 
+                        <i class='fas fa-caret-down' style="margin-top: 3px; margin-left: 3px;"></i>
+                     </div>
+                     
+                  </span>
                         <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                     <li><a href="{% url 'retailer_view_profile' %}">My Profile</a></li>
-                     <li><a href="{% url 'dashboard_retailer'%}">My Orders</a></li>
-                     <li><a href="{% url 'logout_retailer' %}">Sign Out</a></li>
+                     <li><i class="fas fa-user-alt"></i>&nbsp;&nbsp;<a href="{% url 'retailer_view_profile' %}">My Profile</a></li>
+                     <li><i class='fas fa-shopping-bag'></i>&nbsp;&nbsp;<a href="{% url 'dashboard_retailer'%}">My Orders</a></li>
+                     <li><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;<a href="{% url 'logout_retailer' %}">Sign Out</a></li>
                   </ul>
                </li>
             </ul>

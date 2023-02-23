@@ -19,12 +19,26 @@
                                         <div class="form-group has-search">
                                             <input type="search" value="{{ search_query }}" class="form-control"
                                                 name="search_query" placeholder="Search Products or Category">
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                       <div class="heading_container heading_center">
+                          <div class="ms-auto">
+                             <div class="col-lg-5 d-flex mt-4 ">
+                                &nbsp; 
+                                <form action="{% url 'products' %}" method="GET" id="searchForm">
+                                   <div class="form-group has-search">
+                                        <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category"> 
+                                     </div>
+                                </form>
+
+                                <select class="form-select" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 40px;">
+                                    <option selected> Filter Category </option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                  </select>
+                             </div>
+                          </div>
+                       </div>
+                    </div> 
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
                             <p class="mb-0">Products</p>

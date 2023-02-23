@@ -5,24 +5,28 @@
 
 {% block content %}
 
-
-
-
 <!-- product section -->
 <section class="product_section layout_padding">
    <div class="container">
       <div class="heading_container heading_center">
-         <div class="row">
-            <div class="col-10">
-               <form action="{% url 'show_shop' %}" method="GET" id="searchForm">
-                  <div class="form-group has-search">
-                     <span class="fa fa-search form-control-feedback"></span>
-                     <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category">
-                   </div>
-               </form>
-            </div>
-         </div>
-
+            <form action="{% url 'show_shop' %}" method="GET" id="searchForm">
+               <div class="row justify-content-center">
+                  <div class="col-10 d-flex mt-4">
+                     <select class="form-select" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 38px;">
+                        <option selected> Filter Category </option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                     </select>
+                     <div class="form-group has-search">
+                        <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category">
+                     </div>
+                     <button class="btn-search" type="button" style="width: 120px; height: 39px; border: 1px solid #ced4da;">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                     </button>
+                  </div>
+               </div>
+            </form>
       </div>
       <div class="row">
 

@@ -73,6 +73,17 @@ def wholesaler_create_profile(request):
 
 
 @login_required(login_url='login_wholesaler')
+def wholesaler_view_profile(request):
+    try:
+        request.user.wholesaler
+    except BaseException:
+        return HttpResponseForbidden()
+    wholesaler = request.user.wholesaler
+    context ={'wholesaler' : wholesaler}
+    return render(request, "wholesalers/wholesaler_view_profile.html", context)
+
+
+@login_required(login_url='login_wholesaler')
 def wholesaler_edit_profile(request):
     try:
         request.user.wholesaler
@@ -85,10 +96,10 @@ def wholesaler_edit_profile(request):
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     form = WholesalerCreationForm(instance=wholesaler)
     if request.method == "POST":
-        form = WholesalerCreationForm(request.POST, instance=wholesaler)
+        form = WholesalerCreationForm(request.POST, request.FILES, instance=wholesaler)
         if form.is_valid():
             form.save()
-            return redirect('edit_profile')
+            return redirect('wholesaler_view_profile')
 
 
     context = {'form':form}
