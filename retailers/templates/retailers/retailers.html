@@ -119,14 +119,13 @@ Manage Retailer
                                         <p class="text-xs font-weight-bold mb-0">{{ retailer.user.email }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <span class="text-xs font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
+                                        <span id= "status_acc" class="text-xs font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
                                     </td>
                                     <td class="text-center">
-                                        <form method = "POST" action="{% url 'deactivate_retailer' retailer.id %}" class = "updateForm"  value = {{retailer.business_name}}>
+                                        <form method = "POST" action="{% url 'deactivate_retailer' retailer.id %}" class = "updateForm"  data-status ="retailer.is_active" data-product ="{{retailer.business_name}}">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-primary btn-block btn-xs mt-3"><i class="far fa fa-refresh me-2"></i>
-                                                Update
-                                              </button>
+                                            <input value ="Update" type="submit" class="btn btn-primary btn-block btn-xs mt-3 update">
+                                        </input>
                                         </form>
                                      </td>
                                 </tr>
@@ -165,14 +164,25 @@ Manage Retailer
 
 <script>
 
+    const updateStatus = document.querySelectorAll('.update');
     const updateForms = document.querySelectorAll('.updateForm');
+    const status = document.getElementById('status_acc').innerText;
+
+    if (status  == 'Active') {
+
+
+    for (const x of updateStatus) {
+
+        x.style.background='#cc0000';
+        x.value='Deactivate';
+    }
     
     for (const item of updateForms) {
         item.addEventListener('click', (e) => {
             e.preventDefault()
-          let name = e.target.dataset.value
+          let name = item.dataset.product
           swal({
-      title: `Update the account status of ${name}?`,
+      title: `Deactivate the account status of ${name}?`,
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -184,7 +194,36 @@ Manage Retailer
       
     });
         })
-     
+    } 
+    }
+
+    if (status  == 'Inactive') {
+    
+    for (const x of updateStatus) {
+
+        
+        x.style.background='#339933';
+        x.value='Activate';
+        
+    }
+    for (const item of updateForms) {
+        item.addEventListener('click', (e) => {
+            e.preventDefault()
+          let name = item.dataset.product
+          swal({
+      title: `Activate the account status of ${name}?`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        item.submit() 
+      } 
+      
+    });
+        })
+    } 
     }
     </script>
 

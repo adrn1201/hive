@@ -174,7 +174,7 @@
             {{ wholesaler.created}}
         </td>
         <td class="text-center">
-          <form method = "POST" action="{% url 'update_wholesaler' wholesaler.id %}" class = "updateForm"  value = {{retailer.business_name}}>
+          <form method = "POST" action="{% url 'update_wholesaler' wholesaler.id %}" class = "updateForm"  data-product="{{wholesaler.business_name}}">
             {% csrf_token %}
             <button type="submit" class="btn  btn-info  btn-xs "><i class="far fa-edit"></i>
               </button>
@@ -210,7 +210,7 @@
     for (const item of updateForms) {
         item.addEventListener('click', (e) => {
             e.preventDefault()
-          let name = e.target.dataset.value
+          let name = item.dataset.product
           swal({
       title: `Update the account status of ${name}?`,
       icon: "warning",

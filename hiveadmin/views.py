@@ -32,28 +32,28 @@ def list_deac(request):
 
 def update_wholesaler(request, pk):
     
-    retailer = Wholesaler.objects.get(id=pk)
+    wholesaler = Wholesaler.objects.get(id=pk)
     
     
     if request.method == "POST":
     
-        if retailer.is_active & retailer.user.is_active == False:
-            retailer.is_active = True
-            retailer.user.is_active = True
-            retailer.user.save()
-            retailer.save()
+        if wholesaler.is_active & wholesaler.user.is_active == False:
+            wholesaler.is_active = True
+            wholesaler.user.is_active = True
+            wholesaler.user.save()
+            wholesaler.save()
             
         
-        elif retailer.is_active & retailer.user.is_active == True:
-            retailer.is_active = False
-            retailer.user.is_active = False
-            retailer.user.save()
-            retailer.save()
+        elif wholesaler.is_active & wholesaler.user.is_active == True:
+            wholesaler.is_active = False
+            wholesaler.user.is_active = False
+            wholesaler.user.save()
+            wholesaler.save()
 
 
         messages.success(request, 'Account status successfully updated!') 
         return redirect('list_wholesalers')
-    context = {"retailer":retailer}
+    context = {"wholesaler":wholesaler}
     return render(request, 'hiveadmin/wholesalers_list.html',context)
         
 
