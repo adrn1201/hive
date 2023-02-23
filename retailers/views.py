@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django_tenants.utils import remove_www
 from django.contrib.auth import login, authenticate, logout
-
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.core.mail import send_mail
@@ -100,12 +100,10 @@ def retailer_view_profile(request):
 
 @login_required(login_url='login_wholesaler')
 def about_us(request):
-    
     try:
         request.user.retailer
     except BaseException:
         return HttpResponseForbidden()
-    
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -113,8 +111,22 @@ def about_us(request):
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     context ={'wholesaler':wholesaler}
     
-   
-
+    if request.method == 'POST':
+        subject = request.POST["subject"]
+        message = request.POST['message']
+        sender = request.POST['email']
+        name = request.POST['name']
+        send_mail(
+            f'{subject}',
+            f'{name} {sender} {message}',
+            sender,
+            [request.user.retailer.wholesaler.user.email],
+            fail_silently=False
+        )
+        messages.success(request, 'Message Sent!')
+        return redirect('about_us')
+        
+       
     return render(request, "retailers/about_us.html",context)
 
 # IN PROGRESS IN PROGRESS IN PROGRESS IN PROGRESS  IN PROGRESS IN PROGRESS 
