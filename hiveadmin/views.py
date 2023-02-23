@@ -7,7 +7,7 @@ from django.contrib import messages
 
 def list_wholesalers(request):
 
-    wholesalers = Wholesaler.objects.filter(is_active=True)
+    wholesalers = Wholesaler.objects.exclude(id=1).filter(is_active=True)
     context = {'wholesalers': wholesalers}
 
     if(request.method == "POST"):
@@ -30,15 +30,30 @@ def list_deac(request):
     return render(request, 'hiveadmin/wholesalers_deac.html',context)
 
 
-def deactivate_acc (request,pk):
+def update_wholesaler(request, pk):
+    
+    retailer = Wholesaler.objects.get(id=pk)
+    
+    
+    if request.method == "POST":
+    
+        if retailer.is_active & retailer.user.is_active == False:
+            retailer.is_active = True
+            retailer.user.is_active = True
+            retailer.user.save()
+            retailer.save()
+            
+        
+        elif retailer.is_active & retailer.user.is_active == True:
+            retailer.is_active = False
+            retailer.user.is_active = False
+            retailer.user.save()
+            retailer.save()
 
-    if (request.method == "POST"):
 
-        wholesalers = Wholesaler.objects.get(id=pk)
-        wholesalers.is_active = False
-        wholesalers.save()
-        context = {'wholesalers': wholesalers}
+        messages.success(request, 'Account status successfully updated!') 
         return redirect('list_wholesalers')
+    context = {"retailer":retailer}
     return render(request, 'hiveadmin/wholesalers_list.html',context)
         
 
