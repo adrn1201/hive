@@ -136,13 +136,18 @@
             {{ wholesaler.business_name }}
         </td>
         <td class="text-center"> 
-            <span id = "status" class="badge badge-success rounded-pill d-inline">{{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>  
+            <span id = "status" class="badge badge-danger rounded-pill d-inline">{{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>  
         </td>
         <td class="text-center">
             {{ wholesaler.created}}
         </td>
         <td class="text-center">
-           <a href="#"> <i class="fas fa-cog" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop2"  ></i></a>
+          <form method = "POST" action="{% url 'update_wholesaler' wholesaler.id %}" class = "updateForm"  value = {{retailer.business_name}}>
+            {% csrf_token %}
+            <button type="submit" class="btn  btn-info  btn-xs "><i class="far fa-edit"></i>
+            </button>
+        </form>
+
         </td>
       {% endfor %}
     </tbody>
@@ -151,6 +156,28 @@
 </div>
 
 <script>
+  
+    const updateForms = document.querySelectorAll('.updateForm');
+    
+    for (const item of updateForms) {
+        item.addEventListener('click', (e) => {
+            e.preventDefault()
+          let name = e.target.dataset.value
+          swal({
+      title: `Update the account status of ${name}?`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        item.submit() 
+      } 
+      
+    });
+        })
+     
+    }
 
 $(document).ready(function(){
         $('.form').on('submit', function(){
