@@ -64,8 +64,8 @@ Analytics
                 
                 <form action="{% url 'display_orders' %}" method="GET" id="searchForm"> 
                     
-                    <div class="form-group has-search">
-                      
+                    <div class="input-group">
+                      <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
                        <input type="search" value="{{ search_query }}" class="form-control"
                             name="search_query" placeholder="Search Category">
                             
