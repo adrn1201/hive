@@ -5,12 +5,12 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
 from products.models import Product
 from .models import Cart_DB
+from django.conf import settings
 
 
 @login_required(login_url='login_retailer')
 def show_cart(request):
     cart_items = request.user.cart_db_set.all()
-    
     cart_subtotal = sum(float(item.products.price) * int(item.qty) for item in cart_items)
     
     if cart_subtotal == 0:
@@ -18,7 +18,7 @@ def show_cart(request):
     else:
         shipping = float(50.00)
     cart_total = cart_subtotal + shipping
-    context = {'cart_items':cart_items, 'cart_total':cart_total, 'cart_subtotal':cart_subtotal}
+    context = {'cart_items':cart_items, 'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY ,'cart_total':cart_total, 'cart_subtotal':cart_subtotal}
     return render(request, "cart/shop_cart.html", context)
 
 

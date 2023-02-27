@@ -21,7 +21,8 @@ class Order(models.Model):
     mode_of_payment = models.CharField(max_length=255)
     status = models.CharField(max_length=255, choices=ORDER_STATUS)
     is_received = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateField(auto_now_add=True)
+    
     
 
 class OrderItem(models.Model):
@@ -37,3 +38,5 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return str(self.id)
+
+

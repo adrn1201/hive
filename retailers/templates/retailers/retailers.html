@@ -11,96 +11,102 @@ Manage Retailer
         <div class="col-12">
             <div class="d-flex card mb-4">
 
-            <div class="card-header pb-0">
+                <div class="card-header pb-0">
 
-            <div class="ms-auto">
-                <div class="col-lg-5 d-flex mt-4">
-                    <form action="{% url 'display_orders' %}" method="GET" id="searchForm">
-                        <div class="form-group has-search">
-                            <input type="search" value="{{ search_query }}" class="form-control"
-                                name="q" placeholder="Search Orders">
+                    <div class="ms-auto">
+                        <div class="col-lg-5 d-flex mt-4">
+                            <form action="{% url 'display_orders' %}" method="GET" id="searchForm">
+                                <div class="form-group has-search">
+                                    <input type="search" value="{{ search_query }}" class="form-control" name="q"
+                                        placeholder="Search Orders">
+                                </div>
+                            </form>
+                            <select class="form-select" aria-label="Default select example"
+                                style="margin-left: 15px; width: 200px; height: 40px;">
+                                <option selected> Filter Category </option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
                         </div>
-                    </form>
-                    <select class="form-select" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 40px;">
-                        <option selected> Filter Category </option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        </select>
-                </div>
-            </div>
+                    </div>
 
-            <div class="d-flex align-items-center">
-                <p class="mb-0">Manage Retailers</p>
-                <button type = "button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#RegisterRetailer">Register Retailer</button>
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0">Manage Retailers</p>
+                        <button type="button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal"
+                            data-bs-target="#RegisterRetailer">Register Retailer</button>
+                    </div>
                 </div>
-            </div>
 
-                    <!-- Modal -->
-<div class="modal fade" id="RegisterRetailer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Add a Retailer</h5>
-        </div>
-        <div class="modal-body">
-            <form action="" method = 'POST' class ="form">
-                {% csrf_token %}
-                <div class="form-outline mb-4">
-                    <br>
-                    <input type="email"  name="email" id="email" class="form-control" />
-                    <label class="form-label" for="email">Retailer's Email address</label>
+                <!-- Modal -->
+                <div class="modal fade" id="RegisterRetailer" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Add a Retailer</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" method='POST' class="form">
+                                    {% csrf_token %}
+                                    <div class="form-outline mb-4">
+                                        <br>
+                                        <input type="email" name="email" id="email" class="form-control" />
+                                        <label class="form-label" for="email">Retailer's Email address</label>
+                                    </div>
+                                    <!-- Submit button -->
+                                    <button id="submitForm" type="submit" class="btn btn-primary btn-block">Send
+                                        Email</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- Submit button -->
-                <button  id ="submitForm" type="submit" class="btn btn-primary btn-block">Send Email</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
 
-<!-- Modal2 -->
-  <!--Modal: modalConfirmDelete-->
-  <div class="modal fade" id="staticBackdrop2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
-      <!--Content-->
-      <div class="modal-content text-center">
-        <!--Header-->
-        <div class="modal-header d-flex justify-content-center">
-          <p class="heading">Update Status</p>
-        </div>
-  
-        <!--Body-->
-        <div class="modal-body">
-  
-            <i class="fas fa-info-circle fa-3x"></i>
-            <br><br>
-            This retailer's account status will be updated
-  
-        </div>
-  
-        <!--Footer-->
-        <form action= "" method =""> 
-            {% csrf_token %}
-            <div class="modal-footer flex-center">
-                <button href=""  type="submit" class="btn btn-primary btn-block">Yes</button>
-                <a type="button" class="btn  btn-outline-secondary" data-bs-dismiss="modal">No</a>
-              </div>
-        </form>
-       
-      </div>
-      <!--/.Content-->
-    </div>
-  </div>
-<!-- Modal2 -->
+                <!-- Modal2 -->
+                <!--Modal: modalConfirmDelete-->
+                <div class="modal fade" id="staticBackdrop2" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+                        <!--Content-->
+                        <div class="modal-content text-center">
+                            <!--Header-->
+                            <div class="modal-header d-flex justify-content-center">
+                                <p class="heading">Update Status</p>
+                            </div>
+
+                            <!--Body-->
+                            <div class="modal-body">
+
+                                <i class="fas fa-info-circle fa-3x"></i>
+                                <br><br>
+                                This retailer's account status will be updated
+
+                            </div>
+
+                            <!--Footer-->
+                            <form action="" method="">
+                                {% csrf_token %}
+                                <div class="modal-footer flex-center">
+                                    <button href="" type="submit" class="btn btn-primary btn-block">Yes</button>
+                                    <a type="button" class="btn  btn-outline-secondary" data-bs-dismiss="modal">No</a>
+                                </div>
+                            </form>
+
+                        </div>
+                        <!--/.Content-->
+                    </div>
+                </div>
+                <!-- Modal2 -->
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Business Name</th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -114,11 +120,11 @@ Manage Retailer
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Status</th>
-                                    
+
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Action</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -137,15 +143,19 @@ Manage Retailer
                                         <p class="text-xs font-weight-bold mb-0">{{ retailer.user.email }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <span id= "status_acc" class="text-xs font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
+                                        <span id="status_acc"
+                                            class="text-xs font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
                                     </td>
                                     <td class="text-center">
-                                        <form method = "POST" action="{% url 'deactivate_retailer' retailer.id %}" class = "updateForm"  data-status ="retailer.is_active" data-product ="{{retailer.business_name}}">
+                                        <form method="POST" action="{% url 'deactivate_retailer' retailer.id %}"
+                                            class="updateForm" data-status="retailer.is_active"
+                                            data-product="{{retailer.business_name}}">
                                             {% csrf_token %}
-                                            <input value ="Update" type="submit" class="btn btn-primary btn-block btn-xs mt-3 update">
-                                        </input>
+                                            <input value="Update" type="submit"
+                                                class="btn btn-primary btn-block btn-xs mt-3 update">
+                                            </input>
                                         </form>
-                                     </td>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -156,24 +166,29 @@ Manage Retailer
                         {% if products.has_other_pages %}
                         <ul class="pagination justify-content-center">
                             {% if products.has_previous %}
-                            <li class="page-item"><a href="?page={{products.previous_page_number}}" class="btn page-link" tabindex="-1" data-page="{{ products.previous_page_number }}">&#10094;</a></li>
+                            <li class="page-item"><a href="?page={{products.previous_page_number}}"
+                                    class="btn page-link" tabindex="-1"
+                                    data-page="{{ products.previous_page_number }}">&#10094;</a></li>
                             {% endif %}
-    
+
                             {% for page in custom_range %}
                             {% if page == products.number %}
-                            <li class="page-item active"><a class="page-link" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
+                            <li class="page-item active"><a class="page-link" href="?page={{page}}"
+                                    data-page="{{ page }}">{{ page }}</a></li>
                             {% else %}
-                            <li class="page-item"><a class="page-link" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{page}}"
+                                    data-page="{{ page }}">{{ page }}</a></li>
                             {% endif %}
-           
+
                             {% endfor %}
-    
+
                             {% if products.has_next %}
-                            <li class="page-item"><a href="?page={{products.next_page_number}}" class="btn page-link" data-page="{{ products.next_page_number }}">&#10095;</a></li>
+                            <li class="page-item"><a href="?page={{products.next_page_number}}" class="btn page-link"
+                                    data-page="{{ products.next_page_number }}">&#10095;</a></li>
                             {% endif %}
                         </ul>
                     </nav>
-                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -181,69 +196,67 @@ Manage Retailer
 </div>
 
 <script>
-
     const updateStatus = document.querySelectorAll('.update');
     const updateForms = document.querySelectorAll('.updateForm');
     const status = document.getElementById('status_acc').innerText;
 
-    if (status  == 'Active') {
+    if (status == 'Active') {
 
 
-    for (const x of updateStatus) {
+        for (const x of updateStatus) {
 
-        x.style.background='#cc0000';
-        x.value='Deactivate';
+            x.style.background = '#cc0000';
+            x.value = 'Deactivate';
+        }
+
+        for (const item of updateForms) {
+            item.addEventListener('click', (e) => {
+                e.preventDefault()
+                let name = item.dataset.product
+                swal({
+                        title: `Deactivate the account status of ${name}?`,
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            item.submit()
+                        }
+
+                    });
+            })
+        }
     }
-    
-    for (const item of updateForms) {
-        item.addEventListener('click', (e) => {
-            e.preventDefault()
-          let name = item.dataset.product
-          swal({
-      title: `Deactivate the account status of ${name}?`,
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        item.submit() 
-      } 
-      
-    });
-        })
-    } 
+
+    if (status == 'Inactive') {
+
+        for (const x of updateStatus) {
+
+
+            x.style.background = '#339933';
+            x.value = 'Activate';
+
+        }
+        for (const item of updateForms) {
+            item.addEventListener('click', (e) => {
+                e.preventDefault()
+                let name = item.dataset.product
+                swal({
+                        title: `Activate the account status of ${name}?`,
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            item.submit()
+                        }
+
+                    });
+            })
+        }
     }
+</script>
 
-    if (status  == 'Inactive') {
-    
-    for (const x of updateStatus) {
-
-        
-        x.style.background='#339933';
-        x.value='Activate';
-        
-    }
-    for (const item of updateForms) {
-        item.addEventListener('click', (e) => {
-            e.preventDefault()
-          let name = item.dataset.product
-          swal({
-      title: `Activate the account status of ${name}?`,
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        item.submit() 
-      } 
-      
-    });
-        })
-    } 
-    }
-    </script>
-
-{% endblock content %} 
-
+{% endblock content %}

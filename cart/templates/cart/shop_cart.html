@@ -170,33 +170,13 @@ input[type=number] {
 
                 <!--INPUT FIELDS-->
 
-                <div class="col-md-6 col-lg-4 col-xl-6" id="inputfields">
+                <div class="col-9" id="inputfields">
                   <div class="row">
                     <div class="col-12 col-xl-6">
-                      <div class="form-floating mb-4 mb-xl-5">
-                        <input type="text" id="typeName" class="form-control form-control-lg" size="17"
-                          placeholder="Name on card" />
-                        <label class="form-label" for="typeName">Name on card</label>
-                      </div>
+                      <div class="form-floating mb-4 mb-xl-6" id="card-element">
 
-                      <div class="form-floating mb-4 mb-xl-5">
-                        <input type="text" id="typeExp" class="form-control form-control-lg" placeholder="MM/YY"
-                          size="7" id="exp" minlength="7" maxlength="7" />
-                        <label class="form-label" for="typeExp">Expiration</label>
                       </div>
-                    </div>
-                    <div class="col-12 col-xl-6">
-                      <div class="form-floating mb-4 mb-xl-5">
-                        <input type="text" id="typeCd" class="form-control form-control-lg" size="17"
-                          placeholder="1111 2222 3333 4444" minlength="19" maxlength="19" />
-                        <label class="form-label" for="typeCd">Card Number</label>
-                      </div>
-
-                      <div class="form-floating mb-4 mb-xl-5">
-                        <input type="password" id="typeText" class="form-control form-control-lg"
-                          placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
-                        <label class="form-label" for="typeText">Cvv</label>
-                      </div>
+                      <p id="card-error" role="alert"></p>
                     </div>
                   </div>
                 </div>
@@ -219,78 +199,52 @@ input[type=number] {
                     <p class="mb-2">Total</p>
                     <p id="total" class="mb-2">{{cart_total|floatformat:2}}</p>
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
-                    Checkout
+                  <button id="submit_order">
+                    <div class="spinner hidden" id="spinner" class="btn btn-primary btn-block btn-lg mt-3"></div>
+                    <span id="button-text">Checkout</span>
                   </button>
+                    <p class="result-message hidden" style="color:green;">
+                      Payment succeeded
+                    </p>
+                  {% comment %} <button type="submit" id="checkout-button" class="btn btn-primary btn-block btn-lg mt-3">
+                    Checkout
+                  </button> {% endcomment %}
 
                 </div>
-            </form>
+                </form>
+
+
+            {% else %}
+            <div class="alert alert-warning mx-auto" role="alert" style="text-align: center; width: 40%;">
+              Your cart is empty!
+            </div>
+
+            {% endif %}
 
           </div>
         </div>
       </div>
-
-      {% else %}
-      <div class="alert alert-warning mx-auto" role="alert" style="text-align: center; width: 40%;">
-        Your cart is empty!
-      </div>
-
-      {% endif %}
-
-    </div>
-  </div>
-  </div>
 </section>
-
+{% comment %} <form id="payment-form">
+  <div id="card-element">
+    <!--Stripe.js injects the Card Element-->
+  </div>
+  <button id="submit">
+    <div class="spinner hidden" id="spinner"></div>
+    <span id="button-text">Pay</span>
+  </button>
+  <p id="card-error" role="alert"></p>
+  <p class="result-message hidden">
+    Payment succeeded, see the result in your
+    <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+  </p>
+</form> {% endcomment %}
+</div>
+</div>
+</div>
 <script>
+
   const checkoutForm = document.querySelector('#checkout-form');
-
-  checkoutForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    swal("Do you want to place your order?", {
-      buttons: ["Cancel", true],
-    }).then(data => {
-      if (data) {
-        e.target.submit()
-      }
-    });
-  });
-
-  function text(x) {
-    if (x == 0) {
-
-
-      document.getElementById("inputfields").style.display = "block";
-      document.getElementById("mop").className = "col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1";
-      document.getElementById("amount").className = "col-lg-4 col-xl-3";
-      document.getElementById("payment-card").style.width = "100%"
-      document.getElementById("payment-card").style.margin = "0";
-      document.getElementById("amount").style.marginLeft = "0";
-      document.getElementById("checkout-button").style.width = "25%";
-
-    } else {
-      document.getElementById("amount").className = "col-md-6";
-      document.getElementById("mop").className = "col-md-6";
-      document.getElementById("inputfields").style.display = "none";
-      document.getElementById("payment-card").style.width = "100%";
-      document.getElementById("payment-card").style.margin = "auto";
-      document.getElementById("amount").style.marginLeft = "40%";
-      document.getElementById("checkout-button").style.width = "25%";
-
-
-      return;
-
-    }
-  }
-
-
-
-  const deleteButtons = document.querySelectorAll('.delete-button');
-  const increaseButtons = document.querySelectorAll('.increase-quantity');
-  const decreaseButtons = document.querySelectorAll('.reduce-quantity');
-
-  const inputFields = document.querySelectorAll('.item-qty')
-
 
   function getCookie(name) {
     let cookieValue = null;
@@ -308,7 +262,167 @@ input[type=number] {
     return cookieValue;
   }
 
+  const items = []; 
+  {% for i in cart_items %}
+  items.push({
+    id: '{{i.products.id}}',
+    name: '{{i.products.product_name}}',
+    unitPrice: {{i.products.price}},
+    qty: {{ i.qty }}
+  })
+  {% endfor %}
+
   const csrftoken = getCookie('csrftoken');
+
+  const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+
+  document.querySelector("#submit_order").disabled = true;
+
+  const elements = stripe.elements();
+  const style = {
+    base: {
+      color: "#32325d",
+      fontFamily: 'Arial, sans-serif',
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#32325d"
+      }
+    },
+    invalid: {
+      fontFamily: 'Arial, sans-serif',
+      color: "#fa755a",
+      iconColor: "#fa755a"
+    }
+  };
+  const card = elements.create("card", {
+    style: style
+  });
+  
+  card.mount("#card-element");
+  card.on("change", function (event) {
+    document.querySelector("#submit_order").disabled = event.empty;
+    document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+  });
+
+  const form = document.getElementById("payment-form");
+  checkoutForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    swal("Do you want to place your order?", {
+      buttons: ["Cancel", true],
+    }).then(data => {
+      if (data) {
+        if(this.elements.modeOfPayment.value === 'Credit Card/Debit Card'){
+          fetch("{% url 'create-payment-intent' %}", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+              email: '{{request.user.email}}',
+              items: items
+            })
+          })
+          .then(function (result) {
+            return result.json();
+          })
+          .then(function (data) {
+            payWithCard(stripe, card, data.clientSecret);
+          
+          })
+          .then(function (data) {
+            e.target.submit();
+          
+          });
+        }else{
+          e.target.submit();
+        }
+      }
+    });
+  });
+
+  const payWithCard = function (stripe, card, clientSecret) {
+    loading(true);
+    stripe
+      .confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card
+        }
+      })
+      .then(function (result) {
+        if (result.error) {
+          showError(result.error.message);
+        } else {
+          orderComplete(result.paymentIntent.id);
+        }
+      });
+  };
+
+  const orderComplete = function (paymentIntentId) {
+    loading(false);
+
+    document.querySelector(".result-message").classList.remove("hidden");
+    document.querySelector("#submit_order").disabled = true;
+  };
+
+  const showError = function (errorMsgText) {
+    loading(false);
+    const errorMsg = document.querySelector("#card-error");
+    errorMsg.textContent = errorMsgText;
+    setTimeout(function () {
+      errorMsg.textContent = "";
+    }, 4000);
+  };
+
+  const loading = function (isLoading) {
+    if (isLoading) {
+      document.querySelector("#submit_order").disabled = true;
+      document.querySelector("#spinner").classList.remove("hidden");
+      document.querySelector("#button-text").classList.add("hidden");
+    } else {
+      document.querySelector("#submit_order").disabled = false;
+      document.querySelector("#spinner").classList.add("hidden");
+      document.querySelector("#button-text").classList.remove("hidden");
+    }
+  };
+
+  function text(x) {
+    if (x == 0) {
+      document.getElementById("inputfields").style.display = "block";
+      document.getElementById("mop").className = "col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1";
+      document.getElementById("amount").className = "col-lg-4 col-xl-3";
+      document.getElementById("payment-card").style.width = "100%"
+      document.getElementById("payment-card").style.margin = "0";
+      document.getElementById("amount").style.marginLeft = "0";
+      document.getElementById("checkout-button").style.width = "25%";
+      document.querySelector("#submit_order").disabled = true;
+    } else {
+      document.getElementById("amount").className = "col-md-6";
+      document.getElementById("mop").className = "col-md-6";
+      document.getElementById("inputfields").style.display = "none";
+      document.getElementById("payment-card").style.width = "100%";
+      document.getElementById("payment-card").style.margin = "auto";
+      document.getElementById("amount").style.marginLeft = "40%";
+      document.getElementById("checkout-button").style.width = "25%";
+      document.querySelector("#submit_order").disabled = false;
+
+      return;
+
+    }
+  }
+
+
+
+  const deleteButtons = document.querySelectorAll('.delete-button');
+  const increaseButtons = document.querySelectorAll('.increase-quantity');
+  const decreaseButtons = document.querySelectorAll('.reduce-quantity');
+
+  const inputFields = document.querySelectorAll('.item-qty')
+
+
+
 
   const inputs = document.querySelectorAll('.item-qty');
 
@@ -326,7 +440,7 @@ input[type=number] {
 
 
       if (parseInt(inputTag.value) > parseInt(inp.dataset.qtysel) && parseInt(inputTag.value) > parseInt(
-        iMinimum)) {
+          iMinimum)) {
         statusUpdate = 'increase'
       } else if (parseInt(inputTag.value) < parseInt(inp.dataset.qtysel) && parseInt(inputTag.value) > parseInt(
           iMinimum)) {

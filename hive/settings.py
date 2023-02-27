@@ -35,6 +35,7 @@ SHARED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     # we place blog here since we want 
     # public schema to have the same structure like tenant apps
     'products',
@@ -58,7 +59,7 @@ TENANT_APPS = [
     'django.contrib.admin',
     'django.contrib.sessions',
     'django.contrib.messages',
-
+    'django.contrib.humanize',
     # we place blog here since we want 
     # public schema to have the same structure like tenant apps
     'products',
@@ -207,5 +208,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-
+STRIPE_PUBLIC_KEY =  env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')

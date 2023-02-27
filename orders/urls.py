@@ -5,4 +5,6 @@ urlpatterns = [
     path('', views.display_orders, name="display_orders"),
     path('create/', views.create_order, name="create_order"),
     path('<int:pk>/', views.order_details, name="order_details"),
+    path('webhooks/stripe/', views.stripe_webhook, name='stripe-webhook'),
+    path('create-payment-intent/', views.stripe_intent, name='create-payment-intent')
 ]

@@ -46,6 +46,11 @@ class Product(models.Model):
         return self.product_name
     
     
+    @property
+    def product_sales(self):
+        return self.price * self.sold
+    
+    
 class Variation(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)

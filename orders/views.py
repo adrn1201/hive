@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.http import HttpResponseForbidden
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -10,6 +10,13 @@ from .forms import OrderForm
 from wholesalers.models import Domain, Wholesaler
 from django_tenants.utils import remove_www
 from django.conf import settings
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+import stripe
+from django.views.decorators.csrf import csrf_exempt
+
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @login_required(login_url='login_wholesaler')
@@ -84,6 +91,66 @@ def create_order(request):
         fail_silently=False
     )
     return redirect('show_shop')
+
+
+@api_view(['POST'])
+def stripe_intent(request):
+    cart_items = request.user.cart_db_set.all()
+    cart_subtotal = sum(float(item.products.price) * int(item.qty) for item in cart_items)
+    
+    if cart_subtotal == 0:
+        shipping = float(0.00)
+    else:
+        shipping = float(50.00)
+    cart_total = cart_subtotal + shipping
+    
+    metadata= {}
+    for item in request.data['items']:
+        metadata.update({str(item['id']): item})
+ 
+    customer = stripe.Customer.create(email=request.data['email'])
+    intent = stripe.PaymentIntent.create(
+        amount=int(cart_total) * 100,
+        currency='php',
+        customer=customer['id'],
+        metadata={str(k):str(v) for k, v in metadata.items()}
+    )
+    
+    return Response({
+        'clientSecret': intent['client_secret']
+    })
+   
+     
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+        payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+        )
+    except ValueError as e:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        return HttpResponse(status=400)
+
+
+    if event["type"] == "payment_intent.succeeded":
+        intent = event['data']['object']
+        stripe_customer_id = intent["customer"]
+        stripe_customer = stripe.Customer.retrieve(stripe_customer_id)
+
+        customer_email = stripe_customer['email']
+
+        send_mail(
+            subject="Payment Successful",
+            message="Congratulations! This is to confirm that your payment has been completed.",
+            recipient_list=[customer_email],
+            from_email=settings.EMAIL_HOST_USER,
+        )
+    return HttpResponse(status=200)
 
 
 @login_required(login_url='login_wholesaler')
