@@ -6,6 +6,15 @@ Manage Retailer
 
 
 {% block content %}
+
+<style>
+
+    .btn-ts {
+            font-size: 14px !important;
+     }
+    
+   
+</style>
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
@@ -31,8 +40,8 @@ Manage Retailer
             </div>
 
             <div class="d-flex align-items-center">
-                <p class="mb-0">Manage Retailers</p>
-                <button type = "button" class="btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#RegisterRetailer">Register Retailer</button>
+                <h6 class="mb-0">Manage Retailers</h6>
+                <button type = "button" class="btn-ts btn btn-primary btn-sm ms-auto" data-bs-toggle="modal" data-bs-target="#RegisterRetailer">Register Retailer</button>
                 </div>
             </div>
 
@@ -95,28 +104,28 @@ Manage Retailer
     </div>
   </div>
 <!-- Modal2 -->
-                <div class="card-body px-0 pt-0 pb-2">
+                <div class="card-body px-0 pt-4 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                    <th class=" th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
                                         Business Name</th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
                                         Address</th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
                                         Contact Name</th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
                                         Email</th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
                                         Status</th>
                                     
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
                                         Action</th>
                                     
                                 </tr>
@@ -125,28 +134,46 @@ Manage Retailer
                                 {% for retailer in retailers %}
                                 <tr>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ retailer.business_name }}</p>
+                                        <p class=" font-weight-bold mb-0">{{ retailer.business_name }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ retailer.address }}</p>
+                                        <p class=" font-weight-bold mb-0">{{ retailer.address }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ retailer.contact_name }}</p>
+                                        <p class=" font-weight-bold mb-0">{{ retailer.contact_name }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="text-xs font-weight-bold mb-0">{{ retailer.user.email }}</p>
+                                        <p class=" font-weight-bold mb-0">{{ retailer.user.email }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <span id= "status_acc" class="text-xs font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
+                                    
+                                        {%if retailer.is_active == False%}
+                                        <span id= "status_acc" style="color: red;" class=" font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
+                                        {% endif %}
+                                        {%if retailer.is_active == True%}
+                                        <span id= "status_acc" style="color: green;" class=" font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
+                                        {% endif %}
                                     </td>
+
+                                    
+                                    
                                     <td class="text-center">
                                         <form method = "POST" action="{% url 'deactivate_retailer' retailer.id %}" class = "updateForm"  data-status ="retailer.is_active" data-product ="{{retailer.business_name}}">
                                             {% csrf_token %}
-                                            <input value ="Update" type="submit" class="btn btn-primary btn-block btn-xs mt-3 update">
+                                            {%if retailer.is_active == True%}
+                                            <input value ="Deactivate" type="submit"  class="btn btn-danger btn-block btn-xs mt-3 update">
+                                            {% endif %}
+                                            {%if retailer.is_active == False%}
+                                            <input value ="Activate" type="submit"  class="btn btn-success btn-block btn-xs mt-3 update">
+                                            {% endif %}
                                         </input>
+                                       
                                         </form>
                                      </td>
+                                    
                                 </tr>
+
+
                                 {% endfor %}
                             </tbody>
                         </table>
@@ -182,25 +209,14 @@ Manage Retailer
 
 <script>
 
-    const updateStatus = document.querySelectorAll('.update');
     const updateForms = document.querySelectorAll('.updateForm');
-    const status = document.getElementById('status_acc').innerText;
-
-    if (status  == 'Active') {
-
-
-    for (const x of updateStatus) {
-
-        x.style.background='#cc0000';
-        x.value='Deactivate';
-    }
-    
+  
     for (const item of updateForms) {
         item.addEventListener('click', (e) => {
             e.preventDefault()
           let name = item.dataset.product
           swal({
-      title: `Deactivate the account status of ${name}?`,
+      title: `Update the account status of ${name}?`,
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -213,36 +229,7 @@ Manage Retailer
     });
         })
     } 
-    }
-
-    if (status  == 'Inactive') {
     
-    for (const x of updateStatus) {
-
-        
-        x.style.background='#339933';
-        x.value='Activate';
-        
-    }
-    for (const item of updateForms) {
-        item.addEventListener('click', (e) => {
-            e.preventDefault()
-          let name = item.dataset.product
-          swal({
-      title: `Activate the account status of ${name}?`,
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        item.submit() 
-      } 
-      
-    });
-        })
-    } 
-    }
     </script>
 
 {% endblock content %} 

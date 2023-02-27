@@ -4,21 +4,26 @@
 {% block content %}
 
 <style>
-  #image {
+  #image{
     width: 50%;
-    height: 75%;
+    height: 56%;
     border-radius: 50%;
     border: solid;
-    border-color: #404040;
+    border-color:#404040;
     margin: 0 auto;
     display: block;
+}
+
+  .btn-ts {
+  font-size: 14px !important;
   }
+
 </style>
 
 <div class="container-fluid py-4">
   <div class="row">
     <div class="col-md-5 card text-center">
-      <h5 class="mt-3">Profile Picture</h5>
+      <h5 class="mt-3 mb-5">Profile Picture</h5>
       <img src="{{wholesaler.wholesaler_image.url}}" id="image">
     </div>
     <div class="col-md-6">
@@ -50,11 +55,11 @@
             </div>
             <div class="row gx-3 mb-3">
               <div class="col-md-6">
-                <label class="small mb-1" for="inputEmailAddress">Color:</label>
+                <label class="small mx-3 mt-3 mb-1" for="inputEmailAddress">Color:</label>
                 <input type="color" name="color" value="{{wholesaler.color}}" disabled>
               </div>
             </div>
-            <a href="{% url 'wholesaler_edit_profile'%}" class="btn btn-primary">Edit Details</a>
+            <a href="{% url 'wholesaler_edit_profile'%}" class="btn-ts btn btn-primary">Edit Details</a>
           </div>
         </div>
       </div>
