@@ -1,105 +1,170 @@
-{% extends 'main_admin.html' %}
+{% extends 'main_account.html' %}
+{% load static %}
 {% block title %}Registration - Wholesaler{% endblock title %}
 {% block content %}
 
-
-<section class="vh-100" style="background-color: #eee;">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-lg-12 col-xl-11">
-          <div class="card text-black" style="border-radius: 25px;">
-            <div class="card-body p-md-5">
-              <div class="row justify-content-center">
-                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-  
-                  <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Welcome Wholesaler!</p>
-  
-                  <form class="mx-1 mx-md-4" method = "POST">
-                    {% csrf_token %}
-
-                    {% if form.username.errors %}
-                    <div style = "color:red">
-                      {{form.username.errors}} 
-                    </div>
-                    {% endif %}
-
-                    {% if form.email.errors %}
-                    <div style = "color:red">
-                      {{form.email.errors}} 
-                    </div>
-                    {% endif %}
-
-                    {% if form.password1.errors %}
-                    <div style = "color:red">
-                      {{form.password1.errors}} 
-                    </div>
-                    {% endif %}
-
-                    {% if form.password2.errors %}
-                    <div style = "color:red">
-                      {{form.password2.errors}} 
-                    </div>
-                    {% endif %}
-
-                    <br>
-                    <div class="d-flex flex-row align-items-center mb-4">
-                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                        <div class="form-outline flex-fill mb-0">
-                            {{form.email}}
-                            <label class="form-label">Email Address</label>
-                        </div>
-                      </div>
-
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        {{form.username}}
-                        <label class="form-label" for="form3Example1c">User Name</label>
-                    </div>
-                    </div>
-
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        {{form.password1}}
-                        <label class="form-label">Password</label>
-                    </div>
-                    </div>
-  
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                      <div class="form-outline flex-fill mb-0">
-                        {{form.password2}}
-                        <label class="form-label">Confirm Password</label>
-                    </div>
-                    </div>
-  
-                    <!-- <div class="form-check d-flex justify-content-center mb-5">
-                      <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
-                      <label class="form-check-label" for="form2Example3">
-                        I agree all statements in <a href="#!">Terms of service</a>
-                      </label>
-                    </div> -->
-  
-                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <button type="submit" class="btn btn-primary btn-lg">Register</button>
-                    </div>
-  
-                  </form>
-  
-                </div>
-                <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-  
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                    class="img-fluid" alt="Sample image">
-  
-                </div>
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-lg-10">
+        <div class="wrap d-md-flex">
+          <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+            <img src="{% static 'assets2/images/HIVE.png'%}" width="480px" height="100px">
+          </div>
+          <div class="login-wrap p-4 p-lg-5">
+            <div class="d-flex">
+              <div class="w-100">
+                <h3 class="mb-4">Registration - Wholesaler</h3>
               </div>
             </div>
+          
+            <form class="mx-1 mx-md-4" method = "POST">
+              {% csrf_token %}
+              <div class="form-group mb-3 {% if form.email.errors %} error {% endif %}">
+                <label class="label">Email Address</label>
+                {{form.email}}
+                {% if form.email.errors %}
+                <div style = "color:red;">
+                  {{form.email.errors}} 
+                </div>
+                {% endif %}
+              </div>
+              <div class="form-group mb-3 {% if form.username.errors %} error {% endif %}">
+                <label class="label">User Name</label>
+                {{form.username}}
+                {% if form.username.errors %}
+                <div style = "color:red;">
+                  {{form.username.errors}} 
+                </div>
+                {% endif %}
+
+              </div>
+
+              <div class="form-group mb-3 {% if form.password1.errors or form.password2.errors %} error {% endif %}">
+                <label class="label" for="password">Password</label>
+                <div class="input-group">
+                  {{form.password1}}
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="fa fa-eye" id="togglePassword1" style="cursor: pointer;"></i>
+                    </span>
+                  </div>
+                </div>
+                {% if form.password1.errors %}
+                    <div style = "color:red;">
+                      {{form.password1.errors}} 
+                    </div>
+                  {% endif %}
+              </div>
+
+              <div class="form-group mb-3">
+                <label class="label" for="password">Confirm Password</label>
+                <div class="input-group {% if form.password1.errors or form.password2.errors %} error {% endif %}">
+                  {{form.password2}}
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="fa fa-eye" id="togglePassword2" style="cursor: pointer;"></i>
+                    </span>
+                  </div>
+                </div>
+                {% if form.password2.errors %}
+                    <div style = "color:red;">
+                      {{form.password2.errors}} 
+                    </div>
+                  {% endif %}
+              </div>
+
+              <div class="message"></div>
+              <br>
+              <div class="form-group">
+                <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+  <script>
+    const togglePassword = document.querySelector('#togglePassword1');
+    const passwordInput = document.querySelector('#id_password1');
+  
+    togglePassword.addEventListener('click', function (e) {
+  
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+  });
+  
+  const togglePassword1 = document.querySelector('#togglePassword2');
+  const passwordInput1 = document.querySelector('#id_password2');
+  
+  togglePassword1.addEventListener('click', function (e) {
+  
+      const type = passwordInput1.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput1.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+  });
+
+  const email = document.querySelector('#id_email');
+  const usernameReg = document.querySelector('#id_username');
+  const password1 = document.querySelector('#id_password1');
+  const password2 = document.querySelector('#id_password2');
+
+  const message = document.querySelector('.message');
+
+  let capsLockAlertShown = false;
+
+  email.addEventListener('keyup', function (e) {
+    if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
+        const alertBox = document.createElement('div');
+        alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
+        message.appendChild(alertBox);
+        capsLockAlertShown = true;
+    } else if (!e.getModifierState('CapsLock')) {
+        message.innerHTML = '';
+        capsLockAlertShown = false;
+    }
+    });
+
+    usernameReg.addEventListener('keyup', function (e) {
+    if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
+        const alertBox = document.createElement('div');
+        alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
+        message.appendChild(alertBox);
+        capsLockAlertShown = true;
+    } else if (!e.getModifierState('CapsLock')) {
+        message.innerHTML = '';
+        capsLockAlertShown = false;
+    }
+    });
+    
+    password1.addEventListener('keyup', function (e) {
+    if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
+        const alertBox = document.createElement('div');
+        alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
+        message.appendChild(alertBox);
+        capsLockAlertShown = true;
+    } else if (!e.getModifierState('CapsLock')) {
+        message.innerHTML = '';
+        capsLockAlertShown = false;
+    }
+    });
+
+    password2.addEventListener('keyup', function (e) {
+    if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
+        const alertBox = document.createElement('div');
+        alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
+        message.appendChild(alertBox);
+        capsLockAlertShown = true;
+    } else if (!e.getModifierState('CapsLock')) {
+        message.innerHTML = '';
+        capsLockAlertShown = false;
+    }
+    });
+  
+  </script>
 
 {% endblock %}

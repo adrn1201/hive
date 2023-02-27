@@ -1,9 +1,67 @@
-{% extends 'main_admin.html' %}
-{% block title %}Registration - Wholesaler{% endblock title %}
+{% extends 'main_account.html' %}
+{% load static %}
+{% block title %}Wholesaler-profile{% endblock title %}
 {% block content %}
 
+<section class="ftco-section login-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-lg-10">
+        <div class="wrap d-md-flex">
+          <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+            <img src="{% static 'assets2/images/HIVE.png'%}" width="480px" height="100px">
+          </div>
+          <div class="login-wrap p-4 p-lg-5">
+            <div class="d-flex">
+              <div class="w-100">
+                <h3 class="mb-4">Enter your Business Details</h3>
+              </div>
+            </div>
+            <form method = "POST" id="wholesaler_profile">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label class="label">Business Name</label>
+                {{form.business_name}}
+              </div>
+              <div class="form-group mb-3">
+                <label class="label">Contact Name</label>
+                {{form.contact_name}}
+              </div>
+              <div class="form-group mb-3">
+                <label class="label">Contact Number</label>
+                {{form.contact_number}}
+                <div class="message"></div>
+              </div>
+              <div class="form-group mb-3">
+                <label class="label">Upload Logo</label>
+                {{form.wholesaler_image}}
+              </div>
+              <hr>
+              <div class="form-group mb-3">
+                <label class="label">Address</label>
+                {{form.address}}
+              </div>
+              <div class="form-group mb-3">
+                <label class="label">Region</label>
+                {{form.region}}
+              </div>
+              <div class="form-group mb-3">
+                <label class="label">City</label>
+                {{form.city}}
+              </div>
+              <br>
+              <div class="form-group">
+                <button type="submit" class="form-control btn btn-primary submit px-3">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<section class="vh-100" style="background-color: #eee;">
+<!-- <section class="vh-100" style="background-color: #eee;">
     <div class="container h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-lg-12 col-xl-11">
@@ -37,30 +95,36 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <script>
 
     const form = document.querySelector('#wholesaler_profile');
+    const message = document.querySelector('.message');
+    let alertShown = false; // flag variable
     
-    form.addEventListener('submit',function(e){
+    form.addEventListener('submit', function(e){
 
-      var format = /^\d{11}$/;
-      const number = document.querySelector('#id_contact_number')
+        const format = /^\d{11}$/;
+        const number = document.querySelector('#id_contact_number');
 
-      if (number.value.match(format))
-      {
-        return true;
-      }
-
-      else {
-        alert("Please enter an 11-digit phone number");
-        document.querySelector('#id_contact_number').style.borderColor = "red";
-        e.preventDefault(); 
-      }
-    
-    } ) 
+        if (number.value.match(format)) {
+            message.innerHTML = '';
+            console.log('Form submitted successfully');
+            return true;
+        } else {
+            if (!alertShown) { // show message only if it hasn't been shown before
+                document.querySelector('#id_contact_number').style.borderColor = "red";
+                const alertBox = document.createElement('div');
+                alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Please enter an 11-digit phone number</p>';
+                message.appendChild(alertBox);
+                alertShown = true; // set the flag variable to true
+            }
+            e.preventDefault();
+        }
+    });
   
-  </script>
+</script>
+
 
 {% endblock %}

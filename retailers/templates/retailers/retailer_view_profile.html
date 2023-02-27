@@ -4,6 +4,18 @@
 {% block title %}Profile - Retailer{% endblock title %}
 {% block content %}
 
+<style>
+    #image{
+      width: 87%;
+      height: 80%;
+      border-radius: 50%;
+      border: solid;
+      border-color:#404040;
+      margin: 0 auto;
+      display: block;
+  }
+  </style>
+
 
 <div class="container">
    <div class="row">
@@ -13,7 +25,7 @@
                <div class="card-header">Profile Picture</div>
                <div class="card-body text-center">
                    <!-- Profile picture image-->
-                <img class="img-thumbnail img-account-profile rounded-circle mb-2" src ="{{retailer.image_url}}">                 
+                <img id="image" src ="{{retailer.image_url}}">                 
                </div>
            </div>
        </div>
