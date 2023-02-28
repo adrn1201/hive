@@ -1,9 +1,9 @@
-{% extends 'main_resetPassword.html' %}
+{% extends 'main_account.html' %}
 {% load static %}
 
 {% block content %}
 
-<style>
+<!-- <!-<! <style>
     img {
         border-radius: 50%;
     }
@@ -40,7 +40,53 @@
             </div>
         </div>
     </div>
-</section>
+</section> --> -->
+
+
+<section class="ftco-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-10">
+          <div class="wrap d-md-flex">
+            <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+              <img src="{% static 'assets2/images/HIVE.png'%}" width="480px" height="100px">
+            </div>
+            <div class="login-wrap p-4 p-lg-5">
+         
+              <main class="formPage my-xl">
+                <div class="content-box">
+                    <div class="formWrapper">
+
+              <h2 class="text-dark font-weight-bold">Enter new password</h2>
+              <p class=" text-md text-secondary font-weight-bold">Please enter your new password twice so we can verify you typed it in correctly</p>
+            <form class="form" method="POST">
+                
+                {% csrf_token %}
+                
+                <div class="form-group mb-3">
+                    {{ form.as_p }} 
+                </div>
+                
+                <br>
+                <div class="form-group">
+                  <button type="submit" class="form-control btn btn-primary submit px-3" value="Submit">Submit</button>
+                </div>
+                <div class="w-10" style="margin-left: 1px;">
+                    <a href="{% url 'login_wholesaler' %}">Go Back to Login Page</a>
+                  </div>
+                  
+              </form>
+                </div>
+            </div>
+            </main>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
 
 
 {% endblock content %}
