@@ -37,35 +37,35 @@
                    <form>
                        <!-- Form Group (username)-->
                        <div class="mb-3">
-                           <label class="small mb-1" for="inputUsername">Business Name</label>
+                           <label class="small mb-1" for="inputUsername"><b>Business Name</b></label>
                            <p>{{retailer.business_name}}</p>
                        </div>
                        <!-- Form Row-->
-                       <div class="row gx-3 mb-3">
+                       <div class="row gx-3 mb-1">
                            <!-- Form Group (first name)-->
                            <div class="col-md-6">
-                               <label class="small mb-1" for="inputFirstName">Contact Name</label>
+                               <label class="small mb-1" for="inputFirstName"><b>Contact Name</b></label>
                                <p>{{retailer.contact_name}}</p>
                            </div>
                            <!-- Form Group (last name)-->
                            <div class="col-md-6">
-                               <label class="small mb-1" for="inputLastName">Contact Number</label>
+                               <label class="small mb-1" for="inputLastName"><b>Contact Number</b></label>
                                <p>{{retailer.contact_number}}</p>
                            </div>
                        </div>
                        <!-- Form Group (email address)-->
                        
                        <!-- Form Row-->
-                       <div class="row gx-3 mb-3">
+                       <div class="row gx-3 mb-1">
                            <!-- Form Group (phone number)-->
 
                            <div class="col-md-6">
-                              <label class="small mb-1" for="inputEmailAddress">Address</label>
-                              <p>{{retailer.address}}</p>
+                              <label class="small mb-1" for="inputEmailAddress"><b>Address</b></label>
+                              <p>{{retailer.address}}, {{retailer.region}}, {{retailer.city}} </p>
                           </div>
 
                            <div class="col-md-6">
-                               <label class="small mb-1" for="inputPhone">Date Joined</label>
+                               <label class="small mb-1" for="inputPhone"><b>Date Joined</b></label>
                                <p>{{retailer.created}}</p>
                            </div>
                        </div>
