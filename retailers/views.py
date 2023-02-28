@@ -137,7 +137,7 @@ def index(request):
         request.user.wholesaler
     except BaseException:
         return HttpResponseForbidden()
-
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id

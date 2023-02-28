@@ -7,6 +7,15 @@ Dashboard
 {% endblock title %}
 
 {% block content %}
+<style>
+
+    .btn-ts {
+            font-size: 14px !important;
+     }
+    
+   
+</style>
+
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -127,21 +136,17 @@ Dashboard
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
                         <h6 class="mb-2">Recent Orders</h6>
-                        <a class="btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}">View Orders</a>
+                        <a class="btn-ts btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}">View Orders</a>
                     </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table align-items-center ">
                         <thead>
-                            <th class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7">
-                                Business</th>
-                            <th
-                                class="text-uppercase text-center text-secondary text-xs font-weight-bolder opacity-7 ps-2">
-                                Date</th>
-                            <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                Status</th>
-                            <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                Payment</th>
+                            <th class="text-uppercase text-center text-secondary th-new font-weight-bolder opacity-7">Business</th>
+                            <th class="text-uppercase text-center text-secondary th-new font-weight-bolder opacity-7 ps-2">Date</th>
+                            <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Status</th>
+                            <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Payment</th>
+                            <th></th>
                         </thead>
                         <tbody>
                             {% for order in recent_orders|slice:"5" %}
@@ -149,23 +154,23 @@ Dashboard
                                 <td>
                                     <div class="d-flex px-2 py-1 ">
                                         <div class="ms-4">
-                                            <h6 class="text-sm mb-0 text-center">{{ order.business_name }}</h6>
+                                            <h6 class="text-xs mb-0 text-center">{{ order.business_name }}</h6>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="text-center">
-                                        <h6 class="text-sm mb-0">{{ order.created }}</h6>
+                                        <h6 class="text-xs mb-0">{{ order.created }}</h6>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="text-center">
-                                        <h6 class="text-sm mb-0">{{order.status}}</h6>
+                                        <h6 class="text-xs mb-0">{{order.status}}</h6>
                                     </div>
                                 </td>
                                 <td class="align-middle text-sm">
                                     <div class="col text-center">
-                                        <h6 class="text-sm mb-0">{{ order.mode_of_payment }}</h6>
+                                        <h6 class="text-xs mb-0">{{ order.mode_of_payment }}</h6>
                                     </div>
                                 </td>
                             </tr>
@@ -178,9 +183,9 @@ Dashboard
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header pb-0 p-3">
-                    <div class="d-flex justify-content-between"> 
-                        <h6 class="mb-2"><i class="fas fa-tshirt text-md opacity-10"></i> &nbsp;Products</h6>
-                        <a class="btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}"><i class="fa fa-eye"></i>&nbsp; View Products</a>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="mb-2">Products</h6>
+                        <a class="btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}">View Products</a>
                     </div>
                 </div>
                 <div class="card-body p-3">
@@ -188,17 +193,10 @@ Dashboard
                         <table class="table align-items-center ">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                        Product</th>
-                                    <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">
-                                        Unit Price</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                        Sold</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
-                                        Sales</th>
-
+                                    <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7">Product</th>
+                                    <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">Category</th>
+                                    <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Stock Level</th>
+                                    <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7"></th>
                                 </tr>
                             </thead>
                             <tbody>

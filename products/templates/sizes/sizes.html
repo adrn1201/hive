@@ -29,11 +29,11 @@
                                 <thead>
                                     <tr>
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">
                                             Variation</th>
 
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">
                                             Stocks</th>
 
                                         <th></th>
@@ -44,16 +44,16 @@
                                     {% for variation in variations %}
                                     <tr>
                                         <td>
-                                            <p class="text-center text-xs font-weight-bold mb-0">{{ variation.name }}
+                                            <p class="text-center  font-weight-bold mb-0">{{ variation.name }}
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="text-center text-xs font-weight-bold mb-0">
+                                            <p class="text-center  font-weight-bold mb-0">
                                                 {{ variation.actual_stocks_var }}
                                             </p>
                                         </td>
                                         <td class="align-middle">
-                                            <a class="btn btn-link text-dark text-xs px-2 mb-0"
+                                            <a class="btn btn-link text-dark text-s px-2 mb-0"
                                                 href="{%url 'edit_size' pk=variation.product.id size_pk=variation.id %}"><i
                                                     class="fas fa-pencil-alt text-dark me-2"
                                                     aria-hidden="true"></i>Edit</a>
@@ -64,7 +64,7 @@
                                                 class="deleteSize" data-variation="{{variation.name}}">
                                                 {% csrf_token %}
                                                 <button type="submit"
-                                                    class="btn btn-link text-danger text-xs text-gradient px-3 mb-0"><i
+                                                    class="btn btn-link text-danger text-s text-gradient px-3 mb-0"><i
                                                         class="far fa-trash-alt me-2"></i>Delete</button>
                                             </form>
                                         </td>
