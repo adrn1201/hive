@@ -5,6 +5,12 @@
 
 {% block content %}
 
+<style>
+   .pagination1{
+      color:black;
+   }
+</style>
+
 <!-- product section -->
 <section class="product_section layout_padding">
    <div class="container">
@@ -18,12 +24,15 @@
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                      </select>
-                     <div class="form-group has-search">
+                     <div class="form-group has-search input-group ">
                         <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category">
+                        <div class="input-group-append">                           
+                           <span class="input-group-text">
+                              <!-- <i class="fa fa-search" name="search_query"id="togglePassword2" style="cursor: pointer;"></i> -->
+                              <button class="fa fa-search" value="{{ search_query }}" type="submit">
+
+                        </div>
                      </div>
-                     <button class="btn-search" type="button" style="width: 120px; height: 39px; border: 1px solid #ced4da;">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                     </button>
                   </div>
                </div>
             </form>
@@ -62,30 +71,28 @@
          {% endfor %}
 
       </div>
-      <div class="btn-box">
+      <nav aria-label="Page navigation example">
          {% if products.has_other_pages %}
-         <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-               {% if products.has_previous %}
-               <li class="page-item"><a href="?page={{products.previous_page_number}}" class="btn page-link" tabindex="-1" data-page="{{ products.previous_page_number }}">&#10094; Prev</a></li>
+         <ul class="pagination justify-content-center">
+            {% if products.has_previous %}
+               <li class="page-item"><a href="?page={{products.previous_page_number}}" class="btn page-link pagination1" tabindex="-1" data-page="{{ products.previous_page_number }}">&#10094;</a></li>
                {% endif %}
 
                {% for page in custom_range %}
                {% if page == products.number %}
-               <li class="page-item active"><a class="page-link" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
+               <li class="page-item active"><a class="page-link pagination1" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
                {% else %}
-               <li class="page-item"><a class="page-link" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
+               <li class="page-item"><a class="page-link pagination1" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
                {% endif %}
 
                {% endfor %}
                {% if products.has_next %}
-               <li class="page-item"><a href="?page={{products.next_page_number}}" class="btn page-link" data-page="{{ products.next_page_number }}">Next &#10095;</a></li>
+               <li class="page-item"><a href="?page={{products.next_page_number}}" class="btn page-link pagination1" data-page="{{ products.next_page_number }}">&#10095;</a></li>
                {% endif %}
 
-            </ul>
-          </nav>
-          {% endif %}
-      </div>
+         </ul>
+       </nav>
+       {% endif %}
    </div>
 </section>
 <!-- end product section -->

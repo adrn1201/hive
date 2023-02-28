@@ -16,8 +16,10 @@
                               <div class="col-lg-5 d-flex mt-4 ">
                                  &nbsp; 
                                  <form action="{% url 'products' %}" method="GET" id="searchForm">
-                                    <div class="form-group has-search">
-                                         <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category"> 
+                                    
+                                    <div class="input-group">
+                                        <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                                         <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search"> 
                                       </div>
                                  </form>
  
@@ -34,9 +36,11 @@
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
                             <p class="mb-0">Products</p>
-                            <a class="btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}">Add Products</a>
-                            &nbsp; &nbsp;
-                            <a class="btn btn-primary btn-sm me-2" href="{%url 'categories'%}">Manage Categories</a>
+                            <a class="btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}"><i class="fa fa-plus"></i>&nbsp; Add Products 
+                            </a>
+                            &nbsp; &nbsp; 
+                            <a class="btn btn-primary btn-sm me-2" href="{%url 'categories'%}"><i class="fa fa-gear"></i>&nbsp; Manage Categories 
+                            </a>
                         </div>
                     </div>
 

@@ -6,7 +6,9 @@ from django_tenants.models import DomainMixin, TenantMixin
 class Wholesaler(TenantMixin):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     business_name = models.CharField(max_length=255)
-    address = models.TextField()
+    address = models.CharField(max_length=255, null=False, blank=True)
+    region = models.CharField(max_length=255, null=False, blank=True)
+    city = models.CharField(max_length=255, null=False, blank=True)
     contact_name = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=50)
     is_active = models.BooleanField(default=False)

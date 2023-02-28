@@ -4,6 +4,18 @@
 {% block title %}Profile - Retailer{% endblock title %}
 {% block content %}
 
+<style>
+    #image{
+      width: 50%;
+      height: 56%;
+      border-radius: 50%;
+      border: solid;
+      border-color:#404040;
+      margin: 0 auto;
+      display: block;
+  }
+  </style>
+
 <div class="container-xl px-4 mt-4">
    <div class="row">
        <div class="col-xl-4">
@@ -13,13 +25,41 @@
                <form  action = "" method = "POST" id="retailer_edit_profile" enctype="multipart/form-data">
                   {% csrf_token %}
                <div class="card-body text-center">
-                   <!-- Profile picture image-->
-                   {{form.retailer_image}} 
-                   <!-- Profile picture help block-->
-                   <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                   <!-- Profile picture upload button-->
+                 
+                   <!-- {{form.retailer_image}} 
                    
+                   <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div> -->
+                
+
+                    <img id="image" thumbnail src="{{form.instance.retailer_image.url}}">
+                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                    <br>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                        Upload new image
+                    </button>
+                
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+                        <!--Content-->
+                            <div class="modal-content text-center">
+                                <!--Header-->
+                                <div class="modal-header d-flex justify-content-center">
+                                <p class="heading">Upload your image</p>
+                                </div>
+                                <!--Body-->
+                                <div class="modal-body" id="retailer_image">
+                                    {{form.retailer_image}}
+                                </div>
+                                <div class="modal-footer flex-center">
+                                <a type="button" class="btn btn-primary btn-block" data-bs-dismiss="modal">Continue</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                </div>
+
+               
+
            </div>
        </div>
        <div class="col-xl-8">
@@ -84,6 +124,14 @@
      }
    
    } ) 
+
+    const imageInput = document.querySelector('#id_retailer_image');
+
+    imageInput.addEventListener('change', function() {
+    const imagePreview = document.querySelector('#image');
+    imagePreview.src = URL.createObjectURL(this.files[0]);
+    });
+
  
  </script>
 

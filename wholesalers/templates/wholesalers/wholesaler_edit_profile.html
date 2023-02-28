@@ -41,8 +41,7 @@
                 {{form.wholesaler_image}}
             </div>
             <div class="modal-footer flex-center">
-              <a type="button" class="btn btn-primary btn-block" data-bs-dismiss="modal">Yes</a>
-              <a type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</a>
+              <a type="button" class="btn btn-primary btn-block" data-bs-dismiss="modal">Continue</a>
             </div>
           </div>
         </div>
@@ -54,25 +53,37 @@
         <div class="card-body pt-0">
           <h5 class="mt-3 text-center">Account Details</h5>
           <div class="text-center mt-4">
-            <div class="row gx-3 mb-3">
-              <div class="col-md-6">
-                  <label class="small mb-1" for="inputFirstName"> Business Name:</label>
-                {{form.business_name}}
-              </div>
-              <div class="col-md-6">
-                  <label class="small mb-1" for="inputLastName">Business Address:</label>
-                {{form.address}}
-              </div>
+
+          <div class="row" style="display: flex;">
+            <div class="mb-3">
+              <label class="small mb-1" for="inputUsername">Business Name</label>
+              {{form.business_name}}
             </div>
-            <div class="row gx-3 mb-3">
+
               <div class="col-md-6">
-                  <label class="small mb-1" for="inputEmailAddress">Contact Name:</label>
-                {{form.contact_name}}
+                  <label class="small mb-1" for="inputFirstName">Contact Name</label>
+                  {{form.contact_name}}
               </div>
 
               <div class="col-md-6">
-                  <label class="small mb-1" for="inputPhone">Contact Number:</label>
-                {{form.contact_number}}
+                  <label class="small mb-1" for="inputLastName">Contact Number</label>
+                  {{form.contact_number}}
+              </div>
+          </div>
+          <br>
+          <div class="row" style="display: flex;">
+              <div class="mb-3">
+                <label class="small mb-1" for="inputEmailAddress">Address (Area and Street)</label>
+                {{form.address}}
+            </div>
+              <div class="col-md-6">
+                  <label class="small mb-1" for="inputFirstName">Region</label>
+                  {{form.region}}
+              </div>
+
+              <div class="col-md-6">
+                  <label class="small mb-1" for="inputLastName">City</label>
+                  {{form.city}}
               </div>
             </div>
             <div class="row gx-3 mb-3">

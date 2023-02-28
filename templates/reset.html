@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<style>
+<!-- <!-<! <style>
     img {
         border-radius: 50%;
     }
@@ -13,12 +13,12 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-6">
-                <div class="login-wrap py-5 shadow-lg">
+                <div class="login-wrap py-3 shadow-lg">
                     <div class="img d-flex align-items-center justify-content-center">
                         <img src="{% static 'assets4/images/bg.jpg'%}" width="100" height="100">
                       </div>
                       <h3 class="text-center mb-0">Wholesaler Admin</h3>
-                    
+                    <br>
                     <main class="formPage my-xl">
                         <div class="content-box">
                             <div class="formWrapper">
@@ -27,11 +27,11 @@
                                 <p class=" text-md text-secondary font-weight-bold">Please enter your new password twice so we can verify you typed it in correctly</p>
 
                                 
-                                <form class="form ali" method="POST">
+                                <form class="form" method="POST">
                                     {% csrf_token %}
                                     {{ form.as_p }}
                                     <br>
-                                    <input class="btn btn-secondary btn-lg" type="submit" value="Submit" />
+                                    <input class="btn btn-primary btn-lg w-25" type="submit" value="Submit" />
                                 </form>
                             </div>
                         </div>
@@ -40,7 +40,53 @@
             </div>
         </div>
     </div>
-</section>
+</section> --> -->
+
+
+<section class="ftco-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-10">
+          <div class="wrap d-md-flex">
+            <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+              <img src="{% static 'assets2/images/HIVE.png'%}" width="480px" height="100px">
+            </div>
+            <div class="login-wrap p-4 p-lg-5">
+         
+              <main class="formPage my-xl">
+                <div class="content-box">
+                    <div class="formWrapper">
+
+              <h2 class="text-dark font-weight-bold">Enter new password</h2>
+              <p class=" text-md text-secondary font-weight-bold">Please enter your new password twice so we can verify you typed it in correctly</p>
+            <form class="form" method="POST">
+                
+                {% csrf_token %}
+                
+                <div class="form-group mb-3">
+                    {{ form.as_p }} 
+                </div>
+                
+                <br>
+                <div class="form-group">
+                  <button type="submit" class="form-control btn btn-primary submit px-3" value="Submit">Submit</button>
+                </div>
+                <div class="w-10" style="margin-left: 1px;">
+                    <a href="{% url 'login_wholesaler' %}">Go Back to Login Page</a>
+                  </div>
+                  
+              </form>
+                </div>
+            </div>
+            </main>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
 
 
 {% endblock content %}

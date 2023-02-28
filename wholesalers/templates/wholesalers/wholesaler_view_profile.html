@@ -33,12 +33,6 @@
                 <p>{{wholesaler.business_name}}</p>
               </div>
               <div class="col-md-6">
-                <label class="small mb-1" for="inputLastName">Business Address:</label>
-                <p>{{wholesaler.address}}</p>
-              </div>
-            </div>
-            <div class="row gx-3 mb-3">
-              <div class="col-md-6">
                 <label class="small mb-1" for="inputEmailAddress">Contact Name:</label>
                 <p>{{wholesaler.contact_name}}</p>
               </div>
@@ -46,6 +40,10 @@
               <div class="col-md-6">
                 <label class="small mb-1" for="inputPhone">Contact Number:</label>
                 <p>{{wholesaler.contact_number}}</p>
+              </div>
+              <div class="col-md-6">
+                <label class="small mb-1" for="inputLastName">Business Address:</label>
+                <p>{{wholesaler.address}}, {{wholesaler.region}}, {{wholesaler.city}}</p>
               </div>
             </div>
             <div class="row gx-3 mb-3">
