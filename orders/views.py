@@ -18,6 +18,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+# SALE REPORT IMPORTS
+from django.http import JsonResponse
+from django.db.models import Sum, Count
+from datetime import datetime, timedelta
+
 
 @login_required(login_url='login_wholesaler')
 def display_orders(request):
@@ -164,7 +169,7 @@ def order_details(request, pk):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-    
+
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
     order_items = order.items.all()
@@ -226,3 +231,31 @@ def order_details(request, pk):
     context = {'order':order, 'order_items':order_items, 'form':form}
     return render(request, 'orders/order_details.html', context)    
     
+@login_required(login_url='login_wholesaler')
+
+def sales_report(request):
+    # Retrieve orders from the last 30 days
+    today = datetime.now().date()
+    thirty_days_ago = today - timedelta(days=30)
+    orders = Order.objects.filter(created__gte=thirty_days_ago)
+
+    # Calculate total sales
+    total_sales = orders.aggregate(total_sales=Sum('total_paid'))['total_sales']
+    formatted_total_sales = "{:,}".format(total_sales)
+
+    # Calculate average order value
+    average_order_value = orders.aggregate(avg_order=Sum('total_paid')/Count('reference_number'))['avg_order']
+    formatted_order_value = "{:,}".format(average_order_value)
+
+    # # Group orders by product category and calculate revenue
+    # orders_by_category = orders.values('product_category').annotate(revenue=Sum('total_paid'))
+
+    # Create a dictionary to store the data
+    data = {
+        'total_sales': formatted_total_sales,
+        'average_order_value': formatted_order_value,
+        # 'orders_by_category': list(orders_by_category)
+    }
+
+    # Return the data as JSON
+    return JsonResponse(data)

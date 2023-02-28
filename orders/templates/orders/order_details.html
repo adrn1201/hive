@@ -18,18 +18,18 @@
               <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                      Reference ID: <p class="text-dark text-xxs font-weight-bolder">{{ order.reference_number }}</p>
+                    <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                      Reference ID: <p class="text-dark th-new font-weight-bolder">{{ order.reference_number }}</p>
                     </th>
 
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                        Business Name:<p class="text-dark text-xxs font-weight-bolder">{{ order.business_name }}</p>
+                      <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">
+                        Business Name:<p class="text-dark th-new font-weight-bolder">{{ order.business_name }}</p>
                       </th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                        Address: <p class="text-dark text-xxs font-weight-bolder">{{ order.address }}</p>
+                      <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">
+                        Address: <p class="text-dark th-new font-weight-bolder">{{ order.address }}</p>
                       </th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                        Status: <p class="text-dark text-xxs font-weight-bolder">{{ order.status }}</p>
+                      <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">
+                        Status: <p class="text-dark th-new font-weight-bolder">{{ order.status }}</p>
                       </th>
 
                     </tr>
@@ -38,11 +38,11 @@
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-dark text-xxs font-weight-bolder opacity-7">Product
+                      <th class="text-uppercase text-dark th-new font-weight-bolder opacity-7">Product
                       </th>
-                      <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7 ps-2">
+                      <th class="text-center text-uppercase text-dark th-new font-weight-bolder opacity-7 ps-2">
                         Quantity</th>
-                      <th class="text-center text-uppercase text-dark text-xxs font-weight-bolder opacity-7">Unit Price
+                      <th class="text-center text-uppercase text-dark th-new font-weight-bolder opacity-7">Unit Price
                       </th>
                     </tr>
                   </thead>
@@ -58,16 +58,16 @@
                             </figure>
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-2 text-xs ">{{ item.product.product_name }}</h6>
+                            <h6 class="mb-2  ">{{ item.product.product_name }}</h6>
 
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-center text-xs font-weight-bold mb-0">{{ item.quantity}}</p>
+                        <p class="text-center  font-weight-bold mb-0">{{ item.quantity}}</p>
                       </td>
                       <td>
-                        <p class="text-center text-xs font-weight-bold mb-0">₱{{ item.price}}</p>
+                        <p class="text-center  font-weight-bold mb-0">₱{{ item.price}}</p>
                       </td>
                     </tr>
                     {% endfor %}
