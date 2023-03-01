@@ -3,7 +3,7 @@
 {% block title %}{% endblock title %}
 
 {% block content %}
-<div class="content">
+
 {% include 'retailers/cards.html' %}
     <div class="orders">
         <div class="row">
@@ -35,7 +35,7 @@
                                         <td class="text-center">
                                             <div class="">
                                                 <a href="#"><img class=""src="{{ item.product.product_image.url }}" style="max-width:80%; height:80px;" alt=""></a>
-                                            </div7
+                                            </div>
                                         </td>
                                         <td class="text-center"> {{ item.product.product_name }}</td>
                                         <td class="text-center"> ₱{{ item.price }}</td>
