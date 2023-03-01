@@ -2,5 +2,147 @@
 
 {% block content %}
 
+<div class="panel-header panel-header-sm">
+    <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Transactions</Strong></h2>
+</div>
+<br>
+
+<div class="modal fade" id="staticBackdrop2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <!--/.Content-->
+  </div>
+</div>
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row ">
+            <div class="col my-lg-2 py-1">
+                  
+              <form>
+                <div class="input-group no-border ">
+                  <input type="text" value="" class="form-control rounded-9" placeholder="Search...">
+                  
+                 
+                </div>
+              </form>
+            </div>
+            <div class="col-lg-6 my-lg-2">
+              <select class="form-select rounded-9" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 42px;">
+                <option selected> Filter Category </option>
+                <option value="1">Inactive Wholesaler</option>
+                <option value="2">Active Wholesaler</option>
+              </select>
+            </div>
+            <div class="col col-lg-2 my-lg-0">
+              
+              <button type="button" class="btn btn-primary text-light rounded-9" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop1"><strong>Add Wholesaler</strong>
+                
+              </button>
+            </div>
+        </div>
+      </div>
+
+      
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class=" text-primary">
+                <th>
+                  Business Name
+                </th>
+                <th>
+                  Status
+                </th>
+                <th>
+                  Date Joined
+                </th>
+                <th>
+                  Action
+                </th>
+              </thead>
+              <tbody>
+                {% for wholesaler in wholesalers %}
+                <tr>
+                  <td>
+                    {{ wholesaler.business_name }}
+                  </td>
+                  <td>
+                    {{ wholesaler.is_active|yesno:"Active,Inactive" }}
+                  </td>
+                  <td>
+                    {{ wholesaler.created}}
+                  </td>
+                  <td>
+                    <form method="POST" action="{% url 'update_wholesaler' wholesaler.id %}" class="updateForm"
+                      data-product="{{wholesaler.business_name}}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn  btn-info  btn-xs "><i class="far fa-edit"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+{% for message in messages %}
+<script>
+  swal("{{message}}", "", "success");
+</script>
+
+
+{% comment %} <div style="display: flex; justify-content: center;">
+  <div class="alert alert--{{message.tags}}">
+    <p class="alert__message">{{message}}</p>
+    <button class="alert__close">x</button>
+  </div>
+</div> {% endcomment %}
+{% endfor %}
+{% endif %}
+
+<script>
+  const updateForms = document.querySelectorAll('.updateForm');
+
+  for (const item of updateForms) {
+    item.addEventListener('click', (e) => {
+      e.preventDefault()
+      let name = item.dataset.product
+      swal({
+          title: `Update the account status of ${name}?`,
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            item.submit()
+          }
+
+        });
+    })
+
+  }
+
+  $(document).ready(function () {
+    $('.form').on('submit', function () {
+      swal("Success!", "Registration Link has been sent!", "success", {
+        button: "Ok",
+      });
+    });
+  });
+</script>
 
 {% endblock content %}
