@@ -38,6 +38,7 @@ def register_admin(request):
     return render(request, "hiveadmin/create_admin.html", context)
 
 
+<<<<<<< HEAD
 def login_admin(request):
     '''
     This function is for wholesaler account authentication
@@ -64,7 +65,13 @@ def list_wholesalers(request):
     categories = wholesaler.category_set.all()
     wholesalers, search_query = search_products(request)
 
+=======
+def dashboard(request):
+    return render(request, 'hiveadmin/dashboard.html')
+>>>>>>> 69625b1bb4334f4f930a7dd76ea1a928b3c1d615
 
+
+def list_wholesalers(request):
     wholesalers = Wholesaler.objects.exclude(id=1).filter(is_active=True)
     context = {'wholesalers': wholesalers, 'categories':categories, 'search_query': search_query}
 
@@ -81,7 +88,22 @@ def list_wholesalers(request):
     return render(request, 'hiveadmin/wholesalers_list.html',context)
 
 
+<<<<<<< HEAD
 @login_required(login_url='login_admin')
+=======
+def transactions(request):
+    return render(request, 'hiveadmin/transactions.html')
+
+
+def admins(request):
+    return render(request, 'hiveadmin/list_admin.html')
+
+
+def registration_logs (request):
+    return render(request, 'hiveadmin/logs.html')
+
+
+>>>>>>> 69625b1bb4334f4f930a7dd76ea1a928b3c1d615
 def update_wholesaler(request, pk):
 
     if request.user.is_authenticated and request.user.is_superuser:

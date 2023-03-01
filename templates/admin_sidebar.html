@@ -1,0 +1,52 @@
+{% load static %}
+<div class="sidebar" data-color="orange">
+    <!--
+Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+-->
+    <div class="logo">
+        <a href="{% url 'dashboard' %}" class="logo-large navbar-brand-img h-100">
+            <img
+            src="{% static 'assets2/images/HIVE.png'%}"
+            height="50"
+            alt="MDB Logo"
+            loading="lazy"
+          />
+        </a>
+    </div>
+    <div class="sidebar-wrapper" id="sidebar-wrapper">
+        <ul class="nav">
+            <li {% if request.path == '/hiveadmin/' %}class="active" {% endif %} >
+                <a href="{% url 'dashboard' %}">
+                    <i class="now-ui-icons design_app"></i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+            <li {% if request.path == '/hiveadmin/wholesalers/' %}class="active" {% endif %}>
+                <a href="{% url 'list_wholesalers' %}">
+                    <i class="now-ui-icons education_atom"></i>
+                    <p>Wholesalers</p>
+                </a>
+            </li>
+            <li {% if request.path == '/hiveadmin/transactions/' %}class="active" {% endif %}>
+                <a href="{% url 'transactions' %}">
+                    <i class="now-ui-icons location_map-big"></i>
+                    <p>Transactions</p>
+                </a>
+            </li>
+            <li {% if request.path == '/hiveadmin/admin/' %}class="active" {% endif %}>
+                <a href="{% url 'admins' %}">
+                    <i class="now-ui-icons ui-1_bell-53"></i>
+                    <p>Manage Admins</p>
+                </a>
+            </li>
+            <li {% if request.path == '/hiveadmin/logs/' %}class="active" {% endif %}>
+                <a href="{% url 'registration_logs' %}">
+                    <i class="now-ui-icons users_single-02"></i>
+                    <p>Registration Logs</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+  

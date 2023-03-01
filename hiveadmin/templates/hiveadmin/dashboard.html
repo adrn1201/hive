@@ -1,0 +1,414 @@
+{% extends 'admin.html' %}
+
+{% block content %}
+
+<div class="panel-header panel-header-sm">
+    <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Dashboard</Strong></h2>
+</div>
+    <div class ="container">
+        <div class="row container py-4">
+
+
+            <div class="card card-chart px-3">
+                <div class="card-header">
+                    <h4 class="card-title">Sales</h4>
+              
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="bar-chart" class="chart-canvas" height="375" width="989"
+                            style="display: block; box-sizing: border-box; height: 300px; width: 791.2px;">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+      
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Transanctions</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                            <thead class=" text-primary">
+                                <th>
+                                    Reference No:
+                                </th>
+                                <th>
+                                    Payment Method:
+                                </th>
+                                <th>
+                                    Amount:
+                                </th>
+                                <th>
+                                    Date:
+                                </th>
+                                <th>
+                                    Payment Status:
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Dakota Rice
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Minerva Hooper
+                                    </td>
+                                    <td>
+                                        Curaçao
+                                    </td>
+                                    <td>
+                                        Sinaai-Waas
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Sage Rodriguez
+                                    </td>
+                                    <td>
+                                        Netherlands
+                                    </td>
+                                    <td>
+                                        Baileux
+                                    </td>
+
+                                    <td>
+                                        Niger
+                                    </td>
+
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Doris Greene
+                                    </td>
+                                    <td>
+                                        Malawi
+                                    </td>
+                                    <td>
+                                        Feldkirchen in Kärnten
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Mason Porter
+                                    </td>
+                                    <td>
+                                        Chile
+                                    </td>
+                                    <td>
+                                        Gloucester
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title"> Wholesalers</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                            <thead class=" text-primary">
+                                <th>
+                                    Business Name:
+                                </th>
+                                <th>
+                                    Status:
+                                </th>
+                                <th>
+                                    Date Joined:
+                                </th>
+                           
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Dakota Rice
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Minerva Hooper
+                                    </td>
+                                    <td>
+                                        Curaçao
+                                    </td>
+                                    <td>
+                                        Sinaai-Waas
+                                    </td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Sage Rodriguez
+                                    </td>
+                                    <td>
+                                        Netherlands
+                                    </td>
+                                    <td>
+                                        Baileux
+                                    </td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Doris Greene
+                                    </td>
+                                    <td>
+                                        Malawi
+                                    </td>
+                                    <td>
+                                        Feldkirchen in Kärnten
+                                    </td>
+                                  
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Mason Porter
+                                    </td>
+                                    <td>
+                                        Chile
+                                    </td>
+                                    <td>
+                                        Gloucester
+                                    </td>
+                                 
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
+<script>
+    const productSalesGraph = document.getElementById("bar-chart").getContext("2d");
+    const sortValue = document.getElementById("graph_sort");
+
+    const dailyStats = [
+    {% for sales in daily_sales %} 
+    {
+        x: Date.parse(moment(new Date('{{sales.created.isoformat|safe}}').getTime())
+            .format('YYYY-MM-DD hh:mm:ss')),
+        y: {{ sales.sum|safe }}
+    },
+    {% endfor %}
+    ]
+    const weeklyStats = [
+    {% for sales in weekly_sales %} 
+    {
+        x: Date.parse(moment(new Date('{{sales.created.isoformat|safe}}').getTime())
+            .format('YYYY-MM-DD hh:mm:ss')),
+        y: {{ sales.sum|safe }}
+    },
+    {% endfor %}
+    ]
+    const monthlyStats = [
+    {% for sales in monthly_sales %} 
+    {
+        x: Date.parse(moment(new Date('{{sales.created.isoformat|safe}}').getTime())
+            .format('YYYY-MM-DD hh:mm:ss')),
+        y: {{ sales.sum|safe }}
+    },
+    {% endfor %}
+    ]
+    console.log(monthlyStats)
+    const salesChart = new Chart(productSalesGraph, {
+        type: "line",
+        data: {
+            datasets: [{
+                label: "Sales",
+                data: dailyStats,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)',
+                    'rgba(240, 120, 50, 0.8)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(240, 120, 50, 1)',
+
+                ],
+                fill: false,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            let label = context.dataset.label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'PHP'
+                                }).format(context.parsed.y);
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            value = value.toString();
+                            value = value.split(/(?=(?:...)*$)/);
+                            value = value.join(',');
+                            return '₱' + value;
+                        },
+                        color: 'black',
+                        beginAtZero: true
+                    }
+
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#ccc',
+                        font: {
+                            size: 11,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: 'black',
+                        beginAtZero: true
+                    },
+
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        tooltipFormat: 'MMM DD, YYYY'
+                    }
+
+                },
+            },
+        },
+    });
+    const graphgraphStatus = document.getElementById('graph_status')
+    sortValue.addEventListener('change', function(e) {
+        if(this.value === 'day'){
+            salesChart.config.options.scales.x.time.unit = this.value
+            salesChart.config.data.datasets[0].data = dailyStats
+            graphgraphStatus.innerText = 'Daily'
+        }else if(this.value === 'week'){
+            salesChart.config.options.scales.x.time.unit = this.value
+            salesChart.config.data.datasets[0].data = weeklyStats
+            graphgraphStatus.innerText = 'Weekly'
+        }else{
+            salesChart.config.options.scales.x.time.unit = this.value
+            salesChart.config.data.datasets[0].data = monthlyStats
+            graphgraphStatus.innerText = 'Monthly'
+        }
+        salesChart.update();
+    });
+</script>
+{% endblock content %}
