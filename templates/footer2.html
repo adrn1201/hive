@@ -9,42 +9,40 @@
    }
 }
 </style>
-<footer style="background-color: rgb(94 114 228)">
-
-   <div class="container-fluid mx-auto text-center text-md-left"> 
+<footer style="bg-ight">
+   <div class="container-fluid mx-4 text-center text-md-left"> 
        <div class="row">
           <div class="col-md-4">
-              <div class="full">
+              <div class="mb-5 full">
                  <div class="logo_footer">
-                   <a href="#"><img width="210" src="{% static 'assets2/images/HIVE.png'%}" alt="#" /></a>
+                   <a href="#"><img width="100" src="{{ request.user.retailer.wholesaler.wholesaler_image.url }}" alt="#" /></a>
                  </div>
                  <div class="information_f">
-                   <p class="text-white">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> 28 White tower, Street Name New York City, USA</p>
-                   <p class="text-white"><span class="fa fa-phone"></span>&nbsp;<strong>TELEPHONE:</strong> +91 987 654 3210</p>
-                   <p class="text-white"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong> yourmain@gmail.com</p>
+                   <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> 28 White tower, Street Name New York City, USA</p>
+                   <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>TELEPHONE:</strong> +91 987 654 3210</p>
+                   <p class="text-black"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong> yourmain@gmail.com</p>
                  </div>
               </div>
           </div>
 
           <div class="col-md-8">
              <div class="row ms-auto"> 
-               
                         <div class="col-md-3 ms-auto">
-                     <div class="widget_menu text-white">
+                     <div class="widget_menu text-black">
                         <h3><span class="fas fa-shopping-bag"></span>&nbsp; Shop</h3>
-                        <ul class="text-white">
-                           <li><a href="#"><p class="text-white">Products</p></a></li>
-                           <li ><a href="#"><p class="text-white">About</p></a></li>
-                           <li><a href="#"><p class="text-white">Services</p></a></li>
+                        <ul class="text-black">
+                           <li><a href="#"><p class="text-black">Products</p></a></li>
+                           <li ><a href="#"><p class="text-black">About</p></a></li>
+                           <li><a href="#"><p class="text-black">Services</p></a></li>
                         </ul>
                      </div>
                   </div> 	
                   <div class="col-md-3">
-                     <div class="widget_menu text-white">
+                     <div class="widget_menu text-black">
                         <h3><span class="fas fa-user-alt"></span>&nbsp;Account</h3>
                         <ul>
-                           <li><a href="#"><p class="text-white">Profile</p></a></li>
-                           <li><a href="#"><p class="text-white">Orders</p></a></li>
+                           <li><a href="#"><p class="text-black">Profile</p></a></li>
+                           <li><a href="#"><p class="text-black">Orders</p></a></li>
                         </ul>
                      </div>
                      
@@ -57,37 +55,6 @@
       </div>
       <br>
        <br>
-
-         <section class=" d-flex justify-content-lg-between pr-3 p-4" style="background-color:rgba(0, 0, 0, 0.05);">
-            <!-- Left -->
-              <span class="text-white">&nbsp; Get connected with us on social networks:</span>
-               
-            <!-- Left -->
-        
-            <!-- Right -->
-            <div>
-              <a href="" class="me-4 text-reset">
-                <i class="fab fa-facebook-f text-white"></i>
-              </a>
-              <a href="" class="me-4 text-reset">
-                <i class="fab fa-twitter text-white"></i>
-              </a>
-              <a href="" class="me-4 text-reset">
-                <i class="fab fa-google text-white"></i>
-              </a>
-              <a href="" class="me-4 text-reset">
-                <i class="fab fa-instagram text-white"></i>
-              </a>
-              <a href="" class="me-4 text-reset">
-                <i class="fab fa-linkedin text-white"></i>
-              </a>
-              <a href="" class="me-4 text-reset">
-                <i class="fab fa-github text-white"></i>
-              </a>
-            </div>
-         </div>
-            <!-- Right -->
-          </section>
    </div>
 
  </footer>

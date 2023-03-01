@@ -126,3 +126,7 @@ def email_retailer(request):
         )
         return redirect('retailers')
     return render(request, 'wholesalers/email_retailer.html')
+
+@login_required(login_url='login_wholesaler')
+def transactions(request):
+    return render (request, 'wholesalers/transactions.html')
