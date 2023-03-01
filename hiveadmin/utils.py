@@ -45,8 +45,8 @@ def search_products(request):
     if request.GET.get('status'):
         status_query = request.GET.get('status')
     
-    status_search = Wholesaler.objects.all(name__icontains=search_query)
-    status_filter = Wholesaler.objects.all(name__icontains=status_query)
+    status_search = Wholesaler.objects.filter(name__icontains=search_query)
+    status_filter = Wholesaler.objects.filter(name__icontains=status_query)
 
     wholesalers = Wholesaler.product_set.distinct().filter(Q(is_active__in=status_filter) & (Q(business_name__icontains=search_query) | Q(business_name__in=status_search)))
 

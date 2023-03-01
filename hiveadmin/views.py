@@ -37,8 +37,6 @@ def register_admin(request):
 
     return render(request, "hiveadmin/create_admin.html", context)
 
-
-<<<<<<< HEAD
 def login_admin(request):
     '''
     This function is for wholesaler account authentication
@@ -51,29 +49,25 @@ def login_admin(request):
 def logout_admin(request):
     return logout_user(request, 'login_admin')
 
-# ----------------------------------------------------------------
-
 @login_required(login_url='login_admin')
-def list_wholesalers(request):
-     
+def dashboard(request):
     if request.user.is_authenticated and request.user.is_superuser:
         pass
     elif request.user.is_authenticated and not request.user.is_superuser:
         return redirect('login_admin')
     
-    wholesaler = Wholesaler.objects.get()
-    categories = wholesaler.category_set.all()
-    wholesalers, search_query = search_products(request)
-
-=======
-def dashboard(request):
     return render(request, 'hiveadmin/dashboard.html')
->>>>>>> 69625b1bb4334f4f930a7dd76ea1a928b3c1d615
 
-
+@login_required(login_url='login_admin')
 def list_wholesalers(request):
+
+    if request.user.is_authenticated and request.user.is_superuser:
+        pass
+    elif request.user.is_authenticated and not request.user.is_superuser:
+        return redirect('login_admin')
+    
     wholesalers = Wholesaler.objects.exclude(id=1).filter(is_active=True)
-    context = {'wholesalers': wholesalers, 'categories':categories, 'search_query': search_query}
+    context = {'wholesalers': wholesalers}
 
     if(request.method == "POST"):
         send_mail(
@@ -87,23 +81,31 @@ def list_wholesalers(request):
         return redirect('list_wholesalers')
     return render(request, 'hiveadmin/wholesalers_list.html',context)
 
-
-<<<<<<< HEAD
 @login_required(login_url='login_admin')
-=======
 def transactions(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        pass
+    elif request.user.is_authenticated and not request.user.is_superuser:
+        return redirect('login_admin')
     return render(request, 'hiveadmin/transactions.html')
 
-
+@login_required(login_url='login_admin')
 def admins(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        pass
+    elif request.user.is_authenticated and not request.user.is_superuser:
+        return redirect('login_admin')
     return render(request, 'hiveadmin/list_admin.html')
 
-
+@login_required(login_url='login_admin')
 def registration_logs (request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        pass
+    elif request.user.is_authenticated and not request.user.is_superuser:
+        return redirect('login_admin')
     return render(request, 'hiveadmin/logs.html')
 
-
->>>>>>> 69625b1bb4334f4f930a7dd76ea1a928b3c1d615
+@login_required(login_url='login_admin')
 def update_wholesaler(request, pk):
 
     if request.user.is_authenticated and request.user.is_superuser:
