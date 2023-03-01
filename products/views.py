@@ -15,9 +15,16 @@ def index(request):
         request.user.wholesaler
     except:
         return HttpResponseForbidden()
+    
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    
+    categories = wholesaler.category_set.all()
     products, search_query = search_products(request)
     custom_range, products = paginate_products(request, products, 10)
-    context = {'products': products, 'search_query': search_query, 'custom_range':custom_range}
+    context = {'products': products, 'categories':categories, 'search_query': search_query, 'custom_range':custom_range}
     return render(request, "products/index.html", context)
 
 

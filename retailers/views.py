@@ -13,6 +13,8 @@ from .models import Retailer
 from orders.models import Order, OrderItem
 from .forms import RetailerCreationForm, CustomUserCreationForm
 from django.contrib import messages
+from .utils import search_retailers, paginate_retailers
+
 user_credentials = ''
 
 
@@ -150,8 +152,10 @@ def index(request):
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
-    retailers = Retailer.objects.filter(wholesaler=wholesaler_id)
-    context = {'retailers':retailers}
+    retailers, search_query = search_retailers(request)
+    custom_range, retailers = paginate_retailers(request, retailers, 10)
+    
+    context = {'retailers':retailers, 'custom_range':custom_range, 'search_query':search_query}
 
     if(request.method == "POST"):
         send_mail(

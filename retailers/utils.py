@@ -4,9 +4,9 @@ from wholesalers.models import Wholesaler, Domain
 from django_tenants.utils import remove_www
 
 
-def paginate_products(request, products, results):
+def paginate_retailers(request, retailers, results):
     page = request.GET.get('page')
-    paginator = Paginator(products, results)
+    paginator = Paginator(retailers, results)
     
     try:
         products = paginator.page(page)  
@@ -31,25 +31,26 @@ def paginate_products(request, products, results):
     return custom_range, products
 
 
-def search_products(request):
+def search_retailers(request):
     search_query = ''
-    category_query = ''
-   
-    if request.GET.get('search_query'):
-        search_query = request.GET.get('search_query')
+    retailer_query = ''
 
-    if request.GET.get('category'):
-        category_query = request.GET.get('category')
+    if request.GET.get('q'):
+        search_query = request.GET.get('q')
         
+    if request.GET.get('category'):
+        retailer_query = request.GET.get('category')
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     
-    categories = wholesaler.category_set.filter(name__icontains=search_query)
-    category_filter = wholesaler.category_set.filter(name__icontains=category_query)
+    retailer_filter = wholesaler.retailers.filter(is_active__icontains=retailer_query)
 
-    products = wholesaler.product_set.distinct().filter(Q(category__in=category_filter) & (Q(product_name__icontains=search_query) | Q(category__in=categories)))
+    retailers = wholesaler.retailers.distinct().filter(Q(id__in=retailer_filter) &(Q(business_name__icontains=search_query) | 
+                                                    Q(contact_name__icontains=search_query) |
+                                                    Q(address__icontains=search_query)))
 
-    return products, search_query
+    return retailers, search_query
 

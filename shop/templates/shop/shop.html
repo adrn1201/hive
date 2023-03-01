@@ -18,11 +18,14 @@
             <form action="{% url 'show_shop' %}" method="GET" id="searchForm">
                <div class="row justify-content-center">
                   <div class="col-10 d-flex mt-4">
-                     <select class="form-select" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 38px;">
-                        <option selected> Filter Category </option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                     <select class="form-select" id="filter_category" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 38px;">
+                        <option selected disabled>Filter By:</option>
+                        {% for c in categories %}
+                        <option value="{{c.name}}" {% if request.GET.category and request.GET.category == c.name %}selected{% endif %}>
+                            {{c.name|title}}
+                        </option>
+                        {% endfor %}
+                      </select>
                      </select>
                      <div class="form-group has-search input-group">
                         <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category">
