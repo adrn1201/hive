@@ -158,6 +158,7 @@ def index(request):
 
 @login_required(login_url='login_retailer')
 def dashboard_retailer(request):
+
     order_status = ''
     orders = ''
     if request.GET.get('status'):
@@ -229,4 +230,20 @@ def deactivate_retailer(request, pk):
     return render(request, "retailers/retailers.html", context)
 
  
+@login_required(login_url='login_retailer')
+def order_received(request, pk):
+        
+    order = Order.objects.get(id=pk)
+
+    if request.method == "POST":
+    
+        order.status = "completed"
+        order.save()
+
+
+        messages.success(request, 'Thank you!')
+        return redirect('dashboard_retailer') 
+
+    context = {"order":order}    
+    return render(request, "retailers/dashboard.html",context)
       

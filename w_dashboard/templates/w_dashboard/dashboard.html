@@ -142,10 +142,10 @@ Dashboard
                 <div class="table-responsive">
                     <table class="table align-items-center ">
                         <thead>
-                            <th class="text-uppercase text-center text-secondary th-new font-weight-bolder opacity-7">Business</th>
-                            <th class="text-uppercase text-center text-secondary th-new font-weight-bolder opacity-7 ps-2">Date</th>
-                            <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Status</th>
-                            <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Payment</th>
+                            <th class="text-uppercase text-center text-primary th-new font-weight-bolder opacity-7">Business</th>
+                            <th class="text-uppercase text-center text-primary th-new font-weight-bolder opacity-7 ps-2">Date</th>
+                            <th class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">Status</th>
+                            <th class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">Payment</th>
                             <th></th>
                         </thead>
                         <tbody>
@@ -154,23 +154,23 @@ Dashboard
                                 <td>
                                     <div class="d-flex px-2 py-1 ">
                                         <div class="ms-4">
-                                            <h6 class="text-xs mb-0 text-center">{{ order.business_name }}</h6>
+                                            <p class=" mb-0 text-center">{{ order.business_name }}</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="text-center">
-                                        <h6 class="text-xs mb-0">{{ order.created }}</h6>
+                                        <p class=" mb-0">{{ order.created }}</p>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="text-center">
-                                        <h6 class="text-xs mb-0">{{order.status}}</h6>
+                                        <p class=" mb-0">{{order.status}}</p>
                                     </div>
                                 </td>
                                 <td class="align-middle text-sm">
                                     <div class="col text-center">
-                                        <h6 class="text-xs mb-0">{{ order.mode_of_payment }}</h6>
+                                        <p class=" mb-0">{{ order.mode_of_payment }}</p>
                                     </div>
                                 </td>
                             </tr>
@@ -193,39 +193,39 @@ Dashboard
                         <table class="table align-items-center ">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7">Product</th>
-                                    <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">Category</th>
-                                    <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Stock Level</th>
-                                    <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7"></th>
+                                    <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7">Product</th>
+                                    <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">Category</th>
+                                    <th class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">Stock Level</th>
+                                    <th class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for product in products|slice:'5' %}
                                 <tr>
                                     <td class="w-30">
-                                        <div class="d-flex px-2 py-1">
+                                        <div class="d-flex pl-1 py-1">
                                             <div>
                                                 <img src="{{ product.product_image.url }}" class="avatar avatar-sm me-3"
                                                     alt="user1">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">{{ product.product_name }}</h6>
+                                                <p class="mb-0 ">{{ product.product_name }}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">₱{{ product.price|floatformat:2|intcomma }}</p>
+                                        <div class="">
+                                            <p class=" pl-5 font-weight-bold mb-0">₱{{ product.price|floatformat:2|intcomma }}</p>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">{{ product.sold }}</p>
+                                            <p class=" font-weight-bold mb-0">{{ product.sold }}</p>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">₱{{ product.product_sales|floatformat:2|intcomma }}</p>
+                                            <p class=" font-weight-bold mb-0">₱{{ product.product_sales|floatformat:2|intcomma }}</p>
                                         </div>
                                     </td>
 

@@ -12,10 +12,6 @@
                     <div class="card-body">
                         <a href="{% url 'dashboard_retailer' %}"><i class='far fa-arrow-alt-circle-left mb-4' style='color:black; font-size:medium;'></i></a>
                         <h4 class="box-title">Ordered Items</h4>
-                        <form action="" method="POST">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-success btn-md ms-auto">Orders Received</button>
-                        </form>
                     </div>
                     <div class="card-body--">
                         <div class="table-stats order-table ov-h">

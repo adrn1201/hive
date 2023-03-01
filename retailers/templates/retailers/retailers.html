@@ -108,28 +108,28 @@ Manage Retailer
     </div>
   </div>
 <!-- Modal2 -->
-                <div class="card-body px-0 pt-4 pb-2">
+                <div class="card-body px-0 pt-4 pb-2"> 
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class=" th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7">
+                                    <th class=" th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7">
                                         Business Name</th>
                                     <th
-                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
                                         Address</th>
                                     <th
-                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
                                         Contact Name</th>
                                     <th
-                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
                                         Email</th>
                                     <th
-                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
                                         Status</th>
 
                                     <th
-                                        class="th-new text-center text-uppercase text-secondary  font-weight-bolder opacity-7 ps-2">
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
                                         Action</th>
 
                                 </tr>
@@ -152,10 +152,10 @@ Manage Retailer
                                     <td class="text-center">
                                     
                                         {%if retailer.is_active == False%}
-                                        <span id= "status_acc" style="color: red;" class=" font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
+                                        <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ retailer.is_active|yesno:"Active,Inactive" }}</span>
                                         {% endif %}
                                         {%if retailer.is_active == True%}
-                                        <span id= "status_acc" style="color: green;" class=" font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
+                                        <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
                                         {% endif %}
                                     </td>
 
@@ -214,23 +214,13 @@ Manage Retailer
 <script>
 
     const updateForms = document.querySelectorAll('.updateForm');
-    const status = document.getElementById('status_acc').innerText;
-
-    if (status  == 'Active') {
-
-
-    for (const x of updateStatus) {
-
-        x.style.background='#cc0000';
-        x.value='Deactivate';
-    }
-    
+   
     for (const item of updateForms) {
         item.addEventListener('click', (e) => {
             e.preventDefault()
           let name = item.dataset.product
           swal({
-      title: `Deactivate the account status of ${name}?`,
+      title: `Update the account status of ${name}?`,
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -243,36 +233,6 @@ Manage Retailer
     });
         })
     } 
-    }
-
-    if (status  == 'Inactive') {
-    
-    for (const x of updateStatus) {
-
-        
-        x.style.background='#339933';
-        x.value='Activate';
-        
-    }
-    for (const item of updateForms) {
-        item.addEventListener('click', (e) => {
-            e.preventDefault()
-          let name = item.dataset.product
-          swal({
-      title: `Activate the account status of ${name}?`,
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        item.submit() 
-      } 
-      
-    });
-        })
-    } 
-    }
     </script>
 
 {% endblock content %}

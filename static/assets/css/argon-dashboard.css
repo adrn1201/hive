@@ -187,7 +187,7 @@ h6,
 }
 
 p {
-    font-size: 18px !important;
+    font-size: 16px !important;
     margin-top: 0;
     margin-bottom: 1rem;
 }
@@ -368,8 +368,8 @@ th {
 
 .th-new {
    
-    font-size: 14px !important;
-    
+    font-size: 18px !important;
+ 
 }
 
 thead,
@@ -3389,7 +3389,7 @@ fieldset:disabled .btn {
 
 .btn-primary {
     --bs-btn-color: #000;
-    --bs-btn-bg: #3344a2;
+    --bs-btn-bg: #536aed;
     --bs-btn-border-color: #5e72e4;
     --bs-btn-hover-color: #000;
     --bs-btn-hover-bg: #7687e8;
@@ -10103,6 +10103,7 @@ fieldset:disabled .btn {
 
 .text-primary {
     color: #5e72e4 !important;
+    font-weight: bolder;
 }
 
 .text-secondary {
@@ -10190,7 +10191,7 @@ fieldset:disabled .btn {
 }
 
 .bg-warning {
-    background-color: #fb6340 !important;
+    background-color: #f0be4a !important;
 }
 
 .bg-danger {
@@ -19323,11 +19324,11 @@ svg.text-primary .color-background {
     fill: #825ee4;
 }
 
-svg.text-secondary .color-foreground {
+svg.text-primary .color-foreground {
     fill: #627594;
 }
 
-svg.text-secondary .color-background {
+svg.text-primary .color-background {
     fill: #a8b8d8;
 }
 
