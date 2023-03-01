@@ -5,8 +5,11 @@ from django.conf import settings
 from django.contrib import messages
 
 
-def list_wholesalers(request):
+def dashboard(request):
+    return render(request, 'hiveadmin/dashboard.html')
 
+
+def list_wholesalers(request):
     wholesalers = Wholesaler.objects.exclude(id=1).filter(is_active=True)
     context = {'wholesalers': wholesalers}
 
@@ -23,11 +26,16 @@ def list_wholesalers(request):
     return render(request, 'hiveadmin/wholesalers_list.html',context)
 
 
-def list_deac(request):
+def transactions(request):
+    return render(request, 'hiveadmin/transactions.html')
 
-    wholesalers = Wholesaler.objects.filter(is_active=False)
-    context = {'wholesalers': wholesalers}
-    return render(request, 'hiveadmin/wholesalers_deac.html',context)
+
+def admins(request):
+    return render(request, 'hiveadmin/list_admin.html')
+
+
+def registration_logs (request):
+    return render(request, 'hiveadmin/logs.html')
 
 
 def update_wholesaler(request, pk):
