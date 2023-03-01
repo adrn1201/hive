@@ -6,7 +6,7 @@ from django.contrib.auth import login, authenticate, logout
 
 
 
-def login_user(request, redirect_page, template_name):
+def login_user(request, redirect_page, template_name, context):
     if request.method == 'POST':
         username = request.POST['username'].lower()
         password = request.POST['password']
@@ -28,7 +28,7 @@ def login_user(request, redirect_page, template_name):
                 request.GET['next'] if 'next' in request.GET else redirect_page)
 
     
-    return render(request, template_name)
+    return render(request, template_name, context)
 
 
 

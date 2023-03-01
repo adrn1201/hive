@@ -145,24 +145,24 @@ input[type=number] {
                 <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1" id="mop">
 
                   <div class="d-flex flex-row pb-4">
-                    <div class="d-flex align-items-center pe-2">
-                      <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="radioNoLabel2v"
+                    <div class="d-flex align-items-center pe-2 ml-3 mt-3">
+                      <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="stripe-payment-element"
                         value="Credit Card/Debit Card" aria-label="..." onclick="text(0)" checked />
                     </div>
                     <div class="rounded border w-100 p-3 mx-auto">
                       <p class="d-flex align-items-center mb-0">
-                        <i class="fab fa-cc-visa fa-2x text-dark pe-2"></i>Debit Card
+                        <i class="fa fa-credit-card fa-2x text-dark pe-2"></i>Debit/Credit Card
                       </p>
                     </div>
                   </div>
                   <div class="d-flex flex-row">
-                    <div class="d-flex align-items-center pe-2">
-                      <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="radioNoLabel3v"
+                    <div class="d-flex align-items-center pe-2 ml-3 mt-3">
+                      <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="cash-on-delivery"
                         value="Cash on Delivery" aria-label="..." onclick="text(1)" />
                     </div>
                     <div class="rounded border w-100 p-3">
                       <p class="d-flex align-items-center mb-0">
-                        <i class="fab fa-cc-paypal fa-2x text-dark pe-2"></i>Cash on Delivery
+                        <i class="fa fa-money fa-2x text-dark pe-2"></i>Cash on Delivery
                       </p>
                     </div>
                   </div>
@@ -170,7 +170,7 @@ input[type=number] {
 
                 <!--INPUT FIELDS-->
 
-                <div class="col-9" id="inputfields">
+                <!-- <div class="col-9 mt-3" id="inputfields">
                   <div class="row">
                     <div class="col-12 col-xl-6">
                       <div class="form-floating mb-4 mb-xl-6" id="card-element">
@@ -179,7 +179,7 @@ input[type=number] {
                       <p id="card-error" role="alert"></p>
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 <!-- AMOUNT -->
 
@@ -388,16 +388,45 @@ input[type=number] {
     }
   };
 
+  function disableBtn(disable) {
+  var btn = document.getElementById("checkout-button");
+  if (disable) {
+    btn.setAttribute("disabled", "");
+  } else {
+    btn.removeAttribute("disabled");
+  }
+}
+
+function text(val) {
+  var x = document.getElementById("payment-form");
+  if (val == 0) {
+    disableBtn(true);
+    x.style.display = "block";
+  } else {
+    disableBtn(false);
+    x.style.display = "none";
+  }
+}
+
+  const paymentOptions = document.getElementById("mop");
+  const stripePaymentElement = document.getElementById("stripe-payment-element");
+
+  paymentOptions.addEventListener("change", () => {
+    if (document.getElementById("cash-on-delivery").checked) {
+      document.querySelector("#submit_order").disabled = false;
+    } else {
+      document.querySelector("#submit_order").disabled = true;
+    }
+  });
+
   function text(x) {
     if (x == 0) {
       document.getElementById("inputfields").style.display = "block";
-      document.getElementById("mop").className = "col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1";
-      document.getElementById("amount").className = "col-lg-4 col-xl-3";
+      document.getElementById("mop").className = "col-md-6";
       document.getElementById("payment-card").style.width = "100%"
       document.getElementById("payment-card").style.margin = "0";
       document.getElementById("amount").style.marginLeft = "0";
-      document.getElementById("checkout-button").style.width = "25%";
-      document.querySelector("#submit_order").disabled = true;
+      document.getElementById("submit_order").style.width = "25%";
     } else {
       document.getElementById("amount").className = "col-md-6";
       document.getElementById("mop").className = "col-md-6";
@@ -405,8 +434,7 @@ input[type=number] {
       document.getElementById("payment-card").style.width = "100%";
       document.getElementById("payment-card").style.margin = "auto";
       document.getElementById("amount").style.marginLeft = "40%";
-      document.getElementById("checkout-button").style.width = "25%";
-      document.querySelector("#submit_order").disabled = false;
+      document.getElementById("submit_order").style.width = "10%";
 
       return;
 

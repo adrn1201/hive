@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseForbidden
-
+from wholesalers.models import Domain, Wholesaler
+from django_tenants.utils import remove_www
 from django.contrib.auth.decorators import login_required
 from .utils import login_user, logout_user
 
@@ -18,8 +19,14 @@ def login_wholesaler(request):
         
         return HttpResponseForbidden()
 
-         
-    return login_user(request, 'w_dashboard', 'account/wholesaler_login.html')
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    print(wholesaler.color)
+    context = {'wholesaler': wholesaler}
+
+    return login_user(request, 'w_dashboard', 'account/wholesaler_login.html', context)
 
 
 @login_required(login_url='login_wholesaler')
@@ -44,8 +51,15 @@ def login_retailer(request):
             return redirect('shop_shop')
     except:
         return HttpResponseForbidden()
-            
-    return login_user(request, 'show_shop', 'account/retailer_login.html')
+    
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    
+    context = {'wholesaler': wholesaler}
+
+    return login_user(request, 'show_shop', 'account/retailer_login.html', context)
 
 
 @login_required(login_url='login_retailer')

@@ -36,7 +36,14 @@ def register_retailer(request):
 
         else:
             pass
-    context = {'form': form}
+
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    print(wholesaler.color)
+
+    context = {'form': form, 'wholesaler': wholesaler}
     return render(request, "retailers/create_retailer.html", context)
 
 
@@ -51,6 +58,8 @@ def retailer_create_profile(request):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     form = RetailerCreationForm()
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    print(wholesaler.color)
 
     if request.method == "POST":
         form = RetailerCreationForm(request.POST, request.FILES)
@@ -65,7 +74,7 @@ def retailer_create_profile(request):
             login(request, user_credentials)
             return redirect('show_shop')
 
-    context = {'form': form}
+    context = {'form': form, 'wholesaler': wholesaler}
     return render(request, 'retailers/retailers_profile.html', context)
 
 

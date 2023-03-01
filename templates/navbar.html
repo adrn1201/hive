@@ -90,12 +90,8 @@
         <div class="container-fluid py-1 px-3">
                 <h6 class="font-weight-bolder text-white mb-0">
                     <br>
-                    {% if request.path != '/' and request.path != '/wholesalers/edit-profile/' and request.path != '/wholesalers/view-profile/'%}
-                    <a href="../"><i class='far fa-arrow-alt-circle-left' style='color:white'></i></a>
-                    {% elif request.path == '/wholesalers/view-profile/'%}
-                    <a href="{% url 'w_dashboard' %}"><i class='far fa-arrow-alt-circle-left' style='color:white'></i></a>
-                    {% elif request.path == '/wholesalers/edit-profile/'%}
-                    <a href="{% url 'wholesaler_view_profile' %}"><i class='far fa-arrow-alt-circle-left' style='color:white'></i></a>
+                    {% if request.path != '/'%}
+                    <a href="javascript:history.go(-1);"><i class='far fa-arrow-alt-circle-left' style='color:white'></i></a>
                     {%endif%}
                     &nbsp;
                     {% if request.path == '/products/' %}

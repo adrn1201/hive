@@ -3,14 +3,25 @@
 {% block title %}Wholesaler-login{% endblock title %}
 
 {% block content %}
-
+<style>
+   #image{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: solid;
+    border-color:#404040;
+    margin: 0 auto;
+    display: block;
+}
+</style>
 <section class="ftco-section login-section">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-12 col-lg-10">
         <div class="wrap d-md-flex">
-          <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
-            <img src="{% static 'assets2/images/HIVE.png'%}" width="480px" height="100px">
+          <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last" style="{% if wholesaler.color %}background-color:{{wholesaler.color}}{% endif %}">
+          <img src="{% if wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ wholesaler.wholesaler_image.url }}{% endif %}" id="image">
+
           </div>
           <div class="login-wrap p-4 p-lg-5">
             <div class="d-flex">
