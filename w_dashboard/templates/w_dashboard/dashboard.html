@@ -135,7 +135,7 @@ Dashboard
             <div class="card ">
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Recent Orders</h6>
+                        <h6 class="mb-2">New Orders</h6>
                         <a class="btn-ts btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}">View Orders</a>
                     </div>
                 </div>
@@ -146,7 +146,6 @@ Dashboard
                             <th class="text-uppercase text-center text-secondary th-new font-weight-bolder opacity-7 ps-2">Date</th>
                             <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Status</th>
                             <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Payment</th>
-                            <th></th>
                         </thead>
                         <tbody>
                             {% for order in recent_orders|slice:"5" %}
@@ -184,7 +183,7 @@ Dashboard
             <div class="card">
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Products</h6>
+                        <h6 class="mb-2">Product Sales</h6>
                         <a class="btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}">View Products</a>
                     </div>
                 </div>
@@ -194,9 +193,8 @@ Dashboard
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7">Product</th>
-                                    <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">Category</th>
-                                    <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Stock Level</th>
-                                    <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7"></th>
+                                    <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Sold</th>
+                                    <th class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">Sales</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -211,11 +209,6 @@ Dashboard
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm">{{ product.product_name }}</h6>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="text-center">
-                                            <p class="text-xs font-weight-bold mb-0">₱{{ product.price|floatformat:2|intcomma }}</p>
                                         </div>
                                     </td>
                                     <td>

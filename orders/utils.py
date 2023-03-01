@@ -33,18 +33,24 @@ def paginate_orders(request, orders, results):
 
 def search_orders(request):
     search_query = ''
+    order_query = ''
 
     if request.GET.get('q'):
         search_query = request.GET.get('q')
-
+        
+    if request.GET.get('category'):
+        order_query = request.GET.get('category')
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     
-    orders = wholesaler.order_set.distinct().filter(Q(business_name__icontains=search_query) | 
+    order_filter = wholesaler.order_set.filter(status__icontains=order_query)
+
+    orders = wholesaler.order_set.distinct().filter(Q(id__in=order_filter) &(Q(business_name__icontains=search_query) | 
                                                     Q(mode_of_payment__icontains=search_query) |
-                                                    Q(status__icontains=search_query))
+                                                    Q(status__icontains=search_query)))
 
     return orders, search_query
 

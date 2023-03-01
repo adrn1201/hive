@@ -16,5 +16,5 @@ urlpatterns = [
     path('profile/edit/', views.retailer_edit_profile, name='retailer_edit_profile'),
     path('<int:pk>', views.deactivate_retailer, name='deactivate_retailer'),
 ]
-# ?P<pk>\d+)/$
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

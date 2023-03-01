@@ -31,7 +31,7 @@ def display_orders(request):
     except:
         return HttpResponseForbidden()
     orders, search_query = search_orders(request)
-    custom_range, orders = paginate_orders(request, orders, 15)
+    custom_range, orders = paginate_orders(request, orders, 10)
     context = {'orders': orders, 'search_query': search_query, 'custom_range':custom_range}
     return render(request, 'orders/orders.html', context)
 

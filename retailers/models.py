@@ -5,7 +5,7 @@ from wholesalers.models import Wholesaler
 
 class Retailer(models.Model):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
-    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.SET_NULL, related_name='wholesaler', null=True)
+    wholesaler = models.ForeignKey(Wholesaler, on_delete=models.SET_NULL, related_name='retailers', null=True)
     business_name = models.CharField(max_length=255)
     address = models.CharField(max_length=255, null=False, blank=True)
     region = models.CharField(max_length=255, null=False, blank=True)
@@ -17,7 +17,9 @@ class Retailer(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta: 
-        ordering = ['business_name'] 
+        ordering = ['created'] 
+        
+    
     @property
     def image_url(self):
         try:
