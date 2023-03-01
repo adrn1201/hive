@@ -17,7 +17,7 @@ p {
         <div class="col-12">
             <div class="d-flex card mb-4">
                 <section class="product_section layout_padding">
-                    <div class="container">
+                    <div class="mx-4">
                         <div class="heading_container heading_center">
                             <div class="ms-auto">
                                 <div class="col-lg-5 d-flex mt-4">
@@ -37,7 +37,7 @@ p {
                                         <option value="completed" {% if request.GET.category and request.GET.category == "completed" %}selected{% endif %}>Completed</option>
                                       </select>
                                 </div>
-                                <button class = "mt-2 btn btn-primary" id="sales-report-btn">Generate Sales Report</button>
+                                <button class = "mt-4 btn btn-primary" id="sales-report-btn">Generate Sales Report</button>
                                 <div id="loading-modal" style="display:none">
                                     <div class="loader"></div>
                                     <p>Please wait, generating PDF...</p>
@@ -57,19 +57,19 @@ p {
                                 <thead>
                                     <tr>
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                             Reference Number</th>
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">
                                             Business Name</th>
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                             Order Date</th>
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                             Order Status</th>
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                             Payment Method</th>
                                         <th></th>
                                     </tr>
@@ -88,9 +88,26 @@ p {
                                         <td class="align-middle text-center">
                                             <p class=" font-weight-bold mb-0">{{ order.created }}</p>
                                         </td>
+                
                                         <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-success">{{order.status}}</span>
+                                            {%if order.status == "pending"%}
+                                            <span class="badge badge-sm bg-primary">{{order.status}}</span> 
+                                            {% endif %}
+
+                                            {%if order.status == "preparing"%}
+                                            <span class="badge badge-sm bg-info">{{order.status}}</span> 
+                                            {% endif %}
+
+                                            {%if order.status == "shipped"%}
+                                            <span class="badge badge-sm bg-warning">{{order.status}}</span> 
+                                            {% endif %}
+
+                                            {%if order.status == "completed"%}
+                                            <span class="badge badge-sm bg-success">{{order.status}}</span> 
+                                            {% endif %}
+                                            
                                         </td>
+                                        
                                         <td>
                                             <p class="text-center  font-weight-bold mb-0">{{ order.mode_of_payment }}
                                             </p>
@@ -146,22 +163,22 @@ p {
                         <thead>
                             <tr>
                                 <th
-                                    class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                    class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                     Reference Number</th>
                                 <th
-                                    class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">
+                                    class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">
                                     Business Name</th>
                                 <th
-                                    class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                    class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                     Order Date</th>
                                 <th
-                                    class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                    class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                     Order Status</th>
                                 <th
-                                    class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                    class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                     Payment Method</th>
                                 <th
-                                    class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                    class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                     Total Amount
                                 </th>
                             </tr>
@@ -181,7 +198,7 @@ p {
                                     <p class=" font-weight-bold mb-0">{{ order.created }}</p>
                                 </td>
                                 <td class="align-middle text-center text-sm">
-                                    <span class="badge badge-sm bg-gradient-success">{{order.status}}</span>
+                                    <span class="">{{order.status}}</span>
                                 </td>
                                 <td>
                                     <p class="text-center  font-weight-bold mb-0">{{ order.mode_of_payment }}

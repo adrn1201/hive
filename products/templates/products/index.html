@@ -6,9 +6,7 @@
 {% block content %}
 <style>
 
-    p {
-        font-size: 12px !important;
-    }
+   
 
     .btn-ts {
             font-size: 14px !important;
@@ -63,28 +61,28 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                             Product Name</th>
 
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                             Category</th>
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">
                                             Stocks</th>
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7 ps-2">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">
                                             No. of Variations</th>
 
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                             Unit Price</th>
 
                                         <th
-                                            class="text-center text-uppercase text-secondary th-new font-weight-bolder opacity-7">
+                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
                                             Date Added</th>
-                                        <th class="text-secondary opacity-7"></th>
-                                        <th class="text-secondary opacity-7"></th>
+                                        <th class="text-primary opacity-7"></th>
+                                        <th class="text-primary opacity-7"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,8 +124,8 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <p class="text-center  font-weight-bold mb-0">₱{{ product.price }}
-                                            </p>
+                                            <p class="text-center  font-weight-bold mb-0">₱{{ product.price|floatformat:2 }}</p>
+                                            
                                         </td>
                                         <td>
                                             <p class="text-center  font-weight-bold mb-0">{{ product.created }}

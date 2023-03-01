@@ -176,7 +176,7 @@ def order_details(request, pk):
     
     if request.method == "POST":
         form = OrderForm(request.POST, instance=order)
-
+        
         if form.is_valid():
             order_form = form.save(commit=False)
             if order_form.status == 'preparing':

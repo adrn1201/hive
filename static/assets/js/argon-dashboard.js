@@ -571,7 +571,7 @@ function darkMode(el) {
   const text_strong = document.querySelectorAll('strong.text-dark');
   const text_strong_white = document.querySelectorAll('strong.text-white');
   const text_nav_link = document.querySelectorAll('a.nav-link.text-dark');
-  const secondary = document.querySelectorAll('.text-secondary');
+  const secondary = document.querySelectorAll('.text-primary');
   const bg_gray_100 = document.querySelectorAll('.bg-gray-100');
   const bg_gray_600 = document.querySelectorAll('.bg-gray-600');
   const btn_text_dark = document.querySelectorAll('.btn.btn-link.text-dark, .btn .ni.text-dark');
@@ -640,8 +640,8 @@ function darkMode(el) {
       }
     }
     for (var i = 0; i < secondary.length; i++) {
-      if (secondary[i].classList.contains('text-secondary')) {
-        secondary[i].classList.remove('text-secondary');
+      if (secondary[i].classList.contains('text-primary')) {
+        secondary[i].classList.remove('text-primary');
         secondary[i].classList.add('text-white');
         secondary[i].classList.add('opacity-8');
       }

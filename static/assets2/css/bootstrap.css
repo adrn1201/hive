@@ -4965,7 +4965,7 @@ a.badge:hover, a.badge:focus {
 
 .badge-primary {
   color: #fff;
-  background-color: #007bff;
+  background-color: #e6c75b;
 }
 
 a.badge-primary:hover, a.badge-primary:focus {
@@ -9856,11 +9856,11 @@ a.text-primary:hover, a.text-primary:focus {
   color: #0056b3 !important;
 }
 
-.text-secondary {
+.text-primary {
   color: #6c757d !important;
 }
 
-a.text-secondary:hover, a.text-secondary:focus {
+a.text-primary:hover, a.text-primary:focus {
   color: #494f54 !important;
 }
 

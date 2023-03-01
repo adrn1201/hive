@@ -6,14 +6,24 @@
 <div class="content">
     <div class="animated fadeIn">
         {% include 'retailers/cards.html' %}
+        
         <!-- Orders -->
         <div class="orders">
             <div class="row">
                 <div class="col-xl-8" style="float:none;margin:auto;">
                     <div class="card">
-                        <div class="card-body">
-                            <h4 class="box-title">Orders </h4>
+                        <div class="card-body d-flex align-items-center">
+
+                        <div class = "col-8">
+                             <h4> Orders </h4>
                         </div>
+
+                        <div class = "col-4">
+                            <a class ="float-right btn btn-info btn-sm mx-auto" href="{% url 'dashboard_retailer' %}">View All Orders</a>
+                       </div>
+
+                        </div>
+                        
                         <div class="card-body--">
                             <div class="table-stats order-table ov-h">
                                 <table class="table ">
@@ -28,12 +38,14 @@
                                             <th class="text-center">No. of
                                                 Products</th>
                                             <th class="text-center">Status</th>
+                                            <th class="text-center">Details</th>
                                             <th class="text-center"></th>
+                                          
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for order in orders %}
-
                                         <tr>
                                             <td class="text-center">
                                                 {{ order.reference_number }}
@@ -47,12 +59,36 @@
                                                 <span>{{ order.items.all.count }}</span>
                                             </td>
                                             <td class="text-center">
-                                                <span class="badge badge-complete">{{ order.status }}</span>
+                                                {%if order.status == "pending"%}
+                                                <span class="badge badge-primary">{{ order.status }}</span> 
+                                                 {% endif %}
+
+                                                {%if order.status == "preparing"%}
+                                                <span class="badge badge-info">{{ order.status }}</span> 
+                                                {% endif %}
+
+                                                {%if order.status == "shipped"%}
+                                                <span class="badge badge-warning">{{ order.status }}</span> 
+                                                {% endif %}
+
+                                                {%if order.status == "completed"%}
+                                                <span class="badge badge-success">{{ order.status }}</span>
+                                                {% endif %}
+                                                
                                             </td>
                                             <td class="text-center">
-                                                <a href="{% url 'ordered_product' order.id %}">View
-                                                    ordered products</a>
+                                                <a class ="badge btn-primary" href="{% url 'ordered_product' order.id %}">DETAILS</a>
                                             </td>
+                                            
+                                            {%if order.status == "shipped"%}
+                                            <td class="text-center">
+                                                <form method="POST" action="{% url 'order_received' order.id %}">
+                                                    {% csrf_token %}
+                                                <button type="submit" class="badge btn-success">Order Received</button>
+                                                </form>
+                                            </td>
+                                            {% endif %}
+                                            
                                         </tr>
                                         {% endfor %}
 
