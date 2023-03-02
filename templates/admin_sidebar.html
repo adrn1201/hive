@@ -46,7 +46,7 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
                 </a>
             </li>
 
-            <li {% if request.path == '/hiveadmin/admin/' %}class="active" {% endif %}>
+            <li {% if request.path == '/hiveadmin/logout/' %}class="active" {% endif %}>
                 <a href="{% url 'logout_admin' %}">
                     <i class="now-ui-icons ui-1_bell-53"></i>
                     <p>Log out</p>

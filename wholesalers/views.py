@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, WholesalerCreationForm
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import Domain, Wholesaler
 from django_tenants.utils import remove_www
 from django_tenants.utils import schema_context
+from orders.models import Order, OrderItem
+
 
 user_credentials = ''
 
@@ -126,3 +128,34 @@ def email_retailer(request):
         )
         return redirect('retailers')
     return render(request, 'wholesalers/email_retailer.html')
+
+
+@login_required(login_url='login_wholesaler')
+def transactions(request):
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)   
+    
+    transactions = wholesaler.order_set.filter(Q(mode_of_payment="Credit Card/Debit Card") & Q(success=True))
+    context = {'transactions':transactions}
+    return render (request, 'wholesalers/transactions.html', context)
+
+
+@login_required(login_url='login_wholesaler')
+def transaction_details(request, pk):
+    try:
+        request.user.wholesaler
+    except:
+        return HttpResponseForbidden()
+
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+
+    order = Order.objects.get(id=pk)
+    order_items = order.items.all()
+    
+    context = {'order':order, 'order_items':order_items}
+    return render(request, 'wholesalers/details.html', context)

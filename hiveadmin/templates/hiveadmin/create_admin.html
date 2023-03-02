@@ -3,91 +3,170 @@
 {% block title %}Registration - Admin{% endblock title %}
 {% block content %}
 
-<section class="ftco-section">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-12 col-lg-10">
-          <div class="wrap d-md-flex">
-            <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
-              <img src="{% static 'assets2/images/HIVE.png'%}" width="480px" height="100px">
-            </div>
-            <div class="login-wrap p-4 p-lg-5">
-              <div class="d-flex">
-                <div class="w-100">
-                  <h3 class="mb-4">Registration - Wholesaler</h3>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title">Edit Profile</h5>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+            <div class="row">
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>First Name</label>
+                  {{form.first_name}}
+                  {% if form.first_name.errors %}
+                  <div style = "color:red;">
+                    {{form.first_name.errors}} 
+                  </div>
+                  {% endif %}
+
                 </div>
               </div>
-            
-              <form class="mx-1 mx-md-4" method = "POST">
-                {% csrf_token %}
-                    {{form.as_p}}
-
-
-                <!-- <div class="form-group mb-3 {% if form.email.errors %} error {% endif %}">
-                  <label class="label">Email Address</label>
-                  {{form.email}}
-                  {% if form.email.errors %}
-                  <div style = "color:red;">
-                    {{form.email.errors}} 
-                  </div>
-                  {% endif %}
-                </div>
-                <div class="form-group mb-3 {% if form.username.errors %} error {% endif %}">
-                  <label class="label">User Name</label>
-                  {{form.username}}
-                  {% if form.username.errors %}
-                  <div style = "color:red;">
-                    {{form.username.errors}} 
-                  </div>
-                  {% endif %}
-  
-                </div>
-  
-                <div class="form-group mb-3 {% if form.password1.errors or form.password2.errors %} error {% endif %}">
-                  <label class="label" for="password">Password</label>
-                  <div class="input-group">
-                    {{form.password1}}
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-                        <i class="fa fa-eye" id="togglePassword1" style="cursor: pointer;"></i>
-                      </span>
-                    </div>
-                  </div>
-                  {% if form.password1.errors %}
-                      <div style = "color:red;">
-                        {{form.password1.errors}} 
-                      </div>
-                    {% endif %}
-                </div>
-  
-                <div class="form-group mb-3">
-                  <label class="label" for="password">Confirm Password</label>
-                  <div class="input-group {% if form.password1.errors or form.password2.errors %} error {% endif %}">
-                    {{form.password2}}
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-                        <i class="fa fa-eye" id="togglePassword2" style="cursor: pointer;"></i>
-                      </span>
-                    </div>
-                  </div>
-                  {% if form.password2.errors %}
-                      <div style = "color:red;">
-                        {{form.password2.errors}} 
-                      </div>
-                    {% endif %}
-                </div> -->
-  
-                <!-- <div class="message"></div> -->
-                <br>
+              <div class="col-md-6 pl-1">
                 <div class="form-group">
-                  <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
+                  <label>Last Name</label>
+                  {{form.last_name}}
+                  {% if form.last_name.errors %}
+                  <div style = "color:red;">
+                    {{form.last_name.errors}} 
+                  </div>
+                  {% endif %}
                 </div>
-              </form>
+              </div>
             </div>
-          </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Address</label>
+                  <input type="text" class="form-control" placeholder="Home Address"
+                    value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 pr-1">
+                <div class="form-group">
+                  <label>City</label>
+                  <input type="text" class="form-control" placeholder="City" value="Mike">
+                </div>
+              </div>
+              <div class="col-md-4 px-1">
+                <div class="form-group">
+                  <label>Country</label>
+                  <input type="text" class="form-control" placeholder="Country" value="Andrew">
+                </div>
+              </div>
+              <div class="col-md-4 pl-1">
+                <div class="form-group">
+                  <label>Postal Code</label>
+                  <input type="number" class="form-control" placeholder="ZIP Code">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>About Me</label>
+                  <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description"
+                    value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</div>
+<!-- <section class="ftco-section">
+    <div class="container">
+            
+            <div class=" p-4 p-lg-10">
+              <div class="card pl-2 mx-auto">
+                <div class="card-header mx-auto">
+                  <h5 class="title">Edit Profile</h5>
+                </div>
+                <div class="card-body mx-auto">
+            
+                    <form class="mx-1 mx-md-4" method = "POST">
+                          {% csrf_token %}
+                              
 
-  {%endblock%}
+                      
+                      <div class="form-group rounded-9 {% if form.email.errors %} error {% endif %}">
+                        <label class="label ">Email Address</label>
+                        {{form.email}}
+                        {% if form.email.errors %}
+                        <div style = "color:red;">
+                          {{form.email.errors}} 
+                        </div>
+                        {% endif %}
+                      </div>
+
+                      
+                      
+                      <div class="form-group mb-3 {% if form.username.errors %} error {% endif %}">
+                        <label class="label">User Name</label>
+                        {{form.username}}
+                        {% if form.username.errors %}
+                        <div style = "color:red;">
+                          {{form.username.errors}} 
+                        </div>
+                        {% endif %}
+        
+                      </div>
+        
+                      <div class="form-group mb-3 {% if form.password1.errors or form.password2.errors %} error {% endif %}">
+                        <label class="label" for="password">Password</label>
+                        <div class="input-group">
+                          {{form.password1}}
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="fa fa-eye" id="togglePassword1" style="cursor: pointer;"></i>
+                            </span>
+                          </div>
+                        </div>
+                        {% if form.password1.errors %}
+                            <div style = "color:red;">
+                              {{form.password1.errors}} 
+                            </div>
+                          {% endif %}
+                      </div>
+        
+                      <div class="form-group mb-3">
+                        <label class="label" for="password">Confirm Password</label>
+                        <div class="input-group {% if form.password1.errors or form.password2.errors %} error {% endif %}">
+                          {{form.password2}}
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="fa fa-eye" id="togglePassword2" style="cursor: pointer;"></i>
+                            </span>
+                          </div>
+                        </div>
+                        {% if form.password2.errors %}
+                            <div style = "color:red;">
+                              {{form.password2.errors}} 
+                            </div>
+                          {% endif %}
+                      </div> 
+        
+                      <div class="message"></div>
+                      <br>
+                      <div class="form-group">
+                        <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
+                      </div>
+              </form>
+            </div>
+          </div>
+          <br>
+          <br> -->
+
+
+
+{% endblock content%}
