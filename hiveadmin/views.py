@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib import messages
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
-from .utils import login_user, logout_user, search_products
+from .utils import login_user, logout_user, search_wholesaler
 
 @login_required(login_url='login_admin')
 def register_admin(request):
@@ -66,8 +66,8 @@ def list_wholesalers(request):
     elif request.user.is_authenticated and not request.user.is_superuser:
         return redirect('login_admin')
     
-    wholesalers = Wholesaler.objects.exclude(id=1).filter(is_active=True)
-    context = {'wholesalers': wholesalers}
+    wholesalers, search_query = search_wholesaler(request)
+    context = {'wholesalers': wholesalers, 'search_query': search_query}
 
     if(request.method == "POST"):
         send_mail(
@@ -80,6 +80,7 @@ def list_wholesalers(request):
         messages.success(request, 'Registration has been successfully sent!')
         return redirect('list_wholesalers')
     return render(request, 'hiveadmin/wholesalers_list.html',context)
+
 
 @login_required(login_url='login_admin')
 def transactions(request):

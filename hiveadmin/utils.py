@@ -35,19 +35,37 @@ def logout_user(request, redirect_page):
     logout(request)
     return redirect(redirect_page)
 
-def search_products(request):
+def search_wholesaler(request):
     search_query = ''
-    status_query = ''
+    filter_query = ''
    
     if request.GET.get('search_query'):
         search_query = request.GET.get('search_query')
-
-    if request.GET.get('status'):
-        status_query = request.GET.get('status')
     
-    status_search = Wholesaler.objects.filter(name__icontains=search_query)
-    status_filter = Wholesaler.objects.filter(name__icontains=status_query)
+    if request.GET.get('status'):
+        filter_query = request.GET.get('status')
 
-    wholesalers = Wholesaler.product_set.distinct().filter(Q(is_active__in=status_filter) & (Q(business_name__icontains=search_query) | Q(business_name__in=status_search)))
+    status_filter = None
 
+    if filter_query == 'True':
+        status_filter = True
+    elif filter_query == 'False':
+        status_filter = False
+
+    if search_query:
+        wholesalers = Wholesaler.objects.filter(Q(is_active__exact=status_filter) & (Q(business_name__icontains=search_query) | Q(business_name__icontains=search_query))).exclude(id=1)
+    elif status_filter is not None:
+        wholesalers = Wholesaler.objects.filter(Q(is_active__exact=status_filter)).exclude(id=1)
+    else:
+        wholesalers = Wholesaler.objects.exclude(id=1)
+        
     return wholesalers, search_query
+
+
+
+
+
+
+
+
+
