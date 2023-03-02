@@ -118,7 +118,7 @@ Dashboard
                     </select>
 
                 </div>
-                <div class="card-body">
+                <div class="card-body px-0">
                     <div class="chart">
                         <canvas id="bar-chart" class="chart-canvas" height="375" width="989"
                             style="display: block; box-sizing: border-box; height: 300px; width: 791.2px;">
@@ -259,6 +259,7 @@ Dashboard
     },
     {% endfor %}
     ]
+    console.log(dailyStats)
     const weeklyStats = [
     {% for sales in weekly_sales %} 
     {
@@ -279,7 +280,7 @@ Dashboard
     ]
     console.log(monthlyStats)
     const salesChart = new Chart(productSalesGraph, {
-        type: "line",
+        type: "bar",
         data: {
             datasets: [{
                 label: "Sales",
@@ -303,7 +304,6 @@ Dashboard
                     'rgba(240, 120, 50, 1)',
 
                 ],
-                fill: false,
             }],
         },
         options: {
@@ -359,6 +359,7 @@ Dashboard
 
                 },
                 x: {
+                    offset: true,
                     grid: {
                         drawBorder: false,
                         display: false,
@@ -367,6 +368,7 @@ Dashboard
                         borderDash: [5, 5]
                     },
                     ticks: {
+                        autoSkip: false,
                         display: true,
                         color: '#ccc',
                         font: {
@@ -406,6 +408,10 @@ Dashboard
         }
         salesChart.update();
     });
+    const visibleMetas = salesChart.getSortedVisibleDatasetMetas();
+    let offset = visibleMetas[0].data[0].width - 90
+    salesChart.options.scales.x.ticks.labelOffset = offset;
+    salesChart.update();
 </script>
 
 

@@ -54,3 +54,21 @@ def search_orders(request):
 
     return orders, search_query
 
+
+import random
+import string
+
+
+def random_string_generator(size=5, chars=string.ascii_lowercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+
+def unique_order_id_generator(instance):
+    reference_number= random_string_generator()
+
+    Klass= instance.__class__
+
+    qs_exists= Klass.objects.filter(reference_number=reference_number).exists()
+    if qs_exists:   
+        return unique_order_id_generator(instance)
+    return reference_number

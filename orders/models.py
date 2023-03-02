@@ -3,6 +3,8 @@ from wholesalers.models import Wholesaler
 from products.models import Product, Variation
 import uuid
 from django.contrib.auth.models import User
+from .utils import unique_order_id_generator
+from django.db.models.signals import pre_save
 
 
 class Order(models.Model):
@@ -14,16 +16,23 @@ class Order(models.Model):
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
-    reference_number = models.UUIDField(editable=False, default=uuid.uuid4, unique=True)
+    reference_number = models.CharField(max_length=120, blank= True)
     business_name = models.CharField(max_length=255)
     address =  models.CharField(max_length=255, null=True, blank=True)
     total_paid = models.FloatField()
     mode_of_payment = models.CharField(max_length=255)
+    success = models.BooleanField(default=False, null=True)
     status = models.CharField(max_length=255, choices=ORDER_STATUS)
     is_received = models.BooleanField(default=False)
     created = models.DateField(auto_now_add=True)
     
     
+def pre_save_create_order_id(sender, instance, *args, **kwargs):
+    if not instance.reference_number:
+        instance.reference_number= unique_order_id_generator(instance)
+
+pre_save.connect(pre_save_create_order_id, sender=Order)
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,

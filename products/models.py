@@ -5,7 +5,7 @@ from wholesalers.models import Wholesaler
 
 class Category(models.Model):
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     sold = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
@@ -25,7 +25,7 @@ class Product(models.Model):
 	)
 
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='categories') 
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products') 
     product_name = models.CharField(max_length=200)
     actual_stocks = models.IntegerField(default=0, null=True, blank=True)
     tempo_stocks = models.IntegerField(default=0, null=True, blank=True)

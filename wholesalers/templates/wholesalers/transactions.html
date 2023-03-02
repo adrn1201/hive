@@ -1,0 +1,129 @@
+{% extends 'main.html' %}
+{% load humanize %}
+{% block title %}
+Retailers
+{% endblock title %}
+
+
+
+{% block content %}
+
+<style>
+    .btn-ts {
+        font-size: 14px !important;
+    }
+</style>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex card mb-0">
+
+                <div class="card-header pb-0">
+
+                    <div class="ms-auto">
+                        <div class="col-lg-5 d-flex mt-4">
+                            <form action="{% url 'retailers' %}" method="GET" id="searchForm">
+                                <div class="input-group">
+                                    <span class="input-group-text text-body"><i class="fas fa-search"
+                                            aria-hidden="true"></i></span>
+                                    <input type="search" value="{{ search_query }}" class="form-control" name="q"
+                                        placeholder="Search Transaction">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <h6 class="mt-4 mb-0">Transactions</h6>
+                    </div>
+
+                <div class="card-body px-0 pt-4 pb-2"> 
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class=" th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7">
+                                        Reference No.</th>
+                                    <th class=" th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7">
+                                        Business Name</th>
+                                    <th
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
+                                        Payment Method</th>
+                                    <th
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
+                                        Amount</th>
+                                    <th
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
+                                        Date</th>
+                                    <th
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
+                                        Payment Status</th>
+                                    <th
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
+                                        </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for trans in transactions %}
+                                <tr>
+                                    <td class="text-center">
+                                        <p class=" font-weight-bold mb-0">{{ trans.reference_number }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class=" font-weight-bold mb-0">{{ trans.business_name }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class=" font-weight-bold mb-0">{{ trans.mode_of_payment }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class=" font-weight-bold mb-0">₱{{ trans.total_paid|floatformat:2|intcomma }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class=" font-weight-bold mb-0">{{ trans.created }}</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ trans.success|yesno:"Success,Failed" }}</span>
+                                        <p class=" font-weight-bold mb-0"></p>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-link text-dark  px-2 mb-0" href="{% url 'transaction_details' trans.id %}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>View Details</a>
+                                    </td>
+               
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% include 'w-pagination.html' with queryset=retailers custom_range=custom_range %}
+                </div>
+            </div>
+        </div>
+    </div>
+       
+
+
+<script>
+    const updateStatus = document.querySelectorAll('.update');
+    const updateForms = document.querySelectorAll('.updateForm');
+   
+    for (const item of updateForms) {
+        item.addEventListener('click', (e) => {
+            e.preventDefault()
+          let name = item.dataset.product
+          swal({
+      title: `Update the account status of ${name}?`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        item.submit() 
+      } 
+      
+    });
+        })
+    } 
+    </script>
+
+    {% endblock content %}
