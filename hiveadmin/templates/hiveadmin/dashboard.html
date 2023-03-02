@@ -9,11 +9,10 @@
     <div class ="container">
         <div class="content">
             <div class="row">
-              <div class="col-lg-4">
+              <div class="col-lg-6">
                 <div class="card card-chart">
                   <div class="card-header">
-                    <h5 class="card-category">Global Sales</h5>
-                    <h4 class="card-title">Shipped Products</h4>
+                    <h4 class="card-title"><i class="fas fa-handshake text-lg opacity-100" style="color: #342809;"></i> &nbsp; Transactions</h4>
                     
                   </div>
                   <div class="card-body">
@@ -24,24 +23,12 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-6">
+            
+           
+              <div class="col-lg-6 col-md-6">
                 <div class="card card-chart">
                   <div class="card-header">
-                    <h5 class="card-category">2018 Sales</h5>
-                    <h4 class="card-title">All products</h4>
-                  </div>
-                  <div class="card-body">
-                  </div>
-                  <div class="card-footer">
-                   
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-6">
-                <div class="card card-chart">
-                  <div class="card-header">
-                    <h5 class="card-category">Email Statistics</h5>
-                    <h4 class="card-title">24 Hours Performance</h4>
+                    <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
                   </div>
                   <div class="card-body">
                   </div>
@@ -52,24 +39,38 @@
               </div>
             </div>
 
-        <div class="row container py-4">
-            <div class="card card-chart px-3">
-                <div class="card-header">
-                    <h4 class="card-title">Sales</h4>
-              
-                </div>
-                <div class="card-body">
-                    <div class="chart">
-                        <canvas id="bar-chart" class="chart-canvas" height="375" width="989" style="display: block; box-sizing: border-box; height: 300px; width: 791.2px;">
+            <div class="container py-4">
+                <div class="row">
+                    <div class="card card-chart px-3">
+                   
+                            <div class="row">
+                            <div class="col-lg-9 col-ms-auto">
+                                <div class="card-header">
+                                    <h4 class="card-title"><i class="fas fa-chart-line text-lg opacity-100" style="color: #342809;"></i> &nbsp; Sales</h4>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-ms-auto ps-lg-5 p-lg-3 ">
+                                <select class="form-select rounded-9" aria-label="Default select example" name="status" style="margin-left: 15px; width: 200px; height: 42px;">
+                                    <option selected {% if not search_query %} disabled {% endif %} disabled>Filter By:</option>
+                                    <option value="True" {% if request.GET.status == "True" %}selected{% endif %}>Active</option>
+                                    <option value="False" {% if request.GET.status == "False" %}selected{% endif %}>Inactive</option>
+                                </select>
+                            </div>
+                            </div>
                         
-                        </canvas>
-                    </div>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="bar-chart" class="chart-canvas" height="375" width="989" style="display: block; box-sizing: border-box; height: 300px; width: 791.2px;">
+                                    
+                                    </canvas>
+                                </div>
 
+                            </div>
+                    </div>
                 </div>
             </div>
-        </div>
-  
-      
+            
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
