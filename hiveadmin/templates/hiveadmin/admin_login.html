@@ -1,0 +1,82 @@
+{% extends 'main_account.html' %}
+{% load static %}
+{% block title %}Retailer-login{% endblock title %}
+
+{% block content %}
+<style>
+  #image{
+   width: 200px;
+   height: 200px;
+   border-radius: 50%;
+   border: solid;
+   border-color:#404040;
+   margin: 0 auto;
+   display: block;
+}
+</style>
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-lg-10">
+        <div class="wrap d-md-flex">
+          <div class="wrap d-md-flex">
+            <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+            <img src="{% static 'assets2/images/HIVE.png'%}" id="image">
+          </div>
+          <div class="login-wrap p-4 p-lg-5">
+            <div class="d-flex">
+              <div class="w-100">
+                <h3 class="mb-4">Sign In - Admin</h3>
+              </div>
+            </div>
+            {% if messages %}
+              {% for message in messages %}
+                <p class="alert alert-danger" role="alert">{{message}}</p>
+              {% endfor %}
+            {% endif %}
+            <form action="" method="POST">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label class="label" for="name">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+              </div>
+              <div class="form-group mb-3">
+                <label class="label" for="password">Password</label>
+                <div class="input-group">
+                  <input type="password" class="form-control" placeholder="Enter your Password" id="password" name="password" required>
+                  <div class="input-group-append">
+                    <span class="input-group-text">
+                      <i class="fa fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="message"></div>
+              <div class="form-group">
+                <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
+              </div>
+                <div class="w-50" style="margin-left: 10px;">
+                  <a href="{% url 'reset_password' %}">Forgot Password</a>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+
+  const togglePassword = document.querySelector('#togglePassword');
+  const passwordInput = document.querySelector('#password');
+
+  togglePassword.addEventListener('click', function (e) {
+
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.classList.toggle('fa-eye-slash');
+});
+
+ </script>
+{% endblock %}

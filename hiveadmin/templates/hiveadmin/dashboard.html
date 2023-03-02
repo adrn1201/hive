@@ -2,209 +2,53 @@
 
 {% block content %}
 
-<div class="panel-header panel-header-lg">
-    <canvas id="bigDashboardChart"></canvas>
+<div class="panel-header panel-header-sm">
+    <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Dashboard</Strong></h2>
 </div>
-<div class="content">
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card card-chart">
+    <div class ="container">
+        <div class="row container py-4">
+
+
+            <div class="card card-chart px-3">
                 <div class="card-header">
-                    <h5 class="card-category">Global Sales</h5>
-                    <h4 class="card-title">Shipped Products</h4>
-                    <div class="dropdown">
-                        <button type="button"
-                            class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret"
-                            data-toggle="dropdown">
-                            <i class="now-ui-icons loader_gear"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <a class="dropdown-item text-danger" href="#">Remove Data</a>
+                    <h4 class="card-title">Sales</h4>
+              
+                </div>
+                <div class="card-body">
+                    <div class="chart">
+                        <canvas id="bar-chart" class="chart-canvas" height="375" width="989"
+                            style="display: block; box-sizing: border-box; height: 300px; width: 791.2px;">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+      
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Transanctions</h4>
                         </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="lineChartExample"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="stats">
-                        <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-            <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">2018 Sales</h5>
-                    <h4 class="card-title">All products</h4>
-                    <div class="dropdown">
-                        <button type="button"
-                            class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret"
-                            data-toggle="dropdown">
-                            <i class="now-ui-icons loader_gear"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <a class="dropdown-item text-danger" href="#">Remove Data</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="lineChartExampleWithNumbersAndGrid"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="stats">
-                        <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-            <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">Email Statistics</h5>
-                    <h4 class="card-title">24 Hours Performance</h4>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="barChartSimpleGradientsNumbers"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="stats">
-                        <i class="now-ui-icons ui-2_time-alarm"></i> Last 7 days
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card  card-tasks">
-                <div class="card-header ">
-                    <h5 class="card-category">Backend development</h5>
-                    <h4 class="card-title">Tasks</h4>
-                </div>
-                <div class="card-body ">
-                    <div class="table-full-width table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                                <span class="form-check-sign"></span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td class="text-left">Sign contract for "What are conference organizers afraid of?"
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Edit Task">
-                                            <i class="now-ui-icons ui-2_settings-90"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Remove">
-                                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox">
-                                                <span class="form-check-sign"></span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td class="text-left">Lines From Great Russian Literature? Or E-mails From My Boss?
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Edit Task">
-                                            <i class="now-ui-icons ui-2_settings-90"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Remove">
-                                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                                <span class="form-check-sign"></span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td class="text-left">Flooded: One year later, assessing what was lost and what was
-                                        found when a ravaging rain swept through metro Detroit
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Edit Task">
-                                            <i class="now-ui-icons ui-2_settings-90"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Remove">
-                                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer ">
-                    <hr>
-                    <div class="stats">
-                        <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-category">All Persons List</h5>
-                    <h4 class="card-title"> Employees Stats</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
                             <thead class=" text-primary">
                                 <th>
-                                    Name
+                                    Reference No:
                                 </th>
                                 <th>
-                                    Country
+                                    Payment Method:
                                 </th>
                                 <th>
-                                    City
+                                    Amount:
                                 </th>
-                                <th class="text-right">
-                                    Salary
+                                <th>
+                                    Date:
+                                </th>
+                                <th>
+                                    Payment Status:
                                 </th>
                             </thead>
                             <tbody>
@@ -218,9 +62,129 @@
                                     <td>
                                         Oud-Turnhout
                                     </td>
-                                    <td class="text-right">
-                                        $36,738
+                                    <td>
+                                        Niger
                                     </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Minerva Hooper
+                                    </td>
+                                    <td>
+                                        Curaçao
+                                    </td>
+                                    <td>
+                                        Sinaai-Waas
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Sage Rodriguez
+                                    </td>
+                                    <td>
+                                        Netherlands
+                                    </td>
+                                    <td>
+                                        Baileux
+                                    </td>
+
+                                    <td>
+                                        Niger
+                                    </td>
+
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Doris Greene
+                                    </td>
+                                    <td>
+                                        Malawi
+                                    </td>
+                                    <td>
+                                        Feldkirchen in Kärnten
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        Mason Porter
+                                    </td>
+                                    <td>
+                                        Chile
+                                    </td>
+                                    <td>
+                                        Gloucester
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title"> Wholesalers</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                            <thead class=" text-primary">
+                                <th>
+                                    Business Name:
+                                </th>
+                                <th>
+                                    Status:
+                                </th>
+                                <th>
+                                    Date Joined:
+                                </th>
+                           
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Dakota Rice
+                                    </td>
+                                    <td>
+                                        Niger
+                                    </td>
+                                    <td>
+                                        Oud-Turnhout
+                                    </td>
+                                    
                                 </tr>
                                 <tr>
                                     <td>
@@ -232,9 +196,7 @@
                                     <td>
                                         Sinaai-Waas
                                     </td>
-                                    <td class="text-right">
-                                        $23,789
-                                    </td>
+                                   
                                 </tr>
                                 <tr>
                                     <td>
@@ -246,9 +208,7 @@
                                     <td>
                                         Baileux
                                     </td>
-                                    <td class="text-right">
-                                        $56,142
-                                    </td>
+                                   
                                 </tr>
                                 <tr>
                                     <td>
@@ -260,9 +220,7 @@
                                     <td>
                                         Feldkirchen in Kärnten
                                     </td>
-                                    <td class="text-right">
-                                        $63,542
-                                    </td>
+                                  
                                 </tr>
                                 <tr>
                                     <td>
@@ -274,9 +232,7 @@
                                     <td>
                                         Gloucester
                                     </td>
-                                    <td class="text-right">
-                                        $78,615
-                                    </td>
+                                 
                                 </tr>
                             </tbody>
                         </table>
@@ -285,7 +241,174 @@
             </div>
         </div>
     </div>
+    
+</div>
 </div>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
+<script>
+    const productSalesGraph = document.getElementById("bar-chart").getContext("2d");
+    const sortValue = document.getElementById("graph_sort");
 
+    const dailyStats = [
+    {% for sales in daily_sales %} 
+    {
+        x: Date.parse(moment(new Date('{{sales.created.isoformat|safe}}').getTime())
+            .format('YYYY-MM-DD hh:mm:ss')),
+        y: {{ sales.sum|safe }}
+    },
+    {% endfor %}
+    ]
+    const weeklyStats = [
+    {% for sales in weekly_sales %} 
+    {
+        x: Date.parse(moment(new Date('{{sales.created.isoformat|safe}}').getTime())
+            .format('YYYY-MM-DD hh:mm:ss')),
+        y: {{ sales.sum|safe }}
+    },
+    {% endfor %}
+    ]
+    const monthlyStats = [
+    {% for sales in monthly_sales %} 
+    {
+        x: Date.parse(moment(new Date('{{sales.created.isoformat|safe}}').getTime())
+            .format('YYYY-MM-DD hh:mm:ss')),
+        y: {{ sales.sum|safe }}
+    },
+    {% endfor %}
+    ]
+    console.log(monthlyStats)
+    const salesChart = new Chart(productSalesGraph, {
+        type: "line",
+        data: {
+            datasets: [{
+                label: "Sales",
+                data: dailyStats,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)',
+                    'rgba(240, 120, 50, 0.8)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(240, 120, 50, 1)',
+
+                ],
+                fill: false,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            let label = context.dataset.label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'PHP'
+                                }).format(context.parsed.y);
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            value = value.toString();
+                            value = value.split(/(?=(?:...)*$)/);
+                            value = value.join(',');
+                            return '₱' + value;
+                        },
+                        color: 'black',
+                        beginAtZero: true
+                    }
+
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        display: true,
+                        color: '#ccc',
+                        font: {
+                            size: 11,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: 'black',
+                        beginAtZero: true
+                    },
+
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        tooltipFormat: 'MMM DD, YYYY'
+                    }
+
+                },
+            },
+        },
+    });
+    const graphgraphStatus = document.getElementById('graph_status')
+    sortValue.addEventListener('change', function(e) {
+        if(this.value === 'day'){
+            salesChart.config.options.scales.x.time.unit = this.value
+            salesChart.config.data.datasets[0].data = dailyStats
+            graphgraphStatus.innerText = 'Daily'
+        }else if(this.value === 'week'){
+            salesChart.config.options.scales.x.time.unit = this.value
+            salesChart.config.data.datasets[0].data = weeklyStats
+            graphgraphStatus.innerText = 'Weekly'
+        }else{
+            salesChart.config.options.scales.x.time.unit = this.value
+            salesChart.config.data.datasets[0].data = monthlyStats
+            graphgraphStatus.innerText = 'Monthly'
+        }
+        salesChart.update();
+    });
+</script>
 {% endblock content %}
