@@ -5,10 +5,54 @@
 <div class="panel-header panel-header-sm">
     <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Dashboard</Strong></h2>
 </div>
+<br>
     <div class ="container">
+        <div class="content">
+            <div class="row">
+              <div class="col-lg-4">
+                <div class="card card-chart">
+                  <div class="card-header">
+                    <h5 class="card-category">Global Sales</h5>
+                    <h4 class="card-title">Shipped Products</h4>
+                    
+                  </div>
+                  <div class="card-body">
+                   
+                  </div>
+                  <div class="card-footer">
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-chart">
+                  <div class="card-header">
+                    <h5 class="card-category">2018 Sales</h5>
+                    <h4 class="card-title">All products</h4>
+                  </div>
+                  <div class="card-body">
+                  </div>
+                  <div class="card-footer">
+                   
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6">
+                <div class="card card-chart">
+                  <div class="card-header">
+                    <h5 class="card-category">Email Statistics</h5>
+                    <h4 class="card-title">24 Hours Performance</h4>
+                  </div>
+                  <div class="card-body">
+                  </div>
+                  <div class="card-footer">
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+
         <div class="row container py-4">
-
-
             <div class="card card-chart px-3">
                 <div class="card-header">
                     <h4 class="card-title">Sales</h4>
@@ -16,7 +60,7 @@
                 </div>
                 <div class="card-body">
                     <div class="chart">
-                        <canvas id="bar-chart" class="chart-canvas" height="375" width="989"
+                        <canvas id="line-chart" class="chart-canvas" height="375" width="989"
                             style="display: block; box-sizing: border-box; height: 300px; width: 791.2px;">
                         </canvas>
                     </div>
@@ -283,7 +327,7 @@
     ]
     console.log(monthlyStats)
     const salesChart = new Chart(productSalesGraph, {
-        type: "line",
+        type: "bar",
         data: {
             datasets: [{
                 label: "Sales",
