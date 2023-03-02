@@ -20,10 +20,10 @@
             
               <form class="mx-1 mx-md-4" method = "POST">
                 {% csrf_token %}
-                    {{form.as_p}}
+                    
 
 
-                <!-- <div class="form-group mb-3 {% if form.email.errors %} error {% endif %}">
+                 <div class="form-group mb-3 {% if form.email.errors %} error {% endif %}">
                   <label class="label">Email Address</label>
                   {{form.email}}
                   {% if form.email.errors %}
@@ -75,9 +75,9 @@
                         {{form.password2.errors}} 
                       </div>
                     {% endif %}
-                </div> -->
+                </div> 
   
-                <!-- <div class="message"></div> -->
+                <div class="message"></div>
                 <br>
                 <div class="form-group">
                   <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
