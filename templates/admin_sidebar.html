@@ -21,6 +21,12 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
                     <p>Dashboard</p>
                 </a>
             </li>
+            <li {% if request.path == '/hiveadmin/logs/' %}class="active" {% endif %}>
+                <a href="{% url 'register_admin' %}">
+                    <i class="now-ui-icons users_single-02"></i>
+                    <p>Registration</p>
+                </a>
+            </li>
             <li {% if request.path == '/hiveadmin/wholesalers/' %}class="active" {% endif %}>
                 <a href="{% url 'list_wholesalers' %}">
                     <i class="now-ui-icons education_atom"></i>
@@ -39,12 +45,14 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
                     <p>Manage Admins</p>
                 </a>
             </li>
-            <li {% if request.path == '/hiveadmin/logs/' %}class="active" {% endif %}>
-                <a href="{% url 'registration_logs' %}">
-                    <i class="now-ui-icons users_single-02"></i>
-                    <p>Registration Logs</p>
+
+            <li {% if request.path == '/hiveadmin/admin/' %}class="active" {% endif %}>
+                <a href="{% url 'logout_admin' %}">
+                    <i class="now-ui-icons ui-1_bell-53"></i>
+                    <p>Log out</p>
                 </a>
             </li>
+            
         </ul>
     </div>
 </div>
