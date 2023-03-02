@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from .forms import CustomUserCreationForm
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .utils import login_user, logout_user, search_wholesaler
 
@@ -28,7 +29,7 @@ def register_admin(request):
             user.save()
             global user_credentials
             user_credentials = user
-            return redirect('register_admin')
+            return redirect('admins')
         else:
             pass
         
@@ -96,7 +97,11 @@ def admins(request):
         pass
     elif request.user.is_authenticated and not request.user.is_superuser:
         return redirect('login_admin')
-    return render(request, 'hiveadmin/list_admin.html')
+    
+    context = {'users': User.objects.filter(is_superuser=True)}
+
+
+    return render(request, 'hiveadmin/list_admin.html', context)
 
 @login_required(login_url='login_admin')
 def registration_logs (request):
