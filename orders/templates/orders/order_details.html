@@ -41,6 +41,8 @@
                       <th class="text-uppercase text-dark th-new font-weight-bolder opacity-7">Product
                       </th>
                       <th class="text-center text-uppercase text-dark th-new font-weight-bolder opacity-7 ps-2">
+                        Variation</th>
+                      <th class="text-center text-uppercase text-dark th-new font-weight-bolder opacity-7 ps-2">
                         Quantity</th>
                       <th class="text-center text-uppercase text-dark th-new font-weight-bolder opacity-7">Unit Price
                       </th>
@@ -58,13 +60,23 @@
                             </figure>
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-2  ">{{ item.product.product_name }}</h6>
+                            <h6 class="mb-2 ">{{ item.product.product_name }}</h6>
 
                           </div>
                         </div>
                       </td>
                       <td>
-                        <p class="text-center  font-weight-bold mb-0">{{ item.quantity}}</p>
+                        <p class="text-center font-weight-bold mb-0">
+
+                          {% if item.variation %}
+                          {{ item.variation.name }}
+                          {% else %}
+                          N/A
+                          {% endif %}
+                        </p>
+                      </td>
+                      <td>
+                        <p class="text-center  font-weight-bold mb-0">{{ item.quantity}} pcs</p>
                       </td>
                       <td>
                         <p class="text-center  font-weight-bold mb-0">₱{{ item.price}}</p>

@@ -65,6 +65,7 @@ def create_order(request):
         business_name=retailer.business_name, 
         address=retailer.address,
         total_paid=cart_total,
+        success=True,
         mode_of_payment=request.POST['modeOfPayment'],
         status='pending'
     )

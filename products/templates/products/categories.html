@@ -20,7 +20,7 @@
             <div class="d-flex card mb-4">
                 <div class="card-header pb-0">
                     <div class="d-flex align-items-center">
-                        <p class="mb-0">Category</p>
+                        <h6 class="mb-0">Categories</h6>
                         <a class="btn-ts btn btn-primary btn-sm ms-auto" href="{%url 'create-category'%}"><i class="fa fa-plus"></i>&nbsp; Add Category 
                         </a>
                     </div>
@@ -44,11 +44,13 @@
                                 {% for category in categories %}
                                 <tr>
                                     <td class="text-center">
-                                        <a class = "a-category" href="{% url 'show-category' category.id %}">{{ category.name }}</a>
+                                        <p class=" font-weight-bold mb-0">
+                                            {{ category.name }}
+                                        </p>
                                     </td>
                                     <td class="text-center">
                                         <p class=" font-weight-bold mb-0">
-                                            {{ category.product_set.count }}
+                                            {{ category.products.count }}
                                         </p>
                                     </td>
                                     <td class="text-center">
