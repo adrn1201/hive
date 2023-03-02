@@ -910,10 +910,10 @@ fieldset[disabled] .btn-danger.active {
 .show>.btn-neutral.dropdown-toggle,
 .show>.btn-neutral.dropdown-toggle:focus,
 .show>.btn-neutral.dropdown-toggle:hover {
-  background-color: #FFFFFF;
-  color: #FFFFFF;
+  background-color: #342809;
+  color: #342809;
   box-shadow: none;
-  border-color: #FFFFFF;
+  border-color: #342809;
 }
 
 .btn-neutral:not([data-action]):not([class*="btn-outline-"]):hover {
@@ -3883,7 +3883,7 @@ Created using IcoMoon - icomoon.io
 .off-canvas-sidebar .nav li>a {
   margin: 10px 15px 0;
   border-radius: 30px;
-  color: #FFFFFF;
+  color: #342809;
   display: block;
   text-decoration: none;
   position: relative;
@@ -3910,12 +3910,13 @@ Created using IcoMoon - icomoon.io
 .sidebar .nav li:focus:not(.active)>a i,
 .off-canvas-sidebar .nav li:hover:not(.active)>a i,
 .off-canvas-sidebar .nav li:focus:not(.active)>a i {
-  color: #FFFFFF;
+  color: #342809;
+  font-weight: bold;
 }
 
 .sidebar .nav li.active>a,
 .off-canvas-sidebar .nav li.active>a {
-  background-color: #FFFFFF;
+  background-color: #FCBA12;
   box-shadow: 0 1px 15px 1px rgba(39, 39, 39, 0.1);
 }
 
@@ -3937,7 +3938,7 @@ Created using IcoMoon - icomoon.io
   line-height: 30px;
   width: 34px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.5);
+  color: #342809;
   position: relative;
 }
 
@@ -4002,7 +4003,7 @@ Created using IcoMoon - icomoon.io
   right: 15px;
   height: 1px;
   width: calc(100% - 30px);
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #342809;
 }
 
 .sidebar .logo p,
@@ -4062,11 +4063,11 @@ Created using IcoMoon - icomoon.io
 
 .sidebar:after,
 .off-canvas-sidebar:after {
-  background: #888;
-  background: -webkit-linear-gradient(#888 0%, #000 80%);
+  background: #FFF5DC;
+  /* background: -webkit-linear-gradient(#888 0%, #000 80%);
   background: -o-linear-gradient(#888 0%, #000 80%);
   background: -moz-linear-gradient(#888 0%, #000 80%);
-  background: linear-gradient(#888 0%, #000 80%);
+  background: linear-gradient(#888 0%, #000 80%); */
   z-index: 3;
 }
 
@@ -4155,7 +4156,7 @@ Created using IcoMoon - icomoon.io
 
 .off-canvas-sidebar .nav>li>a,
 .off-canvas-sidebar .nav>li>a:hover {
-  color: #FFFFFF;
+  color: #342809;
 }
 
 .off-canvas-sidebar .nav>li>a:focus {
@@ -4209,7 +4210,7 @@ Created using IcoMoon - icomoon.io
   background: #141E30;
   /* fallback for old browsers */
   background: -webkit-gradient(linear, left top, right top, from(#0c2646), color-stop(60%, #204065), to(#2a5788));
-  background: linear-gradient(to right, #0c2646 0%, #204065 60%, #2a5788 100%);
+  background: linear-gradient(to right,#342809  0%, #A77802 60%, #342809 100%);
   position: relative;
   overflow: hidden;
 }

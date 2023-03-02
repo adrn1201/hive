@@ -1,5 +1,5 @@
 {% load static %}
-<div class="sidebar" data-color="orange">
+<div class="sidebar">
     <!--
 Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
 -->
@@ -45,8 +45,8 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
                     <p>Manage Admins</p>
                 </a>
             </li>
-
-            <li {% if request.path == '/hiveadmin/logout/' %}class="active" {% endif %}>
+         
+            <li class="nav-item py-5 mt-4" {% if request.path == '/hiveadmin/logout/' %}class="active" {% endif %}>
                 <a href="{% url 'logout_admin' %}">
                     <i class="now-ui-icons ui-1_bell-53"></i>
                     <p>Log out</p>
