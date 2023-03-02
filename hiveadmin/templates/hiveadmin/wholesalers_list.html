@@ -54,7 +54,7 @@
         {{ wholesaler.business_name }}
       {% endfor %}
         <div class="card-body">
-          <div class="table-responsive">
+          <div class="table-responsive text-center">
             <table class="table">
               <thead class=" text-primary">
                 <th>
@@ -77,7 +77,12 @@
                     {{ wholesaler.business_name }}
                   </td>
                   <td>
-                    {{ wholesaler.is_active|yesno:"Active,Inactive" }}
+                    {%if wholesaler.is_active == False%}
+                    <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
+                    {% endif %}
+                    {%if wholesaler.is_active == True%}
+                    <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
+                    {% endif %}
                   </td>
                   <td>
                     {{ wholesaler.created}}
