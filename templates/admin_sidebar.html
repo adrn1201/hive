@@ -30,7 +30,7 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
             </li>
             <li {% if request.path == '/hiveadmin/transactions/' %}class="active" {% endif %}>
                 <a href="{% url 'transactions' %}">
-                    <i class="fas fa-handshake"></i>
+                    <i class="fas fa-tasks"></i>
                     <p>Transactions</p>
                 </a>
             </li>
@@ -44,7 +44,7 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
             <li  {% if request.path == '/hiveadmin/logout/' %}class="active" {% endif %}>
                 <a href="{% url 'logout_admin' %}">
                     <i class="fas fa-sign-out-alt"></i>
-                    <p>Log out</p>
+                    <p>Sign Out</p>
                 </a>
             </li>
             
