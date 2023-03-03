@@ -60,6 +60,9 @@
                 <th>
                   Date Joined
                 </th>
+                <th>
+                  
+                </th>
               </thead>
               <tbody>
                 {% for admin in users %}
@@ -77,6 +80,18 @@
                   </td>
                   <td>
                     {{ admin.date_joined }}
+                  </td>
+                  <td>
+                    <form method="POST" action="{% url 'update_admin_status' admin.id %}" class="updateForm">
+                      {% csrf_token %}
+                      {% if admin.is_active == True %}
+                      <input type="hidden" name="status" value="False">
+                      {% elif admin.is_active == False %}
+                      <input type="hidden" name="status" value="True">
+                      {% endif %}
+                      <button type="submit" class="btn  btn-info  btn-xs "><i class="far fa-edit"></i>
+                      </button>
+                    </form>
                   </td>
                 </tr>
                 {% endfor %}

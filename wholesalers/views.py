@@ -9,6 +9,7 @@ from .models import Domain, Wholesaler
 from django_tenants.utils import remove_www
 from django_tenants.utils import schema_context
 from orders.models import Order, OrderItem
+from hiveadmin.models import Transaction
 
 
 user_credentials = ''
@@ -19,7 +20,7 @@ def register_wholesalers(request):
             return redirect('w_dashboard')
     except:
         return HttpResponseForbidden()
-
+    
     form = CustomUserCreationForm()
 
     if request.method == 'POST':
