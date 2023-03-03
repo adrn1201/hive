@@ -40,7 +40,7 @@
             </div>
             <div class="col col-lg-2 my-lg-0">
               
-              <a class="btn btn-primary text-light rounded-9" href="{% url 'register_admin' %}"><strong>Add Admin</strong>
+              <a class="btn btn-primary w-100 text-light rounded-9" href="{% url 'register_admin' %}"><i class="fa fa-plus"></i>&nbsp; <strong>Add Admin</strong>
               
               </a>
             </div>
@@ -51,13 +51,13 @@
           <div class="table-responsive text-center">
             <table class="table">
               <thead class=" text-primary">
-                <th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
                   Name
                 </th>
-                <th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
                   Status
                 </th>
-                <th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
                   Date Joined
                 </th>
                 <th>
@@ -98,6 +98,7 @@
               </tbody>
             </table>
           </div>
+          {% include 'w-pagination.html' with queryset=products custom_range=custom_range %}
         </div>
       </div>
     </div>

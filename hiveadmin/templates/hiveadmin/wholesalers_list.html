@@ -28,45 +28,52 @@
             <div class="col my-lg-2 py-1">
                   
               <form action="{% url 'list_wholesalers' %}" method="GET">
-                <div class="row">
-                  <div class="col-3 my-lg-2">
-                    <div class="input-group no-border">
-                      <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search">
-                    </div>
-                  </div>
-                  <div class="col-3 my-lg-2">
-                    <select class="form-select rounded-9" aria-label="Default select example" name="status" style="margin-left: 15px; width: 200px; height: 42px;">
-                      <option selected {% if not search_query %} disabled {% endif %} disabled>Filter By:</option>
-                      <option value="True" {% if request.GET.status == "True" %}selected{% endif %}>Active</option>
-                      <option value="False" {% if request.GET.status == "False" %}selected{% endif %}>Inactive</option>
-                    </select>
-                  </div>
-
-                </div>
+              <div class="input-group no-border">
+                <input type="search" value="{{ search_query }}" class="form-control rounded-9" name="search_query" placeholder="Search">
+              </div>
               </form>
-              
-
             </div>
-
+            <div class="col-lg-4 my-lg-2">
+              <select class="form-select rounded-9" aria-label="Default select example" name="status" style="margin-left: 15px; width: 200px; height: 42px;">
+                <option selected {% if not search_query %} disabled {% endif %} disabled>Filter By:</option>
+                <option value="True" {% if request.GET.status == "True" %}selected{% endif %}>Active</option>
+                <option value="False" {% if request.GET.status == "False" %}selected{% endif %}>Inactive</option>
+              </select>
+            </div>
+            <div class="col-md-auto">
+              
+              <button type="button" class="btn btn-primary text-light rounded-9" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop1"><i class="fa fa-plus"></i>&nbsp; <strong>Add Wholesaler</strong>
+              </button>
+           
+            </div>
+            <div class="col-md-auto">
+              
+              
+              <a class="btn btn-primary text-light rounded-9" href="{% url 'registration_logs' %}"><i class="fa fa-history"></i>&nbsp; <strong>Logs</strong>
+              
+              </a>
+            </div>
         </div>
       </div>
+
+
       {% for wholesaler in status_filter %}
         {{ wholesaler.business_name }}
       {% endfor %}
         <div class="card-body">
-          <div class="table-responsive text-center">
+          <div class="table-responsive">
             <table class="table">
               <thead class=" text-primary">
-                <th>
+                <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7">
                   Business Name
                 </th>
-                <th>
+                <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7">
                   Status
                 </th>
-                <th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
                   Date Joined
                 </th>
-                <th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
                   Action
                 </th>
               </thead>
@@ -77,12 +84,7 @@
                     {{ wholesaler.business_name }}
                   </td>
                   <td>
-                    {%if wholesaler.is_active == False%}
-                    <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
-                    {% endif %}
-                    {%if wholesaler.is_active == True%}
-                    <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
-                    {% endif %}
+                    {{ wholesaler.is_active|yesno:"Active,Inactive" }}
                   </td>
                   <td>
                     {{ wholesaler.created}}
@@ -100,6 +102,7 @@
               </tbody>
             </table>
           </div>
+          {% include 'w-pagination.html' with queryset=products custom_range=custom_range %}
         </div>
       </div>
     </div>
