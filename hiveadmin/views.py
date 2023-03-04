@@ -7,11 +7,14 @@ from django.contrib import messages
 from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .utils import login_user, logout_user, search_wholesaler
+from .utils import login_user, logout_user, search_wholesaler, search_admins, search_transaction, paginate_data, search_logs
 import stripe
 from django.views.decorators.csrf import csrf_exempt
 from .models import Transaction, EmailTenant
 from django.db.models import Q
+from django.db.models import Sum
+from django.db.models.functions import ExtractYear, ExtractMonth
+import datetime
 
 
 
@@ -64,10 +67,28 @@ def dashboard(request):
     elif request.user.is_authenticated and not request.user.is_superuser or not request.user.is_staff:
         return redirect('login_admin')
     
-    return render(request, 'hiveadmin/dashboard.html')
+    transactions = Transaction.objects.all()
+    wholesalers = Wholesaler.objects.all().exclude(id=1)
+
+    monthly_stats = (Transaction.objects.distinct().all()
+    .annotate(year=ExtractYear('created'))
+    .annotate(month=ExtractMonth('created'))
+    .values('year', 'month')
+    .annotate(total=Sum('amount'))
+    )
+
+    monthly_sales = []
+
+    for record in monthly_stats:
+        timestamp = datetime.datetime(year=record['year'], month=record['month'], day=1).date()
+        sales = record['total']
+        monthly_sales.append({'created':timestamp, 'sum':sales})
+    
+    context ={'transactions': transactions, 'wholesalers': wholesalers, 'monthly_sales' : monthly_sales}
+    return render(request, 'hiveadmin/dashboard.html', context)
 
 @login_required(login_url='login_admin')
-def list_wholesalers(request):
+def list_wholesalers(request): 
 
     if request.user.is_authenticated and request.user.is_superuser or request.user.is_staff:
         pass
@@ -75,12 +96,13 @@ def list_wholesalers(request):
         return redirect('login_admin')
     
     wholesalers, search_query = search_wholesaler(request)
-    context = {'wholesalers': wholesalers, 'search_query': search_query}
+    custom_range, wholesalers = paginate_data(request, wholesalers, 10)
+    context = {'wholesalers': wholesalers, 'search_query': search_query, 'custom_range': custom_range }
 
     if(request.method == "POST"):
         send_mail(
             'Hive Account Registration',
-            'Please click the link to register your account http://localhost:8000/wholesalers/register',
+            'Please click the link to register your account http://localhost:8000/hiveadmin/checkout/',
             settings.EMAIL_HOST_USER,
             [request.POST['email']],
             fail_silently=False
@@ -100,8 +122,11 @@ def transactions(request):
     elif request.user.is_authenticated and not request.user.is_superuser or not request.user.is_staff:
         return redirect('login_admin')
     
-    transactions = Transaction.objects.all()
-    context ={'transactions':transactions}
+    transactions, search_query = search_transaction(request)
+    custom_range, transactions = paginate_data(request, transactions, 10)
+
+    # transaction = Transaction.objects.all()
+    context ={'transactions':transactions ,'searches':search_query, 'custom_range':custom_range}
     
     return render(request, 'hiveadmin/transactions.html', context)
 
@@ -112,8 +137,10 @@ def admins(request):
     elif request.user.is_authenticated and not request.user.is_superuser:
         return redirect('login_admin')
     
-    context = {'users': User.objects.filter(Q(is_superuser=True) | Q(is_staff=True)).exclude(id=1)
-}
+    admin, search_query = search_admins(request)
+    custom_range, admin = paginate_data(request, admin, 10)
+
+    context = {'admin': admin, 'search_query': search_query, 'custom_range': custom_range}
 
     return render(request, 'hiveadmin/list_admin.html', context)
 
@@ -132,7 +159,14 @@ def registration_logs (request):
         pass
     elif request.user.is_authenticated and not request.user.is_superuser or not request.user.is_staff:
         return redirect('login_admin')
-    return render(request, 'hiveadmin/logs.html')
+    
+    email_tenant, search_query = search_logs(request)
+    custom_range, email_tenant = paginate_data(request, email_tenant, 10)
+
+    # emailTenat = EmailTenant.objects.all()
+    context ={'email_tenant':email_tenant, 'search_query':search_query, 'custom_range':custom_range}
+
+    return render(request, 'hiveadmin/logs.html', context)
 
 @login_required(login_url='login_admin')
 def update_wholesaler(request, pk):

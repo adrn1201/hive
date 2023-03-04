@@ -1,13 +1,29 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .utils import unique_order_id_generator
 from django.db.models.signals import pre_save
+import random
+import string
+
+
+def random_string_generator(size=5, chars=string.ascii_lowercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+
+def unique_order_id_generator(instance):
+    reference_number= random_string_generator()
+
+    Klass= instance.__class__
+
+    qs_exists= Klass.objects.filter(reference_number=reference_number).exists()
+    if qs_exists:   
+        return unique_order_id_generator(instance)
+    return reference_number
 
 
 class EmailTenant(models.Model):
     email = models.CharField(max_length=255)
     status = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateField(auto_now_add=True)
 
 class Transaction(models.Model):
     reference_number = models.CharField(max_length=120, blank=True)
@@ -16,7 +32,7 @@ class Transaction(models.Model):
     amount = models.FloatField()
     payment_status = models.CharField(max_length=255)
     subscription_id = models.CharField(max_length=255, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateField(auto_now_add=True)
 
 def pre_save_create_order_id(sender, instance, *args, **kwargs):
     if not instance.reference_number:
