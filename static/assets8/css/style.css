@@ -21,8 +21,8 @@ html * {
 body {
   font-size: 1.6rem;
   font-family: "Open Sans", sans-serif;
-  color: #173d50;
-  background-color: #173d50;
+  color: black;
+  background-color: #FDE281;
 }
 
 a {
@@ -42,7 +42,8 @@ Main Components
 }
 .cd-header h1 {
   text-align: center;
-  color: #FFFFFF;
+  color: #112e3c;
+  font-weight: bold !important;
   font-size: 2.2rem;
 }
 @media only screen and (min-width: 768px) {
@@ -102,6 +103,7 @@ Main Components
 @media only screen and (min-width: 768px) {
   .cd-pricing-list {
     margin: 3em 0 0;
+    color: black !important;
   }
   .cd-pricing-list:after {
     content: "";
@@ -197,6 +199,7 @@ Main Components
   color: #FFFFFF;
 }
 .cd-pricing-header h2 {
+  color: black;
   margin-bottom: 3px;
   font-weight: 700;
   text-transform: uppercase;
@@ -227,6 +230,7 @@ Main Components
 }
 
 .cd-currency, .cd-value {
+  color:black;
   font-size: 3rem;
   font-weight: 300;
 }
@@ -238,7 +242,7 @@ Main Components
   text-transform: uppercase;
 }
 .cd-popular .cd-duration {
-  color: #f3b6ab;
+  color: #abe9f3;
 }
 .cd-duration::before {
   content: '/';
@@ -255,7 +259,7 @@ Main Components
     color: rgba(23, 61, 80, 0.4);
   }
   .cd-popular .cd-currency, .cd-popular .cd-duration {
-    color: #e97d68;
+    color: black;
   }
   .cd-secondary-theme .cd-currency, .cd-secondary-theme .cd-duration {
     color: #2e80a7;
@@ -322,7 +326,7 @@ Main Components
     margin: 0 3px;
   }
   .cd-pricing-features li:nth-of-type(2n+1) {
-    background-color: rgba(23, 61, 80, 0.06);
+    background-color: #FEF7DC;
   }
   .cd-pricing-features em {
     display: inline-block;
@@ -409,10 +413,10 @@ Main Components
     background-color: #112e3c;
   }
   .cd-popular .cd-select {
-    background-color: #e97d68;
+    background-color: #2e80a7;
   }
   .no-touch .cd-popular .cd-select:hover {
-    background-color: #ec907e;
+    background-color: #083f59;
   }
   .cd-secondary-theme .cd-popular .cd-select {
     background-color: #0c1f28;
