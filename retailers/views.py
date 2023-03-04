@@ -6,14 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.core.mail import send_mail
 from wholesalers.models import Wholesaler
-from retailers.models import Retailer   
+from retailers.models import Retailer, RetailerLogs  
 from django.conf import settings
 from wholesalers.models import Domain
 from .models import Retailer
 from orders.models import Order, OrderItem
 from .forms import RetailerCreationForm, CustomUserCreationForm
 from django.contrib import messages
-from .utils import search_retailers, paginate_retailers
+from .utils import search_retailers, paginate_retailers, search_retailers_log
 
 user_credentials = ''
 
@@ -92,7 +92,14 @@ def retailer_edit_profile(request):
         form = RetailerCreationForm(request.POST, request.FILES, instance=retailer)
         if form.is_valid():
             form.save()
+            retailers = Retailer.objects.get(id = request.user.retailer.id)
+            RetailerLogs.objects.create(
+                retailer=retailers.business_name,
+                action = 'Updated profile',             
+            )
             return redirect('retailer_view_profile')
+        
+
 
     context = {'form': form}
     return render(request, 'retailers/retailer_edit_profile.html', context)
@@ -252,6 +259,11 @@ def order_received(request, pk):
     
         order.status = "completed"
         order.save()
+        retailers = Retailer.objects.get(id = request.user.retailer.id)
+        RetailerLogs.objects.create(
+            retailer=retailers.business_name,
+            action = 'Order Recieved',             
+        )
 
 
         messages.success(request, 'Thank you!')
@@ -259,4 +271,26 @@ def order_received(request, pk):
 
     context = {"order":order}    
     return render(request, "retailers/dashboard.html",context)
+
+@login_required(login_url='login_wholesaler')
+def retailer_activity_logs(request):
+    try:
+        request.user.wholesaler
+    except BaseException:
+        return HttpResponseForbidden()
+    
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+
+    # retailers_all = RetailerLogs.objects.all()
+    retailers_all, search_query = search_retailers_log(request)
+
+    custom_range, retailers = paginate_retailers(request, retailers_all, 10)
+
+    context ={'wholesaler':wholesaler, 'retailers':retailers, 'custom_range':custom_range, 'search_query':search_query}
+    
+    
+    return render(request, "retailers/retailer_logs.html",context)
       

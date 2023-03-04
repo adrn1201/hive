@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from products.models import Product
 from .models import Cart_DB
 from django.conf import settings
+from retailers.models import Retailer, RetailerLogs  
 
 
 @login_required(login_url='login_retailer')
@@ -56,9 +57,10 @@ def cart_delete(request):
         return response
     return Response({'none':'none'})
     
-    
+
 @api_view(['POST'])
 def cart_add(request):
+    retailer = Retailer.objects.get(id = request.user.retailer.id)
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         product_id = request.data['productid']
         product_qty = request.data['productqty']
@@ -83,6 +85,11 @@ def cart_add(request):
             if variation.tempo_stocks_var < 0:
                 variation.tempo_stocks_var = 0
             variation.save()
+
+            RetailerLogs.objects.create(
+                retailer=retailer.business_name,
+                action = f'Added {product.product_name} with variaton of: {variation.name} to cart',             
+            )
         elif variation and products_data:
             for item in products_data:
                 if variation.id == item.variation_id.id:
@@ -106,6 +113,11 @@ def cart_add(request):
             if product.tempo_stocks < 0:
                 product.tempo_stocks = 0
             product.save()
+
+            RetailerLogs.objects.create(
+                retailer=retailer.business_name,
+                action = f'Added {product.product_name} to cart',             
+            )
         elif not variation and products_data:
             for item in products_data:
                 cart_item = product.products_cart.get(products=product)
@@ -129,6 +141,12 @@ def cart_add(request):
             if variation.tempo_stocks_var < 0:
                 variation.tempo_stocks_var = 0
                 variation.save()
+
+                RetailerLogs.objects.create(
+                retailer=retailer.business_name,
+                action = f'Added {product.product_name} with variaton of: {variation.name} to cart',             
+                )
+                
         
         cart_qty = request.user.cart_db_set.all().count()
         if variation:

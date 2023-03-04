@@ -14,6 +14,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import stripe
 from django.views.decorators.csrf import csrf_exempt
+from retailers.models import Retailer, RetailerLogs  
+
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -79,13 +81,22 @@ def create_order(request):
                 price=item.products.price, 
                 quantity=item.qty
             )
+            RetailerLogs.objects.create(
+                retailer=retailer.business_name,
+                action = 'Retailer has placed their order',             
+            )
         else:
             OrderItem.objects.create(
                 order=order, 
                 product=item.products, 
                 price=item.products.price, 
                 quantity=item.qty
-            )       
+            )
+            RetailerLogs.objects.create(
+                retailer=retailer.business_name,
+                action = 'Retailer has placed their order',             
+                )
+           
         
     request.user.cart_db_set.filter(user=request.user).delete()
     messages.success(request, 'Your Order is successfully placed!')

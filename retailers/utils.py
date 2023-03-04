@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from wholesalers.models import Wholesaler, Domain
 from django_tenants.utils import remove_www
+from retailers.models import RetailerLogs  
 
 
 def paginate_retailers(request, retailers, results):
@@ -53,4 +54,23 @@ def search_retailers(request):
                                                     Q(address__icontains=search_query)))
 
     return retailers, search_query
+
+def search_retailers_log(request):
+    search_query = ''
+    retailer_query = ''
+
+    if request.GET.get('q'):
+        search_query = request.GET.get('q')
+        
+    if request.GET.get('category'):
+        retailer_query = request.GET.get('category')
+    
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    
+    retailers_all = RetailerLogs.objects.filter(Q(retailer__icontains=search_query))
+
+    return retailers_all, search_query
 

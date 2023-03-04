@@ -298,7 +298,6 @@ def webhook_received(request):
         )
     elif event['type'] == 'customer.subscription.updated':
         subscription = event['data']['object']
-        print(subscription)
         if subscription['cancel_at_period_end']:
             transaction = Transaction.objects.filter(subscription_id=subscription['id'])[0]
             transaction.payment_status = 'Cancelled'
