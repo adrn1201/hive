@@ -15,8 +15,7 @@ from rest_framework.response import Response
 import stripe
 from django.views.decorators.csrf import csrf_exempt
 from retailers.models import Retailer, RetailerLogs  
-
-
+from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -83,7 +82,13 @@ def create_order(request):
             )
             RetailerLogs.objects.create(
                 retailer=retailer.business_name,
-                action = 'Retailer has placed their order',             
+                action = 'Retailer has placed their order', 
+            )            
+            AdminRetailerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                retailer = retailer.business_name,
+                domain = domain,
+                action = 'Retailer has placed their order'
             )
         else:
             OrderItem.objects.create(
@@ -95,8 +100,14 @@ def create_order(request):
             RetailerLogs.objects.create(
                 retailer=retailer.business_name,
                 action = 'Retailer has placed their order',             
-                )
+            )
            
+            AdminRetailerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                retailer = retailer.business_name,
+                domain = domain,
+                action = 'Retailer has placed their order'
+            )       
         
     request.user.cart_db_set.filter(user=request.user).delete()
     messages.success(request, 'Your Order is successfully placed!')
@@ -146,7 +157,7 @@ def stripe_webhook(request):
 
     try:
         event = stripe.Webhook.construct_event(
-        payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+        payload, sig_header, 'whsec_e80e567c50d9affa6bc4d8518e046d7b01d7540bc3b9b7f27f584d8db425a34d'
         )
     except ValueError as e:
         return HttpResponse(status=400)
@@ -236,6 +247,11 @@ def order_details(request, pk):
                     product.save()
                     
             order_form.save()
+            AdminWholesalerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                domain = domain,
+                action = f'Updated order status to {request.POST["status"]}'
+            )
             messages.success(request, 'Order status successfully updated!')
             return redirect('order_details', pk=order.id)
 

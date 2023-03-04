@@ -7,6 +7,7 @@ from wholesalers.models import Domain, Wholesaler
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Product, Variation
+from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
 
 product_object = ''
 @login_required(login_url='login_wholesaler')
@@ -114,6 +115,11 @@ def edit_product(request, pk):
             product = form.save(commit=False)
             product.tempo_stocks = product.actual_stocks
             product.save()
+            AdminWholesalerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                domain = domain,
+                action = f'Updated product information for {product.product_name}'
+            )
             messages.success(request, 'Product details successfully updated!')
             return redirect('products')
             

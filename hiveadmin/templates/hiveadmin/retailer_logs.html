@@ -1,0 +1,96 @@
+{% extends 'admin.html' %}
+{% load humanize %}
+{% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+    <div class="container-fluid">
+        <div class="navbar-wrapper">
+            <a href="javascript:history.go(-1);"><i class="far fa-arrow-alt-circle-left py-4 ps-lg-3"
+                    style="color:white; font-size: larger;" aria-hidden="true"></i></a>
+        </div>
+
+</nav>
+
+<div class="panel-header panel-header-sm">
+    <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Wholesaler Logs</Strong></h2>
+</div>
+<br>
+
+<div class="modal fade" id="staticBackdrop2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    </div>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row ">
+                        <div class="col-md-3 my-lg-2 py-1">
+
+                            <form action="{% url 'wholesaler-logs' %}" method="GET" id="searchForm">
+                                <div class="input-group no-border">
+                                    <input type="search" value="{{ search_query }}" class="form-control rounded-9"
+                                        name="search_query" placeholder="Search">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="table-responsive text-center">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                                        Wholesaler
+                                    </th>
+                                    <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                                        Retailer
+                                    </th>
+                                    <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                                        Domain
+                                    </th>
+                                    <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                                        Action
+                                    </th>
+                                    <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                                        Date
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    {% for retailer in retailer_logs %}
+                                    <tr>
+                                        <td>
+                                            {{ retailer.wholesaler }}
+                                        </td>
+                                        <td>
+                                            {{ retailer.retailer }}
+                                        </td>
+                                        <td>
+                                            {{ retailer.domain }}
+                                        </td>
+                                        <td>
+                                            {{ retailer.action }}
+                                        </td>
+                                        <td>
+                                            {{ retailer.created }}
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% include 'a-pagination.html' with queryset=retailer_logs custom_range=custom_range %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
