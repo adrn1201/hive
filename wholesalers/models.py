@@ -14,7 +14,7 @@ class Wholesaler(TenantMixin):
     is_active = models.BooleanField(default=False)
     color = models.CharField(max_length=255, null=True, blank=True)
     wholesaler_image = models.ImageField(default='products/default.jpg', upload_to="products/")
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateField(auto_now_add=True)
     
     auto_create_schema = True
 

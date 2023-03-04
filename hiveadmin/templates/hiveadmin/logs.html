@@ -29,69 +29,56 @@
       <div class="card">
         <div class="card-header">
           <div class="row ">
-            <div class="col my-lg-2 py-1">
+            <div class="col-md-4 my-lg-2 py-1">
                   
-              <form>
-                <div class="input-group no-border ">
-                  <input type="text" value="" class="form-control rounded-9" placeholder="Search...">
-                  
-                 
+              <form action="{% url 'registration_logs' %}" method="GET" id="searchForm"> 
+                <div class="input-group no-border">
+                  <input type="search" value="{{ search_query }}" class="form-control rounded-9" name="search_query" placeholder="Search">
                 </div>
               </form>
-            </div>
-            <div class="col-lg-6 my-lg-2">
-              <select class="form-select rounded-9" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 42px;">
-                <option selected> Filter Category </option>
-                <option value="1">Inactive Wholesaler</option>
-                <option value="2">Active Wholesaler</option>
-              </select>
-            </div>
-            <div class="col col-lg-2 my-lg-0">
-              
-              <button type="button" class="btn btn-primary text-light rounded-9" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop1"><i class="fa fa-plus"></i>&nbsp; <strong>Add Wholesaler</strong>
-                
-              </button>
             </div>
         </div>
       </div>
 
       
         <div class="card-body">
-          <div class="table-responsive">
+          <div class="table-responsive text-center">
             <table class="table">
               <thead class=" text-primary">
-                <th>
+                <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7">
                   Email
                 </th>
-                <th>
+                <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7">
                   Status
+                </th>
+                <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7">
+                  Created
                 </th>
               </thead>
               <tbody>
-                {% for wholesaler in wholesalers %}
+                {% for emailTenats in email_tenant %}
                 <tr>
                   <td>
-                    {{ wholesaler.business_name }}
+                    {{ emailTenats.email }}
                   </td>
                   <td>
-                    {{ wholesaler.is_active|yesno:"Active,Inactive" }}
+                    {%if emailTenats.status == False%}
+                    <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ emailTenats.status|yesno:"Sent,Failed" }}</span>
+                    {% endif %}
+                    {%if emailTenats.status == True%}
+                    <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ emailTenats.status|yesno:"Sent,Failed" }}</span>
+                    {% endif %}
                   </td>
                   <td>
-                    {{ wholesaler.created}}
-                  </td>
-                  <td>
-                    <form method="POST" action="{% url 'update_wholesaler' wholesaler.id %}" class="updateForm"
-                      data-product="{{wholesaler.business_name}}">
-                      {% csrf_token %}
-                      <button type="submit" class="btn  btn-info  btn-xs "><i class="far fa-edit"></i>
-                      </button>
-                    </form>
+                    {{ emailTenats.created}}
                   </td>
                 </tr>
                 {% endfor %}
               </tbody>
             </table>
           </div>
+          {% include 'a-pagination.html' with queryset=email_tenant custom_range=custom_range %}
+
         </div>
       </div>
     </div>

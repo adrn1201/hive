@@ -1,5 +1,5 @@
 {% extends 'admin.html' %}
-
+{% load humanize %}
 {% block content %}
 
 <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
@@ -28,35 +28,26 @@
       <div class="card">
         <div class="card-header">
           <div class="row ">
-            <div class="col my-lg-2 py-1">
+            <div class="col-md-3 my-lg-2 py-1">
                   
-              <form>
-                <div class="input-group no-border ">
-                  <input type="text" value="" class="form-control rounded-9" placeholder="Search...">
-                  
-                 
+              <form action="{% url 'transactions' %}" method="GET" id="searchForm"> 
+                <div class="input-group no-border">
+                  <input type="search" value="{{ search_query }}" class="form-control rounded-9" name="search_query" placeholder="Search">
                 </div>
               </form>
             </div>
-            <div class="col-lg-6 my-lg-2">
-              <select class="form-select rounded-9" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 42px;">
-                <option selected> Filter Category </option>
-                <option value="1">Inactive Wholesaler</option>
-                <option value="2">Active Wholesaler</option>
+            <div class="col-lg-4 my-lg-2">
+              <select class="form-select rounded-9" id="filter_category" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 42px;">
+                <option selected {% if not search_query %} disabled {% endif %} disabled>Filter By:</option>
+                <option value="Success" {% if request.GET.category == "Success" %}selected{% endif %}>Success</option>
+                <option value="Cancelled" {% if request.GET.category == "Cancelled" %}selected{% endif %}>Cancelled</option>
               </select>
             </div>
-            <div class="col col-lg-2 my-lg-0">
-              
-              <button type="button" class="btn btn-primary text-light rounded-9" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop1"><i class="fa fa-plus"></i>&nbsp; <strong>Add Wholesaler</strong>
-                
-              </button>
-            </div>
         </div>
-      </div>
 
       
         <div class="card-body">
-          <div class="table-responsive">
+          <div class="table-responsive text-center">
             <table class="table">
               <thead class=" text-primary">
                 <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
@@ -79,31 +70,38 @@
                 </th>
               </thead>
               <tbody>
-                {% for wholesaler in wholesalers %}
+                {% for transaction in transactions %}
                 <tr>
                   <td>
-                    {{ wholesaler.business_name }}
+                    {{ transaction.reference_number }}
                   </td>
                   <td>
-                    {{ wholesaler.is_active|yesno:"Active,Inactive" }}
+                    {{ transaction.business_name }}
                   </td>
                   <td>
-                    {{ wholesaler.created}}
+                    {{ transaction.payment_method }}
                   </td>
                   <td>
-                    <form method="POST" action="{% url 'update_wholesaler' wholesaler.id %}" class="updateForm"
-                      data-product="{{wholesaler.business_name}}">
-                      {% csrf_token %}
-                      <button type="submit" class="btn  btn-info  btn-xs "><i class="far fa-edit"></i>
-                      </button>
-                    </form>
+                    ₱{{ transaction.amount|floatformat:2|intcomma  }}
                   </td>
+                  <td>
+                    {{ transaction.created }}
+                  </td>
+                  <td >
+                    {%if transaction.payment_status == 'Success'%}
+                    <span id= "status_acc" class=" badge badge-sm bg-success font-weight-bold mb-0">{{ transaction.payment_status }}</span>
+                    {% endif %}
+                    {%if transaction.payment_status == 'Cancelled'%}
+                    <span id= "status_acc" class="badge badge-sm bg-warning font-weight-bold mb-0">{{ transaction.payment_status }}</span>
+                    {% endif %}
+                  </td>
+
                 </tr>
                 {% endfor %}
               </tbody>
             </table>
           </div>
-          {% include 'w-pagination.html' with queryset=products custom_range=custom_range %}
+          {% include 'a-pagination.html' with queryset=transactions custom_range=custom_range %}
         </div>
       </div>
     </div>
