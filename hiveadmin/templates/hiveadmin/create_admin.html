@@ -3,6 +3,14 @@
 {% block title %}Registration - Admin{% endblock title %}
 {% block content %}
 
+<nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+  <div class="container-fluid">
+    <div class="navbar-wrapper">
+      <a href="javascript:history.go(-1);"><i class="far fa-arrow-alt-circle-left py-4 ps-lg-3" style="color:white; font-size: larger;" aria-hidden="true"></i></a>
+    </div>
+   
+</nav>
+
 <div class="panel-header panel-header-sm">
   <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Registration</Strong></h2>
 </div>
@@ -37,7 +45,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group">
                 <label class="font-weight-bold" style="color:#342B09;"><h6>Email</h6></label>
                 {{form.email}}
@@ -49,7 +57,7 @@
               </div>
             </div>
             
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group">
                 <label class="font-weight-bold" style="color:#342B09;"><h6 class="font-weight-bold"6>User Name</h6></label>
                 {{form.username}}
@@ -61,7 +69,7 @@
               </div>
             </div>
             
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group">
                 <label class="font-weight-bold" style="color:#342B09;"><h6 class="font-weight-bold">Password</h6></label>
                 {{form.password1}}
@@ -73,7 +81,7 @@
               </div>
             </div>
             
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="form-group">
                 <label style="color:#342B09;"><h6 class="font-weight-bold">Confirm Password</h6></label>
                 {{form.password2}}

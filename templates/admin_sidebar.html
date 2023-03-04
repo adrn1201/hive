@@ -18,34 +18,34 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
             <li {% if request.path == '/hiveadmin/' %}class="active" {% endif %} >
                 <a href="{% url 'dashboard' %}">
                     <i class="fa fa-poll"></i>
-                    <p>Dashboard</p>
+                    <p class="font-weight-bolder" style="font-size: small;">Dashboard</p>
                 </a>
             </li>
       
             <li {% if request.path == '/hiveadmin/wholesalers/' %}class="active" {% endif %}>
                 <a href="{% url 'list_wholesalers' %}">
                     <i class="fas fa-warehouse"></i>
-                    <p>Wholesalers</p>
+                    <p class="font-weight-bolder" style="font-size: small;">Wholesalers</p>
                 </a>
             </li>
             <li {% if request.path == '/hiveadmin/transactions/' %}class="active" {% endif %}>
                 <a href="{% url 'transactions' %}">
                     <i class="fas fa-tasks"></i>
-                    <p>Transactions</p>
+                    <p class="font-weight-bolder" style="font-size: small;">Transactions</p>
                 </a>
             </li>
             {% if request.user.is_authenticated and request.user.is_superuser%}
             <li {% if request.path == '/hiveadmin/admin/' %}class="active" {% endif %}>
                 <a href="{% url 'admins' %}">
                     <i class="fas fa-user-shield"></i>
-                    <p>Manage Admins</p>
+                    <p class="font-weight-bolder" style="font-size: small;">Manage Admins</p>
                 </a>
             </li>
             {%endif%}
             <li  {% if request.path == '/hiveadmin/logout/' %}class="active" {% endif %}>
                 <a href="{% url 'logout_admin' %}">
                     <i class="fas fa-sign-out-alt"></i>
-                    <p>Sign Out</p>
+                    <p class="font-weight-bolder" style="font-size: small;">Sign Out</p>
                 </a>
             </li>
             

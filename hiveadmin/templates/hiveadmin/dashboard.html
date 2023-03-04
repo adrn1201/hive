@@ -70,7 +70,11 @@
                 <div class="col-md-7">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title"><i class="fas fa-tasks text-lg opacity-100" style="color: #342809;"></i> &nbsp; Transanctions</h4>
+                            <div class="d-flex justify-content-between">
+                                <h4 class="card-title"><i class="fas fa-tasks text-lg opacity-100" style="color: #342809;"></i> &nbsp; Transanctions</h4>
+                                <a class="btn btn-primary btn-sm ms-auto rounded-9" href="{%url 'transactions'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Transactions</a>
+                            </div>
+
                         </div>
                         <div class="card-body ps-lg-5">
                             <div class="table-responsive text-center">
@@ -135,7 +139,10 @@
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
+                            <div class="d-flex justify-content-between">
+                                <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
+                                <a class="btn btn-primary btn-sm ms-auto rounded-9 w-30" href="{%url 'list_wholesalers'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Wholesalers</a>
+                            </div>
                         </div>
                         <div class="card-body ">
                             <div class="table-responsive text-center">
