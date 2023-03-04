@@ -6,6 +6,10 @@ from rest_framework.response import Response
 from products.models import Product
 from .models import Cart_DB
 from django.conf import settings
+from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
+from wholesalers.models import Wholesaler
+from wholesalers.models import Domain
+from django_tenants.utils import remove_www
 
 
 @login_required(login_url='login_retailer')
@@ -59,6 +63,14 @@ def cart_delete(request):
     
 @api_view(['POST'])
 def cart_add(request):
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    
+    
+    retailer = wholesaler.retailers.get(id=request.user.retailer.id)
+    
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         product_id = request.data['productid']
         product_qty = request.data['productqty']
@@ -79,10 +91,17 @@ def cart_add(request):
                 qty=product_qty,
                 subtotal=product.price * int(product_qty)
             )
+
             variation.tempo_stocks_var -= int(product_qty)
             if variation.tempo_stocks_var < 0:
                 variation.tempo_stocks_var = 0
             variation.save()
+            AdminRetailerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                retailer = retailer.business_name,
+                domain = domain,
+                action = f'Added {product.product_name} with variation of: {variation.name} to cart'
+            )
         elif variation and products_data:
             for item in products_data:
                 if variation.id == item.variation_id.id:
@@ -102,10 +121,17 @@ def cart_add(request):
                 qty=product_qty,
                 subtotal=product.price * int(product_qty)
             )
+
             product.tempo_stocks -= int(product_qty)
             if product.tempo_stocks < 0:
                 product.tempo_stocks = 0
             product.save()
+            AdminRetailerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                retailer = retailer.business_name,
+                domain = domain,
+                action = f'Added {product.product_name} to cart'
+            )
         elif not variation and products_data:
             for item in products_data:
                 cart_item = product.products_cart.get(products=product)
@@ -129,7 +155,12 @@ def cart_add(request):
             if variation.tempo_stocks_var < 0:
                 variation.tempo_stocks_var = 0
                 variation.save()
-        
+            AdminRetailerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                retailer = retailer.business_name,
+                domain = domain,
+                action = f'Added {product.product_name} with variation of: {variation.name} to cart'
+            )
         cart_qty = request.user.cart_db_set.all().count()
         if variation:
             new_quantity = variation.tempo_stocks_var

@@ -14,6 +14,11 @@ from orders.models import Order, OrderItem
 from .forms import RetailerCreationForm, CustomUserCreationForm
 from django.contrib import messages
 from .utils import search_retailers, paginate_retailers
+from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
+from django_tenants.utils import remove_www
+from wholesalers.models import Domain
+from wholesalers.models import Wholesaler
+
 
 user_credentials = ''
 
@@ -86,12 +91,23 @@ def retailer_edit_profile(request):
         request.user.retailer
     except BaseException:
         return HttpResponseForbidden()
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+
     retailer = request.user.retailer
     form = RetailerCreationForm(instance=retailer)
     if request.method == "POST":
         form = RetailerCreationForm(request.POST, request.FILES, instance=retailer)
         if form.is_valid():
             form.save()
+            AdminRetailerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                retailer = retailer.business_name,
+                domain = domain,
+                action = 'Updated Profile'
+            )
             return redirect('retailer_view_profile')
 
     context = {'form': form}
@@ -152,6 +168,7 @@ def index(request):
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     retailers, search_query = search_retailers(request)
     custom_range, retailers = paginate_retailers(request, retailers, 10)
     
@@ -164,6 +181,13 @@ def index(request):
             settings.EMAIL_HOST_USER,
             [request.POST['email']],
             fail_silently=False
+        )
+            
+        email_data = request.POST["email"]
+        AdminWholesalerLogs.objects.create(
+            wholesaler = wholesaler.business_name,
+            domain = domain,
+            action = f'Sent Registration Email to {email_data}'
         )
         messages.success(request, 'Registration has been successfully sent!')
         return redirect('retailers')             
@@ -212,11 +236,16 @@ def order_items(request, pk):
 
 
 @login_required(login_url='login_wholesaler')
-def deactivate_retailer(request, pk):
+def update_retailer_status(request, pk):
     try:
         request.user.wholesaler
     except:
         return HttpResponseForbidden()
+    
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     
     retailer = Retailer.objects.get(id=pk)
     
@@ -228,6 +257,11 @@ def deactivate_retailer(request, pk):
             retailer.user.is_active = True
             retailer.user.save()
             retailer.save()
+            AdminWholesalerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                domain = domain,
+                action = 'Updated Retailer Status to Active'
+            )
             
         
         elif retailer.is_active & retailer.user.is_active == True:
@@ -235,6 +269,11 @@ def deactivate_retailer(request, pk):
             retailer.user.is_active = False
             retailer.user.save()
             retailer.save()
+            AdminWholesalerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                domain = domain,
+                action = 'Updated Retailer Status to Inactive'
+            )
 
 
         messages.success(request, 'Account status successfully updated!') 
@@ -245,7 +284,12 @@ def deactivate_retailer(request, pk):
  
 @login_required(login_url='login_retailer')
 def order_received(request, pk):
-        
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+    
+    retailer = wholesaler.retailers.get(id=request.user.retailer.id)
     order = Order.objects.get(id=pk)
 
     if request.method == "POST":
@@ -253,7 +297,12 @@ def order_received(request, pk):
         order.status = "completed"
         order.save()
 
-
+        AdminRetailerLogs.objects.create(
+            wholesaler = wholesaler.business_name,
+            retailer = retailer.business_name,
+            domain = domain,
+            action = 'Updated to order status to completed'
+        )
         messages.success(request, 'Thank you!')
         return redirect('dashboard_retailer') 
 

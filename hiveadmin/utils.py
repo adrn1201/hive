@@ -6,6 +6,8 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from .models import Transaction, EmailTenant
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from .models import AdminRetailerLogs, AdminWholesalerLogs
+
 
 def paginate_data(request, data, results):
     page = request.GET.get('page')
@@ -141,6 +143,30 @@ def search_logs(request):
                                                     Q(status__icontains=search_query))
 
     return email_tenant, search_query
+
+
+def search_wholesaler_logs(request):
+    search_query = ''
+   
+    if request.GET.get('search_query'):
+        search_query = request.GET.get('search_query')
+    
+
+    wholesalers_activity = AdminWholesalerLogs.objects.distinct().filter(Q(wholesaler__icontains=search_query) | Q(domain__icontains=search_query))
+        
+    return wholesalers_activity, search_query
+
+def search_retailer_logs(request):
+    search_query = ''
+   
+    if request.GET.get('search_query'):
+        search_query = request.GET.get('search_query')
+    
+
+    retailers_activity = AdminRetailerLogs.objects.distinct().filter(Q(wholesaler__icontains=search_query) | Q(retailer__icontains=search_query) | Q(domain__icontains=search_query))
+        
+    return retailers_activity, search_query
+
 
 
 
