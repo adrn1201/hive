@@ -34,13 +34,14 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
                     <p>Transactions</p>
                 </a>
             </li>
+            {% if request.user.is_authenticated and request.user.is_superuser%}
             <li {% if request.path == '/hiveadmin/admin/' %}class="active" {% endif %}>
                 <a href="{% url 'admins' %}">
                     <i class="fas fa-user-shield"></i>
                     <p>Manage Admins</p>
                 </a>
             </li>
-         
+            {%endif%}
             <li  {% if request.path == '/hiveadmin/logout/' %}class="active" {% endif %}>
                 <a href="{% url 'logout_admin' %}">
                     <i class="fas fa-sign-out-alt"></i>

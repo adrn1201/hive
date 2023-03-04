@@ -27,14 +27,14 @@
           <div class="row ">
             <div class="col my-lg-2 py-1">
                   
-              <form action="{% url 'list_wholesalers' %}" method="GET">
-              <div class="input-group no-border">
-                <input type="search" value="{{ search_query }}" class="form-control rounded-9" name="search_query" placeholder="Search">
-              </div>
+              <form action="{% url 'list_wholesalers' %}" method="GET" id="searchForm"> 
+                <div class="input-group no-border">
+                  <input type="search" value="{{ search_query }}" class="form-control rounded-9" name="search_query" placeholder="Search">
+                </div>
               </form>
             </div>
             <div class="col-lg-4 my-lg-2">
-              <select class="form-select rounded-9" aria-label="Default select example" name="status" style="margin-left: 15px; width: 200px; height: 42px;">
+              <select class="form-select rounded-9" id="filter_category" aria-label="Default select example" name="status" style="margin-left: 15px; width: 200px; height: 42px;">
                 <option selected {% if not search_query %} disabled {% endif %} disabled>Filter By:</option>
                 <option value="True" {% if request.GET.status == "True" %}selected{% endif %}>Active</option>
                 <option value="False" {% if request.GET.status == "False" %}selected{% endif %}>Inactive</option>
@@ -61,7 +61,7 @@
         {{ wholesaler.business_name }}
       {% endfor %}
         <div class="card-body">
-          <div class="table-responsive">
+          <div class="table-responsive text-center">
             <table class="table">
               <thead class=" text-primary">
                 <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7">
@@ -84,7 +84,12 @@
                     {{ wholesaler.business_name }}
                   </td>
                   <td>
-                    {{ wholesaler.is_active|yesno:"Active,Inactive" }}
+                    {%if wholesaler.is_active == False%}
+                    <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
+                    {% endif %}
+                    {%if wholesaler.is_active == True%}
+                    <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
+                    {% endif %}
                   </td>
                   <td>
                     {{ wholesaler.created}}

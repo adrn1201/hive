@@ -11,6 +11,8 @@ from .utils import login_user, logout_user, search_wholesaler
 import stripe
 from django.views.decorators.csrf import csrf_exempt
 from .models import Transaction, EmailTenant
+from django.db.models import Q
+
 
 
 
@@ -98,7 +100,10 @@ def transactions(request):
     elif request.user.is_authenticated and not request.user.is_superuser or not request.user.is_staff:
         return redirect('login_admin')
     
-    return render(request, 'hiveadmin/transactions.html')
+    transactions = Transaction.objects.all()
+    context ={'transactions':transactions}
+    
+    return render(request, 'hiveadmin/transactions.html', context)
 
 @login_required(login_url='login_admin')
 def admins(request):
@@ -107,7 +112,8 @@ def admins(request):
     elif request.user.is_authenticated and not request.user.is_superuser:
         return redirect('login_admin')
     
-    context = {'users': User.objects.filter(is_superuser=True)}
+    context = {'users': User.objects.filter(Q(is_superuser=True) | Q(is_staff=True)).exclude(id=1)
+}
 
     return render(request, 'hiveadmin/list_admin.html', context)
 
@@ -235,11 +241,12 @@ def webhook_received(request):
 
     if event['type'] == 'checkout.session.completed':
         subscription = event['data']['object']
+        print(subscription)
         Transaction.objects.create(
             business_name=subscription['custom_fields'][0]['text']['value'],
             payment_method = 'Credit Card/Debit Card',             
             payment_status = 'Success',
-            amount = subscription['amount_total'],
+            amount = subscription['amount_total'] / 100,
             subscription_id = subscription['subscription']
         )
 
@@ -251,8 +258,7 @@ def webhook_received(request):
         send_mail(
             subject="Payment Successful",
             message="Congratulations! This is to confirm that your payment has been completed." +
-              "CUSTOMER PORTAL: https://billing.stripe.com/p/login/test_fZe9C06S760t5qg288"+
-              "Registration link:http://localhost:8000/wholesalers/register/" ,
+              "CUSTOMER PORTAL: https://billing.stripe.com/p/login/test_fZe9C06S760t5qg288",
             recipient_list=[customer_email],
             from_email=settings.EMAIL_HOST_USER,
         )

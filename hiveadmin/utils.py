@@ -42,8 +42,8 @@ def search_wholesaler(request):
     if request.GET.get('search_query'):
         search_query = request.GET.get('search_query')
     
-    if request.GET.get('status'):
-        filter_query = request.GET.get('status')
+    if request.GET.get('category'):
+        filter_query = request.GET.get('category')
 
     status_filter = None
 
