@@ -136,7 +136,7 @@ Main Components
     display: none;
   }
   .cd-pricing-list > li.cd-popular {
-    box-shadow: inset 0 0 0 3px #e97d68;
+    box-shadow: inset 0 0 0 3px #030303;
   }
   .cd-pricing-list > li.cd-popular::before {
     /* hide table separator for .cd-popular table */
