@@ -101,7 +101,6 @@ def create_order(request):
                 retailer=retailer.business_name,
                 action = 'Retailer has placed their order',             
             )
-           
             AdminRetailerLogs.objects.create(
                 wholesaler = wholesaler.business_name,
                 retailer = retailer.business_name,
