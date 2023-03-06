@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
-
+{% load humanize%}
 {% block title %}Products{% endblock title %}
 
 {% block content %}
@@ -36,10 +36,10 @@
                                  <select class="form-select" id="filter_category" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 40px;">
                                      <option selected disabled>Filter By:</option>
                                      {% for c in categories %}
-                                    <option value="{{c.name}}" {% if request.GET.category and request.GET.category == c.name %}selected{% endif %}>
-                                        {{c.name|title}}
-                                    </option>
-                                    {% endfor %}
+                                     <option value="{{c.name}}" {% if request.GET.category and request.GET.category == c.name %}selected{% endif %}>
+                                         {{c.name|title}}
+                                     </option>
+                                     {% endfor %}
                                    </select>
                               </div>
                            </div>
@@ -47,7 +47,7 @@
                      </div> 
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <h6 class="mb-0">Products</h6>
+                            <h6 class="mb-0">List of Products</h6>
                             <a class="btn-ts btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}"><i class="fa fa-plus"></i>&nbsp; Add Products 
                             </a>
                             &nbsp; &nbsp; 
@@ -70,9 +70,6 @@
                                         <th
                                             class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">
                                             Stocks</th>
-                                        <th
-                                            class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">
-                                            No. of Variations</th>
 
                                         <th
                                             class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
@@ -104,27 +101,22 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p class="text-center  font-weight-bold mb-0">
-                                                {% if product.actual_stocks %}
-                                                {{ product.actual_stocks }}
+                                            
+                                                {% if product.actual_stocks and product.with_variation == 0 %}
+                                                <div class = "text-center">
+                                                    <p class="font-weight-bold mb-0">{{ product.actual_stocks }}
+                                                    </p>
+                                                </div>
                                                 {% else %}
-                                                Variation count based
+                                                <a href="{%url 'display_sizes' product.id %}" class="font-weight-bold mb-0"> 
+                                                   <u class> Variation count based  </u> 
+                                                </a>
                                                 {% endif %}
-                                            </p>
+                                          
                                         </td>
-                                        <td class="align-middle text-center">
-                                            {% if product.variation_set.count  %}
-                                            <a class="btn btn-link text-center  font-weight-bold mb-0"
-                                                href="{%url 'display_sizes' product.id %}">
-                                                {{ product.variation_set.count }}
-                                            </a>
-                                            {% else %}
-                                            <p class="text-center  font-weight-bold mb-0">N/A
-                                            </p>
-                                            {% endif %}
-                                        </td>
+                                        
                                         <td>
-                                            <p class="text-center  font-weight-bold mb-0">₱{{ product.price|floatformat:2 }}</p>
+                                            <p class="text-center font-weight-bold mb-0">₱{{ product.price|floatformat:2|intcomma }}</p>
                                             
                                         </td>
                                         <td>

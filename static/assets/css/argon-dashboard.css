@@ -183,11 +183,11 @@ h5,
 
 h6,
 .h6 {
-    font-size: 18px !important;
+    font-size: 1.375em !important;
 }
 
 p {
-    font-size: 16px !important;
+    font-size: 1em !important;
     margin-top: 0;
     margin-bottom: 1rem;
 }
@@ -4234,7 +4234,7 @@ fieldset:disabled .btn {
 .nav-link {
     display: block;
     padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
-    font-size: 20px !important;
+    font-size: 1.125em !important;
     font-weight: var(--bs-nav-link-font-weight);
     color: var(--bs-nav-link-color);
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
@@ -4858,6 +4858,7 @@ fieldset:disabled .btn {
     flex: 1 1 auto;
     padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
     color: var(--bs-card-color);
+    max-width: 100%;
 }
 
 .card-title {
@@ -19927,7 +19928,7 @@ hr.horizontal.gray-light {
 }
 
 .navbar-vertical .navbar-nav .nav-link .icon {
-    padding: 10px;
+    padding: 0.625em
 }
 
 .navbar-vertical .navbar-nav .nav-sm .nav-link {
