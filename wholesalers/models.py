@@ -2,7 +2,6 @@ from django.db import models
 from colorfield.fields import ColorField
 from django.contrib.auth.models import User
 from django_tenants.models import DomainMixin, TenantMixin
-
 class Wholesaler(TenantMixin):
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     business_name = models.CharField(max_length=255)

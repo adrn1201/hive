@@ -34,6 +34,18 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
                     <p class="font-weight-bolder" style="font-size: small;">Transactions</p>
                 </a>
             </li>
+            <li {% if request.path == '/hiveadmin/wholesaler-logs/' %}class="active" {% endif %}>
+                <a href="{% url 'wholesaler-logs' %}">
+                    <i class="fa fa-history"></i>
+                    <p class="font-weight-bolder" style="font-size: small;">Wholesaler Logs</p>
+                </a>
+            </li>
+            <li {% if request.path == '/hiveadmin/retailer-logs/' %}class="active" {% endif %}>
+                <a href="{% url 'retailer-logs' %}">
+                    <i class="fa fa-history"></i>
+                    <p class="font-weight-bolder" style="font-size: small;">Retailer Logs</p>
+                </a>
+            </li>
             {% if request.user.is_authenticated and request.user.is_superuser%}
             <li {% if request.path == '/hiveadmin/admin/' %}class="active" {% endif %}>
                 <a href="{% url 'admins' %}">

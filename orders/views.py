@@ -14,7 +14,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import stripe
 from django.views.decorators.csrf import csrf_exempt
-
+from retailers.models import Retailer, RetailerLogs  
+from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
+from django.http import Http404
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -79,12 +81,32 @@ def create_order(request):
                 price=item.products.price, 
                 quantity=item.qty
             )
+            RetailerLogs.objects.create(
+                retailer=retailer.business_name,
+                action = 'Retailer has placed their order', 
+            )            
+            AdminRetailerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                retailer = retailer.business_name,
+                domain = domain,
+                action = 'Retailer has placed their order'
+            )
         else:
             OrderItem.objects.create(
                 order=order, 
                 product=item.products, 
                 price=item.products.price, 
                 quantity=item.qty
+            )
+            RetailerLogs.objects.create(
+                retailer=retailer.business_name,
+                action = 'Retailer has placed their order',             
+            )
+            AdminRetailerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                retailer = retailer.business_name,
+                domain = domain,
+                action = 'Retailer has placed their order'
             )       
         
     request.user.cart_db_set.filter(user=request.user).delete()
@@ -98,6 +120,14 @@ def create_order(request):
     )
     return redirect('show_shop')
 
+def create_payment_intent(amount, currency, customer, metadata):
+    intent = stripe.PaymentIntent.create(
+        amount=amount,
+        currency=currency,
+        customer=customer,
+        metadata=metadata
+    )
+    return intent
 
 @api_view(['POST'])
 def stripe_intent(request):
@@ -113,9 +143,9 @@ def stripe_intent(request):
     metadata= {}
     for item in request.data['items']:
         metadata.update({str(item['id']): item})
- 
+
     customer = stripe.Customer.create(email=request.data['email'])
-    intent = stripe.PaymentIntent.create(
+    intent = create_payment_intent(
         amount=int(cart_total) * 100,
         currency='php',
         customer=customer['id'],
@@ -225,6 +255,11 @@ def order_details(request, pk):
                     product.save()
                     
             order_form.save()
+            AdminWholesalerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                domain = domain,
+                action = f'Updated order status to {request.POST["status"]}'
+            )
             messages.success(request, 'Order status successfully updated!')
             return redirect('order_details', pk=order.id)
 

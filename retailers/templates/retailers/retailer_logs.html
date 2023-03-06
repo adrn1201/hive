@@ -1,0 +1,76 @@
+{% extends 'main.html' %}
+{% block title %}
+Retailers
+{% endblock title %}
+
+
+
+{% block content %}
+
+<style>
+    .btn-ts {
+        font-size: 14px !important;
+    }
+</style>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex card mb-0">
+
+                <div class="card-header pb-0">
+
+                    <div class="ms-auto">
+                        <div class="col-lg-5 d-flex mt-4">
+                            <form action="{% url 'retailer_activity_logs' %}" method="GET" id="searchForm">
+                                <div class="input-group">
+                                    <span class="input-group-text text-body"><i class="fas fa-search"
+                                            aria-hidden="true"></i></span>
+                                    <input type="search" value="{{ search_query }}" class="form-control" name="q"
+                                        placeholder="Search Retailers">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                <div class="card-body px-0 pt-4 pb-2"> 
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class=" th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7">
+                                        Retailer</th>
+                                    <th
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
+                                        Created</th>
+                                    <th
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
+                                        Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for updates in retailers %}
+                                <tr>
+                                        <td class="text-center">
+                                            <p class=" font-weight-bold mb-0">{{ updates.retailer }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class=" font-weight-bold mb-0">{{ updates.action }}</p>
+                                        </td>
+                                        <td class="text-center">
+                                            <p class=" font-weight-bold mb-0">{{ updates.created }}</p>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% include 'w-pagination.html' with queryset=retailers custom_range=custom_range %}
+                </div>
+            </div>
+        </div>
+    </div>
+       
+
+
+{% endblock content %}

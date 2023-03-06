@@ -10,7 +10,7 @@ from django_tenants.utils import remove_www
 from django_tenants.utils import schema_context
 from orders.models import Order, OrderItem
 from hiveadmin.models import Transaction
-
+from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
 
 user_credentials = ''
 
@@ -47,7 +47,7 @@ def wholesaler_create_profile(request):
 
     form = WholesalerCreationForm()
     if request.method == "POST":
-        form = WholesalerCreationForm(request.POST)
+        form = WholesalerCreationForm(request.POST, request.FILES)
         if form.is_valid():
             wholesaler = form.save(commit=False)
             wholesaler.schema_name = wholesaler.business_name.lower()
@@ -104,6 +104,11 @@ def wholesaler_edit_profile(request):
             wholesaler = form.save(commit=False)
             wholesaler.color = request.POST['color']
             wholesaler.save()
+            AdminWholesalerLogs.objects.create(
+                wholesaler = wholesaler.business_name,
+                domain = domain,
+                action = 'Updated Profile'
+            )
             return redirect('wholesaler_view_profile')
 
 
@@ -128,6 +133,7 @@ def email_retailer(request):
             fail_silently=False
         )
         return redirect('retailers')
+
     return render(request, 'wholesalers/email_retailer.html')
 
 

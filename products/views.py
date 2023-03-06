@@ -7,6 +7,7 @@ from wholesalers.models import Domain, Wholesaler
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Product, Variation
+from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
 
 product_object = ''
 @login_required(login_url='login_wholesaler')
@@ -44,27 +45,44 @@ def create_product(request):
 
     if request.method == "POST":
         if form.is_valid() and request.POST['with_variation'] == '0':
+            min_orders = form.cleaned_data['min_orders']
+            actual_stocks = form.cleaned_data['actual_stocks']
             product = form.save(commit=False)
             product.wholesaler = wholesaler
             product.tempo_stocks = product.actual_stocks
-            product.save()
+            if min_orders >= actual_stocks:
+                form.add_error('min_orders','Minimum order should be less than quantity')
+            else:
+                product.save()
+                messages.success(request, 'Product has been successfully added')
+                return redirect('products')
         elif (form.is_valid() and request.POST['with_variation'] == '1'): 
-            print(request.POST)
-            product = form.save(commit=False)
-            product.wholesaler = wholesaler
-            product.save() 
+        
             if variation_form.is_valid():
-                for i in range(len(request.POST.getlist('name'))):                
-                    Variation.objects.create(
-                        product=product,
-                        name=request.POST.getlist('name')[i],
-                        actual_stocks_var=int(request.POST.getlist('actual_stocks_var')[i]),
-                        tempo_stocks_var=int(request.POST.getlist('actual_stocks_var')[i])
-                    )
-        messages.success(request, 'Product record successfully created!')
-        return redirect('products')
-
-
+                min_orders = form.cleaned_data['min_orders']
+                var_stocks = variation_form.cleaned_data['actual_stocks_var']
+                
+                if min_orders >= var_stocks:
+                    form.add_error('min_orders','Minimum order should be less than quantity')
+                    
+                else: 
+                    print(request.POST)
+                    product = form.save(commit=False)
+                    product.wholesaler = wholesaler
+                    product.save() 
+            
+                    for i in range(len(request.POST.getlist('name'))):                
+                            Variation.objects.create(
+                                product=product,
+                                name=request.POST.getlist('name')[i],
+                                actual_stocks_var=int(request.POST.getlist('actual_stocks_var')[i]),
+                                tempo_stocks_var=int(request.POST.getlist('actual_stocks_var')[i])
+                            )
+                    messages.success(request, 'Product has been successfully added') 
+                    return redirect('products')
+            
+            
+           
     
     context = {"form":form, 'variation_form':variation_form}
 
@@ -111,10 +129,20 @@ def edit_product(request, pk):
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
+            min_orders = form.cleaned_data['min_orders']
+            actual_stocks = form.cleaned_data['actual_stocks']
             product = form.save(commit=False)
             product.tempo_stocks = product.actual_stocks
-            product.save()
-            messages.success(request, 'Product details successfully updated!')
+            if min_orders >= actual_stocks:
+                form.add_error('min_orders','Minimum order should be less than quantity')
+            else:
+                product.save()
+                AdminWholesalerLogs.objects.create(
+                    wholesaler = wholesaler.business_name,
+                    domain = domain,
+                    action = f'Updated product information for {product.product_name}'
+            )
+            messages.success(request, 'Product details has been successfully updated')
             return redirect('products')
             
     context = {"form":form, 'product_variation':[product.with_variation], 'edit_page' : True, 'product':product}

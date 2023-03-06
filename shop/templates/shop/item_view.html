@@ -47,7 +47,7 @@
                     </div>
                     <p style="color:red;" id="demo"></p>
 
-                    {% if item.variation_set.count %}
+                    {% if item.variation_set.count and item.with_variation == 1 %}
                     <p class="font-weight-bold">Variation:</p>
                     <div class="flex items-center bR6mEk">
                         {% for size in sizes %}

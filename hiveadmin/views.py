@@ -7,7 +7,7 @@ from django.contrib import messages
 from .forms import CustomUserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .utils import login_user, logout_user, search_wholesaler, search_admins, search_transaction, paginate_data, search_logs
+from .utils import login_user, logout_user, search_wholesaler, search_admins, search_transaction, paginate_data, search_logs, search_wholesaler_logs, search_retailer_logs
 import stripe
 from django.views.decorators.csrf import csrf_exempt
 from .models import Transaction, EmailTenant
@@ -15,7 +15,33 @@ from django.db.models import Q
 from django.db.models import Sum
 from django.db.models.functions import ExtractYear, ExtractMonth
 import datetime
+from .models import AdminRetailerLogs, AdminWholesalerLogs
 
+
+@login_required(login_url='login_admin')
+def wholesaler_activity_logs(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        pass
+    elif request.user.is_authenticated and not request.user.is_superuser:
+        return redirect('login_admin')
+    
+
+    wholesalers, search_query = search_wholesaler_logs(request)
+    custom_range, wholesaler_logs = paginate_data(request, wholesalers, 1)
+    context = {'wholesaler_logs':wholesaler_logs, 'search_query':search_query,'custom_range':custom_range}
+    return render(request, 'hiveadmin/wholesaler_logs.html', context)
+
+@login_required(login_url='login_admin')
+def retailer_activity_logs(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        pass
+    elif request.user.is_authenticated and not request.user.is_superuser:
+        return redirect('login_admin')
+    
+    retailers, search_query = search_retailer_logs(request)
+    custom_range, retailer_logs = paginate_data(request, retailers, 1)
+    context = {'retailer_logs':retailer_logs, 'search_query':search_query, 'custom_range':custom_range}
+    return render(request, 'hiveadmin/retailer_logs.html',context)
 
 
 
@@ -275,7 +301,6 @@ def webhook_received(request):
 
     if event['type'] == 'checkout.session.completed':
         subscription = event['data']['object']
-        print(subscription)
         Transaction.objects.create(
             business_name=subscription['custom_fields'][0]['text']['value'],
             payment_method = 'Credit Card/Debit Card',             
@@ -298,7 +323,6 @@ def webhook_received(request):
         )
     elif event['type'] == 'customer.subscription.updated':
         subscription = event['data']['object']
-        print(subscription)
         if subscription['cancel_at_period_end']:
             transaction = Transaction.objects.filter(subscription_id=subscription['id'])[0]
             transaction.payment_status = 'Cancelled'

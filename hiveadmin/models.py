@@ -39,3 +39,26 @@ def pre_save_create_order_id(sender, instance, *args, **kwargs):
         instance.reference_number= unique_order_id_generator(instance)
 
 pre_save.connect(pre_save_create_order_id, sender=Transaction)
+
+class AdminWholesalerLogs(models.Model):
+    wholesaler = models.CharField(max_length=255) 
+    domain = models.CharField(max_length=255) 
+    action = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True) 
+    
+    
+    def __str__(self):
+        return str(self.action)
+    
+
+class AdminRetailerLogs(models.Model):
+    wholesaler = models.CharField(max_length=255)
+    retailer = models.CharField(max_length=255) 
+    domain = models.CharField(max_length=255) 
+    action = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True) 
+    
+    
+    def __str__(self):
+        return str(self.action)
+ 

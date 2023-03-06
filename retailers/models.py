@@ -27,4 +27,11 @@ class Retailer(models.Model):
         except:
             url = ''
         return url
-    
+
+class RetailerLogs(models.Model):
+    retailer = models.CharField(max_length=255)
+    action = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.action)
