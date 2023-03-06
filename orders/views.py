@@ -16,6 +16,7 @@ import stripe
 from django.views.decorators.csrf import csrf_exempt
 from retailers.models import Retailer, RetailerLogs  
 from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
+from django.http import Http404
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -119,6 +120,14 @@ def create_order(request):
     )
     return redirect('show_shop')
 
+def create_payment_intent(amount, currency, customer, metadata):
+    intent = stripe.PaymentIntent.create(
+        amount=amount,
+        currency=currency,
+        customer=customer,
+        metadata=metadata
+    )
+    return intent
 
 @api_view(['POST'])
 def stripe_intent(request):
@@ -134,9 +143,9 @@ def stripe_intent(request):
     metadata= {}
     for item in request.data['items']:
         metadata.update({str(item['id']): item})
- 
+
     customer = stripe.Customer.create(email=request.data['email'])
-    intent = stripe.PaymentIntent.create(
+    intent = create_payment_intent(
         amount=int(cart_total) * 100,
         currency='php',
         customer=customer['id'],
@@ -156,7 +165,7 @@ def stripe_webhook(request):
 
     try:
         event = stripe.Webhook.construct_event(
-        payload, sig_header, 'whsec_e80e567c50d9affa6bc4d8518e046d7b01d7540bc3b9b7f27f584d8db425a34d'
+        payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
     except ValueError as e:
         return HttpResponse(status=400)

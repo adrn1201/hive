@@ -301,7 +301,6 @@ def webhook_received(request):
 
     if event['type'] == 'checkout.session.completed':
         subscription = event['data']['object']
-        print(subscription)
         Transaction.objects.create(
             business_name=subscription['custom_fields'][0]['text']['value'],
             payment_method = 'Credit Card/Debit Card',             

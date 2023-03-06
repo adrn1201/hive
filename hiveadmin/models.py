@@ -40,7 +40,6 @@ def pre_save_create_order_id(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_create_order_id, sender=Transaction)
 
-
 class AdminWholesalerLogs(models.Model):
     wholesaler = models.CharField(max_length=255) 
     domain = models.CharField(max_length=255) 
@@ -53,7 +52,7 @@ class AdminWholesalerLogs(models.Model):
     
 
 class AdminRetailerLogs(models.Model):
-    wholesaler = models.CharField(max_length=255) 
+    wholesaler = models.CharField(max_length=255)
     retailer = models.CharField(max_length=255) 
     domain = models.CharField(max_length=255) 
     action = models.CharField(max_length=255)

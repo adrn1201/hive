@@ -204,7 +204,7 @@
     },
     {% endfor %}
     ]
-
+    
     const salesChart = new Chart(productSalesGraph, {
         type: "bar",
         data: {
@@ -308,6 +308,7 @@
                         borderDash: [5, 5]
                     },
                     ticks: {
+                        source: 'data',
                         display: true,
                         color: '#ccc',
                         font: {
@@ -317,13 +318,14 @@
                             lineHeight: 2
                         },
                         color: 'black',
-                        beginAtZero: false
+                        beginAtZero: true,
                     },
 
                     type: 'time',
                     time: {
                         unit: 'month',
-                        tooltipFormat: 'MMM DD, YYYY'
+                        tooltipFormat: 'MMM DD, YYYY',
+                        min: monthlyStats[0].x 
                     }
 
                 },
