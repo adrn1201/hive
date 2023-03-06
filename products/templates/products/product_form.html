@@ -4,7 +4,7 @@
 <style>
 
     label {
-        font-size: 14px !important;
+        font-size: 16px !important;
     }
 </style>
 <div class="container-fluid py-4">
@@ -13,26 +13,37 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-flex align-items-center">
-                        <p class="mb-0">Products</p>
+                        <h6 class=" text-primary mb-0">Add a Product</h6>
                     </div>
                 </div>
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form  id ="addProduct" action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="card-body">
-
+                        {% if form.is_bound or form.min_orders.errors %}
+                        <div style = "color:red;">
+                          {{form.min_orders.errors}} 
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
-
-                                {% for field in form %}
-                                {% if field.name != "with_variation" and field.name != "actual_stocks" %}
+                                {% comment %} {% for field in form %} {% endcomment %}
+                                {% if form.name != "with_variation" and form.name != "actual_stocks" %}
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
-                                    {{ field }}
+                                    <label for="example-text-input" class="form-control-label">Category</label>
+                                    {{form.category }}
+                                    <label for="example-text-input" class="form-control-label">Product Name </label>
+                                    <div class="small font-italic text-muted mb-2 ">Maximum of 200 Characters</div>
+                                    {{form.product_name }}
+                                    <label for="example-text-input" class="form-control-label">Description</label>
+                                    <div class="small font-italic text-muted mb-2 ">Maximum of 200 Characters</div>
+                                    {{form.description }}
+                                    <label for="example-text-input" class="form-control-label">Product Image</label>
+                                    {{form.product_image }}
+                                    <label for="example-text-input" class="form-control-label">Price</label>
+                                    {{form.price }}
+                                  {% endif %}
                                 </div>
                                 {% endif %}
-                                {% endfor %}
-
-
+                                {% comment %} {% endfor %} {% endcomment %}
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">With variation</label>
                                     <select name="with_variation" class="form-control" required id="id_with_variation">
@@ -62,7 +73,7 @@
 
                                     <div class="col">
                                         <label>{{variation_form.actual_stocks_var.label}}</label>
-                                        {{variation_form.actual_stocks_var}}
+                                       <span class ="var-qty"> {{variation_form.actual_stocks_var}} </span>
                                     </div>
                                 </div>
                             </div>
@@ -73,11 +84,13 @@
                                 <button class="btn btn-danger btn-sm mt-3" type="button"
                                     id="delete-textbox-button"><i class="fa fa-trash-o"></i>&nbsp; Delete variation </button>
                             </div>
+                            <label for="example-text-input" class="form-control-label">Minimum Order:</label>
+                            <span id = "minimum">{{form.min_orders}}</span>
                         </div>
                         <br><br>
                         <div class="row">
                             <div class="w-25 mx-auto">
-                                <button class="btn btn-success btn-sm" type="submit">Submit</button>
+                                <button id = "add-button"class="btn btn-success btn-sm" type="submit">Submit</button>
                             </div>
                         </div>
                 </form>
@@ -87,17 +100,22 @@
 </div>
 
 <script>
+
     const element = document.getElementById("id_with_variation");
     const delButton = document.getElementById("delete-textbox-button");
     const addButton = document.getElementById("add-textbox-button")
     let textboxCount = 0;
 
-    element.addEventListener("change", function () {
+  
+
+    element.addEventListener("change", function (e) {
         if (element.value == '1') {
             document.getElementById('hidden_variation').style.display = "block";
             document.getElementById('hidden_btns').style.display = "block";
             document.getElementById('hidden_stocks').style.display = "none";
-        } else if (element.value == '0') {
+        } 
+        
+        else if (element.value == '0') {
             document.getElementById('hidden_variation').style.display = "none";
             document.getElementById('hidden_btns').style.display = "none";
             document.getElementById('hidden_stocks').style.display = "block";

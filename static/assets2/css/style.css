@@ -232,12 +232,12 @@ a:focus {
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link,
 .custom_nav-container .navbar-nav .nav-item.active .nav-link {
-    color: #f7444e;
+    color: #ffffff;
 }
 
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link svg,
 .custom_nav-container .navbar-nav .nav-item.active .nav-link svg {
-    fill: #f7444e;
+    fill: #000000;
 }
 
 .custom_nav-container .nav_search-btn {
@@ -1034,7 +1034,7 @@ li.nav-item ul li a {
 
 li.nav-item ul li a:hover,
 li.nav-item ul li a:focus {
-    color: #f7444e;
+    color: #000000;
 }
 
 .inner_page_head {

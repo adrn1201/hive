@@ -166,17 +166,3 @@ def search_retailer_logs(request):
     retailers_activity = AdminRetailerLogs.objects.distinct().filter(Q(wholesaler__icontains=search_query) | Q(retailer__icontains=search_query) | Q(domain__icontains=search_query))
         
     return retailers_activity, search_query
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,7 +4,7 @@
 <style>
 
     label {
-        font-size: 14px !important;
+        font-size: 16px !important;
     }
 </style>
 <div class="container-fluid py-4">
@@ -13,12 +13,17 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-flex align-items-center">
-                        <p class="mb-0">Products</p>
+                        <h6 class=" text-primary mb-0">Edit Product</h6>
                     </div>
                 </div>
                 <form action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="card-body">
+                        {% if form.is_bound or form.min_orders.errors %}
+                        <div id= "errorMessage" style = "color:red;">
+                          {{form.min_orders.errors}} 
+                        </div>
+                      {% endif %}
 
                         <div class="row">
                             <div class="col-md-12">
