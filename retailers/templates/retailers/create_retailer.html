@@ -19,9 +19,9 @@
       <div class="col-md-12 col-lg-10">
         <div class="wrap d-md-flex">
           <div class="wrap d-md-flex">
-            <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last" style="{% if wholesaler.color %}background-color:{{wholesaler.color}}{% endif %}">
-            <img src="{% if wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ wholesaler.wholesaler_image.url }}{% endif %}" id="image">
-          </div>
+            <div class="p-4 p-lg-5 text-center d-flex align-items-center order-md-last" style="{% if wholesaler.color %}background-color:{{wholesaler.color}}{% endif %}; width: 50%">
+              <img src="{% if wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ wholesaler.wholesaler_image.url }}{% endif %}" id="image">
+            </div>
           <div class="login-wrap p-4 p-lg-5">
             <div class="d-flex">
               <div class="w-100">
