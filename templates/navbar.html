@@ -59,9 +59,23 @@
                 <span class="nav-link-text ms-1">Inventory</span>
             </a>
         </li>
+<<<<<<< Updated upstream
 
+=======
+        <li class="nav-item">
+            <a class="nav-link mt-2 " href="{% url 'transactions' %}">
+                <div
+                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="fas fa-money-check text-success text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Tranasctions</span>
+            </a>
+        </li>
+        
+        <hr class="horizontal dark mt-4">
+>>>>>>> Stashed changes
         <div class ="">
-        <li class="nav-item mt-7">
+        <li class="nav-item mt-3">
             <h6 class="ps-4 ms-2 text-uppercase text-s font-weight-bolder opacity-6">Account</h6>
         </li>
         <li class="nav-item">
@@ -102,17 +116,17 @@
                     {%endif%}
                     &nbsp;
                     {% if request.path == '/products/' %}
-                    List of Products
+                    Inventory
                     {% elif request.path == '/' %}
                     Dashboard
                     {% elif request.path == '/analytics/' %}
                     Analytics
                     {% elif request.path == '/orders/' %}
-                    Manage Orders
+                    Orders
                     {% elif request.path == '/retailers/' %}
-                    List of Retailers
+                    Retailers
                     {% elif request.path == '/wholesalers/edit-profile/' %}
-                    Profile
+                    Edit Profile
                     {% elif request.path == '/wholesalers/view-profile/' %}
                     Profile
                     {%endif%}

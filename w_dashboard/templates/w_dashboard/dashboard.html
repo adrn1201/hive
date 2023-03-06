@@ -132,7 +132,7 @@ Dashboard
     </div>
     <div class="row mt-4">
         <div class="col-lg-6 mb-lg-0 mb-4">
-            <div class="card ">
+            <div class="card">
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
                         <h6 class="mb-2">Recent Orders</h6>
@@ -214,8 +214,8 @@ Dashboard
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="">
-                                            <p class=" pl-5 font-weight-bold mb-0">₱{{ product.price|floatformat:2|intcomma }}</p>
+                                        <div class="text-center">
+                                            <p class="font-weight-bold mb-0">₱{{ product.price|floatformat:2|intcomma }}</p>
                                         </div>
                                     </td>
                                     <td>
@@ -279,7 +279,7 @@ Dashboard
     ]
     console.log(monthlyStats)
     const salesChart = new Chart(productSalesGraph, {
-        type: "line",
+        type: "bar",
         data: {
             datasets: [{
                 label: "Sales",
