@@ -9,7 +9,6 @@ urlpatterns = [
     path('edit-profile/', views.wholesaler_edit_profile, name="wholesaler_edit_profile"),
     path('view-profile/', views.wholesaler_view_profile, name='wholesaler_view_profile'),
     path('retailers/email/', views.email_retailer, name="email_retailer"),
-    path('transactions/', views.transactions, name="transactions"),
-
-
+    path('transactions/', views.transactions, name="transactions_wholesalers"),
+    path('transactions/<int:pk>/', views.transaction_details, name="transaction_details"),
 ]

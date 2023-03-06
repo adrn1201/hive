@@ -3,13 +3,16 @@
 
 {% block content %}
 
-<!-- <!-<! <style>
-    img {
-        border-radius: 50%;
+ <style>
+    #id_new_password1 {
+        width: 50%;
+    }
+    #id_new_password2 {
+        width: 50%;
     }
 </style>
 
-<section class="ftco-section">
+<!-- <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-6">
@@ -40,7 +43,7 @@
             </div>
         </div>
     </div>
-</section> --> -->
+</section> --> 
 
 
 <section class="ftco-section">
@@ -64,13 +67,45 @@
                 {% csrf_token %}
                 
                 <div class="form-group mb-3">
-                    {{ form.as_p }} 
+                  <label class="label ml-3" for="id_new_password1">Password:</label>
+                  <div class="input-group">
+                    <input type="password" class="form-control" placeholder="Enter your New Password" id="id_new_password1" name="id_new_password1" required>
+                    <div class="input-group-append"> 
+                      <span class="input-group-text">
+                          <i class="fa fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+                        </span>
+                    </div>
+                    {% if form.password1.errors %}
+                    <div style = "color:red;">
+                      {{form.password1.errors}} 
+                    </div>
+                    {% endif %}
                 </div>
-                
+              </div>
+              
+              <div class="form-group mb-3">
+                <label class="label ml-3" for="id_new_password2">Confirm Password:</label>
+                <div class="input-group">
+                  <input type="password" class="form-control" placeholder="Enter your Confirm Password" id="id_new_password2" name="id_new_password2" required>
+                  <div class="input-group-append"> 
+                    <span class="input-group-text">
+                        <i class="fa fa-eye" id="togglePassword2" style="cursor: pointer;"></i>
+                      </span>
+                  </div>
+                  {% if form.password2.errors %}
+                <div style = "color:red;">
+                  {{form.password2.errors}} 
+                </div>
+                {% endif %}
+              </div>
+            </div>
+             <div class="message"></div>   
+
                 <br>
                 <div class="form-group">
                   <button type="submit" class="form-control btn btn-primary submit px-3" value="Submit">Submit</button>
                 </div>
+
                 <div class="w-10" style="margin-left: 1px;">
                     <a href="{% url 'login_wholesaler' %}">Go Back to Login Page</a>
                   </div>
@@ -86,7 +121,61 @@
     </div>
   </section>
   
+  <script>
+    const username = document.querySelector('#id_new_password1');
+    const password = document.querySelector('#id_new_password2');
+    const message = document.querySelector('.message');
+    
+    let capsLockAlertShown = false;
+    
+    username.addEventListener('keyup', function (e) {
+    if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
+        const alertBox = document.createElement('div');
+        alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
+        message.appendChild(alertBox);
+        capsLockAlertShown = true;
+    } else if (!e.getModifierState('CapsLock')) {
+        message.innerHTML = '';
+        capsLockAlertShown = false;
+    }
+    });
+    
+    password.addEventListener('keyup', function (e) {
+    if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
+        const alertBox = document.createElement('div');
+        alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
+        message.appendChild(alertBox);
+        capsLockAlertShown = true;
+    } else if (!e.getModifierState('CapsLock')) {
+        message.innerHTML = '';
+        capsLockAlertShown = false;
+    }
+    });
 
+  </script>
+
+  <script>
+
+  const togglePassword = document.querySelector('#togglePassword');
+  const togglePassword2 = document.querySelector('#togglePassword2');
+  const passwordInput = document.querySelector('#id_new_password1');
+  const passwordInput2 = document.querySelector('#id_new_password2');
+
+  togglePassword.addEventListener('click', function (e) {
+
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.classList.toggle('fa-eye-slash');
+});
+
+togglePassword2.addEventListener('click', function (e) {
+
+const type = passwordInput2.getAttribute('type') === 'password' ? 'text' : 'password';
+passwordInput2.setAttribute('type', type);
+this.classList.toggle('fa-eye-slash');
+});
+
+ </script>
 
 
 {% endblock content %}

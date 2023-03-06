@@ -1,283 +1,182 @@
 {% extends 'admin.html' %}
+{% load humanize %}
+{% load static %}
 
 {% block content %}
 
-<div class="panel-header panel-header-lg">
-    <canvas id="bigDashboardChart"></canvas>
+<div class="panel-header panel-header-sm">
+    <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Dashboard</Strong></h2>
 </div>
-<div class="content">
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">Global Sales</h5>
-                    <h4 class="card-title">Shipped Products</h4>
-                    <div class="dropdown">
-                        <button type="button"
-                            class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret"
-                            data-toggle="dropdown">
-                            <i class="now-ui-icons loader_gear"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <a class="dropdown-item text-danger" href="#">Remove Data</a>
+<br>
+    <div class ="container">
+        <div class="content">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card card-chart">
+                  <div class="card-header">
+                    <h4 class="card-title"><i class="fas fa-tasks text-lg opacity-100" style="color: #342809;"></i> &nbsp; Transactions</h4>
+                    
+                  </div>
+                  <div class="card-body text-center">
+                    <h2>{{transactions.count}}</h2>
+                  </div>
+                  <div class="card-footer">
+                    
+                  </div>
+                </div>
+              </div>
+            
+           
+              <div class="col-lg-6 col-md-6">
+                <div class="card card-chart">
+                  <div class="card-header">
+                    <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
+                  </div>
+                  <div class="card-body text-center">
+                    <h2>{{wholesalers.count}}</h2>
+                  </div>
+                  <div class="card-footer">
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="container py-4">
+                <div class="row">
+                    <div class="card card-chart px-3">
+                   
+                            <div class="row">
+                                <div class="col-lg-9 col-ms-auto">
+                                    <div class="card-header">
+                                        <h4 class="card-title"><i class="fas fa-chart-line text-lg opacity-100" style="color: #342809;"></i> &nbsp; Monthly Sales</h4>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="bar-chart" class="chart-canvas" height="375" width="989" style="display: block; box-sizing: border-box; height: 300px; width: 791.2px;">
+                                    
+                                    </canvas>
+                                </div>
+
+                            </div>
+                    </div>
+                </div>
+
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="card-title"><i class="fas fa-tasks text-lg opacity-100" style="color: #342809;"></i> &nbsp; Transanctions</h4>
+                                <a class="btn btn-primary btn-sm ms-auto rounded-9" href="{%url 'transactions'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Transactions</a>
+                            </div>
+
                         </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="lineChartExample"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="stats">
-                        <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-            <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">2018 Sales</h5>
-                    <h4 class="card-title">All products</h4>
-                    <div class="dropdown">
-                        <button type="button"
-                            class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret"
-                            data-toggle="dropdown">
-                            <i class="now-ui-icons loader_gear"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <a class="dropdown-item text-danger" href="#">Remove Data</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="lineChartExampleWithNumbersAndGrid"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="stats">
-                        <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-            <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">Email Statistics</h5>
-                    <h4 class="card-title">24 Hours Performance</h4>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                        <canvas id="barChartSimpleGradientsNumbers"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="stats">
-                        <i class="now-ui-icons ui-2_time-alarm"></i> Last 7 days
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card  card-tasks">
-                <div class="card-header ">
-                    <h5 class="card-category">Backend development</h5>
-                    <h4 class="card-title">Tasks</h4>
-                </div>
-                <div class="card-body ">
-                    <div class="table-full-width table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                                <span class="form-check-sign"></span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td class="text-left">Sign contract for "What are conference organizers afraid of?"
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Edit Task">
-                                            <i class="now-ui-icons ui-2_settings-90"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Remove">
-                                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox">
-                                                <span class="form-check-sign"></span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td class="text-left">Lines From Great Russian Literature? Or E-mails From My Boss?
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Edit Task">
-                                            <i class="now-ui-icons ui-2_settings-90"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Remove">
-                                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                                <span class="form-check-sign"></span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td class="text-left">Flooded: One year later, assessing what was lost and what was
-                                        found when a ravaging rain swept through metro Detroit
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-info btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Edit Task">
-                                            <i class="now-ui-icons ui-2_settings-90"></i>
-                                        </button>
-                                        <button type="button" rel="tooltip" title=""
-                                            class="btn btn-danger btn-round btn-icon btn-icon-mini btn-neutral"
-                                            data-original-title="Remove">
-                                            <i class="now-ui-icons ui-1_simple-remove"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer ">
-                    <hr>
-                    <div class="stats">
-                        <i class="now-ui-icons loader_refresh spin"></i> Updated 3 minutes ago
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-category">All Persons List</h5>
-                    <h4 class="card-title"> Employees Stats</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
+                        <div class="card-body ps-lg-5">
+                            <div class="table-responsive text-center">
+                                <table class="table">
                             <thead class=" text-primary">
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Country
-                                </th>
-                                <th>
-                                    City
-                                </th>
-                                <th class="text-right">
-                                    Salary
-                                </th>
+                                <th class="text-primary th-new font-weight-bolder opacity-7">
+                                    Reference No.
+                                  </th>
+                                  <th class="text-primary th-new font-weight-bolder opacity-7">
+                                    Business Name
+                                  </th>
+                                  <th class="text-primary th-new font-weight-bolder opacity-7">
+                                    Payment Method
+                                  </th>
+                                  <th class="text-primary th-new font-weight-bolder opacity-7">
+                                    Amount
+                                  </th>
+                                  <th class="text-primary th-new font-weight-bolder opacity-7">
+                                    Date
+                                  </th>
+                                  <th class="text-primary th-new font-weight-bolder opacity-7">
+                                    Payment Status
+                                  </th>
+                              
                             </thead>
                             <tbody>
+                                {% for transaction in transactions|slice:"5" %}
                                 <tr>
                                     <td>
-                                        Dakota Rice
+                                    {{ transaction.reference_number }}
                                     </td>
                                     <td>
-                                        Niger
+                                    {{ transaction.business_name }}
                                     </td>
                                     <td>
-                                        Oud-Turnhout
+                                    {{ transaction.payment_method }}
                                     </td>
-                                    <td class="text-right">
-                                        $36,738
+                                    <td>
+                                    ₱{{ transaction.amount|floatformat:2|intcomma  }}
+                                    </td>
+                                    <td>
+                                    {{ transaction.created }}
+                                    </td>
+                                    <td >
+                                    {%if transaction.payment_status == 'Success'%}
+                                    <span id= "status_acc" class=" badge badge-sm bg-success font-weight-bold mb-0">{{ transaction.payment_status }}</span>
+                                    {% endif %}
+                                    {%if transaction.payment_status == 'Cancelled'%}
+                                    <span id= "status_acc" class="badge badge-sm bg-warning font-weight-bold mb-0">{{ transaction.payment_status }}</span>
+                                    {% endif %}
                                     </td>
                                 </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+                </div>
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
+                                <a class="btn btn-primary btn-sm ms-auto rounded-9 w-30" href="{%url 'list_wholesalers'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Wholesalers</a>
+                            </div>
+                        </div>
+                        <div class="card-body ">
+                            <div class="table-responsive text-center">
+                                <table class="table">
+                            <thead class=" text-primary">
+                                <th class="text-primary th-new font-weight-bolder opacity-7">
+                                    Business Name
+                                </th>
+                                <th class="text-primary th-new font-weight-bolder opacity-7">
+                                    Status
+                                </th>
+                                <th class="text-primary th-new font-weight-bolder opacity-7">
+                                    Date Joined
+                                </th>
+                           
+                            </thead>
+                            <tbody>
+                                {% for wholesaler in wholesalers|slice:"5" %}
                                 <tr>
-                                    <td>
-                                        Minerva Hooper
-                                    </td>
-                                    <td>
-                                        Curaçao
-                                    </td>
-                                    <td>
-                                        Sinaai-Waas
-                                    </td>
-                                    <td class="text-right">
-                                        $23,789
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Sage Rodriguez
-                                    </td>
-                                    <td>
-                                        Netherlands
-                                    </td>
-                                    <td>
-                                        Baileux
-                                    </td>
-                                    <td class="text-right">
-                                        $56,142
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Doris Greene
-                                    </td>
-                                    <td>
-                                        Malawi
-                                    </td>
-                                    <td>
-                                        Feldkirchen in Kärnten
-                                    </td>
-                                    <td class="text-right">
-                                        $63,542
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Mason Porter
-                                    </td>
-                                    <td>
-                                        Chile
-                                    </td>
-                                    <td>
-                                        Gloucester
-                                    </td>
-                                    <td class="text-right">
-                                        $78,615
-                                    </td>
-                                </tr>
+                                  <td>
+                                    {{ wholesaler.business_name }}
+                                  </td>
+                                  <td>
+                                    {%if wholesaler.is_active == False%}
+                                    <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
+                                    {% endif %}
+                                    {%if wholesaler.is_active == True%}
+                                    <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
+                                    {% endif %}
+                                  </td>
+                                  <td>
+                                    {{ wholesaler.created}}
+                                  </td>
+                                {%endfor%}
                             </tbody>
                         </table>
                     </div>
@@ -285,7 +184,153 @@
             </div>
         </div>
     </div>
+    
 </div>
+</div>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
+<script>
+    const productSalesGraph = document.getElementById("bar-chart").getContext("2d");
+    const sortValue = document.getElementById("graph_sort");
+    const monthlyStats = [
+    {% for sales in monthly_sales %} 
+    {
+        x: Date.parse(moment(new Date('{{sales.created.isoformat|safe}}').getTime())
+            .format('YYYY-MM-DD hh:mm:ss')),
+        y: {{ sales.sum|safe }}
+    },
+    {% endfor %}
+    ]
+    
+    const salesChart = new Chart(productSalesGraph, {
+        type: "bar",
+        data: {
+            datasets: [{
+                label: "Sales",
+                data: monthlyStats,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)',
+                    'rgba(240, 120, 50, 0.8)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(240, 120, 50, 1)',
 
+                ],
+                fill: false,
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            let label = context.dataset.label || '';
 
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += new Intl.NumberFormat('en-US', {
+                                    style: 'currency',
+                                    currency: 'PHP'
+                                }).format(context.parsed.y);
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+                layout: {
+                  padding: {
+                      left: 10,
+                      right: 10,
+                      top: 10,
+                      bottom: 10
+                  }
+              },
+
+            interaction: {
+                intersect: false,
+                mode: 'index',
+            },
+            scales: {
+                y: {
+                    grid: {
+                        drawBorder: false,
+                        display: true,
+                        drawOnChartArea: true,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            value = value.toString();
+                            value = value.split(/(?=(?:...)*$)/);
+                            value = value.join(',');
+                            return '₱' + value;
+                        },
+                        color: 'black',
+                        beginAtZero: true,
+                        font: {
+                            size: 15,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    }
+
+                },
+                x: {
+                    grid: {
+                        drawBorder: false,
+                        display: false,
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        source: 'data',
+                        display: true,
+                        color: '#ccc',
+                        font: {
+                            size: 15,
+                            family: "Open Sans",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                        color: 'black',
+                        beginAtZero: true,
+                    },
+
+                    type: 'time',
+                    time: {
+                        unit: 'month',
+                        tooltipFormat: 'MMM DD, YYYY',
+                        min: monthlyStats[0].x 
+                    }
+
+                },
+            },
+        },
+    });
+</script>
 {% endblock content %}

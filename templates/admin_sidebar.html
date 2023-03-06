@@ -1,48 +1,66 @@
 {% load static %}
-<div class="sidebar" data-color="orange">
+<div class="sidebar">
     <!--
 Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
 -->
     <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-            CT
-        </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-            Creative Tim
+        <a href="{% url 'dashboard' %}" class="logo-large navbar-brand-img h-100">
+            <img
+            src="{% static 'assets2/images/HIVE.png'%}"
+            height="50"
+            alt="MDB Logo"
+            loading="lazy"
+          />
         </a>
     </div>
     <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
             <li {% if request.path == '/hiveadmin/' %}class="active" {% endif %} >
                 <a href="{% url 'dashboard' %}">
-                    <i class="now-ui-icons design_app"></i>
-                    <p>Dashboard</p>
+                    <i class="fa fa-poll"></i>
+                    <p class="font-weight-bolder" style="font-size: small;">Dashboard</p>
                 </a>
             </li>
+      
             <li {% if request.path == '/hiveadmin/wholesalers/' %}class="active" {% endif %}>
                 <a href="{% url 'list_wholesalers' %}">
-                    <i class="now-ui-icons education_atom"></i>
-                    <p>Wholesalers</p>
+                    <i class="fas fa-warehouse"></i>
+                    <p class="font-weight-bolder" style="font-size: small;">Wholesalers</p>
                 </a>
             </li>
             <li {% if request.path == '/hiveadmin/transactions/' %}class="active" {% endif %}>
                 <a href="{% url 'transactions' %}">
-                    <i class="now-ui-icons location_map-big"></i>
-                    <p>Transactions</p>
+                    <i class="fas fa-tasks"></i>
+                    <p class="font-weight-bolder" style="font-size: small;">Transactions</p>
                 </a>
             </li>
+            <li {% if request.path == '/hiveadmin/wholesaler-logs/' %}class="active" {% endif %}>
+                <a href="{% url 'wholesaler-logs' %}">
+                    <i class="fa fa-history"></i>
+                    <p class="font-weight-bolder" style="font-size: small;">Wholesaler Logs</p>
+                </a>
+            </li>
+            <li {% if request.path == '/hiveadmin/retailer-logs/' %}class="active" {% endif %}>
+                <a href="{% url 'retailer-logs' %}">
+                    <i class="fa fa-history"></i>
+                    <p class="font-weight-bolder" style="font-size: small;">Retailer Logs</p>
+                </a>
+            </li>
+            {% if request.user.is_authenticated and request.user.is_superuser%}
             <li {% if request.path == '/hiveadmin/admin/' %}class="active" {% endif %}>
                 <a href="{% url 'admins' %}">
-                    <i class="now-ui-icons ui-1_bell-53"></i>
-                    <p>Manage Admins</p>
+                    <i class="fas fa-user-shield"></i>
+                    <p class="font-weight-bolder" style="font-size: small;">Manage Admins</p>
                 </a>
             </li>
-            <li {% if request.path == '/hiveadmin/logs/' %}class="active" {% endif %}>
-                <a href="{% url 'registration_logs' %}">
-                    <i class="now-ui-icons users_single-02"></i>
-                    <p>Registration Logs</p>
+            {%endif%}
+            <li  {% if request.path == '/hiveadmin/logout/' %}class="active" {% endif %}>
+                <a href="{% url 'logout_admin' %}">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <p class="font-weight-bolder" style="font-size: small;">Sign Out</p>
                 </a>
             </li>
+            
         </ul>
     </div>
 </div>

@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load humanize %}
 {% block title %}
 Retailers
 {% endblock title %}
@@ -42,6 +43,8 @@ Retailers
                             <thead>
                                 <tr>
                                     <th class=" th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7">
+                                        Reference No.</th>
+                                    <th class=" th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7">
                                         Business Name</th>
                                     <th
                                         class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
@@ -54,49 +57,38 @@ Retailers
                                         Date</th>
                                     <th
                                         class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
-                                        Status</th>
-
-
+                                        Payment Status</th>
+                                    <th
+                                        class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
+                                        </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for retailer in retailers %}
+                                {% for trans in transactions %}
                                 <tr>
                                     <td class="text-center">
-                                        <p class=" font-weight-bold mb-0">{{ retailer.business_name }}</p>
+                                        <p class=" font-weight-bold mb-0">{{ trans.reference_number }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class=" font-weight-bold mb-0">{{ retailer.address }}</p>
+                                        <p class=" font-weight-bold mb-0">{{ trans.business_name }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class=" font-weight-bold mb-0">{{ retailer.contact_name }}</p>
+                                        <p class=" font-weight-bold mb-0">{{ trans.mode_of_payment }}</p>
                                     </td>
                                     <td class="text-center">
-                                        <p class=" font-weight-bold mb-0">{{ retailer.user.email }}</p>
+                                        <p class=" font-weight-bold mb-0">₱{{ trans.total_paid|floatformat:2|intcomma }}</p>
                                     </td>
                                     <td class="text-center">
-                                    
-                                        {%if retailer.is_active == False%}
-                                        <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ retailer.is_active|yesno:"Active,Inactive" }}</span>
-                                        {% endif %}
-                                        {%if retailer.is_active == True%}
-                                        <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ retailer.is_active|yesno:"Active,Inactive" }}</span>
-                                        {% endif %}
+                                        <p class=" font-weight-bold mb-0">{{ trans.created }}</p>
                                     </td>
-
-                                        <td class="text-center">
-                                            <form method="POST" action="{% url 'deactivate_retailer' retailer.id %}"
-                                                class="updateForm" data-status="retailer.is_active"
-                                                data-product="{{retailer.business_name}}">
-                                                {% csrf_token %}
-                                                <input value="Update" type="submit"
-                                                    class="btn btn-primary btn-block btn-xs mt-3 update">
-                                                </input>
-                                            </form>
-                                        </td>
-                                    </tr>
-
-
+                                    <td class="text-center">
+                                        <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ trans.success|yesno:"Success,Failed" }}</span>
+                                        <p class=" font-weight-bold mb-0"></p>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-link text-dark  px-2 mb-0" href="{% url 'transaction_details' trans.id %}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>View Details</a>
+                                    </td>
+               
                                     {% endfor %}
                                 </tbody>
                             </table>

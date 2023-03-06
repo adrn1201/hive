@@ -36,10 +36,10 @@
                                  <select class="form-select" id="filter_category" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 40px;">
                                      <option selected disabled>Filter By:</option>
                                      {% for c in categories %}
-                                     <option value="{{c.name}}" {% if request.GET.category and request.GET.category == c.name %}selected{% endif %}>
-                                         {{c.name|title}}
-                                     </option>
-                                     {% endfor %}
+                                    <option value="{{c.name}}" {% if request.GET.category and request.GET.category == c.name %}selected{% endif %}>
+                                        {{c.name|title}}
+                                    </option>
+                                    {% endfor %}
                                    </select>
                               </div>
                            </div>

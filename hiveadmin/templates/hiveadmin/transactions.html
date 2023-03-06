@@ -1,6 +1,161 @@
 {% extends 'admin.html' %}
-
+{% load humanize %}
 {% block content %}
 
+<nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+  <div class="container-fluid">
+    <div class="navbar-wrapper">
+      <a href="javascript:history.go(-1);"><i class="far fa-arrow-alt-circle-left py-4 ps-lg-3" style="color:white; font-size: larger;" aria-hidden="true"></i></a>
+    </div>
+   
+</nav>
+
+<div class="panel-header panel-header-sm">
+    <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Transactions</Strong></h2>
+</div>
+<br>
+
+<div class="modal fade" id="staticBackdrop2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <!--/.Content-->
+  </div>
+</div>
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row ">
+            <div class="col-md-3 my-lg-2 py-1">
+                  
+              <form action="{% url 'transactions' %}" method="GET" id="searchForm"> 
+                <div class="input-group no-border">
+                  <input type="search" value="{{ search_query }}" class="form-control rounded-9" name="search_query" placeholder="Search">
+                </div>
+              </form>
+            </div>
+            <div class="col-lg-4 my-lg-2">
+              <select class="form-select rounded-9" id="filter_category" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 42px;">
+                <option selected {% if not search_query %} disabled {% endif %} disabled>Filter By:</option>
+                <option value="Success" {% if request.GET.category == "Success" %}selected{% endif %}>Success</option>
+                <option value="Cancelled" {% if request.GET.category == "Cancelled" %}selected{% endif %}>Cancelled</option>
+              </select>
+            </div>
+        </div>
+
+      
+        <div class="card-body">
+          <div class="table-responsive text-center">
+            <table class="table">
+              <thead class=" text-primary">
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Reference No.
+                </th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Business Name
+                </th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Payment Method
+                </th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Amount
+                </th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Date
+                </th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Payment Status
+                </th>
+              </thead>
+              <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                  <td>
+                    {{ transaction.reference_number }}
+                  </td>
+                  <td>
+                    {{ transaction.business_name }}
+                  </td>
+                  <td>
+                    {{ transaction.payment_method }}
+                  </td>
+                  <td>
+                    ₱{{ transaction.amount|floatformat:2|intcomma  }}
+                  </td>
+                  <td>
+                    {{ transaction.created }}
+                  </td>
+                  <td >
+                    {%if transaction.payment_status == 'Success'%}
+                    <span id= "status_acc" class=" badge badge-sm bg-success font-weight-bold mb-0">{{ transaction.payment_status }}</span>
+                    {% endif %}
+                    {%if transaction.payment_status == 'Cancelled'%}
+                    <span id= "status_acc" class="badge badge-sm bg-warning font-weight-bold mb-0">{{ transaction.payment_status }}</span>
+                    {% endif %}
+                  </td>
+
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% include 'a-pagination.html' with queryset=transactions custom_range=custom_range %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+{% for message in messages %}
+<script>
+  swal("{{message}}", "", "success");
+</script>
+
+
+{% comment %} <div style="display: flex; justify-content: center;">
+  <div class="alert alert--{{message.tags}}">
+    <p class="alert__message">{{message}}</p>
+    <button class="alert__close">x</button>
+  </div>
+</div> {% endcomment %}
+{% endfor %}
+{% endif %}
+
+<script>
+  const updateForms = document.querySelectorAll('.updateForm');
+
+  for (const item of updateForms) {
+    item.addEventListener('click', (e) => {
+      e.preventDefault()
+      let name = item.dataset.product
+      swal({
+          title: `Update the account status of ${name}?`,
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            item.submit()
+          }
+
+        });
+    })
+
+  }
+
+  $(document).ready(function () {
+    $('.form').on('submit', function () {
+      swal("Success!", "Registration Link has been sent!", "success", {
+        button: "Ok",
+      });
+    });
+  });
+</script>
 
 {% endblock content %}

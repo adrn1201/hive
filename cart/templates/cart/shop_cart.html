@@ -170,7 +170,7 @@ input[type=number] {
 
                 <!--INPUT FIELDS-->
 
-                <!-- <div class="col-9 mt-3" id="inputfields">
+                <div class="col-9 mt-3" id="inputfields">
                   <div class="row">
                     <div class="col-12 col-xl-6">
                       <div class="form-floating mb-4 mb-xl-6" id="card-element">
@@ -179,7 +179,7 @@ input[type=number] {
                       <p id="card-error" role="alert"></p>
                     </div>
                   </div>
-                </div> -->
+                </div>
 
                 <!-- AMOUNT -->
 
@@ -274,7 +274,7 @@ input[type=number] {
 
   const csrftoken = getCookie('csrftoken');
 
-  const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+  const stripe = Stripe("pk_test_51Mh8gnBQRaixNqnp4McU9hFOH7OSw8MsraUXXO8Kw9cVvsDR7mVtO8CLraKCTqkPoysDhU5hMTPra03IQlWJQ9ji009T8FJWy8");
 
   document.querySelector("#submit_order").disabled = true;
 
@@ -307,41 +307,44 @@ input[type=number] {
 
   const form = document.getElementById("payment-form");
   checkoutForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    swal("Do you want to place your order?", {
-      buttons: ["Cancel", true],
-    }).then(data => {
-      if (data) {
-        if(this.elements.modeOfPayment.value === 'Credit Card/Debit Card'){
-          fetch("{% url 'create-payment-intent' %}", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              'X-CSRFToken': csrftoken
-            },
-            body: JSON.stringify({
-              email: '{{request.user.email}}',
-              items: items
-            })
+  e.preventDefault();
+
+
+  swal("Do you want to place your order?", {
+    buttons: ["Cancel", true],
+  }).then(data => {
+    if (data) {
+      if(this.elements.modeOfPayment.value === 'Credit Card/Debit Card'){
+        fetch("{% url 'create-payment-intent' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            'X-CSRFToken': csrftoken
+          },
+          body: JSON.stringify({
+            email: '{{request.user.email}}',
+            items: items
           })
-          .then(function (result) {
-            return result.json();
-          })
-          .then(function (data) {
-            payWithCard(stripe, card, data.clientSecret);
-          
-          })
-          .then(function (data) {
+        })
+        .then(function (result) {
+          return result.json();
+        })
+        .then(function (data) {
+          payWithCard(stripe, card, data.clientSecret)
+          .then(function () {
             e.target.submit();
-          
+          })
+          .catch(function (error) {
+            swal("There was a problem with your payment information. Please try again.");
           });
-        }else{
-          e.target.submit();
-        }
+        });
+      } else {
+        e.target.submit();
       }
-    });
+    }
   });
+});
+
 
   const payWithCard = function (stripe, card, clientSecret) {
     loading(true);

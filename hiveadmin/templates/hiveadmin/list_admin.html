@@ -2,9 +2,171 @@
 
 {% block content %}
 
+<nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+  <div class="container-fluid">
+    <div class="navbar-wrapper">
+      <a href="javascript:history.go(-1);"><i class="far fa-arrow-alt-circle-left py-4 ps-lg-3" style="color:white; font-size: larger;" aria-hidden="true"></i></a>
+    </div>
+   
+</nav>
+
+<div class="panel-header panel-header-sm">
+    <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Admin</Strong></h2>
+</div>
+<br>
+
+<div class="modal fade" id="staticBackdrop2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+    <!--Content-->
+    <!--/.Content-->
+  </div>
+</div>
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row ">
+            <div class="col-md-3 my-lg-2 py-1">
+                  
+              <form action="{% url 'admins' %}" method="GET" id="searchForm"> 
+                <div class="input-group no-border">
+                  <input type="search" value="{{ search_query }}" class="form-control rounded-9" name="search_query" placeholder="Search">
+                </div>
+              </form>
+            </div>
+            <div class="col-lg-4 my-lg-2">
+              <select class="form-select rounded-9" id="filter_category" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 42px;">
+                <option selected {% if not search_query %} disabled {% endif %} disabled>Filter By:</option>
+                <option value="True" {% if request.GET.category == True %}selected{% endif %}>Active</option>
+                <option value="False" {% if request.GET.category == False %}selected{% endif %}>Inactive</option>
+              </select>
+            </div>
+            <div class="col col-lg-2 my-lg-0" style="margin-left: 250px">
+              
+              <a class="btn btn-primary w-100 text-light rounded-9" href="{% url 'register_admin' %}"><i class="fa fa-plus"></i>&nbsp; <strong>Add Admin</strong>
+
+              </a>
+            </div>
+        </div>
+      </div>
+
+        <div class="card-body">
+          <div class="table-responsive text-center">
+            <table class="table">
+              <thead class=" text-primary">
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Name
+                </th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Status
+                </th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Date Joined
+                </th>
+                <th>
+                  
+                </th>
+              </thead>
+              <tbody>
+                {% for admin in admin %}
+                <tr>
+                  <td>
+                    {{ admin.first_name }} {{admin.last_name}}
+                  </td>
+                  <td>
+                    {%if admin.is_active == False%}
+                    <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ admin.is_active|yesno:"Active,Inactive" }}</span>
+                    {% endif %}
+                    {%if admin.is_active == True%}
+                    <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ admin.is_active|yesno:"Active,Inactive" }}</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {{ admin.date_joined }}
+                  </td>
+                  <td>
+                    <form method="POST" action="{% url 'update_admin_status' admin.id %}" class="updateForm" data-first="{{admin.first_name}}">
+                      {% csrf_token %}
+                      {% if admin.is_active == True %}
+                      <input type="hidden" name="status" value="False">
+                      {% elif admin.is_active == False %}
+                      <input type="hidden" name="status" value="True">
+                      {% endif %}
+                      <button type="submit" class="btn  btn-info  btn-xs "><i class="far fa-edit"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% include 'a-pagination.html' with queryset=admin custom_range=custom_range %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+{% for message in messages %}
+<script>
+  swal("{{message}}", "", "success");
+</script>
 
 
+{% comment %} <div style="display: flex; justify-content: center;">
+  <div class="alert alert--{{message.tags}}">
+    <p class="alert__message">{{message}}</p>
+    <button class="alert__close">x</button>
+  </div>
+</div> {% endcomment %}
+{% endfor %}
+{% endif %}
+
+<script>
+
+ 
+const filterDropdown = document.querySelector('select[name="status"]');
 
 
+filterDropdown.addEventListener('change', (event) => {
+ 
+  event.target.closest('form').submit();
+});
+
+  const updateForms = document.querySelectorAll('.updateForm');
+
+  for (const item of updateForms) {
+    item.addEventListener('click', (e) => {
+      e.preventDefault()
+      let name = item.dataset.product
+      swal({
+          title: `Update the account status of ${name}?`,
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            item.submit()
+          }
+
+        });
+    })
+
+  }
+
+  $(document).ready(function () {
+    $('.form').on('submit', function () {
+      swal("Success!", "Registration Link has been sent!", "success", {
+        button: "Ok",
+      });
+    });
+  });
+</script>
 
 {% endblock content %}

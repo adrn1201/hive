@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+	<link rel="stylesheet" href="{% static 'assets8/css/reset.css'%}"> 
+    
+	<link rel="stylesheet" href="{% static 'assets8/css/style.css'%}"> <!-- Resource style -->
+    
+	<script src="{% static 'assets8/js/modernizr.js'%}"></script> <!-- Modernizr -->
+    
+  	
+	<title> {% block title %}{% endblock title %}</title>
+</head>
+<body>
+    {% block content %}
+    {% endblock content %}
+
+<script src="{% static 'assets8/js/jquery-2.1.1.js'%}"></script>
+
+<script src="{% static 'assets8/js/main.js'%}"></script> <!-- Resource jQuery -->
+
+</body>
+</html>
