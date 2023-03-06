@@ -22,7 +22,7 @@ body {
   font-size: 1.6rem;
   font-family: "Open Sans", sans-serif;
   color: black;
-  background-color: #FDE281;
+  background-color:  #FDE281;
 }
 
 a {
@@ -42,7 +42,7 @@ Main Components
 }
 .cd-header h1 {
   text-align: center;
-  color: #112e3c;
+  color: #342B09;
   font-weight: bold !important;
   font-size: 2.2rem;
 }
@@ -78,7 +78,7 @@ Main Components
 .cd-pricing-list > li {
   position: relative;
   margin-bottom: 1em;
-  background-color: #FFFFFF;
+  background-color: #FCCB1A;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   /* Firefox bug - 3D CSS transform, jagged edges */
@@ -95,6 +95,7 @@ Main Components
   pointer-events: none;
   background: -webkit-linear-gradient( right , #FFFFFF, rgba(255, 255, 255, 0));
   background: linear-gradient(to left, #FFFFFF, rgba(255, 255, 255, 0));
+
 }
 .cd-pricing-list > li.is-ended::after {
   /* class added in jQuery - remove the gradient layer when it's no longer possible to scroll */
@@ -103,7 +104,7 @@ Main Components
 @media only screen and (min-width: 768px) {
   .cd-pricing-list {
     margin: 3em 0 0;
-    color: black !important;
+    color: #342B09 !important;
   }
   .cd-pricing-list:after {
     content: "";
@@ -137,6 +138,7 @@ Main Components
   }
   .cd-pricing-list > li.cd-popular {
     box-shadow: inset 0 0 0 3px #030303;
+    border-radius: 5%;
   }
   .cd-pricing-list > li.cd-popular::before {
     /* hide table separator for .cd-popular table */
@@ -199,10 +201,11 @@ Main Components
   color: #FFFFFF;
 }
 .cd-pricing-header h2 {
-  color: black;
+  color: #342B09;
   margin-bottom: 3px;
   font-weight: 700;
   text-transform: uppercase;
+  
 }
 .cd-popular .cd-pricing-header {
   background-color: #e97d68;
@@ -230,9 +233,10 @@ Main Components
 }
 
 .cd-currency, .cd-value {
-  color:black;
+  color:#342B09;
   font-size: 3rem;
   font-weight: 300;
+  
 }
 
 .cd-duration {
@@ -247,6 +251,7 @@ Main Components
 .cd-duration::before {
   content: '/';
   margin-right: 2px;
+  
 }
 
 @media only screen and (min-width: 768px) {
@@ -259,7 +264,7 @@ Main Components
     color: rgba(23, 61, 80, 0.4);
   }
   .cd-popular .cd-currency, .cd-popular .cd-duration {
-    color: black;
+    color: #342B09;
   }
   .cd-secondary-theme .cd-currency, .cd-secondary-theme .cd-duration {
     color: #2e80a7;
@@ -274,6 +279,7 @@ Main Components
     vertical-align: top;
     font-size: 2rem;
     font-weight: 700;
+    
   }
 
   .cd-duration {
@@ -297,6 +303,7 @@ Main Components
   content: "";
   display: table;
   clear: both;
+  
 }
 .cd-pricing-features li {
   width: 100px;
@@ -307,6 +314,7 @@ Main Components
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
 }
 .cd-pricing-features em {
   display: block;
@@ -374,6 +382,8 @@ Main Components
     height: auto;
     padding: 1.8em 0;
     text-align: center;
+    letter-spacing: 2px;
+    border-radius: 2%;
   }
   .cd-pricing-footer::after {
     /* hide arrow */
@@ -408,15 +418,16 @@ Main Components
     text-indent: 0;
     text-transform: uppercase;
     letter-spacing: 2px;
+    border-radius: 2%;
   }
   .no-touch .cd-select:hover {
     background-color: #112e3c;
   }
   .cd-popular .cd-select {
-    background-color: #2e80a7;
+    background-color: #342B09;
   }
   .no-touch .cd-popular .cd-select:hover {
-    background-color: #083f59;
+    background-color: #B08A03;
   }
   .cd-secondary-theme .cd-popular .cd-select {
     background-color: #0c1f28;
