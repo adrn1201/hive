@@ -230,14 +230,15 @@ a:focus {
     margin-bottom: 2px;
 }
 
-.custom_nav-container .navbar-nav .nav-item:hover .nav-link,
+.custom_nav-container .navbar-nav .nav-item:hover .nav-link
 .custom_nav-container .navbar-nav .nav-item.active .nav-link {
-    color: #ffffff;
+    color: #070707;
+    
 }
 
-.custom_nav-container .navbar-nav .nav-item:hover .nav-link svg,
+.custom_nav-container .navbar-nav .nav-item:hover .nav-link svg
 .custom_nav-container .navbar-nav .nav-item.active .nav-link svg {
-    fill: #000000;
+    fill: #ff0808;
 }
 
 .custom_nav-container .nav_search-btn {

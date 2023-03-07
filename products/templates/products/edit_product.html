@@ -28,14 +28,26 @@
                         <div class="row">
                             <div class="col-md-12">
 
-                                {% for field in form %}
-                                {% if field.name != "with_variation" and field.name != "actual_stocks" %}
+                                      {% comment %} {% for field in form %} {% endcomment %}
+                                {% if form.name != "with_variation" and form.name != "actual_stocks" %}
                                 <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">{{ field.label }}</label>
-                                    {{ field }}
+                                    <label for="example-text-input" class="form-control-label">Category</label>
+                                    {{form.category }}
+                                    <label for="example-text-input" class="form-control-label">Product Name </label>
+                                    <div class="small font-italic text-muted mb-2 ">Maximum of 200 Characters</div>
+                                    {{form.product_name }}
+                                    <label for="example-text-input" class="form-control-label">Description</label>
+                                    <div class="small font-italic text-muted mb-2 ">Maximum of 200 Characters</div>
+                                    {{form.description }}
+                                    <label for="example-text-input" class="form-control-label">Product Image</label>
+                                    {{form.product_image }}
+                                    <label for="example-text-input" class="form-control-label">Price</label>
+                                    {{form.price }}
+                                  {% endif %}
                                 </div>
                                 {% endif %}
-                                {% endfor %}
+                                {% comment %} {% endfor %} {% endcomment %}
+
 
 
                                 <div class="form-group">
