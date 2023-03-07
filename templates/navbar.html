@@ -7,8 +7,7 @@
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-primary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
-            target="_blank">
+        <a class="navbar-brand m-0" href="{% url 'w_dashboard' %}">
             <img src="{% if request.user.wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ request.user.wholesaler.wholesaler_image.url }}{% endif %}"
                 class="navbar-brand-img h-100" alt="main_logo">
         </a>
@@ -99,9 +98,23 @@
 </aside>
 <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
-        data-scroll="false">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl ">
         <div class="container-fluid py-1 px-3">
+            
+            <ul class="navbar-nav  justify-content-end">
+                <div class="col-lg-12">
+                    <li class="">
+                        <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                            <div class="sidenav-toggler-inner">
+                                <i class="sidenav-toggler-line bg-white"></i>
+                                <i class="sidenav-toggler-line bg-white"></i>
+                                <i class="sidenav-toggler-line bg-white"></i>
+                            </div>
+                        </a>
+                    </li>
+                </div>
+            </ul>
+
                 <h6 class="font-weight-bolder text-white mb-0">
                     <br>
                     {% if request.path != '/'%}
@@ -126,6 +139,6 @@
                     List of Tranasctions
                     {%endif%}
                 </h6>
-    </nav>
+   
     </div>
     </nav>
