@@ -305,12 +305,48 @@ input[type=number] {
     document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
   });
 
+  // const form = document.getElementById("payment-form");
+  // checkoutForm.addEventListener('submit', function(e) {
+  // e.preventDefault();
+
+
+//   swal("Do you want to place your order?", {
+//     buttons: ["Cancel", true],
+//   }).then(data => {
+//     if (data) {
+//       if(this.elements.modeOfPayment.value === 'Credit Card/Debit Card'){
+//         fetch("{% url 'create-payment-intent' %}", {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//             'X-CSRFToken': csrftoken
+//           },
+//           body: JSON.stringify({
+//             email: '{{request.user.email}}',
+//             items: items
+//           })
+//         })
+//         .then(function (result) {
+//           return result.json();
+//         })
+//         .then(function (data) {
+//           payWithCard(stripe, card, data.clientSecret);
+//         })
+//           .then(function (data) {
+//             e.target.submit();
+//           });
+//       } else {
+//         e.target.submit();
+//       }
+//     }
+//   });
+// });
+
   const form = document.getElementById("payment-form");
   checkoutForm.addEventListener('submit', function(e) {
   e.preventDefault();
 
-
-  swal("Do you want to place your order?", {
+swal("Do you want to place your order?", {
     buttons: ["Cancel", true],
   }).then(data => {
     if (data) {
@@ -330,13 +366,13 @@ input[type=number] {
           return result.json();
         })
         .then(function (data) {
-          payWithCard(stripe, card, data.clientSecret)
-          .then(function () {
+          try{
+            payWithCard(stripe, card, data.clientSecret);
             e.target.submit();
-          })
-          .catch(function (error) {
-            swal("There was a problem with your payment information. Please try again.");
-          });
+          }
+          catch(e){
+            console.log(e);
+          }
         });
       } else {
         e.target.submit();
