@@ -47,7 +47,7 @@ def wholesaler_create_profile(request):
 
     form = WholesalerCreationForm()
     if request.method == "POST":
-        form = WholesalerCreationForm(request.POST)
+        form = WholesalerCreationForm(request.POST, request.FILES)
         if form.is_valid():
             wholesaler = form.save(commit=False)
             wholesaler.schema_name = wholesaler.business_name.lower()
