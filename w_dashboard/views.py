@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django_tenants.utils import remove_www
@@ -10,10 +10,10 @@ import datetime
 
 @login_required(login_url='login_wholesaler')
 def w_dashboard(request):    
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)

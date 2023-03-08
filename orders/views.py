@@ -28,10 +28,11 @@ from datetime import datetime, timedelta
 
 @login_required(login_url='login_wholesaler')
 def display_orders(request):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
+    
     orders, search_query = search_orders(request)
     custom_range, orders = paginate_orders(request, orders, 10)
     context = {'orders': orders, 'search_query': search_query, 'custom_range':custom_range}
@@ -40,11 +41,6 @@ def display_orders(request):
 
 @login_required(login_url='login_retailer')
 def create_order(request):
-    try:
-        request.user.retailer
-    except:
-        return HttpResponseForbidden()
-  
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -191,10 +187,10 @@ def stripe_webhook(request):
 
 @login_required(login_url='login_wholesaler')
 def order_details(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
 
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
