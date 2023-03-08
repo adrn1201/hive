@@ -168,12 +168,12 @@ input[type=number] {
                   </div>
                 </div>
 
-               
+              
 
                 <!-- AMOUNT -->
 
                 <div class="col-md-6" id="amount">
-                  <div class="d-flex" style="font-weight: 500;">
+                  <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
                     <p class="mb-2">Subtotal</p>
                     <p id="subtotal" class="mb-2">{{cart_subtotal|floatformat:2}}</p>
                   </div>
@@ -201,18 +201,18 @@ input[type=number] {
 
                 </div>
 
-                 <!--INPUT FIELDS-->
+                   <!--INPUT FIELDS-->
 
-                 <div id="inputfields">
-                  <div class="row">
-                    <div class="col-md-6 pl-3">
-                      <div class="form-floating mb-4 mb-xl-6" id="card-element">
-
+                   <div id="inputfields">
+                    <div class="col">
+                      <div class="col-md-6">
+                        <div class=" mb-4 mb-xl-6" id="card-element">
+                        </div>
+                        <p id="card-error" role="alert"></p>
                       </div>
-                      <p id="card-error" role="alert"></p>
                     </div>
                   </div>
-                </div>
+                
 
                 </form>
 
@@ -221,8 +221,6 @@ input[type=number] {
                 <div class="col-9 mt-3" id="inputfields">
                   <div class="row">
                     <div class="col-12 col-xl-6">
-                      <div class="form-floating mb-4 mb-xl-6" id="card-element">
-
                       </div>
                       <p id="card-error" role="alert"></p>
                     </div>

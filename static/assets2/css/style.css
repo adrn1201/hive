@@ -1009,7 +1009,7 @@ a:focus {
 }
 
 li.nav-item ul {
-    background: #fff;
+    background: white;
     /* border: solid #000 2px; */
     border-radius: 0;
     padding: 10px 20px;
