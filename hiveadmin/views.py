@@ -27,7 +27,7 @@ def wholesaler_activity_logs(request):
     
 
     wholesalers, search_query = search_wholesaler_logs(request)
-    custom_range, wholesaler_logs = paginate_data(request, wholesalers, 1)
+    custom_range, wholesaler_logs = paginate_data(request, wholesalers, 10)
     context = {'wholesaler_logs':wholesaler_logs, 'search_query':search_query,'custom_range':custom_range}
     return render(request, 'hiveadmin/wholesaler_logs.html', context)
 
@@ -39,7 +39,7 @@ def retailer_activity_logs(request):
         return redirect('login_admin')
     
     retailers, search_query = search_retailer_logs(request)
-    custom_range, retailer_logs = paginate_data(request, retailers, 1)
+    custom_range, retailer_logs = paginate_data(request, retailers, 10)
     context = {'retailer_logs':retailer_logs, 'search_query':search_query, 'custom_range':custom_range}
     return render(request, 'hiveadmin/retailer_logs.html',context)
 
@@ -79,7 +79,7 @@ def login_admin(request):
     This function is for wholesaler account authentication
     '''
 
-    return login_user(request, 'list_wholesalers', 'hiveadmin/admin_login.html')
+    return login_user(request, 'dashboard', 'hiveadmin/admin_login.html')
 
 
 @login_required(login_url='login_admin')

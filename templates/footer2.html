@@ -9,18 +9,18 @@
    }
 }
 </style>
-<footer style="bg-light">
-   <div class="container-fluid mx-4 text-center text-md-left"> 
-       <div class="row">
+<footer class="bg-light">
+   <div class="container-fluid row"> 
           <div class="col-md-4">
               <div class="mb-5 full">
                  <div class="logo_footer">
                    <a href="#"><img width="100" src="{{ request.user.retailer.wholesaler.wholesaler_image.url }}" alt="#" /></a>
                  </div>
                  <div class="information_f">
-                   <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> 28 White tower, Street Name New York City, USA</p>
-                   <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>TELEPHONE:</strong> +91 987 654 3210</p>
-                   <p class="text-black"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong> yourmain@gmail.com</p>
+                   <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> {{request.user.retailer.wholesaler.address}}, {{request.user.retailer.wholesaler.region}}, {{request.user.retailer.wholesaler.city}}, Barangay {{request.user.retailer.wholesaler.barangay}}
+                  </p>
+                   <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>PHONE:</strong> {{ request.user.retailer.wholesaler.contact_number }}</p>
+                   <p class="text-black"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong> {{request.user.email}}</p>
                  </div>
               </div>
           </div>
@@ -52,7 +52,6 @@
                  
             
          </div> 
-      </div>
       <br>
        <br>
    </div>
