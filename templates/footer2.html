@@ -43,9 +43,9 @@
                                     <div class="widget_menu text-black">
                                       <h3><span class="fas fa-shopping-bag"></span>&nbsp; Shop</h3>
                                       <ul class="text-black">
-                                          <li><a href="#"><p class="text-black">Products</p></a></li>
-                                          <li ><a href="#"><p class="text-black">About</p></a></li>
-                                          <li><a href="#"><p class="text-black">Services</p></a></li>
+                                          <li><a href="{% url 'show_shop' %}"><p class="text-black">Products</p></a></li>
+                                          <li ><a href="{% url 'about_us' %}"><p class="text-black">Contact Us</p></a></li>
+                                          <li><a href="{% url 'show_cart' %}"><p class="text-black">Cart</p></a></li>
                                       </ul>
                                     </div>
                                 </div> 	
@@ -53,8 +53,8 @@
                               <div class="widget_menu text-black">
                                  <h3><span class="fas fa-user-alt"></span>&nbsp;Account</h3>
                                  <ul>
-                                    <li><a href="#"><p class="text-black">Profile</p></a></li>
-                                    <li><a href="#"><p class="text-black">Orders</p></a></li>
+                                    <li><a href="{% url 'retailer_view_profile' %}"><p class="text-black">Profile</p></a></li>
+                                    <li><a href="{% url 'dashboard_retailer' %}"><p class="text-black">Orders</p></a></li>
                                  </ul>
                               </div>
                               
