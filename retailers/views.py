@@ -13,7 +13,7 @@ from .models import Retailer
 from orders.models import Order, OrderItem
 from .forms import RetailerCreationForm, CustomUserCreationForm
 from django.contrib import messages
-from .utils import search_retailers, paginate_retailers, search_retailers_log
+from .utils import search_retailers, paginate_retailers, search_retailers_log, paginate_myOrders
 from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
 from django_tenants.utils import remove_www
 from wholesalers.models import Domain
@@ -173,23 +173,28 @@ def index(request):
 @login_required(login_url='login_retailer')
 def dashboard_retailer(request):
 
-    order_status = ''
-    orders = ''
-    if request.GET.get('status'):
-        order_status = request.GET.get('status')
+    order_status = request.GET.get('status')
+    if order_status:
         orders = request.user.order_set.distinct().filter(status=order_status)
     else:
         orders = request.user.order_set.all()
+     
     pending_count = request.user.order_set.distinct().filter(status="pending").count()
     preparing_count = request.user.order_set.distinct().filter(status="preparing").count()
     shipped_count = request.user.order_set.distinct().filter(status="shipped").count()
     completed_count = request.user.order_set.distinct().filter(status="completed").count()
+
+    custom_range, orders = paginate_myOrders(request, orders, 10)
+
     context = {
         'orders': orders,
         'pending': pending_count,
         'preparing': preparing_count,
         'shipped': shipped_count,
-        'completed': completed_count}
+        'completed': completed_count,
+        'custom_range': custom_range, 
+    }
+    
     return render(request, "retailers/dashboard.html", context)
 
 
