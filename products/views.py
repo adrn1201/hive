@@ -12,10 +12,10 @@ from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
 product_object = ''
 @login_required(login_url='login_wholesaler')
 def index(request):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -31,10 +31,10 @@ def index(request):
 
 @login_required(login_url='login_wholesaler')
 def create_product(request):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -96,10 +96,10 @@ def create_size_form(request):
 
 @login_required(login_url='login_wholesaler')
 def view_product(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -113,10 +113,10 @@ def view_product(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def edit_product(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -151,10 +151,10 @@ def edit_product(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def delete_product(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -172,10 +172,10 @@ def delete_product(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def show_categories(request):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -189,10 +189,10 @@ def show_categories(request):
 
 @login_required(login_url='login_wholesaler')
 def show_category(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -208,10 +208,10 @@ def show_category(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def create_category(request):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -234,10 +234,10 @@ def create_category(request):
 
 @login_required(login_url='login_wholesaler')
 def edit_category(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -259,10 +259,10 @@ def edit_category(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def delete_category(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -281,10 +281,10 @@ def delete_category(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def display_sizes(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -299,10 +299,10 @@ def display_sizes(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def create_size(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -329,10 +329,10 @@ def create_size(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def edit_size(request, pk, size_pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -356,10 +356,10 @@ def edit_size(request, pk, size_pk):
 
 @login_required(login_url='login_wholesaler')
 def delete_size(request, pk, size_pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)

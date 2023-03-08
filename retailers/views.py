@@ -24,12 +24,6 @@ user_credentials = ''
 
 
 def register_retailer(request):
-    try:
-        if request.user.is_authenticated and request.user.retailer:
-            return redirect('show_shop')
-    except BaseException:
-        return HttpResponseForbidden()
-
     form = CustomUserCreationForm()
 
     if request.method == 'POST':
@@ -37,6 +31,7 @@ def register_retailer(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
+            user.is_retailer = True
             global user_credentials
             user_credentials = user
             return redirect('retailer_create_profile')
@@ -55,12 +50,6 @@ def register_retailer(request):
 
 
 def retailer_create_profile(request):
-    try:
-        if request.user.is_authenticated and request.user.retailer:
-            return redirect('show_shop')
-    except BaseException:
-        return HttpResponseForbidden()
-
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -87,10 +76,6 @@ def retailer_create_profile(request):
 
 @login_required(login_url='login_wholesaler')
 def retailer_edit_profile(request):
-    try:
-        request.user.retailer
-    except BaseException:
-        return HttpResponseForbidden()
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -121,10 +106,6 @@ def retailer_edit_profile(request):
 
 @login_required(login_url='login_wholesaler')
 def retailer_view_profile(request):
-    try:
-        request.user.retailer
-    except BaseException:
-        return HttpResponseForbidden()
     retailer = request.user.retailer
     context ={'retailer':retailer}
     return render(request, "retailers/retailer_view_profile.html", context)
@@ -132,12 +113,7 @@ def retailer_view_profile(request):
 # IN PROGRESS IN PROGRESS IN PROGRESS IN PROGRESS  IN PROGRESS IN PROGRESS 
 
 @login_required(login_url='login_wholesaler')
-def about_us(request):
-    try:
-        request.user.retailer
-    except BaseException:
-        return HttpResponseForbidden()
-    
+def about_us(request):    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -165,12 +141,7 @@ def about_us(request):
 # IN PROGRESS IN PROGRESS IN PROGRESS IN PROGRESS  IN PROGRESS IN PROGRESS 
 
 @login_required(login_url='login_wholesaler')
-def index(request):
-    try:
-        request.user.wholesaler
-    except BaseException:
-        return HttpResponseForbidden()
-    
+def index(request):    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -243,11 +214,6 @@ def order_items(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def update_retailer_status(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
-    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -322,11 +288,6 @@ def order_received(request, pk):
 
 @login_required(login_url='login_wholesaler')
 def retailer_activity_logs(request):
-    try:
-        request.user.wholesaler
-    except BaseException:
-        return HttpResponseForbidden()
-    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
