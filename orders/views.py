@@ -81,9 +81,9 @@ def generate_sales(request):
         if y_offset < 50:
             y_offset = 750
             pdf_canvas.showPage()
-            pdf_canvas.setFont('Helvetica-Bold', 16)
+            pdf_canvas.setFont('Helvetica', 12)
             pdf_canvas.drawString(50, 750, 'Sales Report (continued)')
-            pdf_canvas.setFont('Helvetica-Bold', 12)
+            # pdf_canvas.setFont('Helvetica', 12)
             for index, column in enumerate(table_columns):
                 pdf_canvas.drawString(50 + (index * column_widths[index]), y_offset, column)
             y_offset -= 20
