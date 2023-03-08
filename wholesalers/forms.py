@@ -21,15 +21,17 @@ class CustomUserCreationForm(UserCreationForm):
 class WholesalerCreationForm(ModelForm):
 
     business_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter business name'}))
-    address = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your Area and Street'}))
-    region = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your Region'}))
-    city = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your City'}))
+    address = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Street / Building Name'}))
+    # region = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your Region'}))
+    # city = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Zamboanga City'}))
     contact_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter contact persons name'}))
     contact_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter your phone number'}))
 
     class Meta: 
         model = Wholesaler 
         exclude = ['schema_name', 'domain', 'is_active', 'is_wholesaler', 'user']
+        readonly_fields = ('city', 'region')
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

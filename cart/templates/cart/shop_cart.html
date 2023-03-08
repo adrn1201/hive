@@ -101,7 +101,7 @@ input[type=number] {
                       name="quantity" value="{{item.qty}}" type="number" {% if item.variation_id %}
                       data-quantity="{{item.variation_id.tempo_stocks_var}}" {% else %}
                       data-quantity="{{item.products.tempo_stocks}}" {% endif %} data-qtysel="{{item.qty}}"
-                      class="form-control form-control-sm item-qty ml-1" style="width: 70px;" />
+                      class="form-control form-control-sm item-qty ml-1" style="width: 70px; margin-top:4px ;"  />
 
                     <button id="increase-quantity{{item.id}}" data-cart="{{item.id}}" data-index="{{item.products.id}}"
                       {% if item.variation_id %} data-quantity="{{item.variation_id.tempo_stocks_var}}" {% else %}
@@ -173,7 +173,7 @@ input[type=number] {
                 <!-- AMOUNT -->
 
                 <div class="col-md-6" id="amount">
-                  <div class="d-flex justify-content-between" style="font-weight: 500;">
+                  <div class="d-flex" style="font-weight: 500;">
                     <p class="mb-2">Subtotal</p>
                     <p id="subtotal" class="mb-2">{{cart_subtotal|floatformat:2}}</p>
                   </div>
@@ -215,6 +215,19 @@ input[type=number] {
                 </div>
 
                 </form>
+
+                <!--INPUT FIELDS-->
+
+                <div class="col-9 mt-3" id="inputfields">
+                  <div class="row">
+                    <div class="col-12 col-xl-6">
+                      <div class="form-floating mb-4 mb-xl-6" id="card-element">
+
+                      </div>
+                      <p id="card-error" role="alert"></p>
+                    </div>
+                  </div>
+                </div>
 
 
             {% else %}
@@ -308,48 +321,12 @@ input[type=number] {
     document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
   });
 
-  // const form = document.getElementById("payment-form");
-  // checkoutForm.addEventListener('submit', function(e) {
-  // e.preventDefault();
-
-
-//   swal("Do you want to place your order?", {
-//     buttons: ["Cancel", true],
-//   }).then(data => {
-//     if (data) {
-//       if(this.elements.modeOfPayment.value === 'Credit Card/Debit Card'){
-//         fetch("{% url 'create-payment-intent' %}", {
-//           method: "POST",
-//           headers: {
-//             "Content-Type": "application/json",
-//             'X-CSRFToken': csrftoken
-//           },
-//           body: JSON.stringify({
-//             email: '{{request.user.email}}',
-//             items: items
-//           })
-//         })
-//         .then(function (result) {
-//           return result.json();
-//         })
-//         .then(function (data) {
-//           payWithCard(stripe, card, data.clientSecret);
-//         })
-//           .then(function (data) {
-//             e.target.submit();
-//           });
-//       } else {
-//         e.target.submit();
-//       }
-//     }
-//   });
-// });
-
   const form = document.getElementById("payment-form");
   checkoutForm.addEventListener('submit', function(e) {
   e.preventDefault();
 
-swal("Do you want to place your order?", {
+
+  swal("Do you want to place your order?", {
     buttons: ["Cancel", true],
   }).then(data => {
     if (data) {
@@ -369,20 +346,18 @@ swal("Do you want to place your order?", {
           return result.json();
         })
         .then(function (data) {
-          try{
-            payWithCard(stripe, card, data.clientSecret);
+          payWithCard(stripe, card, data.clientSecret);
+        })
+          .then(function (data) {
             e.target.submit();
-          }
-          catch(e){
-            console.log(e);
-          }
-        });
+          });
       } else {
         e.target.submit();
       }
     }
   });
 });
+
 
 
   const payWithCard = function (stripe, card, clientSecret) {

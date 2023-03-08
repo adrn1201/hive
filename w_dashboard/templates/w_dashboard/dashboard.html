@@ -139,7 +139,7 @@ Dashboard
                         <a class="btn-ts btn btn-primary btn-sm ms-auto" href="{%url 'display_orders'%}"><i class="fas fas fa-eye text-md opacity-10"></i> &nbsp;View Orders</a>
                     </div>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive" style="margin-top: 20px;">
                     <table class="table align-items-center ">
                         <thead>
                             <th class="text-uppercase text-center text-primary th-new font-weight-bolder opacity-7">Business</th>
@@ -149,7 +149,7 @@ Dashboard
                             
                         </thead>
                         <tbody>
-                            {% for order in recent_orders|slice:"5" %}
+                            {% for order in recent_orders|slice:"7" %}
                             <tr>
                                 <td>
                                     <div class="d-flex px-2 py-1 ">
@@ -190,7 +190,7 @@ Dashboard
                 </div>
                 <div class="card-body p-3">
                     <div class="table-responsive">
-                        <table class="table align-items-center ">
+                        <table class="table align-items-center">
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7">Product</th>

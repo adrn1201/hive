@@ -18,7 +18,7 @@ p {
                 <section class="product_section layout_padding">
                     <div class="mx-4">
                         <div class="heading_container heading_center">
-                            <div class="ms-auto">
+                            <div class="ms-auto" style="margin-top: 4%; margin-right: 3% !important;">
                                 <div class="col-lg-5 d-flex mt-4">
                                     &nbsp;
                                     <form action="{% url 'display_orders' %}" method="GET" id="searchForm">
@@ -148,10 +148,7 @@ p {
               var data = JSON.parse(xhr.responseText);
               var totalSales = data.total_sales;
               var averageOrderValue = data.average_order_value;
-              
-             
-            
-      
+
               // Update the HTML with the sales report data
               var salesReportContainer = document.querySelector('#sales-report-container');
               salesReportContainer.innerHTML = `
@@ -212,7 +209,6 @@ p {
                         </tbody>
                     </table>
                 </div>
-                
                 <br>
                 <p>Total Sales: ${totalSales}</p>
                 <p>Average Order Value: ${averageOrderValue}</p>

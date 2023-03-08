@@ -23,18 +23,17 @@
 
         <div class="cd-price">
           <span class="cd-currency">₱</span>
-          <span class="cd-value">6,000</span>
+          <span class="cd-value">2,160</span>
           <span class="cd-duration">year</span>
         </div>
       </header> <!-- .cd-pricing-header -->
 
       <div class="cd-pricing-body">
         <ul class="cd-pricing-features">
-          <li><em>256MB</em> Memory</li>
-          <li><em>1</em> User</li>
+          <li><em>Predicting Demand</em></li>
+          <li><em>Less 10%</em></li>
           <li><em>1</em> Website</li>
           <li><em>1</em> Domain</li>
-          <li><em>Unlimited</em> Bandwidth</li>
           <li><em>24/7</em> Support</li>
         </ul>
       </div> <!-- .cd-pricing-body -->
@@ -42,7 +41,7 @@
       <footer class="cd-pricing-footer">
         <form action="{% url 'checkout_session_payment'%}" method="POST">
           {% csrf_token %}
-          <input type="hidden" name="lookup_key" value="hive premium" />
+          <input type="hidden" name="lookup_key" value="HivePremium" />
           <button class="cd-select" id="checkout-and-portal-button" type="submit">Checkout</button>
         </form>
       </section>
@@ -61,12 +60,11 @@
 
       <div class="cd-pricing-body">
         <ul class="cd-pricing-features">
-          <li><em>512MB</em> Memory</li>
-          <li><em>3</em> Users</li>
-          <li><em>5</em> Websites</li>
-          <li><em>7</em> Domains</li>
-          <li><em>Unlimited</em> Bandwidth</li>
+          <li><em>Predicting Demand</em></li>
+          <li><em>1</em> Website</li>
+          <li><em>1</em> Domain</li>
           <li><em>24/7</em> Support</li>
+          <li> <br></li>
         </ul>
       </div> <!-- .cd-pricing-body -->
 

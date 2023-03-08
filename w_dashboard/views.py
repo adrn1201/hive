@@ -25,14 +25,14 @@ def w_dashboard(request):
     shipped = wholesaler.order_set.filter(status='shipped').count()
     completed = wholesaler.order_set.filter(status='completed').count()
     
-    weekly_stats = (wholesaler.order_set.distinct().filter(Q(mode_of_payment='Credit Card/Debit Card') | Q(status='completed'))
+    weekly_stats = (wholesaler.order_set.distinct().filter(Q(mode_of_payment='Credit Card/Debit Card') | Q(mode_of_payment='Cash on Delivery') | Q(status='completed'))
     .annotate(year=ExtractYear('created'))
     .annotate(week=ExtractWeek('created'))
     .values('year', 'week')
     .annotate(total=Sum('total_paid'))
     )
     
-    monthly_stats = (wholesaler.order_set.distinct().filter(Q(mode_of_payment='Credit Card/Debit Card') | Q(status='completed'))
+    monthly_stats = (wholesaler.order_set.distinct().filter(Q(mode_of_payment='Credit Card/Debit Card') | Q(mode_of_payment='Cash on Delivery') | Q(status='completed'))
     .annotate(year=ExtractYear('created'))
     .annotate(month=ExtractMonth('created'))
     .values('year', 'month')
@@ -41,6 +41,7 @@ def w_dashboard(request):
     
     daily_sales = wholesaler.order_set.distinct().filter(
         Q(mode_of_payment='Credit Card/Debit Card') |
+        Q(mode_of_payment='Cash on Delivery') |
         Q(status='completed')).values("created").order_by("created").annotate(sum=Sum('total_paid'))
     
     weekly_sales = []
