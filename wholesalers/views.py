@@ -11,6 +11,7 @@ from django_tenants.utils import schema_context
 from orders.models import Order, OrderItem
 from hiveadmin.models import Transaction
 from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
+from .utils import search_transaction, paginate_data
 
 user_credentials = ''
 
@@ -144,8 +145,11 @@ def transactions(request):
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)   
     
-    transactions = wholesaler.order_set.filter(Q(mode_of_payment="Credit Card/Debit Card") & Q(success=True))
-    context = {'transactions':transactions}
+    transactions, search_query = search_transaction(request)
+    custom_range, transactions = paginate_data(request, transactions, 10)
+
+    # transactions = wholesaler.order_set.filter(Q(mode_of_payment="Credit Card/Debit Card") & Q(success=True))
+    context = {'transactions':transactions, 'search_query':search_query, 'custom_range':custom_range}
     return render (request, 'wholesalers/transactions.html', context)
 
 
@@ -160,7 +164,7 @@ def transaction_details(request, pk):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-
+    
     order = Order.objects.get(id=pk)
     order_items = order.items.all()
     

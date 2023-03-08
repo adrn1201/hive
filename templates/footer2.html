@@ -1,94 +1,30 @@
 {% load static %}
- <style>
-@media (min-width: 992px){
-   .page-footer{
-       position:absolute;
-       right: 0;
-       bottom: 0;
-       left: 0;
-   }
-}
-
-#image{
-     width: 120px;
-     height: 120px;
-     border-radius: 50%;
-     border: solid;
-     border-color:#404040;
-     margin-right: 100%;
-    
- }
-</style>
-
-   <footer class="bg-light">
-      <div class=" p-4">
-            <div class="container-fluid row">
-              <div class="col-md-4">
-                        <div class="mb-5 full">
-                           <div class="logo_footer">
-                              <a href="#"><img width="100" src="{{ request.user.retailer.wholesaler.wholesaler_image.url }}" alt="#" id="image" /></a>
-                           </div>
-                           <div class="information_f">
-                              <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> 28 White tower, Street Name New York City, USA</p>
-                              <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>TELEPHONE:</strong> +91 987 654 3210</p>
-                              <p class="text-black"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong> yourmain@gmail.com</p>
-                           </div>
-                        </div>
-                     </div>
-               
-
-                     <div class="col-md-8">
-                        <div class="row ms-auto"> 
-                                 <div class="col-md-3 ms-auto">
-                                    <div class="widget_menu text-black">
-                                      <h3><span class="fas fa-shopping-bag"></span>&nbsp; Shop</h3>
-                                      <ul class="text-black">
-                                          <li><a href="#"><p class="text-black">Products</p></a></li>
-                                          <li ><a href="#"><p class="text-black">About</p></a></li>
-                                          <li><a href="#"><p class="text-black">Services</p></a></li>
-                                      </ul>
-                                    </div>
-                                </div> 	
-                           <div class="col-md-3">
-                              <div class="widget_menu text-black">
-                                 <h3><span class="fas fa-user-alt"></span>&nbsp;Account</h3>
-                                 <ul>
-                                    <li><a href="#"><p class="text-black">Profile</p></a></li>
-                                    <li><a href="#"><p class="text-black">Orders</p></a></li>
-                                 </ul>
-                              </div>
-                              
-                           </div>
-                           
-                        </div>
-                     </div> 
-     
-               </div> 
-      </div> 
-         <br>
-         <br>
-    
-
-</footer>
-
-<!-- 
-{% load static %}
 <style>
-@media (min-width: 992px){
-   .page-footer{
-       position:absolute;
-       right: 0;
-       bottom: 0;
-       left: 0;
+   @media (min-width: 992px){
+      .page-footer{
+          position:absolute;
+          right: 0;
+          bottom: 0;
+          left: 0;
+      }
    }
-}
-</style>
+   
+   #image{
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: solid;
+        border-color:#404040;
+        margin-right: 100%;
+       
+    }
+   </style>
 <footer class="bg-light">
    <div class="container-fluid row"> 
           <div class="col-md-4">
               <div class="mb-5 full">
                  <div class="logo_footer">
-                   <a href="#"><img width="100" src="{{ request.user.retailer.wholesaler.wholesaler_image.url }}" alt="#" /></a>
+                   <a href="#"><img width="100" src="{{ request.user.retailer.wholesaler.wholesaler_image.url }}" alt="#" id="image"></a>
                  </div>
                  <div class="information_f">
                    <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> {{request.user.retailer.wholesaler.address}}, {{request.user.retailer.wholesaler.region}}, {{request.user.retailer.wholesaler.city}}, Barangay {{request.user.retailer.wholesaler.barangay}}
@@ -100,34 +36,35 @@
           </div>
 
           <div class="col-md-8">
-             <div class="row ms-auto"> 
-                        <div class="col-md-3 ms-auto">
-                     <div class="widget_menu text-black">
-                        <h3><span class="fas fa-shopping-bag"></span>&nbsp; Shop</h3>
-                        <ul class="text-black">
-                           <li><a href="#"><p class="text-black">Products</p></a></li>
-                           <li ><a href="#"><p class="text-black">About</p></a></li>
-                           <li><a href="#"><p class="text-black">Services</p></a></li>
-                        </ul>
-                     </div>
-                  </div> 	
-                  <div class="col-md-3">
-                     <div class="widget_menu text-black">
-                        <h3><span class="fas fa-user-alt"></span>&nbsp;Account</h3>
-                        <ul>
-                           <li><a href="#"><p class="text-black">Profile</p></a></li>
-                           <li><a href="#"><p class="text-black">Orders</p></a></li>
-                        </ul>
-                     </div>
-                     
+            <div class="row ms-auto"> 
+                     <div class="col-md-3 ms-auto">
+                        <div class="widget_menu text-black">
+                          <h3><span class="fas fa-shopping-bag"></span>&nbsp; Shop</h3>
+                          <ul class="text-black">
+                              <li><a href="#"><p class="text-black">Products</p></a></li>
+                              <li ><a href="#"><p class="text-black">About</p></a></li>
+                              <li><a href="#"><p class="text-black">Services</p></a></li>
+                          </ul>
+                        </div>
+                    </div> 	
+               <div class="col-md-3">
+                  <div class="widget_menu text-black">
+                     <h3><span class="fas fa-user-alt"></span>&nbsp;Account</h3>
+                     <ul>
+                        <li><a href="#"><p class="text-black">Profile</p></a></li>
+                        <li><a href="#"><p class="text-black">Orders</p></a></li>
+                     </ul>
                   </div>
                   
+               </div>
+               
             </div>
-                 
-            
          </div> 
-      <br>
-       <br>
-   </div>
 
- </footer> -->
+   </div> 
+</div> 
+<br>
+<br>
+
+
+</footer>
