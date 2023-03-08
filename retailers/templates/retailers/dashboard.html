@@ -62,7 +62,7 @@
                                             </td>
                                             <td class="text-center">
                                                 {%if order.status == "pending"%}
-                                                <span class="badge badge-warning">{{ order.status }}</span> 
+                                                <span class="badge badge-primary">{{ order.status }}</span> 
                                                  {% endif %}
 
                                                 {%if order.status == "preparing"%}
@@ -79,7 +79,7 @@
                                                 
                                             </td>
                                             <td class="text-center">
-                                                <a class ="badge btn-primary" href="{% url 'ordered_product' order.id %}">DETAILS</a>
+                                                <a  href="{% url 'ordered_product' order.id %}">DETAILS</a>
                                             </td>
                                             
                                             {%if order.status == "shipped"%}

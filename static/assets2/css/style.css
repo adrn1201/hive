@@ -1013,9 +1013,11 @@ li.nav-item ul {
     /* border: solid #000 2px; */
     border-radius: 0;
     padding: 10px 20px;
-    margin-left: 23px;
+    /* padding-right: 10px 20px; */
+    
+    margin-left: 10px;
     /* box-shadow: 4px 4px 0px 0 #000; */
-    width: 190px;
+    width: 150px;
 }
 
 li.nav-item ul li {
