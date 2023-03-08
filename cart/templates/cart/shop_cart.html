@@ -63,7 +63,7 @@ input[type=number] {
                   <br>
                   <div class="mb-0 text-left">
                     <span><b>Remaining Stocks: </b></span> <span id="item_quantity{{item.id}}">
-                      {% if item.variation_id %}
+                      {% if item.variation_id %}  
                       {{ item.variation_id.tempo_stocks_var }}
                       {% else %}
                       {{ item.products.tempo_stocks }}
@@ -136,13 +136,13 @@ input[type=number] {
         <!-- PAYMENT -->
 
 
-        <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px;" id="payment">
+        <div class="card shadow-2-strong mb-5 mb-lg-0" style="border-radius: 16px; display: flex;" id="payment">
           <div class="card-body p-4">
             <form action="{% url 'create_order' %}" method="POST" id="checkout-form">
               <div class="row">
 
                 {% csrf_token %}
-                <div class="col-md-6 col-lg-4 col-xl-3 mb-4 mb-md-0 py-1" id="mop">
+                <div class="col-md-6 mb-4 mb-md-0 py-1" id="mop">
 
                   <div class="d-flex flex-row pb-4">
                     <div class="d-flex align-items-center pe-2 ml-3 mt-3">
@@ -168,22 +168,11 @@ input[type=number] {
                   </div>
                 </div>
 
-                <!--INPUT FIELDS-->
-
-                <div class="col-9 mt-3" id="inputfields">
-                  <div class="row">
-                    <div class="col-12 col-xl-6">
-                      <div class="form-floating mb-4 mb-xl-6" id="card-element">
-
-                      </div>
-                      <p id="card-error" role="alert"></p>
-                    </div>
-                  </div>
-                </div>
+               
 
                 <!-- AMOUNT -->
 
-                <div class="col-lg-4 col-xl-3" id="amount">
+                <div class="col-md-6" id="amount">
                   <div class="d-flex justify-content-between" style="font-weight: 500;">
                     <p class="mb-2">Subtotal</p>
                     <p id="subtotal" class="mb-2">{{cart_subtotal|floatformat:2}}</p>
@@ -211,6 +200,20 @@ input[type=number] {
                   </button> {% endcomment %}
 
                 </div>
+
+                 <!--INPUT FIELDS-->
+
+                 <div id="inputfields">
+                  <div class="row">
+                    <div class="col-md-6 pl-3">
+                      <div class="form-floating mb-4 mb-xl-6" id="card-element">
+
+                      </div>
+                      <p id="card-error" role="alert"></p>
+                    </div>
+                  </div>
+                </div>
+
                 </form>
 
 
@@ -462,7 +465,7 @@ function text(val) {
     if (x == 0) {
       document.getElementById("inputfields").style.display = "block";
       document.getElementById("mop").className = "col-md-6";
-      document.getElementById("payment-card").style.width = "100%"
+      document.getElementById("payment-card").style.width = "100%"; 
       document.getElementById("payment-card").style.margin = "0";
       document.getElementById("amount").style.marginLeft = "0";
       document.getElementById("submit_order").style.width = "25%";

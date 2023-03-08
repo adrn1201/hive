@@ -3,6 +3,16 @@
 {% block title %}Registration - Admin{% endblock title %}
 {% block content %}
 
+<style>
+  #id_password1 {
+      width: 100%;
+  }
+  #id_password2 {
+      width: 100%;
+  }
+</style>
+
+
 <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
   <div class="container-fluid">
     <div class="navbar-wrapper">
@@ -59,7 +69,7 @@
             
             <div class="col-md-12">
               <div class="form-group">
-                <label class="font-weight-bold" style="color:#342B09;"><h6 class="font-weight-bold"6>User Name</h6></label>
+                <label class="font-weight-bold" style="color:#342B09;"><h6 class="font-weight-bold">User Name</h6></label>
                 {{form.username}}
                 {% if form.username.errors %}
                 <div style = "color:red;">
@@ -69,10 +79,17 @@
               </div>
             </div>
             
+
             <div class="col-md-12">
               <div class="form-group">
                 <label class="font-weight-bold" style="color:#342B09;"><h6 class="font-weight-bold">Password</h6></label>
-                {{form.password1}}
+                
+    
+                  {{form.password1}}
+
+                
+              
+        
                 {% if form.password1.errors %}
                 <div style = "color:red;">
                   {{form.password1.errors}} 
@@ -80,11 +97,17 @@
                 {% endif %}
               </div>
             </div>
-            
+           
+
             <div class="col-md-12">
               <div class="form-group">
-                <label style="color:#342B09;"><h6 class="font-weight-bold">Confirm Password</h6></label>
-                {{form.password2}}
+                <label class="font-weight-bold" style="color:#342B09;"><h6 class="font-weight-bold">Confirm Password</h6></label>
+                
+              
+                  {{form.password2}}
+
+                
+          
                 {% if form.password2.errors %}
                 <div style = "color:red;">
                   {{form.password2.errors}} 
@@ -92,6 +115,7 @@
                 {% endif %}
               </div>
             </div>
+
               <div class="form-group d-flex align-items-center justify-content-center">
                 <button type="submit" class="form-control btn btn-info" style="width: 100px;">Submit</button>
               </div>
@@ -102,88 +126,6 @@
   </div>
 </div>
 
-<!-- <section class="ftco-section">
-    <div class="container">
-            
-            <div class=" p-4 p-lg-10">
-              <div class="card pl-2 mx-auto">
-                <div class="card-header mx-auto">
-                  <h5 class="title">Edit Profile</h5>
-                </div>
-                <div class="card-body mx-auto">
-            
-                    <form class="mx-1 mx-md-4" method = "POST">
-                          {% csrf_token %}
-                              
-
-                      
-                      <div class="form-group rounded-9 {% if form.email.errors %} error {% endif %}">
-                        <label class="label ">Email Address</label>
-                        {{form.email}}
-                        {% if form.email.errors %}
-                        <div style = "color:red;">
-                          {{form.email.errors}} 
-                        </div>
-                        {% endif %}
-                      </div>
-
-                      
-                      
-                      <div class="form-group mb-3 {% if form.username.errors %} error {% endif %}">
-                        <label class="label">User Name</label>
-                        {{form.username}}
-                        {% if form.username.errors %}
-                        <div style = "color:red;">
-                          {{form.username.errors}} 
-                        </div>
-                        {% endif %}
-        
-                      </div>
-        
-                      <div class="form-group mb-3 {% if form.password1.errors or form.password2.errors %} error {% endif %}">
-                        <label class="label" for="password">Password</label>
-                        <div class="input-group">
-                          {{form.password1}}
-                          <div class="input-group-append">
-                            <span class="input-group-text">
-                              <i class="fa fa-eye" id="togglePassword1" style="cursor: pointer;"></i>
-                            </span>
-                          </div>
-                        </div>
-                        {% if form.password1.errors %}
-                            <div style = "color:red;">
-                              {{form.password1.errors}} 
-                            </div>
-                          {% endif %}
-                      </div>
-        
-                      <div class="form-group mb-3">
-                        <label class="label" for="password">Confirm Password</label>
-                        <div class="input-group {% if form.password1.errors or form.password2.errors %} error {% endif %}">
-                          {{form.password2}}
-                          <div class="input-group-append">
-                            <span class="input-group-text">
-                              <i class="fa fa-eye" id="togglePassword2" style="cursor: pointer;"></i>
-                            </span>
-                          </div>
-                        </div>
-                        {% if form.password2.errors %}
-                            <div style = "color:red;">
-                              {{form.password2.errors}} 
-                            </div>
-                          {% endif %}
-                      </div> 
-        
-                      <div class="message"></div>
-                      <br>
-                      <div class="form-group">
-                        <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
-                      </div>
-              </form>
-            </div>
-          </div>
-          <br>
-          <br> -->
         
           </div>
         </div>
@@ -191,5 +133,28 @@
     </div>
   </div>
 </section>
+
+<script>
+
+  const togglePassword = document.querySelector('#togglePassword');
+  const togglePassword2 = document.querySelector('#togglePassword2');
+  const passwordInput = document.querySelector('#id_password1');
+  const passwordInput2 = document.querySelector('#id_password2');
+
+  togglePassword.addEventListener('click', function (e) {
+
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    this.classList.toggle('fa-eye-slash');
+});
+
+togglePassword2.addEventListener('click', function (e) {
+
+const type = passwordInput2.getAttribute('type') === 'password' ? 'text' : 'password';
+passwordInput2.setAttribute('type', type);
+this.classList.toggle('fa-eye-slash');
+});
+
+ </script>
 
 {% endblock content%}
