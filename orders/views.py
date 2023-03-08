@@ -49,7 +49,7 @@ def generate_sales(request):
     pdf_canvas.drawString(50, 750, 'Sales Report')
 
     # Define the table columns and their widths
-    table_columns = ['Reference Number', 'Business Name','Amount','Date']
+    table_columns = ['R.O.', 'Business Name','Amount','Date']
     column_widths = [100, 100, 100, 100]
 
     # Add the table headers
@@ -82,13 +82,13 @@ def generate_sales(request):
             y_offset = 750
             pdf_canvas.showPage()
             pdf_canvas.setFont('Helvetica', 12)
-            pdf_canvas.drawString(50, 750, 'Sales Report (continued)')
             # pdf_canvas.setFont('Helvetica', 12)
             for index, column in enumerate(table_columns):
                 pdf_canvas.drawString(50 + (index * column_widths[index]), y_offset, column)
             y_offset -= 20
 
     # Add the total sales amount
+    pdf_canvas.setFont('Helvetica-Bold', 12)
     pdf_canvas.drawString(50, y_offset, 'Total')
     pdf_canvas.drawString(50 + column_widths[0], y_offset, '')
     pdf_canvas.drawString(50 + column_widths[0] + column_widths[1], y_offset, '${:.2f}'.format(total_sales))
@@ -100,6 +100,7 @@ def generate_sales(request):
 
 @login_required(login_url='login_wholesaler')
 def display_orders(request):
+
     if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
         pass
     elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):

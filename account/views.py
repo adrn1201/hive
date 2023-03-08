@@ -40,7 +40,7 @@ def login_retailer(request):
     if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
          return redirect('/')
     elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
-        return redirect('show_shop')
+        pass
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -57,5 +57,5 @@ def logout_retailer(request):
     if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
          return redirect('/')
     elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
-        return redirect('show_shop')
+        pass
     return logout_user(request, 'login_retailer')
