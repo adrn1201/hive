@@ -256,7 +256,7 @@ def checkout_session_payment (request):
             },
         ],
         mode='subscription',
-        success_url='http://localhost:8000/wholesalers/register',
+        success_url='http://localhost:8000/wholesalers/register/?session_id={CHECKOUT_SESSION_ID}',
         cancel_url='http://localhost:8000/hiveadmin/checkout',
     )
     return redirect(checkout_session.url, code=303)

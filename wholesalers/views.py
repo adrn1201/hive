@@ -11,15 +11,15 @@ from django_tenants.utils import schema_context
 from orders.models import Order, OrderItem
 from hiveadmin.models import Transaction
 from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
+from .utils import search_transaction, paginate_data
 
 user_credentials = ''
 
 def register_wholesalers(request):
-    try:
-        if request.user.is_authenticated and request.user.wholesaler:
-            return redirect('w_dashboard')
-    except:
-        return HttpResponseForbidden()
+    if request.GET.get('session_id'):
+        pass
+    else:
+        return redirect('checkout')
     
     form = CustomUserCreationForm()
 
@@ -28,9 +28,10 @@ def register_wholesalers(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
+            user.is_wholesaler = True
             global user_credentials
             user_credentials = user
-            return redirect('wholesaler_create_profile')
+            return redirect('wholesaler_create_profile', checkout=request.GET.get('session_id'))
 
         else:
             pass
@@ -38,13 +39,7 @@ def register_wholesalers(request):
     return render(request, "wholesalers/create_wholesalers.html", context)
 
 
-def wholesaler_create_profile(request):
-    try:
-        if request.user.is_authenticated and request.user.wholesaler:
-            return redirect('w_dashboard')
-    except:
-        return HttpResponseForbidden()
-
+def wholesaler_create_profile(request, checkout):
     form = WholesalerCreationForm()
     if request.method == "POST":
         form = WholesalerCreationForm(request.POST, request.FILES)
@@ -77,10 +72,11 @@ def wholesaler_create_profile(request):
 
 @login_required(login_url='login_wholesaler')
 def wholesaler_view_profile(request):
-    try:
-        request.user.wholesaler
-    except BaseException:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
+    
     wholesaler = request.user.wholesaler
     context ={'wholesaler' : wholesaler}
     return render(request, "wholesalers/wholesaler_view_profile.html", context)
@@ -88,10 +84,10 @@ def wholesaler_view_profile(request):
 
 @login_required(login_url='login_wholesaler')
 def wholesaler_edit_profile(request):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -118,10 +114,10 @@ def wholesaler_edit_profile(request):
 
 @login_required(login_url='login_wholesaler')
 def email_retailer(request):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     if(request.method == "POST"):
@@ -139,28 +135,36 @@ def email_retailer(request):
 
 @login_required(login_url='login_wholesaler')
 def transactions(request):
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)   
     
-    transactions = wholesaler.order_set.filter(Q(mode_of_payment="Credit Card/Debit Card") & Q(success=True))
-    context = {'transactions':transactions}
+    transactions, search_query = search_transaction(request)
+    custom_range, transactions = paginate_data(request, transactions, 10)
+
+    # transactions = wholesaler.order_set.filter(Q(mode_of_payment="Credit Card/Debit Card") & Q(success=True))
+    context = {'transactions':transactions, 'search_query':search_query, 'custom_range':custom_range}
     return render (request, 'wholesalers/transactions.html', context)
 
 
 @login_required(login_url='login_wholesaler')
 def transaction_details(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
-
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
+    
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-
+    
     order = Order.objects.get(id=pk)
     order_items = order.items.all()
     

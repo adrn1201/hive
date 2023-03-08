@@ -10,14 +10,10 @@ def login_wholesaler(request):
     '''
     This function is for wholesaler account authentication
     '''
-    try:
-        if request.user.is_authenticated and request.user.wholesaler:
-            
-            
-            return redirect('w_dashboard')
-    except:
-        
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
 
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -31,26 +27,20 @@ def login_wholesaler(request):
 
 @login_required(login_url='login_wholesaler')
 def logout_wholesaler(request):
-    '''
-    This function is for wholesaler account logout
-    '''
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     return logout_user(request, 'login_wholesaler')
 
 
 
 def login_retailer(request):
-    '''
-    This function is for retailer account authentication
-    '''
-    try:
-        if request.user.is_authenticated and request.user.retailer:
-            return redirect('shop_shop')
-    except:
-        return HttpResponseForbidden()
+
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+         return redirect('/')
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        pass
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -64,11 +54,8 @@ def login_retailer(request):
 
 @login_required(login_url='login_retailer')
 def logout_retailer(request):
-    '''
-    This function is for retailer account logout
-    '''
-    try:
-        request.user.retailer
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+         return redirect('/')
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        pass
     return logout_user(request, 'login_retailer')

@@ -17,6 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from retailers.models import Retailer, RetailerLogs  
 from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
 from django.http import Http404
+from reportlab.pdfgen import canvas
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -27,24 +28,96 @@ from datetime import datetime, timedelta
 
 
 @login_required(login_url='login_wholesaler')
-def display_orders(request):
+def generate_sales(request):
     try:
         request.user.wholesaler
     except:
         return HttpResponseForbidden()
+    
+     # Retrieve orders from the last 30 days
+    today = datetime.now().date()
+    thirty_days_ago = today - timedelta(days=30)
+    orders_thirty = Order.objects.filter(created__gte=thirty_days_ago)
+
+  # Create a new PDF document
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="sales_report.pdf"'
+    pdf_canvas = canvas.Canvas(response)
+
+    # Add a title to the document
+    pdf_canvas.setFont('Helvetica-Bold', 16)
+    pdf_canvas.drawString(50, 750, 'Sales Report')
+
+    # Define the table columns and their widths
+    table_columns = ['R.O.', 'Business Name','Amount','Date']
+    column_widths = [100, 100, 100, 100]
+
+    # Add the table headers
+    pdf_canvas.setFont('Helvetica-Bold', 12)
+    y_offset = 700
+    for index, column in enumerate(table_columns):
+        pdf_canvas.drawString(50 + (index * column_widths[index]), y_offset, column)
+
+    # Add the table data
+    pdf_canvas.setFont('Helvetica', 12)
+    y_offset -= 20
+    total_sales = 0
+    for order in orders_thirty:
+        ref_num = order.reference_number
+        bus_name = order.business_name
+        amnt = order.total_paid 
+        date = order.created
+
+        pdf_canvas.drawString(50, y_offset, ref_num)
+        pdf_canvas.drawString(50 +column_widths[0], y_offset, bus_name)
+        pdf_canvas.drawString(50 + column_widths[0] + column_widths[1], y_offset, '${:.2f}'.format(amnt))
+        pdf_canvas.drawString(50 +column_widths[0] + column_widths[1] + column_widths[2], y_offset, str(date))
+       
+
+        y_offset -= 20
+        total_sales += amnt
+
+        # Add a page break after every 5 rows
+        if y_offset < 50:
+            y_offset = 750
+            pdf_canvas.showPage()
+            pdf_canvas.setFont('Helvetica', 12)
+            # pdf_canvas.setFont('Helvetica', 12)
+            for index, column in enumerate(table_columns):
+                pdf_canvas.drawString(50 + (index * column_widths[index]), y_offset, column)
+            y_offset -= 20
+
+    # Add the total sales amount
+    pdf_canvas.setFont('Helvetica-Bold', 12)
+    pdf_canvas.drawString(50, y_offset, 'Total')
+    pdf_canvas.drawString(50 + column_widths[0], y_offset, '')
+    pdf_canvas.drawString(50 + column_widths[0] + column_widths[1], y_offset, '${:.2f}'.format(total_sales))
+
+    # Save the PDF document and return the response
+    pdf_canvas.save()
+    return response
+
+
+@login_required(login_url='login_wholesaler')
+def display_orders(request):
+
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
+    
+    today = datetime.now().date()
+    thirty_days_ago = today - timedelta(days=30)
+    orders_thirty = Order.objects.filter(created__gte=thirty_days_ago)
+
     orders, search_query = search_orders(request)
     custom_range, orders = paginate_orders(request, orders, 10)
-    context = {'orders': orders, 'search_query': search_query, 'custom_range':custom_range}
+    context = {'orders': orders, 'search_query': search_query, 'custom_range':custom_range,'orders_thirty': orders_thirty}
     return render(request, 'orders/orders.html', context)
 
 
 @login_required(login_url='login_retailer')
 def create_order(request):
-    try:
-        request.user.retailer
-    except:
-        return HttpResponseForbidden()
-  
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
@@ -191,10 +264,10 @@ def stripe_webhook(request):
 
 @login_required(login_url='login_wholesaler')
 def order_details(request, pk):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
 
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -290,7 +363,7 @@ def sales_report(request):
     data = {
         'total_sales': formatted_total_sales,
         'average_order_value': formatted_order_value,
-        # 'orders_by_category': list(orders_by_category)
+         
     }
 
     # Return the data as JSON

@@ -12,6 +12,25 @@
     }
 </style>
 
+<!-- <main class="formPage my-xl">
+  <div class="content-box">
+      <div class="formWrapper">
+          <h3>Enter new password</h3>
+
+          <p>Please enter your new password twice so we can verify ou typed it in correctly</p>
+          <br>
+
+          <form class="form" method="POST">
+              {% csrf_token %}
+              <input type="password" name="new_password1" autocomplete="new-password" required="" id="id_new_password1" aria-autocomplete="list">
+              <input type="password" name="new_password2" autocomplete="new-password" required="" id="id_new_password2">
+
+              <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+          </form>
+      </div>
+  </div>
+</main> -->
+
 
 <section class="ftco-section">
     <div class="container">
@@ -36,7 +55,7 @@
                 <div class="form-group mb-3">
                   <label class="label ml-3" for="id_new_password1">Password:</label>
                   <div class="input-group">
-                    <input type="password" class="form-control" placeholder="Enter your New Password" id="id_new_password1" name="id_new_password1" required>
+                    <input type="password" name="new_password1" autocomplete="new-password" required="" id="id_new_password1" aria-autocomplete="list">
                     <div class="input-group-append"> 
                       <span class="input-group-text">
                           <i class="fa fa-eye" id="togglePassword" style="cursor: pointer;"></i>
@@ -53,7 +72,7 @@
               <div class="form-group mb-3">
                 <label class="label ml-3" for="id_new_password2">Confirm Password:</label>
                 <div class="input-group">
-                  <input type="password" class="form-control" placeholder="Enter your Confirm Password" id="id_new_password2" name="id_new_password2" required>
+                  <input type="password" name="new_password2" autocomplete="new-password" required="" id="id_new_password2">
                   <div class="input-group-append"> 
                     <span class="input-group-text">
                         <i class="fa fa-eye" id="togglePassword2" style="cursor: pointer;"></i>

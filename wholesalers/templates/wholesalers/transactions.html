@@ -22,7 +22,7 @@ Retailers
 
                     <div class="ms-auto">
                         <div class="col-lg-5 d-flex mt-4">
-                            <form action="{% url 'retailers' %}" method="GET" id="searchForm">
+                            <form action="{% url 'transactions_wholesalers' %}" method="GET" id="searchForm">
                                 <div class="input-group">
                                     <span class="input-group-text text-body"><i class="fas fa-search"
                                             aria-hidden="true"></i></span>
@@ -94,7 +94,7 @@ Retailers
                             </table>
                         </div>
                     </div>
-                    {% include 'w-pagination.html' with queryset=retailers custom_range=custom_range %}
+                    {% include 'w-pagination.html' with queryset=transactions custom_range=custom_range %}
                 </div>
             </div>
         </div>
