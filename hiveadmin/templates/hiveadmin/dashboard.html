@@ -76,26 +76,26 @@
                             </div>
 
                         </div>
-                        <div class="card-body ps-lg-5">
+                        <div class="card-body ps-lg-2">
                             <div class="table-responsive text-center">
                                 <table class="table">
                             <thead class=" text-primary">
-                                <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
+                                <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
                                     Reference No.
                                   </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
+                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
                                     Business Name
                                   </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
+                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
                                     Payment Method
                                   </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
+                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
                                     Amount
                                   </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
+                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
                                     Date
                                   </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
+                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
                                     Payment Status
                                   </th>
                               
@@ -135,18 +135,20 @@
                 </div>
             </div>
 
+        </div>
+
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
+                        <a class="btn btn-primary btn-sm ms-auto rounded-9 w-30" href="{%url 'list_wholesalers'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Wholesalers</a>
+                    </div>
+
                 </div>
-                <div class="col-md-5">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between">
-                                <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
-                                <a class="btn btn-primary btn-sm ms-auto rounded-9 w-30" href="{%url 'list_wholesalers'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Wholesalers</a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive text-center">
-                                <table class="table">
+                <div class="card-body ps-lg-2">
+                    <div class="table-responsive text-center">
+                        <table class="table">
                             <thead class=" text-primary">
                                 <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
                                     Business Name
@@ -162,9 +164,7 @@
                             <tbody>
                                 
                                 {% for wholesaler in wholesalers|slice:"5" %}
-                                
                                 <tr>
-                                    <br>
                                   <td>
                                     
                                     {{ wholesaler.business_name }}
@@ -183,15 +183,16 @@
                                 {%endfor%}
                             </tbody>
                         </table>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+
+</div>
     </div>
 </div>
 </div>
 </div>
-</div>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js">
 </script>
