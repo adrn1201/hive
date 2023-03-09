@@ -1,128 +1,62 @@
 {% load static %}
-<!-- <style>
-   @media (min-width: 992px){
-      .page-footer{
-          position:absolute;
-          right: 0;
-          bottom: 0;
-          left: 0;
-      }
-   }
-   
-   #image{
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: solid;
-        border-color:#404040;
-        margin-right: 100%;
-       
-    }
-   </style> -->
-<!-- 
-<!-
-<footer class="bg-light">
-    <div class="container-fluid row"> 
-          <div class="col-md-4">
-              <div class="mb-5 full">
-                 <div class="logo_footer">
-                   <a href="#"><img width="100" src="{{ request.user.retailer.wholesaler.wholesaler_image.url }}" alt="#" id="image"></a>
-                 </div>
-                 <div class="information_f">
-                   <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> {{request.user.retailer.wholesaler.address}}, {{request.user.retailer.wholesaler.region}}, {{request.user.retailer.wholesaler.city}}, Barangay {{request.user.retailer.wholesaler.barangay}}
-                  </p>
-                   <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>PHONE:</strong> {{ request.user.retailer.wholesaler.contact_number }}</p>
-                   <p class="text-black"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong> {{request.user.email}}</p>
-                 </div>
-              </div>
-          </div>
-
-          <div class="col-md-8">
-            <div class="row ms-auto"> 
-                     <div class="col-md-3 ms-auto">
-                        <div class="widget_menu text-black">
-                          <h3><span class="fas fa-shopping-bag"></span>&nbsp; Shop</h3>
-                          <ul class="text-black">
-                              <li><a href="{% url 'show_shop' %}"><p class="text-black">Products</p></a></li>
-                              <li ><a href="{% url 'about_us' %}"><p class="text-black">Contact Us</p></a></li>
-                              <li><a href="{% url 'show_cart' %}"><p class="text-black">Cart</p></a></li>
-                          </ul>
-                        </div>
-                    </div>
-               <div class="col-md-3">
-                  <div class="widget_menu text-black">
-                     <h3><span class="fas fa-user-alt"></span>&nbsp;Account</h3>
-                     <ul>
-                        <li><a href="{% url 'retailer_view_profile' %}"><p class="text-black">Profile</p></a></li>
-                        <li><a href="{% url 'dashboard_retailer' %}"><p class="text-black">Orders</p></a></li>
-                     </ul>
-                  </div>
-
-               </div>
-
-            </div>
-
-   </div> 
-</div> 
-<br>
-<br> 
-
-</footer>   -->
-
    <footer style="background-color: #deded5;">
-    
-      <div class="row">
-        <div class="col-md-4">
+   <div class="p-3">
+     <div class="row">
+      <div class="col-md-4">
          <div class="container-fluid">
          <div class="mb-5 full">
             <h5 class="mb-3" style="letter-spacing: 2px; font-weight: bolder; color: black;">{{request.user.retailer.wholesaler.business_name}}</h5>
             <div class="information_f">
-              <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> {{request.user.retailer.wholesaler.address}}, {{request.user.retailer.wholesaler.region}}, {{request.user.retailer.wholesaler.city}}, Barangay {{request.user.retailer.wholesaler.barangay}}
-             </p>
-              <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>PHONE:</strong> {{ request.user.retailer.wholesaler.contact_number }}</p>
-              <p class="text-black"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong> {{request.user.email}}</p>
+            <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> {{request.user.retailer.wholesaler.address}}, {{request.user.retailer.wholesaler.region}}, {{request.user.retailer.wholesaler.city}}, Barangay {{request.user.retailer.wholesaler.barangay}}
+            </p>
+            <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>PHONE:</strong> {{ request.user.retailer.wholesaler.contact_number }}</p>
+            <p class="text-black"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong> {{request.user.email}}</p>
             </div>
          </div>
       </div>
-     </div>
-     <div class="col-md-8">
-      <div class="row ms-auto"> 
-               <div class="col-md-3 ms-auto">
-                  <div class="widget_menu text-black">
-                     <h5 style="letter-spacing: 2px; font-weight: bolder; color: black;"><span class="fas fa-shopping-bag"></span>&nbsp; opening hours</h5>
-                    <ul class="text-black">
-                        <li><a href="{% url 'show_shop' %}"><p class="text-black">Products</p></a></li>
-                        <li ><a href="{% url 'about_us' %}"><p class="text-black">Contact Us</p></a></li>
-                        <li><a href="{% url 'show_cart' %}"><p class="text-black">Cart</p></a></li>
-                    </ul>
+   </div>
+
+
+       <div class="col-md-8">
+            <div class="row ms-auto"> 
+                     <div class="col-md-3 ms-auto">
+                        <div class="widget_menu text-black">
+                           <h5 style="letter-spacing: 2px; font-weight: bolder; color: black;"><span class="fas fa-shopping-bag"></span>&nbsp; opening hours</h5>
+                        <ul class="text-black">
+                              <li><a href="{% url 'show_shop' %}"><p class="text-black">Products</p></a></li>
+                              <li ><a href="{% url 'about_us' %}"><p class="text-black">Contact Us</p></a></li>
+                              <li><a href="{% url 'show_cart' %}"><p class="text-black">Cart</p></a></li>
+                        </ul>
+                        </div>
                   </div>
-              </div>
-              
-         <div class="col-md-3">
-            <div class="container">
-            <div class="widget_menu text-black">
-               <h5 style="letter-spacing: 2px; font-weight: bolder; color: black;"><span class="fas fa-user-alt"></span>&nbsp; Account</h5>
-               <ul>
-                  <li><a href="{% url 'retailer_view_profile' %}"><p class="text-black">Profile</p></a></li>
-                  <li><a href="{% url 'dashboard_retailer' %}"><p class="text-black">Orders</p></a></li>
-               </ul>
+                        
+                     <div class="col-md-3">
+                     
+                        <div class="widget_menu text-black">
+                           <h5 style="letter-spacing: 2px; font-weight: bolder; color: black;"><span class="fas fa-user-alt"></span>&nbsp; Account</h5>
+                           <ul>
+                              <li><a href="{% url 'retailer_view_profile' %}"><p class="text-black">Profile</p></a></li>
+                              <li><a href="{% url 'dashboard_retailer' %}"><p class="text-black">Orders</p></a></li>
+                           </ul>
+                        </div>
+
+                     </div>
             </div>
-
          </div>
-      </div>
+     </div>
+   </div>
+   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+     © 2020 Copyright:
+     <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+   </div>
+   <!-- Copyright -->
+ </footer>
+ 
+</div>
+<!-- End of .container -->
 
-      </div>
 
-</div> 
-      </div>
-    
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      © 2020 Copyright:
-      <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-    </div>
-  
-  </footer>
-  
+   
 
 
 
