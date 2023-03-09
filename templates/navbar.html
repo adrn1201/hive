@@ -10,7 +10,6 @@
     margin-bottom: auto;
     margin-top: auto;
     border-radius: 50px;
-    border-color:black;
  }
  </style>
 
@@ -23,8 +22,10 @@
             <img src="{% if request.user.wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ request.user.wholesaler.wholesaler_image.url }}{% endif %}"
                  alt="main_logo" id="image1">
         </a>
-        <div class="" style="margin-top: 26px; overflow: hidden; text-overflow: ellipsis;">            
-            <b><p style="word-wrap: break-word;" class="font-weight-bold">{{ request.user.wholesaler.business_name }}</p></b>
+        <div style="margin-top: 22px; overflow: hidden; text-overflow: ellipsis;"> 
+            <a href="{% url 'w_dashboard' %}" style="word-wrap: break-word; color: black;" class="font-weight-bold">          
+            <h6>{{ request.user.wholesaler.business_name }}</h6>
+            </a>
         </div>
     </div>
     <hr class="horizontal dark mt-0">

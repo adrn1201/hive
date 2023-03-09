@@ -26,8 +26,8 @@ class Order(models.Model):
     is_received = models.BooleanField(default=False)
     created = models.DateField(auto_now_add=True)
     
-    class Meta: 
-        ordering = ['-created']
+    # class Meta: 
+    #     ordering = ['-created']
     
 def pre_save_create_order_id(sender, instance, *args, **kwargs):
     if not instance.reference_number:

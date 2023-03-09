@@ -77,8 +77,8 @@ def search_transaction(request):
     # transactions = Transaction.objects.distinct().filter(Q(business_name__icontains=search_query) |
     #                                                 Q(payment_status__icontains=search_query))
     
-    transactions = wholesaler.order_set.filter(Q(mode_of_payment__icontains=search_query) 
-                                                    | Q(success__icontains=search_query)
-                                                    | Q(business_name__icontains=search_query))
+    transactions = wholesaler.order_set.filter(Q(mode_of_payment="Credit Card/Debit Card") &
+                                                    (Q(success__icontains=search_query)
+                                                    | Q(business_name__icontains=search_query)))
 
     return transactions, search_query

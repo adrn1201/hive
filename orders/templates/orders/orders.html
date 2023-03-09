@@ -1,5 +1,5 @@
 {% extends 'main.html' %}
-{% block title %}{% endblock title %}
+{% block title %}Orders{% endblock title %}
 
 {% block content %}
 
@@ -36,7 +36,7 @@ p {
                                         <option value="completed" {% if request.GET.category and request.GET.category == "completed" %}selected{% endif %}>Completed</option>
                                       </select>
                                 </div>
-                                <a href="{% url 'sales_report' %}" class="mt-4 btn btn-primary">Generate Sales Report</a>
+                                <a href="{% url 'sales_report' %}" class="mt-4 btn btn-primary"><i class='fas fa-chart-area'></i> Generate Sales Report</a>
                                 <div id="loading-modal" style="display:none">
                                     <div class="loader"></div>
                                     <p>Please wait, generating PDF...</p>
@@ -57,7 +57,7 @@ p {
                                     <tr>
                                         <th
                                             class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7">
-                                            Reference Number</th>
+                                            Ref No.</th>
                                         <th
                                             class="text-center text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">
                                             Business Name</th>

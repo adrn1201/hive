@@ -1,7 +1,7 @@
 {% extends 'main2.html' %}
 {% load static %}
 
-{% block title %}Shop{% endblock title %}
+{% block title %}Cart{% endblock title %}
 
 {% block content %}
 
@@ -344,11 +344,12 @@ input[type=number] {
           return result.json();
         })
         .then(function (data) {
-          payWithCard(stripe, card, data.clientSecret);
-        })
-          .then(function (data) {
+          const errorMsg = document.querySelector("#card-error");
+          if(!errorMsg.innerText){
+            payWithCard(stripe, card, data.clientSecret);
             e.target.submit();
-          });
+          }
+        })
       } else {
         e.target.submit();
       }

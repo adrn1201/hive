@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 
-{% block title %}{% endblock title %}
+{% block title %}Category{% endblock title %}
 
 {% block content %}
 <style>
@@ -58,9 +58,8 @@
 
                                     </td>
                                     <td class="text-center">
-                                        <form method = "POST" action="{%url 'delete-category' category.id%}" class="deleteCategory" value = "{{category.name}}" >
+                                        <form method = "POST" action="{%url 'delete-category' category.id%}" class="deleteCategory" value = "{{category.name}}" data-category="{{category.name}}">
                                             {% csrf_token %}
-                                            <input type="hidden" name="{{category.category_id}}" value="{{category.name}}"/>
                                             <button type = "submit" class="btn btn-link text-danger text-s text-gradient px-3 mb-0"><i class="far fa-trash-alt me-2"></i>Delete</button>
                                         </form>
                                     </td>
@@ -82,7 +81,7 @@
     for (const item of deleteItem) {
         item.addEventListener('click', (e) => {
           e.preventDefault()
-          let product = e.target.dataset.value
+          let product = item.dataset.category
           swal({
       title: `Are you sure you want to delete? ${product}`,
       text: "This category will be removed to your inventory",

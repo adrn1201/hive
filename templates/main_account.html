@@ -7,6 +7,11 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% if request.path != '/hiveadmin/login/'%}
+        <link rel="icon" type="image/png" href="{% if wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ wholesaler.wholesaler_image.url }}{% endif %}">
+    {%else%}
+        <link rel="icon" type="image/png" href="{% static 'assets2/images/hiveLogo.png'%}">
+    {%endif%}
 
 	<!-- <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 

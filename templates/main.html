@@ -6,7 +6,7 @@
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-            <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
+            <link rel="icon" type="image/png" href="{% if request.user.wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ request.user.wholesaler.wholesaler_image.url }}{% endif %}">
 
             <title>
                 {% block title %}{% endblock title %}

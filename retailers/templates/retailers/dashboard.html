@@ -1,6 +1,6 @@
 {% extends 'main2.html' %}
 {% load static %}
-{% block title %}{% endblock title %}
+{% block title %}My orders{% endblock title %}
 
 {% block content %}
     <br>
@@ -40,7 +40,6 @@
                                             <th class="text-center">No. of
                                                 Products</th>
                                             <th class="text-center">Status</th>
-                                            <th class="text-center">Details</th>
                                             <th class="text-center"></th>
                                           
                                            
@@ -62,31 +61,31 @@
                                             </td>
                                             <td class="text-center">
                                                 {%if order.status == "pending"%}
-                                                <span class="badge badge-primary">{{ order.status }}</span> 
+                                                <span class="badge badge-warning" style="font-weight: 1000;">{{ order.status }}</span> 
                                                  {% endif %}
 
                                                 {%if order.status == "preparing"%}
-                                                <span class="badge badge-info">{{ order.status }}</span> 
+                                                <span class="badge badge-info" style="font-weight: 1000;">{{ order.status }}</span> 
                                                 {% endif %}
 
                                                 {%if order.status == "shipped"%}
-                                                <span class="badge badge-warning">{{ order.status }}</span> 
+                                                <span class="badge badge-primary" style="font-weight: 1000;">{{ order.status }}</span> 
                                                 {% endif %}
 
                                                 {%if order.status == "completed"%}
-                                                <span class="badge badge-success">{{ order.status }}</span>
+                                                <span class="badge badge-success" style="font-weight: 1000;">{{ order.status }}</span>
                                                 {% endif %}
                                                 
                                             </td>
                                             <td class="text-center">
-                                                <a  href="{% url 'ordered_product' order.id %}">DETAILS</a>
+                                                <a  href="{% url 'ordered_product' order.id %}">Details</a>
                                             </td>
                                             
                                             {%if order.status == "shipped"%}
                                             <td class="text-center">
                                                 <form method="POST" action="{% url 'order_received' order.id %}">
                                                     {% csrf_token %}
-                                                <button type="submit" class="badge btn-success">Order Received</button>
+                                                <button type="submit" class="badge btn-success" style="font-weight: 1000;">Order Received</button>
                                                 </form>
                                             </td>
                                             {% endif %}
