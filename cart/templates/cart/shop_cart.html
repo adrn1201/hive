@@ -144,7 +144,7 @@ input[type=number] {
                 {% csrf_token %}
                 <div class="col-md-6 mb-4 mb-md-0 py-1" id="mop">
 
-                  <div class="d-flex flex-row pb-4">
+                  <div class="d-flex  pb-4">
                     <div class="d-flex align-items-center pe-2 ml-3 mt-3">
                       <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="stripe-payment-element"
                         value="Credit Card/Debit Card" aria-label="..." onclick="text(0)" checked />
@@ -155,7 +155,7 @@ input[type=number] {
                       </p>
                     </div>
                   </div>
-                  <div class="d-flex flex-row">
+                  <div class="d-flex ">
                     <div class="d-flex align-items-center pe-2 ml-3 mt-3">
                       <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="cash-on-delivery"
                         value="Cash on Delivery" aria-label="..." onclick="text(1)" />
@@ -167,65 +167,53 @@ input[type=number] {
                     </div>
                   </div>
                 </div>
+                
+                <div class="col-md-6 mb-4 mb-md-0 py-1" id="mop">
 
-              
-
-                <!-- AMOUNT -->
-
-                <div class="col-md-6" id="amount">
-                  <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
-                    <p class="mb-2">Subtotal</p>
-                    <p id="subtotal" class="mb-2">{{cart_subtotal|floatformat:2}}</p>
-                  </div>
-                  <div id="" class="d-flex justify-content-between" style="font-weight: 500;">
-                    <p class="mb-0">Shipping</p>
-                    <p class="mb-0">50.00</p>
-                  </div>
-
-                  <hr class="my-4">
-
-                  <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
-                    <p class="mb-2">Total</p>
-                    <p id="total" class="mb-2">{{cart_total|floatformat:2}}</p>
-                  </div>
-                  <button id="submit_order">
-                    <div class="spinner hidden" id="spinner" class="btn btn-primary btn-block btn-lg mt-3"></div>
-                    <span id="button-text">Checkout</span>
-                  </button>
-                    <p class="result-message hidden" style="color:green;">
-                      Payment succeeded
-                    </p>
-                  {% comment %} <button type="submit" id="checkout-button" class="btn btn-primary btn-block btn-lg mt-3">
-                    Checkout
-                  </button> {% endcomment %}
-
-                </div>
-
-                   <!--INPUT FIELDS-->
-
-                   <div id="inputfields">
+                  <div id="inputfields">
                     <div class="col">
-                      <div class="col-md-6">
+                      
                         <div class=" mb-4 mb-xl-6" id="card-element">
                         </div>
                         <p id="card-error" role="alert"></p>
-                      </div>
+                      
                     </div>
                   </div>
+                  <br>
+                  <div id="amount">
+                    <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                      <p class="mb-2">Subtotal</p>
+                      <p id="subtotal" class="mb-2">{{cart_subtotal|floatformat:2}}</p>
+                    </div>
+                    <div id="" class="d-flex justify-content-between" style="font-weight: 500;">
+                      <p class="mb-0">Shipping</p>
+                      <p class="mb-0">50.00</p>
+                    </div>
+  
+                    <hr class="my-4">
+  
+                    <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                      <p class="mb-2">Total</p>
+                      <p id="total" class="mb-2">{{cart_total|floatformat:2}}</p>
+                    </div>
+                    <button id="submit_order">
+                      <div class="spinner hidden" id="spinner" class="btn btn-primary btn-block btn-lg mt-3"></div>
+                      <span id="button-text">Checkout</span>
+                    </button>
+                      <p class="result-message hidden" style="color:green;">
+                        Payment succeeded
+                      </p>
+                    {% comment %} <button type="submit" id="checkout-button" class="btn btn-primary btn-block btn-lg mt-3">
+                      Checkout
+                    </button> {% endcomment %}
+  
+                  </div>
+                </div>
                 
 
                 </form>
 
-                <!--INPUT FIELDS-->
-
-                <div class="col-9 mt-3" id="inputfields">
-                  <div class="row">
-                    <div class="col-12 col-xl-6">
-                      </div>
-                      <p id="card-error" role="alert"></p>
-                    </div>
-                  </div>
-                </div>
+                
 
 
             {% else %}
@@ -443,7 +431,7 @@ function text(val) {
       document.getElementById("amount").style.marginLeft = "0";
       document.getElementById("submit_order").style.width = "25%";
     } else {
-      document.getElementById("amount").className = "col-md-6";
+      document.getElementById("amount").className = "col-md-12";
       document.getElementById("mop").className = "col-md-6";
       document.getElementById("inputfields").style.display = "none";
       document.getElementById("payment-card").style.width = "100%";
