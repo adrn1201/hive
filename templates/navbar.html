@@ -1,6 +1,7 @@
 {% load static %}
 
 <style>
+{% if request.user.wholesaler.wholesaler_image == 'products/default.jpg' %}
     #image1{
     width: 28px;
     height: 30px;
@@ -11,6 +12,18 @@
     margin-top: auto;
     border-radius: 50px;
  }
+ {%else%}
+ #image1{
+    width: 28px;
+    height: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-top: auto;
+    border-radius: 50px;
+ }
+ {%endif %}
  </style>
 
 <div class="min-height-300 {% if not request.user.wholesaler.color %}bg-primary{% endif %} position-absolute w-100"

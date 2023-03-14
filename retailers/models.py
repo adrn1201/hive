@@ -207,15 +207,15 @@ class Retailer(models.Model):
     ]
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.SET_NULL, related_name='retailers', null=True)
-    business_name = models.CharField(max_length=255)
-    address = models.CharField(max_length=255, null=False, blank=True)
-    barangay = models.CharField(max_length=255, choices=Barangay, blank=True)
-    region = models.CharField(max_length=255, default="Zamboanga Peninsula", editable=False)
-    city = models.CharField(max_length=255, default="Zamboanga City", editable=False)
+    business_name = models.CharField(max_length=255, null=False, blank=False)
     contact_name = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=50)
-    is_active = models.BooleanField(default=False)
     retailer_image = models.ImageField(default='products/default.jpg', upload_to="products/")
+    address = models.CharField(max_length=255)
+    barangay = models.CharField(max_length=255, choices=Barangay)
+    region = models.CharField(max_length=255, default="Zamboanga Peninsula", editable=False)
+    city = models.CharField(max_length=255, default="Zamboanga City", editable=False)
+    is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta: 

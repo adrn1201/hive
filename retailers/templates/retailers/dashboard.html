@@ -3,6 +3,11 @@
 {% block title %}My orders{% endblock title %}
 
 {% block content %}
+<style>
+    .pagination1{
+       color:black;
+    }
+ </style>
     <br>
     <br>
     <br>
@@ -21,7 +26,7 @@
                         </div>
 
                         <div class = "col-4">
-                            <a class ="float-right btn btn-info btn-sm mx-auto" href="{% url 'dashboard_retailer' %}">View All Orders</a>
+                            <a class ="float-right btn btn-info btn-sm mx-auto" href="{% url 'dashboard_retailer' %}"><i class="fas fas fa-eye"></i> &nbsp;View Orders</a>
                        </div>
 
                         </div>
@@ -31,17 +36,17 @@
                                 <table class="table ">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">Reference
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Reference
                                                 No.</th>
-                                            <th class="text-center">Total Amount
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Total Amount
                                             </th>
-                                            <th class="text-center">Mode of
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Mode of
                                                 Payment</th>
-                                            <th class="text-center">No. of
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">No. of
                                                 Products</th>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center"></th>
-                                          
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Status</th>
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;"></th>
+                                            <th></th>
                                            
                                         </tr>
                                     </thead>
@@ -78,14 +83,14 @@
                                                 
                                             </td>
                                             <td class="text-center">
-                                                <a  href="{% url 'ordered_product' order.id %}">Details</a>
+                                                <a  href="{% url 'ordered_product' order.id %}"><i class="fas fa-pencil-alt"></i>&nbsp;Details</a>
                                             </td>
                                             
                                             {%if order.status == "shipped"%}
                                             <td class="text-center">
                                                 <form method="POST" action="{% url 'order_received' order.id %}">
                                                     {% csrf_token %}
-                                                <button type="submit" class="badge btn-success" style="font-weight: 1000;">Order Received</button>
+                                                <button type="submit" class="btn p-2" >Order Received</button>
                                                 </form>
                                             </td>
                                             {% endif %}

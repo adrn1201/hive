@@ -4,15 +4,24 @@
 
 {% block content %}
 <style>
-  #image{
-   width: 200px;
-   height: 200px;
-   border-radius: 50%;
-   border: solid;
-   border-color:#404040;
-   margin: 0 auto;
-   display: block;
+
+{% if wholesaler.wholesaler_image == 'products/default.jpg' %}
+   #image{
+    width: 170%;
+    height: 45%;
+    object-position: bottom 12px right 40px;
 }
+{%else%}
+#image{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: solid;
+    border-color:#404040;
+    margin: 0 auto;
+    display: block;
+}
+{%endif %}
 </style>
 <section class="ftco-section">
   <div class="container">
@@ -20,7 +29,7 @@
       <div class="col-md-12 col-lg-10">
         <div class="wrap d-md-flex">
           <div class="wrap d-md-flex">
-            <div class="p-4 p-lg-5 text-center d-flex align-items-center order-md-last" style="{% if wholesaler.color %}background-color:{{wholesaler.color}}{% endif %}; width: 50%">
+            <div class="p-4 p-lg-5 text-center d-flex align-items-center order-md-last" style="{% if wholesaler.color %}background-color:{{wholesaler.color}}{%else%}background-color: #FDE281;{% endif %}; width: 50%">
             <img src="{% if wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ wholesaler.wholesaler_image.url }}{% endif %}" id="image">
           </div>
           <div class="login-wrap p-4 p-lg-5">
@@ -79,4 +88,37 @@
 });
 
  </script>
+
+<script>
+  const username = document.querySelector('#username');
+  const password = document.querySelector('#password');
+  const message = document.querySelector('.message');
+  
+  let capsLockAlertShown = false;
+  
+  username.addEventListener('keyup', function (e) {
+  if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
+      const alertBox = document.createElement('div');
+      alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
+      message.appendChild(alertBox);
+      capsLockAlertShown = true;
+  } else if (!e.getModifierState('CapsLock')) {
+      message.innerHTML = '';
+      capsLockAlertShown = false;
+  }
+  });
+  
+  password.addEventListener('keyup', function (e) {
+  if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
+      const alertBox = document.createElement('div');
+      alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
+      message.appendChild(alertBox);
+      capsLockAlertShown = true;
+  } else if (!e.getModifierState('CapsLock')) {
+      message.innerHTML = '';
+      capsLockAlertShown = false;
+  }
+  });
+
+</script>
 {% endblock %}

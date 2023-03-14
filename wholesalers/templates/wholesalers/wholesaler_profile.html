@@ -23,28 +23,41 @@
                 <label class="label">Business Name</label>
                 {{form.business_name}}
               </div>
+              <p id="error1" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
               <div class="form-group mb-3">
                 <label class="label">Contact Name</label>
                 {{form.contact_name}}
               </div>
+              <p id="error2" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
               <div class="form-group mb-3">
                 <label class="label">Contact Number</label>
                 {{form.contact_number}}
                 <div class="message"></div>
               </div>
+              <p id="error3" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
               <div class="form-group mb-3">
                 <label class="label">Upload Logo</label>
                 {{form.wholesaler_image}}
               </div>
+
               <hr>
-              <div class="form-group mb-3">
-                <label class="label">Barangay</label>
-                {{form.barangay}}
-              </div>
+
               <div class="form-group mb-3">
                 <label class="label">Address</label>
                 {{form.address}}
               </div>
+              <p id="error4" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
+              <div class="form-group mb-3">
+                <label class="label">Barangay</label>
+                {{form.barangay}}
+              </div>
+              <p id="error5" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
+
               <div class="form-group mb-3">
                 <label class="label">Region</label>
                 <b><p style="color:black;">Zamboanga Peninsula</p></b>
@@ -66,8 +79,85 @@
 </section>
 
   <script>
-
     const form = document.querySelector('#wholesaler_profile');
+    const businessName = document.getElementById('id_business_name');
+    const contactName = document.getElementById('id_contact_name');
+    const contactNum = document.getElementById('id_contact_number');
+    const address = document.getElementById('id_address');
+    const barangay =  document.getElementById("id_barangay"); 
+    barangay.removeAttribute("required")
+
+    const error1 = document.querySelector('#error1');
+    const error2 = document.querySelector('#error2');
+    const error3 = document.querySelector('#error3');
+    const error4 = document.querySelector('#error4');
+    const error5 = document.querySelector('#error5');
+
+    form.addEventListener('submit', function (e){
+      e.preventDefault();
+      if (businessName.value === ''){
+        businessName.style.borderColor = "red";
+        error1.innerText = '• Please enter your business name';
+      } 
+      else if(contactName.value === '' ){
+        contactName.style.borderColor = "red";
+        error2.innerText = '• Please enter your contact name';
+      }
+      else if(contactNum.value === ''){
+        contactNum.style.borderColor = "red";
+        error3.innerText = '• Please enter your contact number';
+      }
+      else if( address.value === ''){
+        address.style.borderColor = "red";
+        error4.innerText = '• Please enter your address';
+
+      }else if( barangay.value === '' ){
+        barangay.style.borderColor = "red";
+        error5.innerText = '• Please choose a barangay address';
+      }
+      else{
+          this.submit();
+      }
+
+      if(businessName.value === '' && contactName.value === '' && contactNum.value === '' && address.value === '' && barangay.value === ''){
+        barangay.style.borderColor = "red";
+        address.style.borderColor = "red";
+        contactNum.style.borderColor = "red";
+        contactName.style.borderColor = "red";
+        businessName.style.borderColor = "red";
+
+        error1.innerText = '• Please enter your business name';
+        error2.innerText = '• Please enter your contact name';
+        error3.innerText = '• Please enter your contact number';
+        error4.innerText = '• Please enter your address';
+        error5.innerText = '• Please choose a barangay address';
+
+
+      }
+
+      if (businessName.value !== ''){
+        businessName.style.borderColor = "";
+        error1.innerText = '';
+      } 
+      else if(contactName.value !== '' ){
+        contactName.style.borderColor = "";
+        error2.innerText = '';
+      }
+      else if(contactNum.value !== ''){
+        contactNum.style.borderColor = "";
+        error3.innerText = '';
+      }
+      else if( address.value !== ''){
+        address.style.borderColor = "";
+        error4.innerText = '';
+
+      }else if( barangay.value !== '' ){
+        barangay.style.borderColor = "";
+        error5.innerText = '';
+      }
+  });
+
+
     const message = document.querySelector('.message');
     let alertShown = false; // flag variable
     
@@ -78,13 +168,12 @@
 
         if (number.value.match(format)) {
             message.innerHTML = '';
-            console.log('Form submitted successfully');
             return true;
         } else {
             if (!alertShown) { // show message only if it hasn't been shown before
                 document.querySelector('#id_contact_number').style.borderColor = "red";
                 const alertBox = document.createElement('div');
-                alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Please enter an 11-digit phone number</p>';
+                alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; "> • Please enter an 11-digit phone number</p>';
                 message.appendChild(alertBox);
                 alertShown = true; // set the flag variable to true
             }

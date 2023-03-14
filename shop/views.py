@@ -15,7 +15,7 @@ def show_shop(request):
     
     categories = wholesaler.category_set.all()
     products, search_query = search_products(request)
-    custom_range, products = paginate_products(request, products, 10)
+    custom_range, products = paginate_products(request, products, 9)
     context = {'categories':categories, 'products': products, 'search_query': search_query, 'custom_range':custom_range}
     return render(request, "shop/shop.html", context)
 

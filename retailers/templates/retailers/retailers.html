@@ -15,12 +15,9 @@ Retailers
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <div class="d-flex card mb-0">
-
-                <div class="card-header pb-0">
-
-                    <div class="ms-auto">
-                        <div class="col-lg-5 d-flex mt-4">
+            <div class="d-flex card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex align-items-center">
                             <form action="{% url 'retailers' %}" method="GET" id="searchForm">
                                 <div class="input-group">
                                     <span class="input-group-text text-body"><i class="fas fa-search"
@@ -39,16 +36,15 @@ Retailers
                                     {% if request.GET.category and request.GET.category == "False" %}selected{% endif %}>
                                     Inactive</option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="card-header pb-0">
-                        <div class="d-flex align-items-center">
-                            <h6 class="mb-0">Manage Retailers</h6>
-                            <button type="button" class="btn-ts btn btn-primary btn-sm ms-auto" data-bs-toggle="modal"
-                            data-bs-target="#RegisterRetailer"><i class="fa fa-plus"></i>&nbsp; Register Retailer</button>
-                            &nbsp; &nbsp; 
-                            <a class="btn-ts btn btn-primary btn-sm me-2" href="{%url 'retailer_activity_logs'%}"><i class="fa fa-history"></i>&nbsp; Register logs 
-                            </a>
+                            <div class="ms-auto mt-3">
+                                <div class="d-flex">
+                                    <button type="button" class="btn-ts btn btn-primary btn-sm ms-auto" data-bs-toggle="modal"
+                                    data-bs-target="#RegisterRetailer"><i class="fa fa-plus"></i>&nbsp; Register Retailer</button>
+                                    &nbsp; &nbsp; 
+                                    <a class="btn-ts btn btn-primary btn-sm me-2" href="{%url 'retailer_activity_logs'%}"><i class="fa fa-history"></i>&nbsp; Register logs 
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -188,6 +184,7 @@ Retailers
             </div>
         </div>
     </div>
+
        
 
 
