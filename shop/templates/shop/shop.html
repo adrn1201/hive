@@ -22,7 +22,7 @@
                      <div class="form-group pl-4 has-search input-group">
                         <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category">
                         <div class="input-group-append">                           
-                           <button class="input-group-text fa fa-search" value="{{ search_query }}" type="submit"></button>
+                           <button class="input-group-text fa fa-search" value="{{ search_query }}" type="submit" style="background-color: #000000; color: white !important;"></button>
                         </div>
                      </div>
 
@@ -72,6 +72,7 @@
          {% endfor %}
 
       </div>
+      <br><br>
       {% include 'r-pagination.html' with queryset=products custom_range=custom_range %}
    </div>
 </section>

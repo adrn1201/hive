@@ -5238,7 +5238,7 @@ fieldset:disabled .btn {
 .page-link.active,
 .active>.page-link {
     z-index: 3;
-    color: var(--bs-pagination-active-color);
+    color: white !important;
     background-color: #5e72e4;
     /* border-color: var(--bs-pagination-active-border-color); */
 }

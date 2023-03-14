@@ -173,7 +173,21 @@ Dashboard
                                 </td>
                                 <td>
                                     <div class="text-center">
-                                        <p class=" mb-0">{{order.status}}</p>
+                                        {%if order.status == "pending"%}
+                                        <span class="badge badge-sm bg-primary">{{order.status}}</span> 
+                                        {% endif %}
+
+                                        {%if order.status == "preparing"%}
+                                        <span class="badge badge-sm bg-info">{{order.status}}</span> 
+                                        {% endif %}
+
+                                        {%if order.status == "shipped"%}
+                                        <span class="badge badge-sm bg-warning">{{order.status}}</span> 
+                                        {% endif %}
+
+                                        {%if order.status == "completed"%}
+                                        <span class="badge badge-sm bg-success">{{order.status}}</span> 
+                                        {% endif %}
                                     </div>
                                 </td>
                                 <td class="align-middle text-sm">

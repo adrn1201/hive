@@ -10,27 +10,14 @@
     #id_new_password2 {
         width: 50%;
     }
+
+    input.error {
+      border-color: red;
+    }
+    .input-group-append.error {
+      border-color: red;
+    }
 </style>
-
-<!-- <main class="formPage my-xl">
-  <div class="content-box">
-      <div class="formWrapper">
-          <h3>Enter new password</h3>
-
-          <p>Please enter your new password twice so we can verify ou typed it in correctly</p>
-          <br>
-
-          <form class="form" method="POST">
-              {% csrf_token %}
-              <input type="password" name="new_password1" autocomplete="new-password" required="" id="id_new_password1" aria-autocomplete="list">
-              <input type="password" name="new_password2" autocomplete="new-password" required="" id="id_new_password2">
-
-              <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
-          </form>
-      </div>
-  </div>
-</main> -->
-
 
 <section class="ftco-section">
     <div class="container">
@@ -48,44 +35,34 @@
 
               <h2 class="text-dark font-weight-bold">Enter new password</h2>
               <p class=" text-md text-primary font-weight-bold">Please enter your new password twice so we can verify you typed it in correctly</p>
-            <form class="form" method="POST">
+            <form class="form" method="POST" id="form-reset">
                 
                 {% csrf_token %}
                 
                 <div class="form-group mb-3">
                   <label class="label ml-3" for="id_new_password1">Password:</label>
                   <div class="input-group">
-                    <input  class="form-control w-50" type="password" name="new_password1" autocomplete="new-password" required="" id="id_new_password1" aria-autocomplete="list">
+                    <input  class="form-control w-50" type="password" name="new_password1" autocomplete="new-password" id="id_new_password1" aria-autocomplete="list">
                     <div class="input-group-append"> 
                       <span class="input-group-text">
                           <i class="fa fa-eye" id="togglePassword" style="cursor: pointer;"></i>
                         </span>
                     </div>
-                    {% if form.password1.errors %}
-                    <div style = "color:red;">
-                      {{form.password1.errors}} 
-                    </div>
-                    {% endif %}
                 </div>
               </div>
               
               <div class="form-group mb-3">
                 <label class="label ml-3" for="id_new_password2">Confirm Password:</label>
                 <div class="input-group">
-                  <input class="form-control w-50" type="password" name="new_password2" autocomplete="new-password" required="" id="id_new_password2">
+                  <input class="form-control w-50" type="password" name="new_password2" autocomplete="new-password" id="id_new_password2">
                   <div class="input-group-append"> 
                     <span class="input-group-text">
                         <i class="fa fa-eye" id="togglePassword2" style="cursor: pointer;"></i>
                       </span>
                   </div>
-                  {% if form.password2.errors %}
-                <div style = "color:red;">
-                  {{form.password2.errors}} 
-                </div>
-                {% endif %}
               </div>
             </div>
-             <div class="message"></div>   
+             <div class="message" style="color:#f02849; font-size: 14px; margin-left: 10px;"></div>   
 
                 <br>
                 <div class="form-group">
@@ -106,13 +83,51 @@
   </section>
   
   <script>
-    const username = document.querySelector('#id_new_password1');
-    const password = document.querySelector('#id_new_password2');
+    const password1 = document.querySelector('#id_new_password1');
+    const password2 = document.querySelector('#id_new_password2');
     const message = document.querySelector('.message');
-    
+    const reset = document.querySelector("#form-reset");
+
     let capsLockAlertShown = false;
+
+
+    reset.addEventListener('submit', function (e){
+      e.preventDefault();
+      if (password1.value !== password2.value) 
+      {
+        password1.classList.add("error");
+        password2.classList.add("error");
+        message.innerHTML = '• Password do not match';
+        document.querySelector(".input-group-append").classList.add("error");
+        document.querySelectorAll(".input-group-append")[1].classList.add("error");
+      } 
+      else if (password1.value === '' || password2.value === '') {
+        message.innerHTML = '• Please fill out the fields';
+      }
+      else if (password1.value.length < 8 || password2.value.length < 8) {
+        password1.classList.add("error");
+        password2.classList.add("error");
+        message.innerHTML = '• Password should be at least 8 characters long';
+        document.querySelector(".input-group-append").classList.add("error");
+        document.querySelectorAll(".input-group-append")[1].classList.add("error");
+      } 
+      else if (/^\d+$/.test(password1.value) || /^\d+$/.test(password2.value)) {
+        password1.classList.add("error");
+        password2.classList.add("error");
+        message.innerHTML = '• Password cannot be all numeric';
+        document.querySelector(".input-group-append").classList.add("error");
+        document.querySelectorAll(".input-group-append")[1].classList.add("error");
+      }
+      else {
+        password1.classList.remove("error");
+        password2.classList.remove("error");
+        document.querySelector(".input-group-append").classList.remove("error");
+        document.querySelectorAll(".input-group-append")[1].classList.remove("error");
+        this.submit();
+      }
+  });
     
-    username.addEventListener('keyup', function (e) {
+  password1.addEventListener('keyup', function (e) {
     if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
         const alertBox = document.createElement('div');
         alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
@@ -124,7 +139,7 @@
     }
     });
     
-    password.addEventListener('keyup', function (e) {
+    password2.addEventListener('keyup', function (e) {
     if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
         const alertBox = document.createElement('div');
         alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';

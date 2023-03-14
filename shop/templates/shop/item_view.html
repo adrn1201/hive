@@ -5,6 +5,40 @@
 
 {% block content %}
 
+<style>
+    .btn-check:active+.btn-outline-primary, .btn-check:checked+.btn-outline-primary, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show, .btn-outline-primary:active {
+    color: #fff;
+    background-color: #A77802 !important;
+    border-color: #A77802 !important;
+}
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #342809;
+    border-color:#342809;
+}
+
+.btn-outline-primary {
+    color: #A77802;
+    background-color: transparent;
+    background-image: none;
+    border-color: #A77802;
+}
+
+.btn-outline-dark {
+    color: #342809 !important;
+    background-color: transparent;
+    background-image: none;
+    border-color: #342809 !important;
+}
+
+.btn-outline-dark:hover {
+    color: white !important;
+    background-color: #342809;
+    background-image: none;
+    border-color: #342809;
+}
+</style>
+
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
         <a href="../"><i class='far fa-arrow-alt-circle-left mb-4' style='color:black; font-size:xx-large;'></i></a>
@@ -32,7 +66,7 @@
                         <button id="decrease-quantity" name="decreaseq" data-index="{{item.id}}"
                             class="btn btn-link px-2 pt-2 reduce-quantity"
                             onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                            <i class="fas fa-minus"></i>
+                            <i class="fas fa-minus" style="color:#A77802 ;"></i>
                         </button>
 
                         <input min="{{ item.min_orders }}" max="{{ item.tempo_stocks }}" type="number"
@@ -42,7 +76,7 @@
                         <button id="increase-quantity" data-index="{{item.id}}"
                             class="btn btn-link px-2 pt-2 increase-quantity"
                             onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                            <i class="fas fa-plus"></i>
+                            <i class="fas fa-plus" style="color:#A77802 ;"></i>
                         </button>
                     </div>
                     <p style="color:red;" id="demo"></p>

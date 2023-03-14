@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="card">
-                    <div class="card-header">Profile Picture</div>
+                    <div class="card-header" style="background-color: white ;"> <p class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: large; color: #342809;">Profile Picture</p></div>
                     <div class="card-body text-center">
                         <!-- Profile picture image-->
                     <img id="image" src ="{{retailer.image_url}}">                 
@@ -31,7 +31,7 @@
         
             <div class="col-lg-6 col-md-6">
                 <div class="card mb-4">
-                    <div class="card-header">Account Details</div>
+                    <div class="card-header" style="background-color: white ;"><p class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: large; color: #342809;">Account Details</p></div>
                     <div class="card-body">
                         <form>
                             <!-- Form Group (username)-->
@@ -68,8 +68,9 @@
                                             <p>{{retailer.created}}</p>
                                         </div>
                                     </div>
-                                    
-                                        <a href = "{% url 'retailer_edit_profile'%}" class="btn btn-primary">Edit Details</a>
+                                    <div class="d-flex justify-content-center">                                        
+                                        <a href = "{% url 'retailer_edit_profile'%}" class="btn" style="background-color: #A77802; color: white;"><i class="fas fa-pencil-alt "></i>&nbsp;Edit Details</a>
+                                    </div>
                             </form>
                         </div>
                     </div>

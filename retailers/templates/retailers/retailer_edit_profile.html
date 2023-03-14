@@ -21,15 +21,14 @@
        <div class="col-xl-4">
            <!-- Profile picture card-->
            <div class="card mb-4 mb-xl-0">
-               <div class="card-header">Profile Picture</div>
+               <div class="card-header" style="background-color: white ;"><p class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: large; color: #342809;">Profile Picture</p></div>
                <form  action = "" method = "POST" id="retailer_edit_profile" enctype="multipart/form-data">
                   {% csrf_token %}
                <div class="card-body text-center mb-5">
                     <img id="image" thumbnail src="{{form.instance.retailer_image.url}}">
-                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
                     <br>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                        Upload new image
+                    <button type="button" class="btn" style="background-color: #A77802; color: white;" data-bs-toggle="modal" data-bs-target="#myModal">
+                        <i class="fa fa-upload"></i>&nbsp;Upload new image
                     </button>
                 
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -57,13 +56,15 @@
            <!-- Account details card-->
            <!-- Account details card-->
            <div class="card mb-4">
-            <div class="card-header">Account Details</div>
+            <div class="card-header" style="background-color: white ;"><p class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: large; color: #342809;">Account Details</p></div>
             <div class="card-body">
                
                     <!-- Form Group (username)-->
                     <div class="mb-3">
                         <label class="small mb-1" for="inputUsername"><b>Business Name</b></label>
                         {{form.business_name}}
+                        <p id="error1" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                     </div>
                     <!-- Form Row-->
                     <div class="row gx-3 mb-3">
@@ -71,22 +72,31 @@
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputFirstName"><b>Contact Name</b></label>
                             {{form.contact_name}}
+                            <p id="error2" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                         </div>
                         <!-- Form Group (last name)-->
                         <div class="col-md-6">
                             <label class="small mb-1" for="inputLastName"><b>Contact Number</b></label>
                             {{form.contact_number}}
+                            <div class="message"></div>
+                            <p id="error3" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label class="small mb-1" for="inputEmailAddress"><b>Address</b></label>
                         {{form.address}}
+                        <p id="error4" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                     </div>
 
                     <div class="mb-3">
                         <label class="small mb-1" for="inputEmailAddress"><b>Barangay</b></label>
                         {{form.barangay}}
+                        <p id="error5" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                     </div>
 
                     <div class="row gx-3 mb-3">
@@ -100,7 +110,9 @@
                         <p>Zamboanga City</p>
                         </div>
                     </div>
-                       <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+                    <div class="d-flex justify-content-center">                                        
+                        <button type="submit" class="btn" style="background-color: #A77802; color: white;">Save Changes</button>
+                    </div>
                 </form>
                </div>
            </div>
@@ -109,32 +121,70 @@
 </div>
 
 <script>
+    const form = document.querySelector('#retailer_edit_profile');
+    const businessName = document.getElementById('id_business_name');
+    const contactName = document.getElementById('id_contact_name');
+    const contactNum = document.getElementById('id_contact_number');
+    const address = document.getElementById('id_address');
+    const barangay =  document.getElementById("id_barangay"); 
+    barangay.removeAttribute("required")
 
-   const form = document.querySelector('#retailer_edit_profile');
+    const error1 = document.querySelector('#error1');
+    const error2 = document.querySelector('#error2');
+    const error3 = document.querySelector('#error3');
+    const error4 = document.querySelector('#error4');
+    const error5 = document.querySelector('#error5');
+
+    form.addEventListener('submit', function (e){
+    e.preventDefault();
+    if (businessName.value === ''){
+        businessName.style.borderColor = "red";
+        error1.innerText = '• Please enter your business name';
+    } 
+    else if(contactName.value === '' ){
+        contactName.style.borderColor = "red";
+        error2.innerText = '• Please enter your contact name';
+    }
+    else if(contactNum.value === ''){
+        contactNum.style.borderColor = "red";
+        error3.innerText = '• Please enter your contact number';
+    }
+    else if(address.value === ''){
+        address.style.borderColor = "red";
+        error4.innerText = '• Please enter your address';
+
+    }else if( barangay.value === '' ){
+        barangay.style.borderColor = "red";
+        error5.innerText = '• Please choose a barangay address';
+    }
+    else{
+        this.submit();
+    }
+    });
+
+    
    
-   form.addEventListener('submit',function(e){
+    const message = document.querySelector('.message');
+    let alertShown = false; // flag variable
+    
+    form.addEventListener('submit', function(e){
 
-     var format = /^\d{11}$/;
-     const number = document.querySelector('#id_contact_number')
+        const format = /^\d{11}$/;
+        const number = document.querySelector('#id_contact_number');
 
-     if (number.value.match(format))
-     {
-       return true;
-     }
-
-     else {
-       alert("Please enter an 11-digit phone number");
-       document.querySelector('#id_contact_number').style.borderColor = "red";
-       e.preventDefault(); 
-     }
-   
-   } ) 
-
-    const imageInput = document.querySelector('#id_retailer_image');
-
-    imageInput.addEventListener('change', function() {
-    const imagePreview = document.querySelector('#image');
-    imagePreview.src = URL.createObjectURL(this.files[0]);
+        if (number.value.match(format)) {
+            message.innerHTML = '';
+            return true;
+        } else {
+            if (!alertShown) { // show message only if it hasn't been shown before
+                document.querySelector('#id_contact_number').style.borderColor = "red";
+                const alertBox = document.createElement('div');
+                alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">• Please enter an 11-digit phone number</p>';
+                message.appendChild(alertBox);
+                alertShown = true; // set the flag variable to true
+            }
+            e.preventDefault();
+        }
     });
 
  

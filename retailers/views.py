@@ -18,6 +18,8 @@ from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
 from django_tenants.utils import remove_www
 from wholesalers.models import Domain
 from wholesalers.models import Wholesaler
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 
 user_credentials = ''
@@ -286,7 +288,7 @@ def order_received(request, pk):
             action = 'Updated to order status to completed'
         )
         messages.success(request, 'Thank you!')
-        return redirect('dashboard_retailer') 
+        return HttpResponseRedirect(reverse('dashboard_retailer') + '?status=completed')
 
     context = {"order":order}    
     return render(request, "retailers/dashboard.html",context)

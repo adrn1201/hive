@@ -25,12 +25,13 @@
           <div class="login-wrap p-4 p-lg-5">
             <div class="d-flex">
               <div class="w-100">
-                <h3 class="mb-4">Registration - Retailer</h3>
+                <h3 class="mb-4 text-center">Registration</h3>
               </div>
             </div>
           
-            <form class="mx-1 mx-md-4" method = "POST">
+            <form class="mx-1 mx-md-4" method = "POST" id="form-register">
               {% csrf_token %}
+              <div class="message" style="color:#f02849; font-size: 14px; margin-left: 10px;"></div>   
               <div class="form-group mb-3 {% if form.email.errors %} error {% endif %}">
                 <label class="label">Email Address</label>
                 {{form.email}}
@@ -82,11 +83,7 @@
                       {{form.password2.errors}} 
                     </div>
                   {% endif %}
-              </div>
-
-              <div class="message"></div>
-
-              <br>
+              </div>              <br>
               <div class="form-group">
                 <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
               </div>
@@ -122,11 +119,25 @@ togglePassword1.addEventListener('click', function (e) {
   const email = document.querySelector('#id_email');
   const usernameReg = document.querySelector('#id_username');
   const password1 = document.querySelector('#id_password1');
-  const password2 = document.querySelector('#id_password2');
+  const password2 = document.querySelector('#id_password2');    
+  const register = document.querySelector("#form-register");
+
 
   const message = document.querySelector('.message');
 
   let capsLockAlertShown = false;
+
+
+  register.addEventListener('submit', function (e){
+      e.preventDefault();
+      if (email.value === '' || usernameReg.value === '' || password1.value === '' || password2 === ''){
+        message.innerHTML = '• Please fill out the fields';
+      }
+      else{
+          this.submit();
+      }
+  });
+
 
   email.addEventListener('keyup', function (e) {
     if (e.getModifierState('CapsLock') && !capsLockAlertShown) {

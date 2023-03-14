@@ -294,13 +294,13 @@ canvas {
     top: 0px;
     height: 37px;
     width: 10px;
-    background: #e8e9ef; }
+    background: white; }
   .order-table:after {
     right: -1px; }
   .order-table:before {
     left: -1px; }
   .order-table tr th {
-    background: #e8e9ef; }
+    background: white; }
   .order-table tr td:last-child, .order-table tr th:last-child {
     text-align: right; }
   .order-table tr:last-child td {

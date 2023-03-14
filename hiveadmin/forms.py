@@ -3,12 +3,12 @@ from django.contrib.auth.models import User
 from django import forms
 
 class CustomUserCreationForm(UserCreationForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}))
-    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password Confirmation'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First Name'}), required=False)
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name'}), required=False)
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Email'}), required=False)
+    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}), required=False)
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}), required=False)
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password Confirmation'}), required=False)
     
     class Meta: 
         model = User 

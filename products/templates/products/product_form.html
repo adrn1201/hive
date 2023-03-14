@@ -19,31 +19,31 @@
                 <form  id ="addProduct" action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="card-body">
-                        {% if form.is_bound or form.min_orders.errors %}
-                        <div style = "color:red;">
-                          {{form.min_orders.errors}} 
-                        </div>
                         <div class="row">
                             <div class="col-md-12">
-                                {% comment %} {% for field in form %} {% endcomment %}
                                 {% if form.name != "with_variation" and form.name != "actual_stocks" %}
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Category</label>
                                     {{form.category }}
+                                    <p id="error1" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                                     <label for="example-text-input" class="form-control-label">Product Name </label>
-                                    <div class="small font-italic text-muted mb-2 ">Maximum of 200 Characters</div>
                                     {{form.product_name }}
+                                    <p id="error2" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                                     <label for="example-text-input" class="form-control-label">Description</label>
-                                    <div class="small font-italic text-muted mb-2 ">Maximum of 200 Characters</div>
                                     {{form.description }}
+                                    <p id="error3" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                                     <label for="example-text-input" class="form-control-label">Product Image</label>
                                     {{form.product_image }}
+                                    
                                     <label for="example-text-input" class="form-control-label">Price</label>
                                     {{form.price }}
+                                    <p id="error4" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                                   {% endif %}
                                 </div>
-                                {% endif %}
-                                {% comment %} {% endfor %} {% endcomment %}
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">With variation</label>
                                     <select name="with_variation" class="form-control" required id="id_with_variation">
@@ -54,6 +54,8 @@
                                         </option>
                                         {% endfor %}
                                     </select>
+                                    <p id="error5" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                                 </div>
 
                                 <div id="hidden_stocks" style="display:none;">
@@ -61,6 +63,8 @@
                                         <label for="example-text-input"
                                             class="form-control-label">{{ form.actual_stocks.label }}</label>
                                         {{ form.actual_stocks }}
+                                        <p id="error6" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                                     </div>
                                 </div>
                             </div>
@@ -70,13 +74,14 @@
                                         <label>{{variation_form.name.label}}</label>
                                         {{variation_form.name}}
                                     </div>
-
                                     <div class="col">
                                         <label>{{variation_form.actual_stocks_var.label}}</label>
                                        <span class ="var-qty"> {{variation_form.actual_stocks_var}} </span>
                                     </div>
                                 </div>
                             </div>
+                            <p id="error8" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                             <div id="hidden_btns" style="display:none;">
                                 <button class="btn btn-info btn-sm mt-3" type="button" hx-get="{% url 'size-form' %}"
                                     hx-target="#hidden_variation" hx-swap="beforeend" id="add-textbox-button"><i class="fa fa-plus"></i>&nbsp; Add variation </button>
@@ -86,6 +91,8 @@
                             </div>
                             <label for="example-text-input" class="form-control-label">Minimum Order:</label>
                             <span id = "minimum">{{form.min_orders}}</span>
+                            <p id="error7" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+
                         </div>
                         <br><br>
                         <div class="row">
@@ -100,6 +107,250 @@
 </div>
 
 <script>
+
+    const form = document.querySelector('#addProduct');
+    const category = document.getElementById('id_category');
+    const prodName = document.getElementById('id_product_name');
+    const desc = document.getElementById('id_description');
+    const price = document.getElementById('id_price');
+    const withVariation =  document.getElementById("id_with_variation"); 
+    const minOrders =  document.getElementById("id_min_orders"); 
+    const actualStock =  document.getElementById("id_actual_stocks"); 
+
+    const hiddenVariation =  document.getElementById("hidden_variation"); 
+    const hiddenStocks =  document.getElementById("hidden_stocks");
+
+    const error1 = document.querySelector('#error1');
+    const error2 = document.querySelector('#error2');
+    const error3 = document.querySelector('#error3');
+    const error4 = document.querySelector('#error4');
+    const error5 = document.querySelector('#error5');
+    const error6 = document.querySelector('#error6');
+    const error7 = document.querySelector('#error7');
+    const error8 = document.querySelector('#error8');
+
+
+    const addButtons = document.getElementById('add-button');
+
+    addButtons.addEventListener('click', function(event) {
+    let errors = false;
+    if(hiddenStocks && hiddenStocks.style.display === 'block'){
+        if (category.value.trim() === '') {
+            document.getElementById('error1').textContent = '• Category is required.';
+            category.style.borderColor = "red";
+            errors = true;
+        } else {
+            category.style.borderColor = "";
+            document.getElementById('error1').textContent = '';
+        }
+
+        if (prodName.value.trim() === '') {
+            document.getElementById('error2').textContent = '• Product name is required.';
+            prodName.style.borderColor = "red";
+            errors = true;
+        } else {
+            prodName.style.borderColor = "";
+            document.getElementById('error2').textContent = '';
+        }
+
+        if (desc.value.trim() === '') {
+            document.getElementById('error3').textContent = '• Description is required.';
+            desc.style.borderColor = "red";
+            errors = true;
+        } else {
+            desc.style.borderColor = "";
+            document.getElementById('error3').textContent = '';
+        }
+
+        if (desc.value > 199) {
+            document.getElementById('error3').textContent = '• Maximum of 200 words.';
+            desc.style.borderColor = "red";
+            errors = true;
+        } else {
+            desc.style.borderColor = "";
+            document.getElementById('error3').textContent = '';
+        }
+
+        if (price.value.trim() === '') {
+            document.getElementById('error4').textContent = '• Price is required.';
+            price.style.borderColor = "red";
+            errors = true;
+        } else {
+            price.style.borderColor = "";
+            document.getElementById('error4').textContent = '';
+        }
+
+        if (withVariation.value.trim() === '') {
+            document.getElementById('error5').textContent = '• With variation is required.';
+            withVariation.style.borderColor = "red";
+            errors = true;
+        } else {
+            withVariation.style.borderColor = "";
+            document.getElementById('error5').textContent = '';
+        }
+
+        if (actualStock.value.trim() === '') {
+            document.getElementById('error6').textContent = '• Minimum order is required.';
+            actualStock.style.borderColor = "red";
+            errors = true;
+        } else {
+            actualStock.style.borderColor = "";
+            document.getElementById('error6').textContent = '';
+        }
+
+        if (minOrders.value.trim() === '') {
+            document.getElementById('error7').textContent = '• Stock is required.';
+            minOrders.style.borderColor = "red";
+            errors = true;
+        } else {
+            minOrders.style.borderColor = "";
+            document.getElementById('error7').textContent = '';
+        }
+    }
+    else if ((hiddenVariation && hiddenVariation.style.display === 'block') && hiddenStocks.style.display === 'none') {
+
+            const formData = new FormData(form);
+
+            for (let pair of formData.entries()) {
+            // if (!pair[1]) {
+            //     console.log(`Input with name '${pair[0]}' is empty`);
+            // }
+            if(!pair[1] && pair[0] === 'name'){
+                document.getElementById('error8').textContent = '• Variation Name is required.';
+            }
+        }
+
+        
+    if (category.value.trim() === '') {
+            document.getElementById('error1').textContent = '• Category is required.';
+            category.style.borderColor = "red";
+            errors = true;
+        } else {
+            category.style.borderColor = "";
+            document.getElementById('error1').textContent = '';
+        }
+
+        if (prodName.value.trim() === '') {
+            document.getElementById('error2').textContent = '• Product name is required.';
+            prodName.style.borderColor = "red";
+            errors = true;
+        } else {
+            prodName.style.borderColor = "";
+            document.getElementById('error2').textContent = '';
+        }
+
+        if (desc.value.trim() === '') {
+            document.getElementById('error3').textContent = '• Description is required.';
+            desc.style.borderColor = "red";
+            errors = true;
+        } else {
+            desc.style.borderColor = "";
+            document.getElementById('error3').textContent = '';
+        }
+
+        if (desc.value > 199) {
+            document.getElementById('error3').textContent = '• Maximum of 200 words.';
+            desc.style.borderColor = "red";
+            errors = true;
+        } else {
+            desc.style.borderColor = "";
+            document.getElementById('error3').textContent = '';
+        }
+
+        if (price.value.trim() === '') {
+            document.getElementById('error4').textContent = '• Price is required.';
+            price.style.borderColor = "red";
+            errors = true;
+        } else {
+            price.style.borderColor = "";
+            document.getElementById('error4').textContent = '';
+        }
+
+        if (withVariation.value.trim() === '') {
+            document.getElementById('error5').textContent = '• With variation is required.';
+            withVariation.style.borderColor = "red";
+            errors = true;
+        } else {
+            withVariation.style.borderColor = "";
+            document.getElementById('error5').textContent = '';
+        }
+
+        if (minOrders.value.trim() === '') {
+            document.getElementById('error7').textContent = '• Stock is required.';
+            minOrders.style.borderColor = "red";
+            errors = true;
+        } else {
+            minOrders.style.borderColor = "";
+            document.getElementById('error7').textContent = '';
+        }
+    }
+    else{
+        if (category.value.trim() === '') {
+            document.getElementById('error1').textContent = '• Category is required.';
+            category.style.borderColor = "red";
+            errors = true;
+        } else {
+            category.style.borderColor = "";
+            document.getElementById('error1').textContent = '';
+        }
+
+        if (prodName.value.trim() === '') {
+            document.getElementById('error2').textContent = '• Product name is required.';
+            prodName.style.borderColor = "red";
+            errors = true;
+        } else {
+            prodName.style.borderColor = "";
+            document.getElementById('error2').textContent = '';
+        }
+
+        if (desc.value.trim() === '') {
+            document.getElementById('error3').textContent = '• Description is required.';
+            desc.style.borderColor = "red";
+            errors = true;
+        } else {
+            desc.style.borderColor = "";
+            document.getElementById('error3').textContent = '';
+        }
+
+        if (desc.value > 199) {
+            document.getElementById('error3').textContent = '• Maximum of 200 words.';
+            desc.style.borderColor = "red";
+            errors = true;
+        } else {
+            desc.style.borderColor = "";
+            document.getElementById('error3').textContent = '';
+        }
+
+        if (price.value.trim() === '') {
+            document.getElementById('error4').textContent = '• Price is required.';
+            price.style.borderColor = "red";
+            errors = true;
+        } else {
+            price.style.borderColor = "";
+            document.getElementById('error4').textContent = '';
+        }
+
+        if (withVariation.value.trim() === '') {
+            document.getElementById('error5').textContent = '• With variation is required.';
+            withVariation.style.borderColor = "red";
+            errors = true;
+        } else {
+            withVariation.style.borderColor = "";
+            document.getElementById('error5').textContent = '';
+        }
+
+        if (minOrders.value.trim() === '') {
+            document.getElementById('error7').textContent = '• Minimum is required.';
+            minOrders.style.borderColor = "red";
+            errors = true;
+        } else {
+            minOrders.style.borderColor = "";
+            document.getElementById('error7').textContent = '';
+        }
+    }
+
+      
+  });
 
     const element = document.getElementById("id_with_variation");
     const delButton = document.getElementById("delete-textbox-button");
