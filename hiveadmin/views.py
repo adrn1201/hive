@@ -82,6 +82,11 @@ def login_admin(request):
     return login_user(request, 'dashboard', 'hiveadmin/admin_login.html')
 
 
+def terms_condition(request):
+
+    return render(request, 'hiveadmin/terms.html')
+
+
 @login_required(login_url='login_admin')
 def logout_admin(request):
     return logout_user(request, 'login_admin')

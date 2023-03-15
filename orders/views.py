@@ -169,12 +169,15 @@ def create_order(request):
     else:
         shipping = float(50.00)
     cart_total = cart_subtotal + shipping
-            
+  
     order = Order.objects.create(
         user=request.user,
         wholesaler=wholesaler,
         business_name=retailer.business_name, 
         address=retailer.address,
+        barangay=retailer.barangay,
+        city=retailer.city,
+        region=retailer.region,
         total_paid=cart_total,
         success=True,
         mode_of_payment=request.POST['modeOfPayment'],
