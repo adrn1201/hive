@@ -49,7 +49,7 @@ def search_products(request):
     categories = wholesaler.category_set.filter(name__icontains=search_query)
     category_filter = wholesaler.category_set.filter(name__icontains=category_query)
 
-    products = wholesaler.product_set.distinct().filter(Q(category__in=category_filter) & (Q(product_name__icontains=search_query) | Q(category__in=categories)))
+    products = wholesaler.product_set.distinct().filter(Q(category__in=category_filter) & (Q(product_name__icontains=search_query) | Q(category__in=categories))).order_by('product_name')
 
     return products, search_query
 

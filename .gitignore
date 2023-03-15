@@ -130,3 +130,11 @@ dmypy.json
 
 Seven Star_columns.pkl
 Seven Star_xgboost.pkl
+Hiluck Trading_columns.pkl
+Hiluck Trading_xgboost.pkl
+EXBUD Consumer Goods Trading_columns.pkl
+EXBUD Consumer Goods Trading_xgboost.pkl
+RNS Variety Store_columns.pkl
+RNS Variety Store_xgboost.pkl
+RSD Enterprises_columns.pkl
+RSD Enterprises_xgboost.pkl
