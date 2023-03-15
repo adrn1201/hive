@@ -1,5 +1,5 @@
 {% extends 'main.html' %}
-
+{% load humanize %}
 {% block title %}
 Analytics
 {% endblock title %}
@@ -7,147 +7,307 @@ Analytics
 {% block content %}
 
 <div class="container-fluid py-4">
-  
-<div class="card mb-3">
-  <div class="card-body p-3 w-100">
-    <div class="chart">
-      <canvas id="chart-line" class="chart-canvas" height="300px"></canvas>
+  {% if is_predict == True and new_product == False %}
+  <div class="card mb-3" id="demandChart">
+    <div class="card-header pb-0 pt-3 bg-transparent">
+      <div class="d-flex align-items-center">
+        <div class="mb-0">
+          <img src="{{ product.product_image.url }}" class="avatar avatar-sm me-3" alt="user1">
+        </div>
+        <div class="mb-0">
+          <h4 class="mb-0 text-sm">{{ product.product_name|title }}{% if variation %}:{{variation.name}}{% endif %} Demand Forecast</h4>
+        </div>
+        <div class="ms-auto">
+          <div class="d-flex">
+
+            <select class="form-select mb-0 me-3 flex-grow-1" name="period" data-toggle="select" id="period" title="Display By:"
+              style="width:150px">
+              <option {% if request.GET.period and request.GET.period == 'daily' %}selected{% endif %} value="daily">Daily</option>
+              <option {% if request.GET.period and request.GET.period == 'monthly' %}selected{% endif %} value="monthly">Monthly</option>
+            </select>
+
+            <select class="form-select flex-grow-1 mb-0" id="chart_type" name="select2" data-toggle="select" title="Select Chart Type" style="width:150px">
+              <option value="bar">Bar Chart</option>
+              <option value="line">Line Chart</option>
+            </select>
+
+            <button class="btn btn-primary btn-xs p-2 ms-3 mb-0" id="table_btn"><i class="fas fas fa-table text-md opacity-10"></i>
+              &nbsp;Show in Tabular Form</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-body p-3 w-100">
+        <div class="chart">
+          <canvas id="chart-line" class="chart-canvas" height="300px"></canvas>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-  <div class="row">
-      <div class="col-12">
-          <div class="d-flex card mb-4">
-              <section class="product_section layout_padding">
-                  <div class="card-header pb-0">
-                      <div class="d-flex align-items-center">
-                          <p class="mb-0">Product Forecast</p>
-                      </div>
-                  </div>
-                  <div class="card-body px-0 pt-0 pb-2">
-                      <div class="table-responsive p-0">
-                          <table class="table align-items-center mb-0">
-                              <thead>
-                                  <tr>
-                                      <th
-                                          class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7">
-                                          Dates</th>
-                                      <th
-                                          class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
-                                          Predicted demand</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  
-                                  <tr>
-                                      <td>
-                                          <p class="text-xs font-weight-bold mb-0 text-center">
-                                              </p>
-                                      </td>
-                                  </tr>
-                                 
-                              </tbody>
-                          </table>
-                      </div>
-                  </div>
-          </div>
-      </div>
-  </div>
-
-    <div class="row">
-      <div class="col-12">
-        <div class="card mb-4">
+  <div class="row" style="display:none" id="forecast_table">
+    <div class="col-12">
+      <div class="d-flex card mb-4">
+        <section class="product_section layout_padding">
           <div class="card-header pb-0">
-            <h6>List of Products</h6>
-            <div class="col-lg-5 d-flex">
-                
-                <form action="{% url 'display_orders' %}" method="GET" id="searchForm"> 
-                    
-                    <div class="input-group">
-                      <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                       <input type="search" value="{{ search_query }}" class="form-control"
-                            name="search_query" placeholder="Search Category">
-                            
-                            
-                    </div>
-                </form>
-                  
-                <select class="form-select" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 42px;">
-                  <option selected> Filter Category </option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-
-            </div>
+            <div class="d-flex align-items-center">
+              <div class="mb-0">
+                <img src="{{ product.product_image.url }}" class="avatar avatar-sm me-3" alt="user1">
+              </div>
+              <div class="mb-0">
+                <h4 class="mb-0 text-sm">{{ product.product_name|title }} Demand Forecast</h4>
+              </div>
+              <div class="ms-auto">
+                <div class="d-flex">
+                  <select class="form-select mb-0 me-3 flex-grow-1" name="period" data-toggle="select" id="period_tabular" title="Display By:"
+                  style="width:100px">
+                    <option {% if request.GET.period and request.GET.period == 'weekly' %}selected{% endif %} value="weekly">Weekly</option>
+                    <option {% if request.GET.period and request.GET.period == 'monthly' %}selected{% endif %} value="monthly">Monthly</option>
+                  </select>
+                  <button class="btn btn-primary btn-xs p-2 ms-3 mb-0" id="graph_btn"><i class="fas fas fa-chart-line text-md opacity-10"></i>
+                    &nbsp;Show in Graphical Form</button>
+                </div>
+              </div>
           </div>
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
-              <table class="table align-items-center justify-content-center mb-0">
+              <table class="table align-items-center mb-0">
                 <thead>
                   <tr>
-                    <th class=" th-new text-uppercase text-primary  font-weight-bolder opacity-7">Product name</th>
-                    <th class="th-new text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">Size</th>
-                    <th class="th-new text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">Quantity</th>
-                    <th></th>
+                    <th class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7">
+                      Dates</th>
+                    <th class="th-new text-center text-uppercase text-primary  font-weight-bolder opacity-7 ps-2">
+                      Predicted demand</th>
                   </tr>
                 </thead>
                 <tbody>
+                  {% for demand in forecasted_demand %}
                   <tr>
                     <td>
-                      <div class="d-flex px-2">
-
-                        <div class="my-auto">
-                          <h6 class="mb-0 text-sm"></h6>
-                        </div>
-                      </div>
+                      <p class="text-center font-weight-bold mb-0">{{demand.date|date:"M d, Y" }}</p>
+                    </td>
+                    <td>
+                      <p class="text-center font-weight-bold mb-0">{{demand.demand}}</p>
                     </td>
                   </tr>
+                  {% endfor %}
                 </tbody>
               </table>
             </div>
           </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% elif is_predict == True and new_product == True %}
+<div class="card mb-3 card shadow-lg" >
+  <div class="card-body p-3">
+      <div class="row gx-4">
+          <div class="col-auto">
+              <div class="avatar avatar-xl position-relative">
+                  <img src="{{ product.product_image.url }}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+              </div>
+          </div>
+          <div class="col-auto my-auto">
+              <div class="h-100">
+                  <h5 class="mb-1">
+                    {{ product.product_name|title }}
+                  </h5>
+                  <ul class="text-primary">
+                    <li>This is a newly added product to your business and it has insufficient data available for forecasting demand.</li>
+                    <li>At least 100 completed orders has to be made for this product. </li>
+                    <li>We suggest to wait a few weeks or months for the system to gather enough data before attemping to forecast the demand.</li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  {% endif %}
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0 p-3">
+          <div class="d-flex justify-content-between">
+            <h6 class="mb-5 ml-4 mt-1">List of Products</h6>
+            <form action="{% url 'display_analytics' %}" method="GET" id="searchForm" class="ms-auto mb-5">
+
+              <div class="input-group">
+                <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                <input type="search" value="{{ search_query }}" class="form-control" name="search_query"
+                  placeholder="Search">
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center justify-content-center mb-0">
+              <thead>
+                <tr>
+                  <th class="th-new text-uppercase text-primary font-weight-bolder opacity-7">Product name</th>
+                  <th class="th-new text-center text-uppercase text-primary font-weight-bolder opacity-7">Category</th>
+                  <th class="th-new text-uppercase text-primary font-weight-bolder opacity-7">Variation</th>
+                  <th class="th-new text-uppercase text-primary font-weight-bolder opacity-7">Price</th>
+                  <th class="th-new text-uppercase text-primary font-weight-bolder opacity-7">Sold</th>
+                  <th class="th-new text-uppercase text-primary font-weight-bolder opacity-7">Sales</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for product in products %}
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <img src="{{ product.product_image.url }}" class="avatar avatar-sm me-3" alt="user1">
+                      </div>
+                      <div class="d-flex flex-column justify-content-center">
+                        <p class="mb-0 test font-weight-bold">{{ product.product_name }}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-center  font-weight-bold mb-0">{{ product.category }}
+                    </p>
+                  </td>
+                  <td>
+                    <p class="text-center  font-weight-bold mb-0">
+                      {% if product.with_variation %}
+                      {{ product.variation_set.count }}
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </p>
+                  </td>
+                  <td>
+                    <p class="text-center font-weight-bold mb-0">₱{{ product.price|floatformat:2|intcomma }}</p>
+                  </td>
+                  <td>
+                    <p class="text-center  font-weight-bold mb-0">{{ product.sold }}</p>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <p class="font-weight-bold mb-0">₱{{ product.product_sales|floatformat:2|intcomma }}</p>
+                    </div>
+                  </td>
+                  <td>
+                    {% if product.with_variation %}
+                    <button type="button" class="btn btn-info btn-xs mt-2 mb-2" style="width: 80% !important; margin-left:12% !important;"
+                      data-bs-toggle="modal" data-bs-target="#RegisterRetailer"><i
+                        class="fas fas fa-chart-line text-md opacity-10"></i> &nbsp;Predict by Variation</button>
+                    &nbsp; &nbsp;
+
+                    <div class="modal fade" id="RegisterRetailer" data-bs-backdrop="static" data-bs-keyboard="false"
+                      tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Select <span
+                                class="text-primary">{{product.product_name}} </span> Variation</h5>
+                          </div>
+                          <div class="modal-body">
+                            <div class="container-fluid">
+                              {% for i in product.variation_set.all %}
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <p class="font-weight-bold mb-0" style="font-size:20px !important">Variation: <span
+                                      class="text-primary">{{i.name}}</span></p>
+                                </div>
+                                <div class="col-md-6 ml-auto">
+                                  <button class="btn btn-primary p-2 btn-xxxs btn_variations" data-id={{product.id}}
+                                    data-variation={{i.id}}><i class="fas fas fa-chart-line text-md opacity-10"></i>
+                                    &nbsp;Predict Demand</button>
+                                </div>
+                              </div>
+                              <br>
+                              {% endfor %}
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {% else %}
+                    <button class="btn btn-primary btn-xs mt-2 mb-2 predict_btns" style="width: 100% !important;%"
+                      type="button" data-id={{product.id}}><i class="fas fas fa-chart-line text-md opacity-10"></i>
+                      &nbsp;Predict Demand</button>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="align-items-center">
+          {% include 'w-pagination.html' with queryset=products custom_range=custom_range %}
         </div>
       </div>
     </div>
+  </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/moment@^2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@^1"></script>
 
 <script>
+  const tableOptionBtn = document.getElementById('table_btn');
+  const GraphOptionBtn = document.getElementById('graph_btn');
+  const demandTable = document.getElementById('forecast_table');
+  const demandChart = document.getElementById('demandChart');
 
-  const start = Date.now();
-  const days = 7;
-  const dates = []
-  for(let i=0; i < days; i++){
-    dates.push(new Date(start + (i * 1000 * 60 * 60 * 24)).toDateString());
-  }
-    
+  tableOptionBtn.addEventListener('click', function(e){
+    demandTable.style.display = 'block';
+    demandChart.style.display ='none'
+  })
+  GraphOptionBtn.addEventListener('click', function(e){
+    demandTable.style.display = 'none';
+    demandChart.style.display ='block'
+  })
 
   const ctx1 = document.getElementById("chart-line").getContext("2d");
 
-  const gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+  const labels = []
+  for (const i of {{labels|safe}}) {
+    labels.push(Date.parse(moment(new Date(i).getTime())
+      .format('YYYY-MM-DD hh:mm:ss')))
+  }
 
-  gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
-  gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
-  gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
-  new Chart(ctx1, {
-    type: "line",
+  const salesChart = new Chart(ctx1, {
+    type: "bar",
     data: {
-      labels: dates,
+      labels: labels,
       datasets: [{
-        label: "Mobile apps",
-        tension: 0.4,
-        borderWidth: 0,
-        pointRadius: 0,
-        borderColor: "#5e72e4",
-        backgroundColor: gradientStroke1,
-        borderWidth: 3,
-        fill: true,
-        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-        maxBarThickness: 6
+        label: "Demand Forecast",
+        backgroundColor: [
+          'rgb(128, 204, 255, 0.8)',
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(153, 102, 255, 0.8)',
+          'rgba(255, 159, 64, 0.8)',
+          'rgba(240, 120, 50, 0.8)',
+        ],
+        borderColor: [
+          'rgb(9, 24, 52)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(240, 120, 50, 1)',
 
+        ],
+        fill: true,
+        data: {{data|safe}},
       }],
     },
     options: {
@@ -156,8 +316,9 @@ Analytics
       plugins: {
         legend: {
           display: false,
-        }
+        },
       },
+
       interaction: {
         intersect: false,
         mode: 'index',
@@ -171,16 +332,6 @@ Analytics
             drawTicks: false,
             borderDash: [5, 5]
           },
-          ticks: {
-            display: true,
-            color: '#fbfbfb',
-            font: {
-              size: 11,
-              family: "Open Sans",
-              style: 'normal',
-              lineHeight: 2
-            },
-          }
         },
         x: {
           grid: {
@@ -191,6 +342,7 @@ Analytics
             borderDash: [5, 5]
           },
           ticks: {
+            source: 'data',
             display: true,
             color: '#ccc',
             font: {
@@ -199,10 +351,28 @@ Analytics
               style: 'normal',
               lineHeight: 2
             },
+            color: 'black',
+            beginAtZero: true
+          },
+
+          type: 'time',
+          time: {
+            unit: '{{unit}}',
+            tooltipFormat: 'MMM DD, YYYY'
           }
+
         },
       },
     },
+  });
+  const selectType = document.getElementById('chart_type');
+  selectType.addEventListener("change", function (e) {
+    if(this.value === 'line'){
+        salesChart.config.type = 'line'
+    }else if(this.value === 'bar'){
+      salesChart.config.type = 'bar'
+    }
+    salesChart.update();
   });
 </script>
 

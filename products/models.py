@@ -2,6 +2,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 import uuid
 from wholesalers.models import Wholesaler
+import random
+import string
 
 class Category(models.Model):
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
@@ -36,7 +38,7 @@ class Product(models.Model):
     min_orders = models.IntegerField(default=actual_stocks)
     product_image = models.ImageField(default='products/default.jpg', upload_to="products/")
     created = models.DateTimeField(auto_now_add=True)
-    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
+    id = models.CharField(max_lenght=1000, primary_key=True, unique=True)
     
     
     class Meta:
@@ -50,7 +52,21 @@ class Product(models.Model):
     def product_sales(self):
         return self.price * self.sold
     
-    
+def random_string_generator(size=5, chars=string.ascii_lowercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+
+def unique_order_id_generator(instance):
+    reference_number= random_string_generator()
+
+    Klass= instance.__class__
+
+    qs_exists= Klass.objects.filter(reference_number=reference_number).exists()
+    if qs_exists:   
+        return unique_order_id_generator(instance)
+    return reference_number
+
+
 class Variation(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
