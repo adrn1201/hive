@@ -39,7 +39,8 @@ class Product(models.Model):
     min_orders = models.IntegerField(default=actual_stocks)
     product_image = models.ImageField(default='products/default.jpg', upload_to="products/")
     created = models.DateTimeField(auto_now_add=True)
-    id = models.CharField(unique=True, primary_key=True, max_length=1000)
+    analytics_date = models.DateField(null=True, blank=True)
+    id = models.CharField(default=uuid.uuid4().hex[:5].upper(), unique=True, primary_key=True, max_length=1000)
     
     
     class Meta:
@@ -54,19 +55,14 @@ class Product(models.Model):
         return self.price * self.sold
     
 
-@receiver(pre_save, sender=Product)
-def product_id(instance,*args, **kwargs):
-    instance.id = uuid.uuid4().hex[:5].upper()
-
-
-
 class Variation(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
     actual_stocks_var = models.IntegerField(default=0)
     tempo_stocks_var = models.IntegerField(default=0, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    id = models.CharField(unique=True, primary_key=True, max_length=1000)
+    analytics_date = models.DateField(null=True, blank=True)
+    id = models.CharField(default=uuid.uuid4().hex[:5].upper(), unique=True, primary_key=True, max_length=1000)
      
     class Meta:
         verbose_name_plural = 'Sizes'
@@ -75,6 +71,3 @@ class Variation(models.Model):
     def __str__(self):
         return self.name
     
-@receiver(pre_save, sender=Variation)
-def variation_id(instance,*args, **kwargs):
-    instance.id = uuid.uuid4().hex[:5].upper()

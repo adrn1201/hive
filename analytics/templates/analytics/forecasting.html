@@ -20,7 +20,7 @@ Analytics
         <div class="ms-auto">
           <div class="d-flex">
 
-            <select class="form-select mb-0 me-3 flex-grow-1" name="period" data-toggle="select" id="period" title="Display By:"
+            <select class="form-select mb-0 me-3 flex-grow-1" data-toggle="select" id="period" title="Display By:"
               style="width:150px">
               <option {% if request.GET.period and request.GET.period == 'daily' %}selected{% endif %} value="daily">Daily</option>
               <option {% if request.GET.period and request.GET.period == 'monthly' %}selected{% endif %} value="monthly">Monthly</option>
@@ -54,14 +54,14 @@ Analytics
                 <img src="{{ product.product_image.url }}" class="avatar avatar-sm me-3" alt="user1">
               </div>
               <div class="mb-0">
-                <h4 class="mb-0 text-sm">{{ product.product_name|title }} Demand Forecast</h4>
+                <h4 class="mb-0 text-sm">{{ product.product_name|title }}{% if variation %}:{{variation.name}}{% endif %} Demand Forecast</h4>
               </div>
               <div class="ms-auto">
                 <div class="d-flex">
-                  <select class="form-select mb-0 me-3 flex-grow-1" name="period" data-toggle="select" id="period_tabular" title="Display By:"
+                  <select class="form-select mb-0 me-3 flex-grow-1" data-toggle="select" id="period_tabular" title="Display By:"
                   style="width:100px">
-                    <option {% if request.GET.period and request.GET.period == 'weekly' %}selected{% endif %} value="weekly">Weekly</option>
-                    <option {% if request.GET.period and request.GET.period == 'monthly' %}selected{% endif %} value="monthly">Monthly</option>
+                  <option {% if request.GET.period and request.GET.period == 'daily' %}selected{% endif %} value="daily">Daily</option>
+                  <option {% if request.GET.period and request.GET.period == 'monthly' %}selected{% endif %} value="monthly">Monthly</option>
                   </select>
                   <button class="btn btn-primary btn-xs p-2 ms-3 mb-0" id="graph_btn"><i class="fas fas fa-chart-line text-md opacity-10"></i>
                     &nbsp;Show in Graphical Form</button>
