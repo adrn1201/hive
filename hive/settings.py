@@ -49,7 +49,8 @@ SHARED_APPS = [
     'analytics',
     
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'django_extensions',
 ]
 
 TENANT_APPS = [
@@ -72,7 +73,8 @@ TENANT_APPS = [
     'analytics',
     
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'django_extensions',
 ]
 
 INSTALLED_APPS = list(SHARED_APPS) + [

@@ -2,15 +2,16 @@ from django.db import models
 from django.core.exceptions import ValidationError
 import uuid
 from wholesalers.models import Wholesaler
-import random
-import string
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+
 
 class Category(models.Model):
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, unique=True)
     sold = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
-    id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True)
     
     class Meta:
         verbose_name_plural = 'Categories'
@@ -38,7 +39,7 @@ class Product(models.Model):
     min_orders = models.IntegerField(default=actual_stocks)
     product_image = models.ImageField(default='products/default.jpg', upload_to="products/")
     created = models.DateTimeField(auto_now_add=True)
-    id = models.CharField(max_lenght=1000, primary_key=True, unique=True)
+    id = models.CharField(unique=True, primary_key=True, max_length=1000)
     
     
     class Meta:
@@ -52,19 +53,11 @@ class Product(models.Model):
     def product_sales(self):
         return self.price * self.sold
     
-def random_string_generator(size=5, chars=string.ascii_lowercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
 
+@receiver(pre_save, sender=Product)
+def product_id(instance,*args, **kwargs):
+    instance.id = uuid.uuid4().hex[:5].upper()
 
-def unique_order_id_generator(instance):
-    reference_number= random_string_generator()
-
-    Klass= instance.__class__
-
-    qs_exists= Klass.objects.filter(reference_number=reference_number).exists()
-    if qs_exists:   
-        return unique_order_id_generator(instance)
-    return reference_number
 
 
 class Variation(models.Model):
@@ -73,7 +66,7 @@ class Variation(models.Model):
     actual_stocks_var = models.IntegerField(default=0)
     tempo_stocks_var = models.IntegerField(default=0, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    id = models.CharField(unique=True, primary_key=True, max_length=1000)
      
     class Meta:
         verbose_name_plural = 'Sizes'
@@ -81,3 +74,7 @@ class Variation(models.Model):
          
     def __str__(self):
         return self.name
+    
+@receiver(pre_save, sender=Variation)
+def variation_id(instance,*args, **kwargs):
+    instance.id = uuid.uuid4().hex[:5].upper()
