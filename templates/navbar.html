@@ -28,9 +28,10 @@
         </div>
     </div>
     <hr class="horizontal dark mt-0">
+
     <ul class="navbar-nav">
         <li class="nav-item" >
-            <a class="nav-link mt-2 " href="{% url 'w_dashboard' %}">
+            <a class="nav-link mt-2 {% if request.path == '/' %}active{% endif %}" href="{% url 'w_dashboard' %}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="fa fa-poll text-warning text-sm opacity-10"></i>
@@ -39,7 +40,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link mt-2  " href="{% url 'display_analytics' %}">
+            <a class="nav-link mt-2  {% if request.path == '/analytics/' %}active{% endif %}" href="{% url 'display_analytics' %}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="	fas fa-chart-line text-success text-sm opacity-10"></i>
@@ -48,7 +49,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link mt-2  " href="{% url 'retailers' %}">
+            <a class="nav-link mt-2  {% if request.path == '/retailers/' or request.path == '/retailers/logs/'%}active{% endif %}" href="{% url 'retailers' %}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="fas fa-house-user text-primary text-sm opacity-10"></i>
@@ -57,7 +58,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link mt-2  " href="{% url 'display_orders' %}">
+            <a class="nav-link mt-2  {% if request.path == '/orders/' %}active{% endif %}" href="{% url 'display_orders' %}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="fas fa-dolly text-info text-sm opacity-10"></i>
@@ -66,7 +67,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link mt-2 " href="{% url 'products' %}">
+            <a class="nav-link mt-2 {% if request.path == '/products/' or request.path == '/products/new/' or request.path == '/products/categories/' or request.path == '/products/categories/new/' %}active{% endif %}" href="{% url 'products' %}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="fas fa-boxes text-danger text-sm opacity-10"></i>
@@ -75,7 +76,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link mt-2 " href="{% url 'transactions_wholesalers' %}">
+            <a class="nav-link mt-2 {% if request.path == '/wholesalers/transactions/' %}active{% endif %}" href="{% url 'transactions_wholesalers' %}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="fas fa-money-check text-success text-sm opacity-10"></i>
@@ -90,7 +91,7 @@
             <h6 class="ps-4 ms-2 text-uppercase text-s font-weight-bolder opacity-6">Account</h6>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="{% url 'wholesaler_view_profile' %}">
+            <a class="nav-link {% if request.path == '/wholesalers/view-profile/' or request.path == '/wholesalers/edit-profile/' %}active{% endif %}" href="{% url 'wholesaler_view_profile' %}">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="ni ni-single-02 text-secondary text-sm opacity-10"></i>

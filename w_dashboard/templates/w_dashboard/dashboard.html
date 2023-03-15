@@ -24,7 +24,7 @@ Dashboard
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Pending</p>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Pending Orders</p>
                                 <h5 class="font-weight-bolder">
                                     {{ pending }}
                                 </h5>
@@ -45,7 +45,7 @@ Dashboard
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Preparing</p>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Preparing Orders</p>
                                 <h5 class="font-weight-bolder">
                                     {{ preparing }}
                                 </h5>
@@ -66,7 +66,7 @@ Dashboard
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Shipping</p>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Shipping Orders</p>
                                 <h5 class="font-weight-bolder">
                                     {{ shipped }}
                                 </h5>
@@ -88,7 +88,7 @@ Dashboard
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Confirmed</p>
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">Confirmed Orders</p>
                                 <h5 class="font-weight-bolder">
                                     {{ completed }}
                                 </h5>
@@ -111,7 +111,7 @@ Dashboard
                     <div class="d-flex align-items-center">
                     <h6><i class="fas fas fa-poll text-md opacity-10"></i> &nbsp; <span id="graph_status">Daily</span> Sales</h6>
                     
-                    <select id="graph_sort" class="form-control ms-auto" data-toggle="select" title="Display By:" style="width:100px">
+                    <select id="graph_sort" class="form-select ms-auto" data-toggle="select" title="Display By:" style="width:100px">
                         <option value="day" selected>Daily</option>
                         <option value="week">Weekly</option>
                         <option value="month">Monthly</option>
