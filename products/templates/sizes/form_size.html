@@ -32,7 +32,8 @@
                                     <div class="row" id="size-inputs">
                                         <div class="col">
                                             <label>{{form.name.label}}</label>
-                                            <input type="text" name="name" maxlength="255" class="form-control" id="id_name[0]">
+                                            
+                                            <input type="text" {%if variation%} value="{{variation.name}}" {%endif%} name="name" maxlength="255" class="form-control" id="id_name[0]">
                                         </div>
 
                                         <div class="col">

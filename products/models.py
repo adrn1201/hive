@@ -2,6 +2,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 import uuid
 from wholesalers.models import Wholesaler
+import random
+import string
 
 def positive_validator(value):
     if value < 0:
@@ -42,7 +44,16 @@ class Product(models.Model):
     product_image = models.ImageField(default='products/default.jpg', upload_to="products/")
     created = models.DateTimeField(auto_now_add=True)
     analytics_date = models.DateField(null=True, blank=True)
-    id = models.CharField(default=uuid.uuid4().hex[:5].upper(), unique=True, primary_key=True, max_length=1000)
+    id = models.CharField(max_length=5, primary_key=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        while not self.id:
+            random_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+
+            if not Product.objects.filter(id=random_id).exists():
+                self.id = random_id
+
+        super().save(*args, **kwargs)
     
     
     class Meta:
@@ -65,8 +76,17 @@ class Variation(models.Model):
     tempo_stocks_var = models.IntegerField(default=0, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     analytics_date = models.DateField(null=True, blank=True)
-    id = models.CharField(default=uuid.uuid4().hex[:5].upper(), unique=True, primary_key=True, max_length=1000)
-     
+    id = models.CharField(max_length=5, primary_key=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        while not self.id:
+            random_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=5))
+
+            if not Variation.objects.filter(id=random_id).exists():
+                self.id = random_id
+
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name_plural = 'Sizes'
         ordering = ['created']
