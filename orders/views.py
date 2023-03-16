@@ -49,9 +49,11 @@ def generate_sales(request):
 
     orders_thirty = wholesaler.order_set.distinct().filter(
         Q(mode_of_payment='Credit Card/Debit Card') |
-        Q(status='completed')).values("created").order_by("created").annotate(sum=Sum('total_paid'))
-    print(orders_thirty)
-
+        Q(status='completed'),
+        created__gte=thirty_days_ago,
+        created__lte=today
+    ).values("created").order_by("created").annotate(sum=Sum('total_paid'))
+    
     # Create a new PDF document
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{wholesaler.business_name}_Sales_Report".pdf'

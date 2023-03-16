@@ -1,5 +1,6 @@
 {% extends 'main2.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block title %}Shop{% endblock title %}
 
@@ -49,7 +50,7 @@
                 <div class="small mb-1">{{ item.category }}</div>
                 <h1 class="display-5 fw-bolder">{{ item.product_name }}</h1>
                 <div class="fs-5 mb-5">
-                    <span><b>Price: </b></span><span>₱{{ item.price }}</span>
+                    <span><b>Price: </b></span><span>₱{{ item.price|floatformat:2|intcomma }}</span>
                 </div>
 
                 <p class="lead">{{ item.description|linebreaksbr}}</p>

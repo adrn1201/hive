@@ -1,5 +1,6 @@
 {% extends 'main2.html' %}
 {% load static %}
+{% load humanize%}
 
 {% block title %}Shop{% endblock title %}
 
@@ -41,8 +42,11 @@
       <div class="row">
 
          {% for product in products %}
-         <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="box">
+         <div class="col-sm-6 col-md-4 col-lg-4" >
+            <div class="box" style=
+            "width: 100%;
+            height: 25vw;
+            object-fit: cover;">
                <div class="option_container">
                   <div class="options">
                      <a href="{% url 'view_item' product.id %}" class="option2">
@@ -50,7 +54,7 @@
                      </a>
                   </div>
                </div>
-               <div class="img-box">
+               <div class="img-box max">
                   <img src="{{product.product_image.url}}" alt="">
                </div>
                <div class="detail-box">
@@ -62,7 +66,7 @@
                   </h6>
                </div>
                <div class="detail-box">
-                  <small>₱{{ product.price}}</small>
+                  <small>₱{{ product.price|floatformat:2|intcomma}}</small>
                </div>
                <div class="detail-box">
                   <small>{{product.category}}</small>

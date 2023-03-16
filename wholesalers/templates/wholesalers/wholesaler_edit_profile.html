@@ -112,7 +112,7 @@
                 </div>
             </div>     
               <div class="d-flex justify-content-center align-items-center">
-                <button class=" btn-ts btn btn-success btn-sm">Save Changes</button>
+                <button class=" btn-ts btn btn-success btn-sm" id="button-save">Save Changes</button>
               </div>
             </div>
           </div>
@@ -168,7 +168,9 @@
     const message = document.querySelector('.message');
     let alertShown = false; // flag variable
     
-    form.addEventListener('submit', function(e){
+    const button = document.getElementById('button-save');
+
+    button.addEventListener('click', function(e){
 
         const format = /^\d{11}$/;
         const number = document.querySelector('#id_contact_number');
@@ -177,12 +179,12 @@
             message.innerHTML = '';
             return true;
         } else {
-            if (!alertShown) { // show message only if it hasn't been shown before
+            if (!alertShown) { 
                 document.querySelector('#id_contact_number').style.borderColor = "red";
                 const alertBox = document.createElement('div');
                 alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">• Please enter an 11-digit phone number</p>';
                 message.appendChild(alertBox);
-                alertShown = true; // set the flag variable to true
+                alertShown = true;
             }
             e.preventDefault();
         }

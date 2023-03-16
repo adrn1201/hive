@@ -8,40 +8,36 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: auto;
-    margin-top: auto;
     border-radius: 50px;
+    
  }
  {%else%}
  #image1{
-    width: 28px;
-    height: 30px;
+    max-height: 4vw;
+    min-height: 4vw;
+    max-width:4vw;
+    min-width: 4vw;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: auto;
-    margin-top: auto;
-    border-radius: 50px;
+    margin-left: 30%; 
+    margin-bottom: 150% !important;       
+    object-fit: cover;
+
  }
  {%endif %}
  </style>
 
 <div class="min-height-300 {% if not request.user.wholesaler.color %}bg-primary{% endif %} position-absolute w-100"
-    style="{% if request.user.wholesaler.color %}background-color:{{request.user.wholesaler.color}}{% endif %}"></div>
+    style="{% if request.user.wholesaler.color %}background-color:{{request.user.wholesaler.color}}{% endif %}">
+</div>
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
     id="sidenav-main">
-    <div class="sidenav-header" style="  display: flex;">
+    <div class="sidenav-header">
         <a class="navbar-brand m-0" href="{% url 'w_dashboard' %}">
             <img src="{% if request.user.wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ request.user.wholesaler.wholesaler_image.url }}{% endif %}"
                  alt="main_logo" id="image1">
         </a>
-        <div style="margin-top: 22px; overflow: hidden; text-overflow: ellipsis;"> 
-            <a href="{% url 'w_dashboard' %}" style="word-wrap: break-word; color: black;" class="font-weight-bold">          
-            <h6>{{ request.user.wholesaler.business_name }}</h6>
-            </a>
-        </div>
     </div>
-    <hr class="horizontal dark mt-0">
+    <hr class="horizontal dark mt-3">
 
     <ul class="navbar-nav">
         <li class="nav-item" >
