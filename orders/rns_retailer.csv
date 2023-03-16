@@ -1,0 +1,5 @@
+id,business_name,address,contact_name,contact_number,is_active,created,wholesaler_id,retailer_image,city,region,barangay
+1,Mercedez shell,Gov. Lim Avenue,Jasun Toll,9172351221,1,2021-06-15 17:58:08.989588+08,4,products/shell.png,Zamboanga City,Zamboanga Peninsula,ZoneIV
+2,Power race,Edgardo Drive,Arabele Newling,9064324253,1,2021-01-06 18:16:17.563695+08,4,products/powerrace.png,Zamboanga City,Zamboanga Peninsula,Labuan
+3,Arman cycle,Forbes Hill,Derick Shyre,9175424455,1,2021-11-20 00:30:20.045617+08,4,products/arman.png,Zamboanga City,Zamboanga Peninsula,Canelar
+4,Young mart,65 Tomas Claudio Street,Sibyl Pender,9054634158,1,2021-07-11 21:48:19.858411+08,4,products/youngmart.jpg,Zamboanga City,Zamboanga Peninsula,ZoneIV

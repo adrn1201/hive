@@ -108,7 +108,10 @@ def retailer_edit_profile(request):
 
 @login_required(login_url='login_wholesaler')
 def retailer_view_profile(request):
-    retailer = request.user.retailer
+    try:
+        retailer = request.user.retailer
+    except:
+        return redirect('show_shop')
     context ={'retailer':retailer}
     return render(request, "retailers/retailer_view_profile.html", context)
 

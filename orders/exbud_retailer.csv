@@ -1,0 +1,9 @@
+﻿id,business_name,address,contact_name,contact_number,is_active,created,user_id,wholesaler_id,retailer_image,city,region,barangay
+1,Five Star,Tawi tawi,Arlena Staniforth,09354878892,1,"
+2021-06-11 21:52:19.858411+08",10,3,products/5star.png,Zamboanga City,Zamboanga Peninsula,SanJoseCawacawa
+2,Yassaar Motorparts,"pangutaran, Sulu",Eyde Behnke,09987514588,1,"
+2021-07-13 16:33:19.858411+08",11,3,products/mp.png,Zamboanga City,Zamboanga Peninsula,LandangLaum
+3,Ipil shoppers center,"Ipil, Zamboanga Sibugay",Benedikt Smitham,09225458752,1,"
+2021-08-14 18:48:19.858411+08",12,3,products/shoppers.png,Zamboanga City,Zamboanga Peninsula,Muti
+4,Roadzone motorparts,"Zamboanga west coastal raod, Labuan, Zamboanga city",Melessa Mouatt,09184557412,1,"
+2021-12-15 12:25:19.858411+08",13,3,products/rz.jpg,Zamboanga City,Zamboanga Peninsula,Pasobolong

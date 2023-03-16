@@ -1,0 +1,5 @@
+﻿id,business_name,address,contact_name,contact_number,is_active,created,user_id,wholesaler_id,retailer_image,city,region,barangay
+1,Levis store,Zamboanga west coastal Road,Cherie Ann Kwan,9172851058,1,2021-03-15 17:58:08.989588+08,6,2,products/levis.jpg,Zamboanga City,Zamboanga Peninsula,Labuan
+2,Alan store,Zamboanga west coastal Road,Alvin Taneo,9064574253,1,2021-06-06 18:16:17.563695+08,7,2,products/alan.png,Zamboanga City,Zamboanga Peninsula,Labuan
+3,Tina store,Gov Lim Street,Maria Fe Suyom,9175426412,1,2021-01-20 00:30:20.045617+08,8,2,products/tina.png,Zamboanga City,Zamboanga Peninsula,ZoneIV
+4,Midway plaza,65 Tomas Claudio Street,Judy May Dionisio,9054634157,1,2021-10-11 21:48:19.858411+08,9,2,products/midway.jpg,Zamboanga City,Zamboanga Peninsula,ZoneIV
