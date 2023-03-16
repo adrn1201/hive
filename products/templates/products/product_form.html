@@ -116,7 +116,6 @@
     const withVariation =  document.getElementById("id_with_variation"); 
     const minOrders =  document.getElementById("id_min_orders"); 
     const actualStock =  document.getElementById("id_actual_stocks"); 
-
     const hiddenVariation =  document.getElementById("hidden_variation"); 
     const hiddenStocks =  document.getElementById("hidden_stocks");
 
@@ -155,15 +154,6 @@
 
         if (desc.value.trim() === '') {
             document.getElementById('error3').textContent = '• Description is required.';
-            desc.style.borderColor = "red";
-            errors = true;
-        } else {
-            desc.style.borderColor = "";
-            document.getElementById('error3').textContent = '';
-        }
-
-        if (desc.value > 199) {
-            document.getElementById('error3').textContent = '• Maximum of 200 words.';
             desc.style.borderColor = "red";
             errors = true;
         } else {
@@ -248,15 +238,6 @@
             document.getElementById('error3').textContent = '';
         }
 
-        if (desc.value > 199) {
-            document.getElementById('error3').textContent = '• Maximum of 200 words.';
-            desc.style.borderColor = "red";
-            errors = true;
-        } else {
-            desc.style.borderColor = "";
-            document.getElementById('error3').textContent = '';
-        }
-
         if (price.value.trim() === '') {
             document.getElementById('error4').textContent = '• Price is required.';
             price.style.borderColor = "red";
@@ -311,16 +292,7 @@
             desc.style.borderColor = "";
             document.getElementById('error3').textContent = '';
         }
-
-        if (desc.value > 199) {
-            document.getElementById('error3').textContent = '• Maximum of 200 words.';
-            desc.style.borderColor = "red";
-            errors = true;
-        } else {
-            desc.style.borderColor = "";
-            document.getElementById('error3').textContent = '';
-        }
-
+        
         if (price.value.trim() === '') {
             document.getElementById('error4').textContent = '• Price is required.';
             price.style.borderColor = "red";

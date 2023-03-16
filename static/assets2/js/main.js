@@ -69,8 +69,6 @@ if (searchForm) {
 
         if (urlParams.get('variationId') && variation_id) {
             searchForm.innerHTML += `<input type="hidden" name="variationId" value="${variation_id}" />`;
-        } else if (urlParams.get('variationId') && !variation_id) {
-            searchForm.innerHTML += `<input type="hidden" name="variationId" value="${urlParams.get('variationId')}" />`;
         } else if (!urlParams.get('variationId') && variation_id) {
             searchForm.innerHTML += `<input type="hidden" name="variationId" value="${variation_id}" />`;
         }
