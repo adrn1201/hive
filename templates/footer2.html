@@ -21,7 +21,7 @@
                {{request.user.retailer.wholesaler.address}}, {{request.user.retailer.wholesaler.region}}, {{request.user.retailer.wholesaler.city}}, Barangay {{request.user.retailer.wholesaler.barangay}}
                {% endif %}
             </p>
-            <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>TEST:</strong> 
+            <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>PHONE:</strong> 
                {% if request.user.wholesaler %}
                   {{ request.user.wholesaler.contact_number }}               
                {% elif request.user.retailer %}
