@@ -106,7 +106,7 @@ def dashboard(request):
     .annotate(month=ExtractMonth('created'))
     .values('year', 'month')
     .annotate(total=Sum('amount'))
-    )
+    ).order_by("-year", "-month")
 
     monthly_sales = []
 
