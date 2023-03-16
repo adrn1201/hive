@@ -34,6 +34,7 @@ class Transaction(models.Model):
     subscription_id = models.CharField(max_length=255, blank=True, null=True)
     created = models.DateField(auto_now_add=True)
 
+
 def pre_save_create_order_id(sender, instance, *args, **kwargs):
     if not instance.reference_number:
         instance.reference_number= unique_order_id_generator(instance)

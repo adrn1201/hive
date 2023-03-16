@@ -50,7 +50,7 @@ def search_orders(request):
 
     orders = wholesaler.order_set.distinct().filter(Q(id__in=order_filter) &(Q(business_name__icontains=search_query) | 
                                                     Q(mode_of_payment__icontains=search_query) |
-                                                    Q(status__icontains=search_query)))
+                                                    Q(status__icontains=search_query))).order_by('-created')
 
     return orders, search_query
 

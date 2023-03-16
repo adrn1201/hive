@@ -1036,7 +1036,7 @@ li.nav-item ul {
     padding: 10px 20px;
     /* padding-right: 10px 20px; */
     
-    margin-left: 10px;
+    margin-left: -5px;
     /* box-shadow: 4px 4px 0px 0 #000; */
     width: 150px;
 }
