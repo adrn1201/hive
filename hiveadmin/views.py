@@ -98,7 +98,7 @@ def dashboard(request):
     elif request.user.is_authenticated and not request.user.is_superuser or not request.user.is_staff:
         return redirect('login_admin')
     
-    transactions = Transaction.objects.all()
+    transactions = Transaction.objects.all().order_by('id')
     wholesalers = Wholesaler.objects.all().exclude(id=1)
 
     monthly_stats = (Transaction.objects.distinct().all()

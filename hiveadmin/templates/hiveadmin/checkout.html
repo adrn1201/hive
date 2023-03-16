@@ -4,7 +4,7 @@
 {% block content %}
 
 <style>
-  #checkout-and-portal-button{
+ .cd-select{
     border-radius: 5% !important;
     margin: auto;
   }
@@ -65,7 +65,6 @@
 </header>
 
 <div class="cd-pricing-container cd-has-margins">
-
   <ul class="cd-pricing-list">
     <li>
       <header class="cd-pricing-header">
@@ -93,16 +92,20 @@
       </div>
 
       <footer class="cd-pricing-footer">
-        <button class="cd-select"  id="checkout-and-portal-button" type="submit" >Checkout</button>
+        <form action="{% url 'checkout_session_payment'%}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="lookup_key" value="monthly" />
+          <button class="cd-select"  id="monthly" type="submit" disabled>Checkout</button>
+        </form>
       </footer>
     </li>
     <li class="cd-popular">
       <header class="cd-pricing-header">
-        <h2>SEMI-ANNUALLY</h2>
+        <h2>SEMI-ANNUALLY (6 Months)</h2>
 
         <div class="cd-price">
           <span class="cd-currency">₱</span>
-          <span class="cd-value">6,300</span>
+          <span class="cd-value">9,450</span>
           <span class="cd-duration">mo</span>
         </div>
       </header>
@@ -122,16 +125,20 @@
       </div>
 
       <footer class="cd-pricing-footer">
-        <button class="cd-select"  id="checkout-and-portal-button" type="submit" >Checkout</button>
+        <form action="{% url 'checkout_session_payment'%}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="lookup_key" value="Semi" />
+          <button class="cd-select"  id="semi" type="submit" disabled>Checkout</button>
+        </form>
       </footer>
     </li>
     <li>
       <header class="cd-pricing-header">
-        <h2>ANNUALLY</h2>
+        <h2>ANNUALLY (12 Months)</h2>
 
         <div class="cd-price">
           <span class="cd-currency">₱</span>
-          <span class="cd-value">18,900</span>
+          <span class="cd-value">8,925</span>
           <span class="cd-duration">mo</span>
         </div>
       </header>
@@ -151,15 +158,18 @@
       </div>
 
       <footer class="cd-pricing-footer">
-        <button class="cd-select"  id="checkout-and-portal-button" type="submit" >Checkout</button>
+        <form action="{% url 'checkout_session_payment'%}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="lookup_key" value="Annually" />
+          <button class="cd-select"  id="annually" type="submit" disabled>Checkout</button>
+        </form>
       </footer> 
     </li>
   </ul>
-  <div style="display: flex; align-items: center; justify-content: center;">
-    <input type="checkbox" id="terms" name="terms" required style="margin-right: 10px;">
-    <a href="{% url 'terms_condition' %}">Terms and Condition</a>
-  </div>
-
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <input type="checkbox" id="term" name="terms" style="margin-right: 10px;" required>
+      <a href="{% url 'terms_condition' %}">Terms and Condition</a>
+    </div>
 </div>
 
 <script>
@@ -170,6 +180,25 @@
     document.getElementById('session-id').setAttribute('value', session_id);
   }
 });
+
+const monthly = document.getElementById("monthly");
+const semi = document.getElementById("semi");
+const annually = document.getElementById("annually");
+const checkbox = document.getElementById("term");
+
+
+checkbox.addEventListener('change', () => {
+  if (checkbox.checked) {
+    semi.disabled = false;
+    annually.disabled = false;
+    monthly.disabled = false;
+  } else {
+    semi.disabled = true;
+    annually.disabled = true;
+    monthly.disabled = true;
+  }
+});
+
 </script>
 	
 
