@@ -7,6 +7,11 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% if request.path != '/hiveadmin/login/'%}
+        <link rel="icon" type="image/png" href="{% if wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ wholesaler.wholesaler_image.url }}{% endif %}">
+    {%else%}
+        <link rel="icon" type="image/png" href="{% static 'assets2/images/hiveLogo.png'%}">
+    {%endif%}
 
 	<!-- <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
@@ -49,38 +54,7 @@
     <script src="{% static 'assets6/js/bootstrap.min.js'%}"></script>
     <script src="{% static 'assets6/js/main.js'%}"></script>
     
-    <script>
-        const username = document.querySelector('#username');
-        const password = document.querySelector('#password');
-        const message = document.querySelector('.message');
-        
-        let capsLockAlertShown = false;
-        
-        username.addEventListener('keyup', function (e) {
-        if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
-            const alertBox = document.createElement('div');
-            alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
-            message.appendChild(alertBox);
-            capsLockAlertShown = true;
-        } else if (!e.getModifierState('CapsLock')) {
-            message.innerHTML = '';
-            capsLockAlertShown = false;
-        }
-        });
-        
-        password.addEventListener('keyup', function (e) {
-        if (e.getModifierState('CapsLock') && !capsLockAlertShown) {
-            const alertBox = document.createElement('div');
-            alertBox.innerHTML = '<p style="color:#f02849; font-size: 14px; margin-left: 10px; ">Caps lock is on</p>';
-            message.appendChild(alertBox);
-            capsLockAlertShown = true;
-        } else if (!e.getModifierState('CapsLock')) {
-            message.innerHTML = '';
-            capsLockAlertShown = false;
-        }
-        });
-
-      </script>
+   
 
       
   

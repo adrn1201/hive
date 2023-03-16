@@ -1,7 +1,7 @@
 {% extends 'main2.html' %}
 {% load static %}
 
-{% block title %}Profile - Retailer{% endblock title %}
+{% block title %}Profile{% endblock title %}
 {% block content %}
 
 <style>
@@ -16,87 +16,67 @@
  }
  </style>
 
-
-<div class="container">
-   <div class="row">
-       <div class="col-xl-4">
-     
-        <br>
-        <br>
-        <br>
+<div class="container py-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-header" style="background-color: white ;"> <p class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: large; color: #342809;">Profile Picture</p></div>
+                    <div class="card-body text-center">
+                        <!-- Profile picture image-->
+                    <img id="image" src ="{{retailer.image_url}}">                 
+                    </div>
+                </div>
+            </div>
         
-           <!-- Profile picture card-->
-           <br>
-           <div class="card mb-4 mb-xl-0">
-               <div class="card-header">Profile Picture</div>
-               <div class="card-body text-center">
-                   <!-- Profile picture image-->
-                <img id="image" src ="{{retailer.image_url}}">                 
-               </div>
-           </div>
-       </div>
-      
-       <div class="col-xl-8">
-    
-        <br>
-        <br>
-        <br>
         
-           <!-- Account details card-->
-           <div class="card mb-4">
-               <div class="card-header">Account Details</div>
-               <div class="card-body">
-                   <form>
-                       <!-- Form Group (username)-->
-                       <div class="mb-3">
-                           <label class="small mb-1" for="inputUsername"><b>Business Name</b></label>
-                           <p>{{retailer.business_name}}</p>
-                       </div>
-                       <!-- Form Row-->
-                       <div class="row gx-3 mb-1">
-                           <!-- Form Group (first name)-->
-                           <div class="col-md-6">
-                               <label class="small mb-1" for="inputFirstName"><b>Contact Name</b></label>
-                               <p>{{retailer.contact_name}}</p>
-                           </div>
-                           <!-- Form Group (last name)-->
-                           <div class="col-md-6">
-                               <label class="small mb-1" for="inputLastName"><b>Contact Number</b></label>
-                               <p>{{retailer.contact_number}}</p>
-                           </div>
-                       </div>
-                       <!-- Form Group (email address)-->
-                       
-                       <!-- Form Row-->
-                       <div class="row gx-3 mb-4">
-                           <!-- Form Group (phone number)-->
+            <div class="col-lg-6 col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header" style="background-color: white ;"><p class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: large; color: #342809;">Account Details</p></div>
+                    <div class="card-body">
+                        <form>
+                            <!-- Form Group (username)-->
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputUsername"><b>Business Name</b></label>
+                                <p>{{retailer.business_name}}</p>
+                            </div>
+                            <!-- Form Row-->
+                            <div class="row gx-3 mb-1">
+                                <!-- Form Group (first name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputFirstName"><b>Contact Name</b></label>
+                                    <p>{{retailer.contact_name}}</p>
+                                </div>
+                                <!-- Form Group (last name)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputLastName"><b>Contact Number</b></label>
+                                    <p>{{retailer.contact_number}}</p>
+                                </div>
+                            </div>
+                            <!-- Form Group (email address)-->
+                            
+                            <!-- Form Row-->
+                                    <div class="row gx-3 mb-4">
+                                        <!-- Form Group (phone number)-->
 
-                           <div class="col-md-6">
-                              <label class="small mb-1" for="inputEmailAddress"><b>Address</b></label>
-                              <p>{{retailer.address}}, {{retailer.region}}, {{retailer.city}}, Barangay {{retailer.barangay}} </p>
-                          </div>
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="inputEmailAddress"><b>Address</b></label>
+                                            <p>{{retailer.address}}, {{retailer.region}}, {{retailer.city}}, Barangay {{retailer.barangay}} </p>
+                                        </div>
 
-                           <div class="col-md-6">
-                               <label class="small mb-1" for="inputPhone"><b>Date Joined</b></label>
-                               <p>{{retailer.created}}</p>
-                           </div>
-                       </div>
-                       
-                       <a href = "{% url 'retailer_edit_profile'%}" class="btn btn-primary">Edit Details</a>
-                   </form>
-               </div>
-           </div>
-           <br>
-           <br>
-           <br>
-           <br>
-           <br>
-       </div>
-   </div>
-   <br><br>
-</div>
-
-
+                                        <div class="col-md-6">
+                                            <label class="small mb-1" for="inputPhone"><b>Date Joined</b></label>
+                                            <p>{{retailer.created}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center">                                        
+                                        <a href = "{% url 'retailer_edit_profile'%}" class="btn" style="background-color: #A77802; color: white;"><i class="fas fa-pencil-alt "></i>&nbsp;Edit Details</a>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 <!-- <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="Valerie"> -->

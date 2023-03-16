@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %}View Profile - Wholesaler{% endblock title %}
+{% block title %}View Profile{% endblock title %}
 {% block content %}
 
 <style>
@@ -46,7 +46,7 @@
             </div>
           </div>
               <div class="d-flex justify-content-center align-items-center">
-                <a href="{% url 'wholesaler_edit_profile'%}" class="btn-ts btn btn-primary">Edit Details</a>
+                <a href="{% url 'wholesaler_edit_profile'%}" class="btn-ts btn btn-primary"><i class="fas fa-pencil-alt "></i>&nbsp; Edit Details</a>
             </div>
         </div>
       </div>

@@ -1,69 +1,81 @@
 {% load static %}
-<style>
-   @media (min-width: 992px){
-      .page-footer{
-          position:absolute;
-          right: 0;
-          bottom: 0;
-          left: 0;
-      }
-   }
-   
-   #image{
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: solid;
-        border-color:#404040;
-        margin-right: 100%;
-       
-    }
-   </style>
-<footer class="bg-light">
-   <div class="container-fluid row"> 
-          <div class="col-md-4">
-              <div class="mb-5 full">
-                 <div class="logo_footer">
-                   <a href="#"><img width="100" src="{{ request.user.retailer.wholesaler.wholesaler_image.url }}" alt="#" id="image"></a>
-                 </div>
-                 <div class="information_f">
-                   <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> {{request.user.retailer.wholesaler.address}}, {{request.user.retailer.wholesaler.region}}, {{request.user.retailer.wholesaler.city}}, Barangay {{request.user.retailer.wholesaler.barangay}}
-                  </p>
-                   <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>PHONE:</strong> {{ request.user.retailer.wholesaler.contact_number }}</p>
-                   <p class="text-black"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong> {{request.user.email}}</p>
-                 </div>
-              </div>
-          </div>
+   <footer style="background-color: #000f1a;">
+   <div class="p-3">
+     <div class="row">
+      <div class="col-md-4">
+         <div class="container-fluid">
+         <div class="mb-5 full">
+            
+            <h1 class="mb-3" style="letter-spacing: 2px; font-weight: bolder; color: white;">
+               {% if request.user.wholesaler %}
+                  {{ request.user.wholesaler.business_name }}
+               {% elif request.user.retailer %}
+                  {{request.user.retailer.wholesaler.business_name}}
+               {% endif %}
+            </h1>
+            <div class="information_f" style="color: white;">
+            <p class="text-black">	<span class="fa fa-map-marker"></span>&nbsp;<strong>ADDRESS:</strong> 
+               {% if request.user.wholesaler %}
+               {{request.user.wholesaler.address}}, {{request.user.wholesaler.region}}, {{request.user.wholesaler.city}}, Barangay {{request.user.wholesaler.barangay}}
+               {% elif request.user.retailer %}
+               {{request.user.retailer.wholesaler.address}}, {{request.user.retailer.wholesaler.region}}, {{request.user.retailer.wholesaler.city}}, Barangay {{request.user.retailer.wholesaler.barangay}}
+               {% endif %}
+            </p>
+            <p class="text-black"><span class="fa fa-phone"></span>&nbsp;<strong>PHONE:</strong> 
+               {% if request.user.wholesaler %}
+                  {{ request.user.wholesaler.contact_number }}               
+               {% elif request.user.retailer %}
+                  {{ request.user.retailer.wholesaler.contact_number }}              
+               {% endif %}</p>
 
-          <div class="col-md-8">
+            <p class="text-black"><span class="fas fa-envelope"></span>&nbsp;<strong>EMAIL:</strong>
+               {% if request.user.wholesaler %}
+                  {{ request.user.wholesaler.user.email }}
+               {% elif request.user.retailer %}
+                  {{ request.user.retailer.wholesaler.user.email }}
+               {% endif %}</p>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+       <div class="col-md-8">
             <div class="row ms-auto"> 
                      <div class="col-md-3 ms-auto">
-                        <div class="widget_menu text-black">
-                          <h3><span class="fas fa-shopping-bag"></span>&nbsp; Shop</h3>
-                          <ul class="text-black">
-                              <li><a href="{% url 'show_shop' %}"><p class="text-black">Products</p></a></li>
-                              <li ><a href="{% url 'about_us' %}"><p class="text-black">Contact Us</p></a></li>
-                              <li><a href="{% url 'show_cart' %}"><p class="text-black">Cart</p></a></li>
-                          </ul>
+                        <div class="widget_menu">
+                           <h5 style="letter-spacing: 2px; font-weight: bolder; color: white;"><span class="far fa-compass"></span>&nbsp; Navigation</h5>
+                        <ul class="">
+                              <li><a href="{% url 'show_shop' %}"><p style="color: white;">Products</p></a></li>
+                              <li ><a href="{% url 'about_us' %}"><p style="color: white;">Contact Us</p></a></li>
+                              <li><a href="{% url 'show_cart' %}"><p style="color: white;">Cart</p></a></li>
+                        </ul>
                         </div>
-                    </div>
-               <div class="col-md-3">
-                  <div class="widget_menu text-black">
-                     <h3><span class="fas fa-user-alt"></span>&nbsp;Account</h3>
-                     <ul>
-                        <li><a href="{% url 'retailer_view_profile' %}"><p class="text-black">Profile</p></a></li>
-                        <li><a href="{% url 'dashboard_retailer' %}"><p class="text-black">Orders</p></a></li>
-                     </ul>
                   </div>
+                        
+                     <div class="col-md-3">
+                     
+                        <div class="widget_menu">
+                           <h5 style="letter-spacing: 2px; font-weight: bolder; color: white;"><span class="fas fa-user-alt"></span>&nbsp; Account</h5>
+                           <ul>
+                              <li><a href="{% url 'retailer_view_profile' %}"><p style="color: white;">Profile</p></a></li>
+                              <li><a href="{% url 'dashboard_retailer' %}"><p style="color: white;">Orders</p></a></li>
+                           </ul>
+                        </div>
 
-               </div>
-
+                     </div>
             </div>
+         </div>
+     </div>
+   </div>
+   <!-- Copyright -->
+ </footer>
+ 
+</div>
+<!-- End of .container -->
 
-   </div> 
-</div> 
-<br>
-<br>
+
+   
 
 
-</footer>
+

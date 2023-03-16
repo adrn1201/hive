@@ -22,7 +22,7 @@
                      <div class="form-group pl-4 has-search input-group">
                         <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search Products or Category">
                         <div class="input-group-append">                           
-                           <button class="input-group-text fa fa-search" value="{{ search_query }}" type="submit"></button>
+                           <button class="input-group-text fa fa-search" value="{{ search_query }}" type="submit" style="background-color: #000000; color: white !important;"></button>
                         </div>
                      </div>
 
@@ -72,32 +72,9 @@
          {% endfor %}
 
       </div>
-      <nav aria-label="Page navigation example">
-         {% if products.has_other_pages %}
-         <ul class="pagination justify-content-center">
-            {% if products.has_previous %}
-               <li class="page-item"><a href="?page={{products.previous_page_number}}" class="btn page-link pagination1" tabindex="-1" data-page="{{ products.previous_page_number }}">&#10094;</a></li>
-               {% endif %}
-
-               {% for page in custom_range %}
-               {% if page == products.number %}
-               <li class="page-item active"><a class="page-link pagination1" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
-               {% else %}
-               <li class="page-item"><a class="page-link pagination1" href="?page={{page}}" data-page="{{ page }}">{{ page }}</a></li>
-               {% endif %}
-
-               {% endfor %}
-               {% if products.has_next %}
-               <li class="page-item"><a href="?page={{products.next_page_number}}" class="btn page-link pagination1" data-page="{{ products.next_page_number }}">&#10095;</a></li>
-               {% endif %}
-
-         </ul>
-       </nav>
-       {% endif %}
+      <br><br>
+      {% include 'r-pagination.html' with queryset=products custom_range=custom_range %}
    </div>
 </section>
-
-
-
 
 {% endblock content %}

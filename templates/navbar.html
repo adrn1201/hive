@@ -1,6 +1,7 @@
 {% load static %}
 
 <style>
+{% if request.user.wholesaler.wholesaler_image == 'products/default.jpg' %}
     #image1{
     width: 28px;
     height: 30px;
@@ -10,8 +11,19 @@
     margin-bottom: auto;
     margin-top: auto;
     border-radius: 50px;
-    border-color:black;
  }
+ {%else%}
+ #image1{
+    width: 28px;
+    height: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto;
+    margin-top: auto;
+    border-radius: 50px;
+ }
+ {%endif %}
  </style>
 
 <div class="min-height-300 {% if not request.user.wholesaler.color %}bg-primary{% endif %} position-absolute w-100"
@@ -23,8 +35,10 @@
             <img src="{% if request.user.wholesaler.wholesaler_image == 'products/default.jpg' %}{% static 'assets2/images/HIVE.png'%}{% else %}{{ request.user.wholesaler.wholesaler_image.url }}{% endif %}"
                  alt="main_logo" id="image1">
         </a>
-        <div class="" style="margin-top: 26px; overflow: hidden; text-overflow: ellipsis;">            
-            <b><p style="word-wrap: break-word;" class="font-weight-bold">{{ request.user.wholesaler.business_name }}</p></b>
+        <div style="margin-top: 22px; overflow: hidden; text-overflow: ellipsis;"> 
+            <a href="{% url 'w_dashboard' %}" style="word-wrap: break-word; color: black;" class="font-weight-bold">          
+            <h6>{{ request.user.wholesaler.business_name }}</h6>
+            </a>
         </div>
     </div>
     <hr class="horizontal dark mt-0">
@@ -112,25 +126,11 @@
     </ul>
 
 </aside>
-<main class="main-content position-relative border-radius-lg ">
+<main class="main-content border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl ">
         <div class="container-fluid py-1 px-3">
             
-            <!-- <ul class="navbar-nav  justify-content-end">
-                <div class="col-lg-12">
-                    <li class="">
-                        <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
-                            <div class="sidenav-toggler-inner">
-                                <i class="sidenav-toggler-line bg-white"></i>
-                                <i class="sidenav-toggler-line bg-white"></i>
-                                <i class="sidenav-toggler-line bg-white"></i>
-                            </div>
-                        </a>
-                    </li>
-                </div>
-            </ul> -->
-
                 <h6 class="font-weight-bolder text-white mb-0">
                     <br>
                     {% if request.path != '/'%}
@@ -157,6 +157,19 @@
                     Logs
                     {%endif%}
                 </h6>
+                <ul class="navbar-nav  justify-content-end">
+                    <div class="col-lg-12">
+                        <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                            <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                              <div class="sidenav-toggler-inner">
+                                <i class="sidenav-toggler-line bg-white"></i>
+                                <i class="sidenav-toggler-line bg-white"></i>
+                                <i class="sidenav-toggler-line bg-white"></i>
+                              </div>
+                            </a>
+                          </li>
+                    </div>
+                </ul>
    
-    </div>
+        </div>
     </nav>

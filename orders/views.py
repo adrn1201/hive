@@ -18,6 +18,9 @@ from retailers.models import Retailer, RetailerLogs
 from hiveadmin.models import AdminWholesalerLogs,AdminRetailerLogs
 from django.http import Http404
 from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from django.db.models import Q
+
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -29,52 +32,84 @@ from datetime import datetime, timedelta
 
 @login_required(login_url='login_wholesaler')
 def generate_sales(request):
-    try:
-        request.user.wholesaler
-    except:
-        return HttpResponseForbidden()
+    if request.user.is_authenticated and (request.user.is_wholesaler or request.user.is_superuser):
+        pass
+    elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
+        return redirect('show_shop')
     
-     # Retrieve orders from the last 30 days
+    hostname_without_port = remove_www(request.get_host().split(':')[0])
+    domain = Domain.objects.get(domain=hostname_without_port)
+    wholesaler_id = domain.tenant.id
+    wholesaler = Wholesaler.objects.get(id=wholesaler_id)
+
+    # Retrieve orders from the last 30 days
     today = datetime.now().date()
     thirty_days_ago = today - timedelta(days=30)
-    orders_thirty = Order.objects.filter(created__gte=thirty_days_ago)
+    # orders_thirty = Order.objects.filter(created__gte=thirty_days_ago)
 
-  # Create a new PDF document
+    orders_thirty = wholesaler.order_set.distinct().filter(
+        Q(mode_of_payment='Credit Card/Debit Card') |
+        Q(status='completed')).values("created").order_by("created").annotate(sum=Sum('total_paid'))
+    print(orders_thirty)
+
+    # Create a new PDF document
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="sales_report.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="{wholesaler.business_name}_Sales_Report".pdf'
     pdf_canvas = canvas.Canvas(response)
 
     # Add a title to the document
     pdf_canvas.setFont('Helvetica-Bold', 16)
-    pdf_canvas.drawString(50, 750, 'Sales Report')
+    title_text = f'{wholesaler.business_name} Sales Report'
+    title_width = pdf_canvas.stringWidth(title_text, 'Helvetica-Bold', 16)
+    page_width, _ = letter
+    pdf_canvas.drawString((page_width - title_width) / 2, 750, title_text)
+
+    # Set the tab title to the business name
+    tab_title = wholesaler.business_name
+    response['Content-Disposition'] = f'attachment; filename="{tab_title}_Sales_Report.pdf"'
 
     # Define the table columns and their widths
-    table_columns = ['R.O.', 'Business Name','Amount','Date']
-    column_widths = [100, 100, 100, 100]
+    table_columns = ['Date', 'Total sales per day']
+    column_widths = [100, 200]
+
+    # Calculate the total width of the table
+    table_width = sum(column_widths)
+
+    # Calculate the x-coordinate for the left edge of the table
+    x = (page_width - table_width) / 2
 
     # Add the table headers
     pdf_canvas.setFont('Helvetica-Bold', 12)
     y_offset = 700
+    x_test = 180
     for index, column in enumerate(table_columns):
-        pdf_canvas.drawString(50 + (index * column_widths[index]), y_offset, column)
+        # Center the column header by adding half the difference between the total table width
+        # and the sum of the column widths to the x-coordinate for the left edge of the table
+        header_x = x_test + (index * column_widths[index]) + (table_width - sum(column_widths)) / 2
+        pdf_canvas.drawCentredString(header_x, y_offset, column)
+
 
     # Add the table data
     pdf_canvas.setFont('Helvetica', 12)
-    y_offset -= 20
+    y_offset -= 30
     total_sales = 0
     for order in orders_thirty:
-        ref_num = order.reference_number
-        bus_name = order.business_name
-        amnt = order.total_paid 
-        date = order.created
+        # Center the column data by adding half the difference between the total table width
+        # and the sum of the column widths to the x-coordinate for the left edge of the table
+        data_x = x + (table_width - sum(column_widths)) / 2
+        # ref_num = order['reference_number']
+        # bus_name = order['business_name']
+        date = order['created']
+        amnt = order['sum']
 
-        pdf_canvas.drawString(50, y_offset, ref_num)
-        pdf_canvas.drawString(50 +column_widths[0], y_offset, bus_name)
-        pdf_canvas.drawString(50 + column_widths[0] + column_widths[1], y_offset, '${:.2f}'.format(amnt))
-        pdf_canvas.drawString(50 +column_widths[0] + column_widths[1] + column_widths[2], y_offset, str(date))
-       
+        # pdf_canvas.drawString(data_x, y_offset, ref_num)
+        # pdf_canvas.drawString(data_x + column_widths[0], y_offset, bus_name)
+        pdf_canvas.drawRightString(110 + column_widths[0], y_offset, str(date))
+        pdf_canvas.drawRightString(120 + column_widths[0] + column_widths[1], y_offset, 'PHP {:,.2f}'.format(amnt))
 
-        y_offset -= 20
+
+
+        y_offset -= 40
         total_sales += amnt
 
         # Add a page break after every 5 rows
@@ -82,20 +117,21 @@ def generate_sales(request):
             y_offset = 750
             pdf_canvas.showPage()
             pdf_canvas.setFont('Helvetica', 12)
-            # pdf_canvas.setFont('Helvetica', 12)
-            for index, column in enumerate(table_columns):
-                pdf_canvas.drawString(50 + (index * column_widths[index]), y_offset, column)
             y_offset -= 20
+
+    # Add a line break
+    y_offset -= 20
+    x_offset = 320
 
     # Add the total sales amount
     pdf_canvas.setFont('Helvetica-Bold', 12)
-    pdf_canvas.drawString(50, y_offset, 'Total')
-    pdf_canvas.drawString(50 + column_widths[0], y_offset, '')
-    pdf_canvas.drawString(50 + column_widths[0] + column_widths[1], y_offset, '${:.2f}'.format(total_sales))
+    pdf_canvas.drawString(x_offset, y_offset, 'Total: PHP {:,.2f}'.format(total_sales))
+    pdf_canvas.drawString(x_offset + column_widths[0], y_offset, '')
 
     # Save the PDF document and return the response
     pdf_canvas.save()
     return response
+
 
 
 @login_required(login_url='login_wholesaler')
@@ -133,12 +169,15 @@ def create_order(request):
     else:
         shipping = float(50.00)
     cart_total = cart_subtotal + shipping
-            
+  
     order = Order.objects.create(
         user=request.user,
         wholesaler=wholesaler,
         business_name=retailer.business_name, 
         address=retailer.address,
+        barangay=retailer.barangay,
+        city=retailer.city,
+        region=retailer.region,
         total_paid=cart_total,
         success=True,
         mode_of_payment=request.POST['modeOfPayment'],
@@ -340,31 +379,3 @@ def order_details(request, pk):
     context = {'order':order, 'order_items':order_items, 'form':form}
     return render(request, 'orders/order_details.html', context)    
     
-@login_required(login_url='login_wholesaler')
-
-def sales_report(request):
-    # Retrieve orders from the last 30 days
-    today = datetime.now().date()
-    thirty_days_ago = today - timedelta(days=30)
-    orders = Order.objects.filter(created__gte=thirty_days_ago)
-
-    # Calculate total sales
-    total_sales = orders.aggregate(total_sales=Sum('total_paid'))['total_sales']
-    formatted_total_sales = "{:,}".format(total_sales)
-
-    # Calculate average order value
-    average_order_value = orders.aggregate(avg_order=Sum('total_paid')/Count('reference_number'))['avg_order']
-    formatted_order_value = "{:,}".format(average_order_value)
-
-    # # Group orders by product category and calculate revenue
-    # orders_by_category = orders.values('product_category').annotate(revenue=Sum('total_paid'))
-
-    # Create a dictionary to store the data
-    data = {
-        'total_sales': formatted_total_sales,
-        'average_order_value': formatted_order_value,
-         
-    }
-
-    # Return the data as JSON
-    return JsonResponse(data)

@@ -1,6 +1,6 @@
 {% extends 'admin.html' %}
 {% load static %}
-{% block title %}Registration - Admin{% endblock title %}
+{% block title %}Register Admin{% endblock title %}
 {% block content %}
 
 <style>
@@ -10,12 +10,32 @@
   #id_password2 {
       width: 100%;
   }
+  
+  .error input {
+  border: 1px solid red !important;
+  }
+
+  .error .input-group-text {
+    border: 1px solid red;
+  }
 </style>
 
 
 <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
   <div class="container-fluid">
-    <div class="navbar-wrapper">
+    <div class="navbar-toggle">
+      <button type="button" class="navbar-toggler">
+          <span class="navbar-toggler-bar bar1"></span>
+          <span class="navbar-toggler-bar bar2"></span>
+          <span class="navbar-toggler-bar bar3"></span>
+      </button>
+  </div>
+
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+  aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+
+</button>
+    <div class="navbar-wrapper py-3">
       <a href="javascript:history.go(-1);"><i class="far fa-arrow-alt-circle-left py-4 ps-lg-3" style="color:white; font-size: larger;" aria-hidden="true"></i></a>
     </div>
    
@@ -33,22 +53,26 @@
           <h5 class="title">Register Admin</h5>
         </div>
         <div class="card-body">
-          <form method = "POST" >
+          <form method = "POST" id="form-admin">
             {% csrf_token %}
             <div class="row col-md-12">
               <div class="col">
-                <div class="form-group">
+                <div class="form-group {% if form.first_name.errors %} error {% endif %}">
                   <label class="font-weight-bold" style="color:#342B09;"><h6>First Name</h6></label>
                   {{form.first_name}}
+                  <p id="error1" style="color:#f02849; font-size: 16px; margin-left: 10px; margin-top: 15px;"></p>   
+
                   {% if form.first_name.errors %}
                   <div style="color:red;">{{form.first_name.errors}}</div>
                   {% endif %}
                 </div>
               </div>
               <div class="col">
-                <div class="form-group">
+                <div class="form-group {% if form.last_name.errors %} error {% endif %}">
                   <label class="font-weight-bold" style="color:#342B09;"><h6>Last Name</h6></label>
                   {{form.last_name}}
+                  <p id="error2" style="color:#f02849; font-size: 16px; margin-left: 10px; margin-top: 15px;"></p>   
+
                   {% if form.last_name.errors %}
                   <div style="color:red;">{{form.last_name.errors}}</div>
                   {% endif %}
@@ -56,9 +80,11 @@
               </div>
             </div>
             <div class="col-md-12">
-              <div class="form-group">
+              <div class="form-group {% if form.email.errors %} error {% endif %}">
                 <label class="font-weight-bold" style="color:#342B09;"><h6>Email</h6></label>
                 {{form.email}}
+                <p id="error3" style="color:#f02849; font-size: 16px; margin-left: 10px; margin-top: 15px;"></p>   
+
                 {% if form.last_name.errors %}
                 <div style = "color:red;">
                   {{form.last_name.errors}} 
@@ -68,9 +94,11 @@
             </div>
             
             <div class="col-md-12">
-              <div class="form-group">
+              <div class="form-group {% if form.username.errors %} error {% endif %}">
                 <label class="font-weight-bold" style="color:#342B09;"><h6 class="font-weight-bold">User Name</h6></label>
                 {{form.username}}
+                <p id="error4" style="color:#f02849; font-size: 16px; margin-left: 10px; margin-top: 15px;"></p>   
+
                 {% if form.username.errors %}
                 <div style = "color:red;">
                   {{form.username.errors}} 
@@ -81,15 +109,12 @@
             
 
             <div class="col-md-12">
-              <div class="form-group">
+              <div class="form-group {% if form.password1.errors %} error {% endif %}">
                 <label class="font-weight-bold" style="color:#342B09;"><h6 class="font-weight-bold">Password</h6></label>
-                
-    
                   {{form.password1}}
 
-                
-              
-        
+                  <p id="error5" style="color:#f02849; font-size: 16px; margin-left: 10px; margin-top: 15px;"></p>   
+
                 {% if form.password1.errors %}
                 <div style = "color:red;">
                   {{form.password1.errors}} 
@@ -100,14 +125,12 @@
            
 
             <div class="col-md-12">
-              <div class="form-group">
+              <div class="form-group {% if form.password2.errors %} error {% endif %}">
                 <label class="font-weight-bold" style="color:#342B09;"><h6 class="font-weight-bold">Confirm Password</h6></label>
-                
-              
                   {{form.password2}}
 
-                
-          
+                  <p id="error6" style="color:#f02849; font-size: 16px; margin-left: 10px; margin-top: 15px;"></p>   
+
                 {% if form.password2.errors %}
                 <div style = "color:red;">
                   {{form.password2.errors}} 
@@ -135,6 +158,87 @@
 </section>
 
 <script>
+    const form = document.querySelector('#form-admin');
+    const firstName = document.getElementById('id_first_name');
+    const lastName = document.getElementById('id_last_name');
+    const email = document.getElementById('id_email');
+    const userName = document.getElementById('id_username');
+    const pass1 =  document.getElementById("id_password1"); 
+    const pass2 =  document.getElementById("id_password2"); 
+
+    
+
+    const error1 = document.querySelector('#error1');
+    const error2 = document.querySelector('#error2');
+    const error3 = document.querySelector('#error3');
+    const error4 = document.querySelector('#error4');
+    const error5 = document.querySelector('#error5');
+    const error6 = document.querySelector('#error6');
+
+
+    form.addEventListener('submit', function (e){
+      e.preventDefault();
+      if (firstName.value === ''){
+        firstName.style.borderColor = "red";
+        error1.innerText = '• Please enter your first name';
+      } 
+      else if(lastName.value === '' ){
+        lastName.style.borderColor = "red";
+        error2.innerText = '• Please enter your first name';
+      }
+      else if(email.value === ''){
+        email.style.borderColor = "red";
+        error3.innerText = '• Please enter your email';
+      }
+      else if( userName.value === ''){
+        userName.style.borderColor = "red";
+        error4.innerText = '• Please enter your user name';
+      }
+      else if( pass1.value === '' ){
+        pass1.style.borderColor = "red";
+        error5.innerText = '• Please enter your password';
+      }
+      else if( pass2.value === '' ){
+        pass2.style.borderColor = "red";
+        error6.innerText = '• Please enter your password';
+      }
+      else{
+          this.submit();
+      }
+
+
+      if(firstName.value === '' && lastName.value === '' && email.value === '' && userName.value === '' && pass1.value === '' && pass2.value === ''){
+        firstName.style.borderColor = "red";
+        lastName.style.borderColor = "red";
+        email.style.borderColor = "red";
+        userName.style.borderColor = "red";
+        pass1.style.borderColor = "red";
+        pass2.style.borderColor = "red";
+
+        error1.innerText = '• Please enter your first name';
+        error2.innerText = '• Please enter your first name';
+        error3.innerText = '• Please enter your email';
+        error4.innerText = '• Please enter your user name';
+        error5.innerText = '• Please enter your password';
+        error6.innerText = '• Please enter your password';
+      }
+
+    function isValidEmail(email) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+    }
+
+    const emailInput = email.value;
+
+    if (!isValidEmail(emailInput)) {
+        error3.innerText = '• Please enter your @';
+    }
+    else{
+        error3.innerText = '';
+    }
+  });
+
+
 
   const togglePassword = document.querySelector('#togglePassword');
   const togglePassword2 = document.querySelector('#togglePassword2');

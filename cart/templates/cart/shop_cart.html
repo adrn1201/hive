@@ -1,7 +1,7 @@
 {% extends 'main2.html' %}
 {% load static %}
-
-{% block title %}Shop{% endblock title %}
+{% load humanize %}
+{% block title %}Cart{% endblock title %}
 
 {% block content %}
 
@@ -37,13 +37,13 @@ input[type=number] {
           <table class="table">
             <thead>
               <tr>
-                <th scope="col" class="h5">Cart Items</th>
-                <th scope="col">Product</th>
-                <th scope="col">Category</th>
-                <th scope="col">Variation</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Unit Price</th>
-                <th scope="col">Subtotal</th>
+                <th scope="col" class="h5 text-center text-uppercase font-weight-bolder opacity-7" style=" color: #342809;">Cart Items</th>
+                <th scope="col" class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Product</th>
+                <th scope="col" class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Category</th>
+                <th scope="col" class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Variation</th>
+                <th scope="col" class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Quantity</th>
+                <th scope="col" class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;" >Unit Price</th>
+                <th scope="col" class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Subtotal</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -94,9 +94,8 @@ input[type=number] {
                       data-quantity="{{item.products.tempo_stocks}}" {% endif %} data-cart="{{item.id}}"
                       name="decreaseq" data-index="{{item.products.id}}" class="btn btn-link px-2 reduce-quantity"
                       onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                      <i class="fas fa-minus"></i>
+                      <i class="fas fa-minus" style="color:#A77802 ;"></i>
                     </button>
-
                     <input id="qty-input{{item.id}}" data-cart="{{item.id}}" data-index="{{item.products.id}}" min="0"
                       name="quantity" value="{{item.qty}}" type="number" {% if item.variation_id %}
                       data-quantity="{{item.variation_id.tempo_stocks_var}}" {% else %}
@@ -108,17 +107,23 @@ input[type=number] {
                       data-quantity="{{item.products.tempo_stocks}}" {% endif %}
                       class="btn btn-link px-2 increase-quantity"
                       onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                      <i class="fas fa-plus"></i>
+                      <i class="fas fa-plus" style="color:#A77802 ;"></i>
                     </button>
                   </div>
                 </td>
                 <td class="align-middle">
-                  <p id="prod-uprice{{item.id}}" class="mb-0" style="font-weight: 500;">
-                    {{item.products.price|floatformat:2}}</p>
+                  <div class="d-flex" style="margin-top: 1px; margin-left: 20px;">
+                    <span class="mb-0">&#8369;</span>
+                    <p id="prod-uprice{{item.id}}" class="mb-0" style="font-weight: 500;">
+                    {{item.products.price|floatformat:2|intcomma}}</p>
+                  </div>
                 </td>
                 <td class="align-middle">
-                  <p id="prod-tprice{{item.id}}" class="mb-0 subtotal" style="font-weight: 500;"
-                    data-subtotal="{{ item.subtotal }}">{{item.subtotal|floatformat:2 }}</p>
+                  <div class="d-flex" style="margin-top: 1px; ">
+                    <span class="mb-0">&#8369;</span>
+                    <p id="prod-tprice{{item.id}}" class="mb-0 subtotal" style="font-weight: 500;"
+                    data-subtotal="{{ item.subtotal }}">{{item.subtotal|floatformat:2|intcomma }}</p>
+                  </div>
                 </td>
                 <td class="align-middle">
                   <button id="remove-cart" data-cart="{{item.id}}" data-index="{{item.products.id}}"
@@ -144,7 +149,7 @@ input[type=number] {
                 {% csrf_token %}
                 <div class="col-md-6 mb-4 mb-md-0 py-1" id="mop">
 
-                  <div class="d-flex flex-row pb-4">
+                  <div class="d-flex  pb-4">
                     <div class="d-flex align-items-center pe-2 ml-3 mt-3">
                       <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="stripe-payment-element"
                         value="Credit Card/Debit Card" aria-label="..." onclick="text(0)" checked />
@@ -155,7 +160,7 @@ input[type=number] {
                       </p>
                     </div>
                   </div>
-                  <div class="d-flex flex-row">
+                  <div class="d-flex ">
                     <div class="d-flex align-items-center pe-2 ml-3 mt-3">
                       <input class="form-check-input p-2" type="radio" name="modeOfPayment" id="cash-on-delivery"
                         value="Cash on Delivery" aria-label="..." onclick="text(1)" />
@@ -167,67 +172,62 @@ input[type=number] {
                     </div>
                   </div>
                 </div>
+                
+                <div class="col-md-6 mb-4 mb-md-0 py-1" id="mop">
 
-               
-
-                <!-- AMOUNT -->
-
-                <div class="col-md-6" id="amount">
-                  <div class="d-flex" style="font-weight: 500;">
-                    <p class="mb-2">Subtotal</p>
-                    <p id="subtotal" class="mb-2">{{cart_subtotal|floatformat:2}}</p>
-                  </div>
-                  <div id="" class="d-flex justify-content-between" style="font-weight: 500;">
-                    <p class="mb-0">Shipping</p>
-                    <p class="mb-0">50.00</p>
-                  </div>
-
-                  <hr class="my-4">
-
-                  <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
-                    <p class="mb-2">Total</p>
-                    <p id="total" class="mb-2">{{cart_total|floatformat:2}}</p>
-                  </div>
-                  <button id="submit_order">
-                    <div class="spinner hidden" id="spinner" class="btn btn-primary btn-block btn-lg mt-3"></div>
-                    <span id="button-text">Checkout</span>
-                  </button>
-                    <p class="result-message hidden" style="color:green;">
-                      Payment succeeded
-                    </p>
-                  {% comment %} <button type="submit" id="checkout-button" class="btn btn-primary btn-block btn-lg mt-3">
-                    Checkout
-                  </button> {% endcomment %}
-
-                </div>
-
-                 <!--INPUT FIELDS-->
-
-                 <div id="inputfields">
-                  <div class="row">
-                    <div class="col-md-6 pl-3">
-                      <div class="form-floating mb-4 mb-xl-6" id="card-element">
-
-                      </div>
-                      <p id="card-error" role="alert"></p>
+                  <div id="inputfields">
+                    <div class="col">
+                      
+                        <div class=" mb-4 mb-xl-6" id="card-element">
+                        </div>
+                        <p id="card-error" role="alert"></p>
+                      
                     </div>
                   </div>
+                  <br>
+                  <div id="amount">
+                    <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                      <p class="mb-2">Subtotal</p>
+                      <div class="d-flex" style="margin-top: 1px; ">
+                        <span class="mb-0">&#8369;</span>
+                        <p id="subtotal" class="mb-2">{{cart_subtotal|floatformat:2|intcomma}}</p>
+                      </div>
+                    </div>
+                    <div id="" class="d-flex justify-content-between" style="font-weight: 500;">
+                      <p class="mb-0">Shipping</p>
+                      <div class="d-flex" style="margin-top: 1px; ">
+                        <span class="mb-0">&#8369;</span>
+                        <p class="mb-0">50.00</p>
+                      </div>
+                    </div>
+  
+                    <hr class="my-4">
+  
+                    <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                      <p class="mb-2">Total</p>
+                      <div class="d-flex" style="margin-top: 1px; ">
+                        <span class="mb-0">&#8369;</span>
+                        <p id="total" class="mb-2">{{cart_total|floatformat:2|intcomma}}</p>
+                      </div>
+                    </div>
+                    <button id="submit_order" style="background-color: #A77802 !important;">
+                      <div class="spinner hidden" id="spinner" class="btn btn-primary btn-block btn-lg mt-3"></div>
+                      <span id="button-text">Checkout</span>
+                    </button>
+                      <p class="result-message hidden" style="color:green;">
+                        Payment succeeded
+                      </p>
+                    {% comment %} <button type="submit" id="checkout-button" class="btn btn-primary btn-block btn-lg mt-3">
+                      Checkout
+                    </button> {% endcomment %}
+  
+                  </div>
                 </div>
+                
 
                 </form>
 
-                <!--INPUT FIELDS-->
-
-                <div class="col-9 mt-3" id="inputfields">
-                  <div class="row">
-                    <div class="col-12 col-xl-6">
-                      <div class="form-floating mb-4 mb-xl-6" id="card-element">
-
-                      </div>
-                      <p id="card-error" role="alert"></p>
-                    </div>
-                  </div>
-                </div>
+                
 
 
             {% else %}
@@ -259,7 +259,10 @@ input[type=number] {
 </div>
 </div>
 <script>
-
+  
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
   const checkoutForm = document.querySelector('#checkout-form');
 
   function getCookie(name) {
@@ -346,11 +349,12 @@ input[type=number] {
           return result.json();
         })
         .then(function (data) {
-          payWithCard(stripe, card, data.clientSecret);
-        })
-          .then(function (data) {
+          const errorMsg = document.querySelector("#card-error");
+          if(!errorMsg.innerText){
+            payWithCard(stripe, card, data.clientSecret);
             e.target.submit();
-          });
+          }
+        })
       } else {
         e.target.submit();
       }
@@ -445,7 +449,7 @@ function text(val) {
       document.getElementById("amount").style.marginLeft = "0";
       document.getElementById("submit_order").style.width = "25%";
     } else {
-      document.getElementById("amount").className = "col-md-6";
+      document.getElementById("amount").className = "col-md-12";
       document.getElementById("mop").className = "col-md-6";
       document.getElementById("inputfields").style.display = "none";
       document.getElementById("payment-card").style.width = "100%";
@@ -528,10 +532,10 @@ function text(val) {
         document.querySelector('#cart-qty').innerHTML = data.qty
         const uPrice = document.querySelector(`#prod-uprice${cartId}`).innerText
         total = (parseFloat(data.subtotal))
-        document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
-        document.querySelector('#total').innerHTML = data.total.toFixed(2)
-        document.querySelector(`#prod-tprice${cartId}`).innerText = (parseInt(inputTag.value) * parseFloat(
-          uPrice)).toFixed(2);
+        document.querySelector('#subtotal').innerHTML = numberWithCommas(data.subtotal.toFixed(2))
+        document.querySelector('#total').innerHTML = numberWithCommas(data.total.toFixed(2))
+        document.querySelector(`#prod-tprice${cartId}`).innerText = numberWithCommas((parseInt(inputTag.value) * parseFloat(
+          uPrice)).toFixed(2));
         iStocks.innerText = data.new_quantity
       }
     });
@@ -633,10 +637,10 @@ function text(val) {
           document.querySelector('#cart-qty').innerHTML = data.qty
           const uPrice = document.querySelector(`#prod-uprice${cartId}`).innerText
           total = (parseFloat(data.subtotal))
-          document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
-          document.querySelector('#total').innerHTML = data.total.toFixed(2)
-          document.querySelector(`#prod-tprice${cartId}`).innerText = (parseInt(inputTag.value) * parseFloat(
-            uPrice)).toFixed(2);
+          document.querySelector('#subtotal').innerHTML = numberWithCommas(data.subtotal.toFixed(2))
+          document.querySelector('#total').innerHTML = numberWithCommas(data.total.toFixed(2))
+          document.querySelector(`#prod-tprice${cartId}`).innerText = numberWithCommas((parseInt(inputTag.value) * parseFloat(
+            uPrice)).toFixed(2));
           iStocks.innerText = data.new_quantity
         }
       }
@@ -684,10 +688,10 @@ function text(val) {
           document.querySelector('#cart-qty').innerHTML = data.qty
           const uPrice = document.querySelector(`#prod-uprice${cartId}`).innerText
           total = (parseFloat(data.subtotal))
-          document.querySelector('#subtotal').innerHTML = data.subtotal.toFixed(2)
-          document.querySelector('#total').innerHTML = data.total.toFixed(2)
-          document.querySelector(`#prod-tprice${cartId}`).innerText = (parseInt(inputTag.value) * parseFloat(
-            uPrice)).toFixed(2);
+          document.querySelector('#subtotal').innerHTML = numberWithCommas(data.subtotal.toFixed(2))
+          document.querySelector('#total').innerHTML = numberWithCommas(data.total.toFixed(2))
+          document.querySelector(`#prod-tprice${cartId}`).innerText = numberWithCommas((parseInt(inputTag.value) * parseFloat(
+            uPrice)).toFixed(2));
           iStocks.innerText = data.new_quantity
         }
 

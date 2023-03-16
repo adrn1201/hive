@@ -1,8 +1,13 @@
 {% extends 'main2.html' %}
 {% load static %}
-{% block title %}{% endblock title %}
+{% block title %}My orders{% endblock title %}
 
 {% block content %}
+<style>
+    .pagination1{
+       color:black;
+    }
+ </style>
     <br>
     <br>
     <br>
@@ -21,7 +26,7 @@
                         </div>
 
                         <div class = "col-4">
-                            <a class ="float-right btn btn-info btn-sm mx-auto" href="{% url 'dashboard_retailer' %}">View All Orders</a>
+                            <a class ="float-right btn btn-info btn-sm mx-auto" href="{% url 'dashboard_retailer' %}"><i class="fas fas fa-eye"></i> &nbsp;View Orders</a>
                        </div>
 
                         </div>
@@ -31,18 +36,17 @@
                                 <table class="table ">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">Reference
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Reference
                                                 No.</th>
-                                            <th class="text-center">Total Amount
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Total Amount
                                             </th>
-                                            <th class="text-center">Mode of
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Mode of
                                                 Payment</th>
-                                            <th class="text-center">No. of
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">No. of
                                                 Products</th>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center">Details</th>
-                                            <th class="text-center"></th>
-                                          
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Status</th>
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;"></th>
+                                            <th></th>
                                            
                                         </tr>
                                     </thead>
@@ -62,31 +66,31 @@
                                             </td>
                                             <td class="text-center">
                                                 {%if order.status == "pending"%}
-                                                <span class="badge badge-primary">{{ order.status }}</span> 
+                                                <span class="badge badge-warning" style="font-weight: 1000;">{{ order.status }}</span> 
                                                  {% endif %}
 
                                                 {%if order.status == "preparing"%}
-                                                <span class="badge badge-info">{{ order.status }}</span> 
+                                                <span class="badge badge-info" style="font-weight: 1000;">{{ order.status }}</span> 
                                                 {% endif %}
 
                                                 {%if order.status == "shipped"%}
-                                                <span class="badge badge-warning">{{ order.status }}</span> 
+                                                <span class="badge badge-primary" style="font-weight: 1000;">{{ order.status }}</span> 
                                                 {% endif %}
 
                                                 {%if order.status == "completed"%}
-                                                <span class="badge badge-success">{{ order.status }}</span>
+                                                <span class="badge badge-success" style="font-weight: 1000;">{{ order.status }}</span>
                                                 {% endif %}
                                                 
                                             </td>
                                             <td class="text-center">
-                                                <a  href="{% url 'ordered_product' order.id %}">DETAILS</a>
+                                                <a  href="{% url 'ordered_product' order.id %}"><i class="fas fa-pencil-alt"></i>&nbsp;Details</a>
                                             </td>
                                             
                                             {%if order.status == "shipped"%}
                                             <td class="text-center">
                                                 <form method="POST" action="{% url 'order_received' order.id %}">
                                                     {% csrf_token %}
-                                                <button type="submit" class="badge btn-success">Order Received</button>
+                                                <button type="submit" class="btn p-2" >Order Received</button>
                                                 </form>
                                             </td>
                                             {% endif %}
@@ -101,6 +105,7 @@
                     </div>
                 </div>
             </div>
+            {% include 'r-pagination.html' with queryset=orders custom_range=custom_range %}
         </div>
         <br>
         <br>

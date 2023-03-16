@@ -1,8 +1,25 @@
 {% extends 'admin.html' %}
 {% load humanize %}
 {% load static %}
-
+{% block title %}Dashboard{% endblock title %}
 {% block content %}
+
+<nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
+    <div class="container-fluid">
+      <div class="navbar-toggle">
+        <button type="button" class="navbar-toggler">
+            <span class="navbar-toggler-bar bar1"></span>
+            <span class="navbar-toggler-bar bar2"></span>
+            <span class="navbar-toggler-bar bar3"></span>
+        </button>
+    </div>
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+    aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+  
+  </button>
+     
+  </nav>
 
 <div class="panel-header panel-header-sm">
     <h2 class="card-title text-white text-start mt-lg-0">&nbsp; &nbsp; <Strong>Dashboard</Strong></h2>
@@ -12,9 +29,10 @@
         <div class="content">
             <div class="row">
               <div class="col-lg-6">
+                <a href="{% url 'transactions' %}" style="color: #342809;">
                 <div class="card card-chart">
                   <div class="card-header">
-                    <h4 class="card-title"><i class="fas fa-tasks text-lg opacity-100" style="color: #342809;"></i> &nbsp; Transactions</h4>
+                    <h4 class="card-title"><i class="fas fa-tasks text-lg opacity-100"></i> &nbsp; Transactions</h4>
                     
                   </div>
                   <div class="card-body text-center">
@@ -24,21 +42,24 @@
                     
                   </div>
                 </div>
+                </a>
               </div>
             
            
               <div class="col-lg-6 col-md-6">
-                <div class="card card-chart">
-                  <div class="card-header">
-                    <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
-                  </div>
-                  <div class="card-body text-center">
-                    <h2>{{wholesalers.count}}</h2>
-                  </div>
-                  <div class="card-footer">
-                   
-                  </div>
-                </div>
+                <a href="{% url 'list_wholesalers' %}" style="color: #342809;">
+                    <div class="card card-chart">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100"></i> &nbsp; Wholesalers</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <h2>{{wholesalers.count}}</h2>
+                    </div>
+                    <div class="card-footer">
+                    
+                    </div>
+                    </div>
+                </a>
               </div>
             </div>
 
@@ -46,115 +67,118 @@
                 <div class="row">
                     <div class="card card-chart px-3">
                    
-                            <div class="row">
-                                <div class="col-lg-9 col-ms-auto">
-                                    <div class="card-header">
-                                        <h4 class="card-title"><i class="fas fa-chart-line text-lg opacity-100" style="color: #342809;"></i> &nbsp; Monthly Sales</h4>
-                                        
-                                    </div>
-                                </div>
+                            
+                        <div class="col-lg-9 col-ms-auto">
+                            <div class="card-header">
+                                <h4 class="card-title"><i class="fas fa-chart-line text-lg opacity-100" style="color: #342809;"></i> &nbsp; Monthly Sales</h4>
+                                
                             </div>
-                        
-                            <div class="card-body">
-                                <div class="chart">
-                                    <canvas id="bar-chart" class="chart-canvas" height="375" width="989" style="display: block; box-sizing: border-box; height: 300px; width: 791.2px;">
-                                    
-                                    </canvas>
-                                </div>
-
-                            </div>
-                    </div>
-                </div>
-
-            <div class="row">
-                <div class="col-md-7">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between">
-                                <h4 class="card-title"><i class="fas fa-tasks text-lg opacity-100" style="color: #342809;"></i> &nbsp; Transanctions</h4>
-                                <a class="btn btn-primary btn-sm ms-auto rounded-9" href="{%url 'transactions'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Transactions</a>
+                        </div>
+                            
+                        <div class="card-body">
+                            <div class="chart">
+                                <canvas id="bar-chart" class="chart-canvas" height="375" width="989" style="display: block; box-sizing: border-box; height: 300px; width: 791.2px;">
+                                
+                                </canvas>
                             </div>
 
                         </div>
-                        <div class="card-body ps-lg-5">
-                            <div class="table-responsive text-center">
-                                <table class="table">
-                            <thead class=" text-primary">
-                                <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
-                                    Reference No.
-                                  </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
-                                    Business Name
-                                  </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
-                                    Payment Method
-                                  </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
-                                    Amount
-                                  </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
-                                    Date
-                                  </th>
-                                  <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
-                                    Payment Status
-                                  </th>
-                              
-                            </thead>
-                            <tbody>
-                                {% for transaction in transactions|slice:"5" %}
-                                <tr>
-                                    <td>
-                                    {{ transaction.reference_number }}
-                                    </td>
-                                    <td>
-                                    {{ transaction.business_name }}
-                                    </td>
-                                    <td>
-                                    {{ transaction.payment_method }}
-                                    </td>
-                                    <td>
-                                    ₱{{ transaction.amount|floatformat:2|intcomma  }}
-                                    </td>
-                                    <td>
-                                    {{ transaction.created }}
-                                    </td>
-                                    <td >
-                                    {%if transaction.payment_status == 'Success'%}
-                                    <span id= "status_acc" class=" badge badge-sm bg-success font-weight-bold mb-0">{{ transaction.payment_status }}</span>
-                                    {% endif %}
-                                    {%if transaction.payment_status == 'Cancelled'%}
-                                    <span id= "status_acc" class="badge badge-sm bg-warning font-weight-bold mb-0">{{ transaction.payment_status }}</span>
-                                    {% endif %}
-                                    </td>
-                                </tr>
-                                {% endfor %}
-
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
+               
+
+        <div class="row">
+                    <div class="col-md-7">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="card-title"><i class="fas fa-tasks text-lg opacity-100" style="color: #342809;"></i> &nbsp; Transanctions</h4>
+                                    <a class="btn btn-primary btn-sm ms-auto rounded-9" href="{%url 'transactions'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Transactions</a>
+                                </div>
+
+                            </div>
+                            <div class="card-body ps-lg-2">
+                                <div class="table-responsive text-center">
+                                    <table class="table">
+                                <thead class=" text-primary">
+                                    <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
+                                        Reference No.
+                                    </th>
+                                    <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
+                                        Business Name
+                                    </th>
+                                    <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
+                                        Payment Method
+                                    </th>
+                                    <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
+                                        Amount
+                                    </th>
+                                    <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
+                                        Date
+                                    </th>
+                                    <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
+                                        Payment Status
+                                    </th>
+                                
+                                </thead>
+                                <tbody>
+                                    {% for transaction in transactions|slice:"5" %}
+                                    <tr>
+                                        <td>
+                                        {{ transaction.reference_number }}
+                                        </td>
+                                        <td>
+                                        {{ transaction.business_name }}
+                                        </td>
+                                        <td>
+                                        {{ transaction.payment_method }}
+                                        </td>
+                                        <td>
+                                        ₱{{ transaction.amount|floatformat:2|intcomma  }}
+                                        </td>
+                                        <td>
+                                        {{ transaction.created }}
+                                        </td>
+                                        <td >
+                                        {%if transaction.payment_status == 'Success'%}
+                                        <span id= "status_acc" class=" badge badge-sm bg-success font-weight-bold mb-0">{{ transaction.payment_status }}</span>
+                                        {% endif %}
+                                        {%if transaction.payment_status == 'Cancelled'%}
+                                        <span id= "status_acc" class="badge badge-sm bg-warning font-weight-bold mb-0">{{ transaction.payment_status }}</span>
+                                        {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
+                            <a class="btn btn-primary btn-sm ms-auto rounded-9 w-30" href="{%url 'list_wholesalers'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Wholesalers</a>
+                        </div>
 
                 </div>
-                <div class="col-md-5">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between">
-                                <h4 class="card-title"><i class="fas fa-warehouse text-lg opacity-100" style="color: #342809;"></i> &nbsp; Wholesalers</h4>
-                                <a class="btn btn-primary btn-sm ms-auto rounded-9 w-30" href="{%url 'list_wholesalers'%}"><i class="fas fas fa-eye text-md opacity-100"></i> &nbsp;View Wholesalers</a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive text-center">
-                                <table class="table">
+                <div class="card-body ps-lg-2">
+                    <div class="table-responsive text-center">
+                        <table class="table">
                             <thead class=" text-primary">
-                                <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
+                                <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
                                     Business Name
                                 </th>
-                                <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
+                                <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
                                     Status
                                 </th>
-                                <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: medium;">
+                                <th class="text-primary th-new font-weight-bolder opacity-7" style="font-size: small;">
                                     Date Joined
                                 </th>
                            
@@ -162,9 +186,7 @@
                             <tbody>
                                 
                                 {% for wholesaler in wholesalers|slice:"5" %}
-                                
                                 <tr>
-                                    <br>
                                   <td>
                                     
                                     {{ wholesaler.business_name }}
@@ -183,15 +205,16 @@
                                 {%endfor%}
                             </tbody>
                         </table>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+
+</div>
     </div>
 </div>
 </div>
 </div>
-</div>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js">
 </script>

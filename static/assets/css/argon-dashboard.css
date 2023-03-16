@@ -5238,8 +5238,8 @@ fieldset:disabled .btn {
 .page-link.active,
 .active>.page-link {
     z-index: 3;
-    color: var(--bs-pagination-active-color);
-    background-color: #adb5bd;
+    color: white !important;
+    background-color: #5e72e4;
     /* border-color: var(--bs-pagination-active-border-color); */
 }
 

@@ -1,6 +1,7 @@
 from django.forms import ModelForm, inlineformset_factory
 from .models import Product, Category, Variation
 from wholesalers.models import Wholesaler
+from django import forms
 
 
 class ProductForm(ModelForm):
@@ -24,7 +25,7 @@ class ProductForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
-            field.widget.attrs.update({'class': 'form-control mb-3'})
+            field.widget.attrs.update({'class': 'form-control mb-3', 'required': False})
     
 class VariationForm(ModelForm):
     class Meta:

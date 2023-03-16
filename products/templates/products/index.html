@@ -18,43 +18,41 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
-            <div class="d-flex card mb-4">
+            <div class="d-flex card">
                 <section class="product_section layout_padding">
-                    <div class="container">
-                        <div class="heading_container heading_center">
-                           <div class="ms-auto">
-                              <div class="col-lg-5 d-flex mt-4 " style="margin-top: 4% !important;; margin-right: 3% !important;">
-                                 &nbsp; 
-                                 <form action="{% url 'products' %}" method="GET" id="searchForm">
-                                    
-                                    <div class="input-group">
-                                        <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-                                         <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search"> 
-                                      </div>
-                                 </form>
- 
-                                 <select class="form-select" id="filter_category" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 40px;">
-                                     <option selected disabled>Filter By:</option>
-                                     {% for c in categories %}
-                                     <option value="{{c.name}}" {% if request.GET.category and request.GET.category == c.name %}selected{% endif %}>
-                                         {{c.name|title}}
-                                     </option>
-                                     {% endfor %}
-                                   </select>
-                              </div>
-                           </div>
-                        </div>
-                     </div> 
-                    <div class="card-header pb-0">
-                        <div class="d-flex align-items-center">
-                            <h6 class="mb-0">List of Products</h6>
-                            <a class="btn-ts btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}"><i class="fa fa-plus"></i>&nbsp; Add Products 
-                            </a>
-                            &nbsp; &nbsp; 
-                            <a class="btn-ts btn btn-primary btn-sm me-2" href="{%url 'categories'%}"><i class="fa fa-gear"></i>&nbsp; Manage Categories 
-                            </a>
+                  
+
+                <div class="card-header pb-0">
+                    <div class="d-flex align-items-center">
+                        <form action="{% url 'products' %}" method="GET" id="searchForm">
+                        
+                        <div class="input-group">
+                            <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                                <input type="search" value="{{ search_query }}" class="form-control" name="search_query" placeholder="Search"> 
+                            </div>
+                        </form>
+                        
+                        <select class="form-select" id="filter_category" aria-label="Default select example" style="margin-left: 15px; width: 200px; height: 40px;">
+                            <option selected disabled>Filter By:</option>
+                            {% for c in categories %}
+                            <option value="{{c.name}}" {% if request.GET.category and request.GET.category == c.name %}selected{% endif %}>
+                                {{c.name|title}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <div class="ms-auto mt-3">
+                            <div class="d-flex">
+                                <a class="btn-ts btn btn-primary btn-sm ms-auto" href="{%url 'create-product'%}"><i class="fa fa-plus"></i>&nbsp; Add Products 
+                                </a>
+                                &nbsp; &nbsp; 
+                                <a class="btn-ts btn btn-primary btn-sm me-2" href="{%url 'categories'%}"><i class="fa fa-gear"></i>&nbsp; Manage Categories 
+                                </a>
+                            </div>
                         </div>
                     </div>
+                </div>
+  
+                    
 
                     <div class="card-body pt-4 px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">

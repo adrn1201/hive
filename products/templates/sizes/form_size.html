@@ -22,16 +22,17 @@
                         </div>
                     </div>
                 </div>
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST" enctype="multipart/form-data" id="form-size">
                     {% csrf_token %}
                     <div class="card-body">
                         <div id="sizes">
                             <div class="row">
                                 <div class="col-md-12">
+                                    <p id="error" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
                                     <div class="row" id="size-inputs">
                                         <div class="col">
                                             <label>{{form.name.label}}</label>
-                                            {{form.name}}
+                                            <input type="text" name="name" maxlength="255" class="form-control" id="id_name[0]">
                                         </div>
 
                                         <div class="col">
@@ -71,11 +72,33 @@
 <script>
     const element = document.getElementById("id_with_variation");
     const delButton = document.getElementById("delete-textbox-button");
-    const addButton = document.getElementById("add-textbox-button")
+    const addButton = document.getElementById("add-textbox-button");
+    const name = document.querySelector("#form-size");
     let textboxCount = 0;
+    let count = 0;
 
+    name.addEventListener('submit', function(event) {
+    if (event.target.id === 'form-size') {
+        event.preventDefault();
+
+        const inputValues = [];
+        const inputElements = document.querySelectorAll('#sizes input[name="name"]');
+        inputElements.forEach(function(element) {
+        inputValues.push(element.value);
+        });
+        const inputs = inputValues.some(v => v === '');
+        if (inputs) {
+            document.getElementById('error').textContent = '• Variation Name is required.';
+        } else {
+            this.submit();
+        }
+    }
+    });
+
+  
     addButton.addEventListener('click', function (e) {
         textboxCount++
+        count++
     });
 
     delButton.addEventListener('click', function (e) {

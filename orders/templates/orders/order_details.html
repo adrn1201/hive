@@ -1,6 +1,6 @@
 {% extends 'main.html' %}
 {% load static %}
-
+{% load humanize %}
 {% block title %}Products{% endblock title %}
 
 {% block content %}
@@ -26,7 +26,7 @@
                         Business Name:<p class="text-dark th-new font-weight-bolder">{{ order.business_name }}</p>
                       </th>
                       <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">
-                        Address: <p class="text-dark th-new font-weight-bolder">{{ order.address }}</p>
+                        Address: <p class="text-dark th-new font-weight-bolder">{{ order.address }}, {{order.city}}, {{order.region}}, {{order.barangay}}</p> 
                       </th>
                       <th class="text-uppercase text-primary th-new font-weight-bolder opacity-7 ps-2">
                         Status: <p class="text-dark th-new font-weight-bolder">{{ order.status }}</p>
@@ -79,7 +79,7 @@
                         <p class="text-center  font-weight-bold mb-0">{{ item.quantity}} pcs</p>
                       </td>
                       <td>
-                        <p class="text-center  font-weight-bold mb-0">₱{{ item.price}}</p>
+                        <p class="text-center  font-weight-bold mb-0">₱{{ item.price|floatformat:2|intcomma }}</p>
                       </td>
                     </tr>
                     {% endfor %}
@@ -113,7 +113,7 @@
                         {% endfor %}
                       </div>
                       <p class="text-dark font-weight-bold">Total Amount: 
-                        <span class="text-md text-primary font-weight-bold">₱{{ order.total_paid }}</span>
+                        <span class="text-md text-primary font-weight-bold">₱{{ order.total_paid|floatformat:2|intcomma }}</span>
                       </p>
                     </div>
                   </div>
