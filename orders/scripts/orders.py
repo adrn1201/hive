@@ -172,12 +172,25 @@ def create_exbud_orders():
     create_retailers('exbud_retailer.csv', exbud.schema_name)
     create_orders('exbud_orders.csv', exbud, exbud.schema_name)
     create_order_items('exbud_order_items.csv', exbud.schema_name)    
+
+
+def create_seven_orders():
+    emails = ['darrenwu77@gmail.com', 'jvcld26@gmail.com', 'nepomuceno.juancarlo@gmail.com']
+    usernames = ['darren_seven', 'jan_seven', 'jc_seven']
+    seven = Wholesaler.objects.get(id=6)
+    for i in range(len(emails)):
+        create_user_object(emails[i], usernames[i], 'Retailer@12345', seven.schema_name)
+
+    create_retailers('seven_retailer.csv', seven.schema_name)
+    create_orders('seven_orders.csv', seven, seven.schema_name)
+    create_order_items('seven_order_items.csv', seven.schema_name)    
     
     
 create_hiluck_orders()
 create_rsd_orders()
 create_rns_orders()
 create_exbud_orders()
+create_seven_orders()
 print('Hiluck User records created')
 print('Hiluck retailer records created')
 print('Hiluck order records created')

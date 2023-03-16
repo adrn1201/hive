@@ -1,0 +1,4 @@
+﻿id,business_name,address,contact_name,contact_number,is_active,created,wholesaler_id,retailer_image,city,region,barangay
+1,The Golden Store,11-1 Beverly Hills,Michael Reeves,09172354521,1,2021-01-23 17:58:08.989588+08,6,products/golden.png,Zamboanga City,Zamboanga Peninsula,ZoneIV
+2,J&D Merchandises,Blk 02 Shelby Drive,Jason Smith,09062334553,1,2021-01-04 18:16:17.563695+08,6,products/jd.jpg,Zamboanga City,Zamboanga Peninsula,Labuan
+3,Tailor Industries,Lot 8 Almond Street,Jackson Roger,09175473445,1,2021-01-08 00:30:20.045617+08,6,products/tailor.jpg,Zamboanga City,Zamboanga Peninsula,Canelar
