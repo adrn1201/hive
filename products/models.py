@@ -3,6 +3,9 @@ from django.core.exceptions import ValidationError
 import uuid
 from wholesalers.models import Wholesaler
 
+def positive_validator(value):
+    if value < 0:
+        raise ValidationError('Price must be a positive number.')
 
 class Category(models.Model):
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
@@ -30,7 +33,8 @@ class Product(models.Model):
     product_name = models.CharField(max_length=200)
     actual_stocks = models.IntegerField(default=0, null=True, blank=True)
     tempo_stocks = models.IntegerField(default=0, null=True, blank=True)
-    price = models.FloatField()
+    price = models.FloatField(validators=[positive_validator],
+                              error_messages={'invalid': 'Please enter a valid price.'})
     with_variation = models.BooleanField(choices=STATUS)
     sold = models.IntegerField(default=0)
     description = models.TextField(max_length=200)

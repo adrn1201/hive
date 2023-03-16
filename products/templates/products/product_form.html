@@ -19,6 +19,16 @@
                 <form  id ="addProduct" action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="card-body">
+                        {% if form.is_bound or form.min_orders.errors %}
+                        <div id= "errorMessage" style = "color:red;">
+                          {{form.min_orders.errors}} 
+                        </div>
+                      {% endif %}
+                      {% if form.is_bound or form.price.errors %}
+                      <div id= "errorMessage" style = "color:red;">
+                        {{form.price.errors}} 
+                      </div>
+                    {% endif %}
                         <div class="row">
                             <div class="col-md-12">
                                 {% if form.name != "with_variation" and form.name != "actual_stocks" %}
@@ -91,8 +101,7 @@
                             </div>
                             <label for="example-text-input" class="form-control-label">Minimum Order:</label>
                             <span id = "minimum">{{form.min_orders}}</span>
-                            <p id="error7" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
-
+                            <p id="error7" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>  
                         </div>
                         <br><br>
                         <div class="row">
@@ -131,7 +140,8 @@
 
     const addButtons = document.getElementById('add-button');
 
-    addButtons.addEventListener('click', function(event) {
+    form.addEventListener('submit', function(event) {
+   
     let errors = false;
     if(hiddenStocks && hiddenStocks.style.display === 'block'){
         if (category.value.trim() === '') {
@@ -180,7 +190,7 @@
         }
 
         if (actualStock.value.trim() === '') {
-            document.getElementById('error6').textContent = '• Minimum order is required.';
+            document.getElementById('error6').textContent = '• Stock is required.';
             actualStock.style.borderColor = "red";
             errors = true;
         } else {
@@ -189,7 +199,7 @@
         }
 
         if (minOrders.value.trim() === '') {
-            document.getElementById('error7').textContent = '• Stock is required.';
+            document.getElementById('error7').textContent = '• Minimum is required.';
             minOrders.style.borderColor = "red";
             errors = true;
         } else {
@@ -257,7 +267,7 @@
         }
 
         if (minOrders.value.trim() === '') {
-            document.getElementById('error7').textContent = '• Stock is required.';
+            document.getElementById('error7').textContent = '• Minimum Order is required.';
             minOrders.style.borderColor = "red";
             errors = true;
         } else {
@@ -312,7 +322,7 @@
         }
 
         if (minOrders.value.trim() === '') {
-            document.getElementById('error7').textContent = '• Minimum is required.';
+            document.getElementById('error7').textContent = '• Stock is required.';
             minOrders.style.borderColor = "red";
             errors = true;
         } else {

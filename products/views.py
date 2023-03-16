@@ -40,10 +40,11 @@ def create_product(request):
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
-    form = ProductForm(request.POST, request.FILES)
+    form = ProductForm(initial={"min_orders": "0"})
     variation_form = VariationForm(request.POST or None)
 
     if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)
         if form.is_valid() and request.POST['with_variation'] == '0':
             min_orders = form.cleaned_data['min_orders']
             actual_stocks = form.cleaned_data['actual_stocks']
@@ -142,8 +143,8 @@ def edit_product(request, pk):
                     domain = domain,
                     action = f'Updated product information for {product.product_name}'
             )
-            messages.success(request, 'Product details has been successfully updated')
-            return redirect('products')
+                messages.success(request, 'Product details has been successfully updated')
+                return redirect('products')
             
     context = {"form":form, 'product_variation':[product.with_variation], 'edit_page' : True, 'product':product}
     return render(request, "products/edit_product.html", context)
