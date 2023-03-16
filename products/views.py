@@ -350,7 +350,7 @@ def edit_size(request, pk, size_pk):
             messages.success(request, 'Variation record successfully updated!')
             return redirect('display_sizes', pk=product.id)
     
-    context = {"form":variation_form,'product':product, 'no_btns':True}
+    context = {"form":variation_form,'product':product, 'no_btns':True, 'variation':variation}
     return render(request, 'sizes/form_size.html', context)
 
 
