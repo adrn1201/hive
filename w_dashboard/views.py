@@ -30,18 +30,18 @@ def w_dashboard(request):
     .annotate(week=ExtractWeek('created'))
     .values('year', 'week')
     .annotate(total=Sum('total_paid'))
-    )
+    ).order_by("-year", "-week")
     
     monthly_stats = (wholesaler.order_set.distinct().filter(Q(mode_of_payment='Credit Card/Debit Card') | Q(status='completed'))
     .annotate(year=ExtractYear('created'))
     .annotate(month=ExtractMonth('created'))
     .values('year', 'month')
     .annotate(total=Sum('total_paid'))
-    )
+    ).order_by("-year", "-month")
     
     daily_sales = wholesaler.order_set.distinct().filter(
         Q(mode_of_payment='Credit Card/Debit Card') |
-        Q(status='completed')).values("created").order_by("created").annotate(sum=Sum('total_paid'))
+        Q(status='completed')).values("created").order_by("-created").annotate(sum=Sum('total_paid'))[:7]
     
     weekly_sales = []
     monthly_sales = []
@@ -64,8 +64,8 @@ def w_dashboard(request):
     
     context = {
         'daily_sales':daily_sales,
-        'weekly_sales':weekly_sales,
-        'monthly_sales':monthly_sales,
+        'weekly_sales':weekly_sales[:7],
+        'monthly_sales':monthly_sales[:7],
         'products':products, 
         'pending' :pending,
         'preparing': preparing,

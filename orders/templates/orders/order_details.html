@@ -93,7 +93,7 @@
     </div>
 
     <!---Another table-->
-
+ {%if order.status != 'completed' %}
     <div class="row">
       <div class="col-12">
         <div class="card mb-4 w-70 mx-auto">
@@ -129,5 +129,6 @@
         </div>
       </div>
     </div>
+    {%endif %}
 </div>
     {% endblock content %}

@@ -400,10 +400,16 @@ Dashboard
                             lineHeight: 2
                         },
                         color: 'black',
-                        beginAtZero: true
+                        beginAtZero: true,
+                        autoSkip: true,
+                        maxRotation: 70,
+                        minRotation: 70,
+                      
+                        
+                        
                     },
 
-                    type: 'time',
+                    type: 'timeseries',
                     time: {
                         unit: 'day',
                         tooltipFormat: 'MMM DD, YYYY'
@@ -430,6 +436,7 @@ Dashboard
         }
         salesChart.update();
     });
+ 
 </script>
 
 
