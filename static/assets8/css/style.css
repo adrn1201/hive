@@ -421,11 +421,11 @@ Main Components
     border-radius: 2%;
   }
   .no-touch .cd-select:hover {
-    background-color: #112e3c;
+    background-color: #B08A03;
   }
-  .cd-popular .cd-select {
+  /* .cd-popular .cd-select {
     background-color: #342B09;
-  }
+  } */
   .no-touch .cd-popular .cd-select:hover {
     background-color: #B08A03;
   }
@@ -437,8 +437,9 @@ Main Components
   }
   .cd-has-margins .cd-select {
     display: block;
-    padding: 1.7em 0;
+    /* padding: 1.7em 0; */
     border-radius: 0 0 4px 4px;
+    margin-bottom: 10px;
   }
 
   
