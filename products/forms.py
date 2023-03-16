@@ -5,6 +5,7 @@ from django import forms
 
 
 class ProductForm(ModelForm):
+
     class Meta:
         model = Product
         fields = (

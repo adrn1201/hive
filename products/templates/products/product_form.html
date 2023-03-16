@@ -19,6 +19,8 @@
                 <form  id ="addProduct" action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="card-body">
+                        
+                      
                         <div class="row">
                             <div class="col-md-12">
                                 {% if form.name != "with_variation" and form.name != "actual_stocks" %}
@@ -40,6 +42,11 @@
                                     
                                     <label for="example-text-input" class="form-control-label">Price</label>
                                     {{form.price }}
+                                    {% if form.is_bound or form.price.errors %}
+                                    <div id= "errorMessage" style = "color:red;">
+                                        {{form.price.errors}} 
+                                    </div>
+                                    {% endif %}
                                     <p id="error4" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
 
                                   {% endif %}
@@ -91,8 +98,12 @@
                             </div>
                             <label for="example-text-input" class="form-control-label">Minimum Order:</label>
                             <span id = "minimum">{{form.min_orders}}</span>
-                            <p id="error7" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
-
+                            {% if form.is_bound or form.min_orders.errors %}
+                                <div id= "errorMessage" style = "color:red;">
+                                {{form.min_orders.errors}} 
+                                </div>
+                            {% endif %}
+                            <p id="error7" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>  
                         </div>
                         <br><br>
                         <div class="row">
@@ -116,7 +127,6 @@
     const withVariation =  document.getElementById("id_with_variation"); 
     const minOrders =  document.getElementById("id_min_orders"); 
     const actualStock =  document.getElementById("id_actual_stocks"); 
-
     const hiddenVariation =  document.getElementById("hidden_variation"); 
     const hiddenStocks =  document.getElementById("hidden_stocks");
 
@@ -133,6 +143,7 @@
     const addButtons = document.getElementById('add-button');
 
     addButtons.addEventListener('click', function(event) {
+   
     let errors = false;
     if(hiddenStocks && hiddenStocks.style.display === 'block'){
         if (category.value.trim() === '') {
@@ -162,15 +173,6 @@
             document.getElementById('error3').textContent = '';
         }
 
-        if (desc.value > 199) {
-            document.getElementById('error3').textContent = '• Maximum of 200 words.';
-            desc.style.borderColor = "red";
-            errors = true;
-        } else {
-            desc.style.borderColor = "";
-            document.getElementById('error3').textContent = '';
-        }
-
         if (price.value.trim() === '') {
             document.getElementById('error4').textContent = '• Price is required.';
             price.style.borderColor = "red";
@@ -190,7 +192,7 @@
         }
 
         if (actualStock.value.trim() === '') {
-            document.getElementById('error6').textContent = '• Minimum order is required.';
+            document.getElementById('error6').textContent = '• Stock is required.';
             actualStock.style.borderColor = "red";
             errors = true;
         } else {
@@ -199,7 +201,7 @@
         }
 
         if (minOrders.value.trim() === '') {
-            document.getElementById('error7').textContent = '• Stock is required.';
+            document.getElementById('error7').textContent = '• Minimum is required.';
             minOrders.style.borderColor = "red";
             errors = true;
         } else {
@@ -248,15 +250,6 @@
             document.getElementById('error3').textContent = '';
         }
 
-        if (desc.value > 199) {
-            document.getElementById('error3').textContent = '• Maximum of 200 words.';
-            desc.style.borderColor = "red";
-            errors = true;
-        } else {
-            desc.style.borderColor = "";
-            document.getElementById('error3').textContent = '';
-        }
-
         if (price.value.trim() === '') {
             document.getElementById('error4').textContent = '• Price is required.';
             price.style.borderColor = "red";
@@ -276,7 +269,7 @@
         }
 
         if (minOrders.value.trim() === '') {
-            document.getElementById('error7').textContent = '• Stock is required.';
+            document.getElementById('error7').textContent = '• Minimum Order is required.';
             minOrders.style.borderColor = "red";
             errors = true;
         } else {
@@ -311,16 +304,7 @@
             desc.style.borderColor = "";
             document.getElementById('error3').textContent = '';
         }
-
-        if (desc.value > 199) {
-            document.getElementById('error3').textContent = '• Maximum of 200 words.';
-            desc.style.borderColor = "red";
-            errors = true;
-        } else {
-            desc.style.borderColor = "";
-            document.getElementById('error3').textContent = '';
-        }
-
+        
         if (price.value.trim() === '') {
             document.getElementById('error4').textContent = '• Price is required.';
             price.style.borderColor = "red";
@@ -340,7 +324,7 @@
         }
 
         if (minOrders.value.trim() === '') {
-            document.getElementById('error7').textContent = '• Minimum is required.';
+            document.getElementById('error7').textContent = '• Stock is required.';
             minOrders.style.borderColor = "red";
             errors = true;
         } else {
