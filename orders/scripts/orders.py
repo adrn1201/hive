@@ -30,7 +30,6 @@ def create_retailers(filename, schema_obj):
     with open(filepath, newline='', mode='r', encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile)
         rows = list(reader)
-        wholesaler = Wholesaler.objects.get(id=2)
         with schema_context(schema_obj):
             users_obj = User.objects.filter(is_retailer=True)
             users = list(users_obj)
@@ -40,7 +39,7 @@ def create_retailers(filename, schema_obj):
                     active = False
                 elif rows[i]['is_active'] == '1':
                     active = True
-                
+                wholesaler = Wholesaler.objects.get(id=rows[i]['wholesaler_id'])
                 Retailer.objects.create(
                     business_name=rows[i]['business_name'],
                     address=rows[i]['address'],
