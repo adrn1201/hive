@@ -222,7 +222,50 @@ def create_order(request):
                 domain = domain,
                 action = 'Retailer has placed their order'
             )       
-        
+        for item in order.items.all():
+            product = Product.objects.get(id=item.product.id)
+            category = Category.objects.get(id=product.category.id)
+            if item.order.mode_of_payment == 'Credit Card/Debit Card':
+                category.sold += int(item.quantity)
+                product.sold += int(item.quantity)
+            if not product.variation_set.count():
+                product.actual_stocks -= int(item.quantity)           
+                product.tempo_stocks = product.actual_stocks           
+                if product.actual_stocks < 0:
+                    product.actual_stocks = 0
+                elif product.tempo_stocks < 0:
+                    product.tempo_stocks = 0
+                elif product.actual_stocks < 20 and product.actual_stocks >= 0:
+                    send_mail(
+                        f'Low Stock Level in {product.product_name}',
+                        f'Low Stock Level in {product.product_name}, {product.actual_stocks} left!',
+                        settings.EMAIL_HOST_USER,
+                        [wholesaler.user.email],
+                        fail_silently=False
+                    )
+            else:
+                variation = product.variation_set.get(id=item.variation.id)
+                variation.actual_stocks_var -= int(item.quantity)
+                variation.tempo_stocks_var = variation.actual_stocks_var
+                if variation.actual_stocks_var < 0:
+                    variation.actual_stocks_var = 0
+                elif variation.tempo_stocks_var < 0:
+                    variation.tempo_stocks_var = 0
+                elif variation.actual_stocks_var < 20 and variation.actual_stocks_var >= 0:
+                    name_var = variation.name
+                    stocks_var = variation.actual_stocks_var 
+                    send_mail(
+                        f'Low Stock Level in {product.product_name}',
+                        f'Low Stock Level in {product.product_name}, Variation: {name_var}. {stocks_var} left!',
+                        settings.EMAIL_HOST_USER,
+                        [wholesaler.user.email],
+                        fail_silently=False
+                    )
+                
+                variation.save()
+        category.save()
+        product.save()
+
     request.user.cart_db_set.filter(user=request.user).delete()
     messages.success(request, 'Your Order is successfully placed!')
     send_mail(
@@ -324,47 +367,12 @@ def order_details(request, pk):
         
         if form.is_valid():
             order_form = form.save(commit=False)
-            if order_form.status == 'preparing':
+            if order_form.status == 'shipped':
                 for item in order_items:
                     product = Product.objects.get(id=item.product.id)
                     category = Category.objects.get(id=product.category.id)
                     category.sold += int(item.quantity)
                     product.sold += int(item.quantity)
-                    if not product.variation_set.count():
-                        product.actual_stocks -= int(item.quantity)           
-                        product.tempo_stocks = product.actual_stocks           
-                        if product.actual_stocks < 0:
-                            product.actual_stocks = 0
-                        elif product.tempo_stocks < 0:
-                            product.tempo_stocks = 0
-                        elif product.actual_stocks < 20 and product.actual_stocks >= 0:
-                            send_mail(
-                                f'Low Stock Level in {product.product_name}',
-                                f'Low Stock Level in {product.product_name}, {product.actual_stocks} left!',
-                                settings.EMAIL_HOST_USER,
-                                [wholesaler.user.email],
-                                fail_silently=False
-                            )
-                    else:
-                        variation = product.variation_set.get(id=item.variation.id)
-                        variation.actual_stocks_var -= int(item.quantity)
-                        variation.tempo_stocks_var = variation.actual_stocks_var
-                        if variation.actual_stocks_var < 0:
-                            variation.actual_stocks_var = 0
-                        elif variation.tempo_stocks_var < 0:
-                            variation.tempo_stocks_var = 0
-                        elif variation.actual_stocks_var < 20 and variation.actual_stocks_var >= 0:
-                            name_var = variation.name
-                            stocks_var = variation.actual_stocks_var 
-                            send_mail(
-                                f'Low Stock Level in {product.product_name}',
-                                f'Low Stock Level in {product.product_name}, Variation: {name_var}. {stocks_var} left!',
-                                settings.EMAIL_HOST_USER,
-                                [wholesaler.user.email],
-                                fail_silently=False
-                            )
-                        
-                        variation.save()
                     category.save()
                     product.save()
                     

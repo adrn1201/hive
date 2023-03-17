@@ -1178,7 +1178,6 @@ form textarea {
     min-height: 150px;
     font-size: 14px;
     margin-bottom: 20px;
-    text-transform: capitalize;
     line-height: normal;
 }
 

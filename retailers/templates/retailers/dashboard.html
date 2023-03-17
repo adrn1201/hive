@@ -40,8 +40,7 @@
                                                 No.</th>
                                             <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Total Amount
                                             </th>
-                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Mode of
-                                                Payment</th>
+                                            <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Date</th>
                                             <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">No. of
                                                 Products</th>
                                             <th class="text-center text-uppercase font-weight-bolder opacity-7" style="font-size: medium; color: #342809;">Status</th>
@@ -59,7 +58,7 @@
                                             <td class="text-center">
                                                 ₱{{ order.total_paid }}</td>
                                             <td class="text-center"><span
-                                                    class="name">{{ order.mode_of_payment }}</span>
+                                                    class="name">{{ order.created }}</span>
                                             </td>
                                             <td class="text-center">
                                                 <span>{{ order.items.all.count }}</span>
