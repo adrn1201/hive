@@ -1,6 +1,6 @@
 ﻿id,business_name,address,contact_name,contact_number,is_active,created,user_id,wholesaler_id,retailer_image,city,region,barangay
 1,NRW Marketing Manpower Agency Inc.,"Zone 2, Zamboanga city",Sheryl rose Saavedra,9495734553,1,"
-2021-01-11 21:48:19.858411+08",10,3,products/nrw.png,Zamboanga City,Zamboanga Peninsula,ArenaBlanco
+2021-01-11 21:48:19.858411+08",10,3,products/nrg.png,Zamboanga City,Zamboanga Peninsula,ArenaBlanco
 2,Lucky store,"Sta. Maria, Zamboanga City",Norwin Balikbayan,9715158884,1,"
 2021-06-13 21:48:19.858411+08",11,3,products/lc.png,Zamboanga City,Zamboanga Peninsula,Baliwasan
 3,Alex Enterprises,"talon talon, Zamboanga city",Robert June Asistio,9226458781,1,"
