@@ -127,9 +127,8 @@ def about_us(request):
     
     if request.method == 'POST':
         subject = request.POST["subject"]
-        message = request.POST['message']
+        message = request.POST['message'] +"\n\nFrom: " + request.POST['name'] + "\nEmail Address: " + request.POST['email']
         sender = request.POST['email']
-        name = request.POST['name']
         send_mail(
             f'{subject}',
             f' {message}',
