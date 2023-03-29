@@ -100,7 +100,7 @@ input[type=number] {
                       name="quantity" value="{{item.qty}}" type="number" {% if item.variation_id %}
                       data-quantity="{{item.variation_id.tempo_stocks_var}}" {% else %}
                       data-quantity="{{item.products.tempo_stocks}}" {% endif %} data-qtysel="{{item.qty}}"
-                      class="form-control form-control-sm item-qty ml-1" style="width: 70px; margin-top:4px ;"  />
+                      class="form-control form-control-sm item-qty ml-1" style="width: 70px; margin-top:4px ;" disabled />
 
                     <button id="increase-quantity{{item.id}}" data-cart="{{item.id}}" data-index="{{item.products.id}}"
                       {% if item.variation_id %} data-quantity="{{item.variation_id.tempo_stocks_var}}" {% else %}

@@ -127,12 +127,11 @@ def about_us(request):
     
     if request.method == 'POST':
         subject = request.POST["subject"]
-        message = request.POST['message']
+        message = request.POST['message'] +"\n\nFrom: " + request.POST['name'] + "\nEmail Address: " + request.POST['email']
         sender = request.POST['email']
-        name = request.POST['name']
         send_mail(
             f'{subject}',
-            f'{name} {sender} {message}',
+            f' {message}',
             sender,
             [request.user.retailer.wholesaler.user.email],
             fail_silently=False
@@ -180,9 +179,9 @@ def dashboard_retailer(request):
 
     order_status = request.GET.get('status')
     if order_status:
-        orders = request.user.order_set.distinct().filter(status=order_status)
+        orders = request.user.order_set.distinct().filter(status=order_status).order_by('-created')
     else:
-        orders = request.user.order_set.all()
+        orders = request.user.order_set.all().order_by('-created')
      
     pending_count = request.user.order_set.distinct().filter(status="pending").count()
     preparing_count = request.user.order_set.distinct().filter(status="preparing").count()
