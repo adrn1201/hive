@@ -127,7 +127,7 @@ def search_transaction(request):
     transactions = Transaction.objects.distinct().filter(Q(id__in=status_filter) & 
                                                     (Q(business_name__icontains=search_query) |
                                                     Q(payment_method__icontains=search_query)
-                                                    | Q(payment_status__icontains=search_query))).order_by('-id')
+                                                    | Q(payment_status__icontains=search_query))).order_by('-created')
 
     return transactions, search_query
 
