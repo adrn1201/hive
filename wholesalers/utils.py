@@ -79,6 +79,6 @@ def search_transaction(request):
     
     transactions = wholesaler.order_set.filter(Q(mode_of_payment="Credit Card/Debit Card") &
                                                     (Q(success__icontains=search_query)
-                                                    | Q(business_name__icontains=search_query)))
+                                                    | Q(business_name__icontains=search_query))).order_by('-created')
 
     return transactions, search_query

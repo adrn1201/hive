@@ -152,7 +152,7 @@ def search_wholesaler_logs(request):
         search_query = request.GET.get('search_query')
     
 
-    wholesalers_activity = AdminWholesalerLogs.objects.distinct().filter(Q(wholesaler__icontains=search_query) | Q(domain__icontains=search_query))
+    wholesalers_activity = AdminWholesalerLogs.objects.distinct().filter(Q(wholesaler__icontains=search_query) | Q(domain__icontains=search_query)).order_by('-created')
         
     return wholesalers_activity, search_query
 
@@ -163,6 +163,6 @@ def search_retailer_logs(request):
         search_query = request.GET.get('search_query')
     
 
-    retailers_activity = AdminRetailerLogs.objects.distinct().filter(Q(wholesaler__icontains=search_query) | Q(retailer__icontains=search_query) | Q(domain__icontains=search_query))
+    retailers_activity = AdminRetailerLogs.objects.distinct().filter(Q(wholesaler__icontains=search_query) | Q(retailer__icontains=search_query) | Q(domain__icontains=search_query)).order_by('-created')
         
     return retailers_activity, search_query
