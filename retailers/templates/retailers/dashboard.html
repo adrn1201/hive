@@ -1,5 +1,6 @@
 {% extends 'main2.html' %}
 {% load static %}
+{% load humanize %}
 {% block title %}My orders{% endblock title %}
 
 {% block content %}
@@ -56,7 +57,7 @@
                                                 {{ order.reference_number }}
                                             </td>
                                             <td class="text-center">
-                                                ₱{{ order.total_paid }}</td>
+                                                ₱{{ order.total_paid|floatformat:2|intcomma }}</td>
                                             <td class="text-center"><span
                                                     class="name">{{ order.created }}</span>
                                             </td>

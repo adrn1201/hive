@@ -1,5 +1,6 @@
 {% extends 'main2.html' %}
 {% load static %}
+{% load humanize %}
 {% block title %}{% endblock title %}
 
 {% block content %}
@@ -34,7 +35,7 @@
                                             </div>
                                         </td>
                                         <td class="text-center"> {{ item.product.product_name }}</td>
-                                        <td class="text-center"> ₱{{ item.price }}</td>
+                                        <td class="text-center"> ₱{{ item.price|floatformat:2|intcomma }}</td>
                                         <td class="text-center"><span class="name">{{ item.quantity }}</span></td>
                                     </tr>
                                     {% endfor %}
