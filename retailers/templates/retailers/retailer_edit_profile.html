@@ -134,6 +134,7 @@
     const error3 = document.querySelector('#error3');
     const error4 = document.querySelector('#error4');
     const error5 = document.querySelector('#error5');
+    const format = /^\d{11}$/;
 
     form.addEventListener('submit', function (e){
     e.preventDefault();
@@ -148,6 +149,10 @@
     else if(contactNum.value === ''){
         contactNum.style.borderColor = "red";
         error3.innerText = '• Please enter your contact number';
+    }
+    else if((!contactNum.value.match(format))){
+        contactNum.style.borderColor = "red";
+        error3.innerText = '• Please enter a valid contact number';
     }
     else if(address.value === ''){
         address.style.borderColor = "red";
@@ -167,7 +172,7 @@
     const message = document.querySelector('.message');
     let alertShown = false; // flag variable
     
-    form.addEventListener('submit', function(e){
+    form.addEventListener('click', function(e){
 
         const format = /^\d{11}$/;
         const number = document.querySelector('#id_contact_number');
