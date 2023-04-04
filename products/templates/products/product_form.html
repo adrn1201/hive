@@ -19,8 +19,16 @@
                 <form  id ="addProduct" action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="card-body">
-                        
-                      
+                        {% if form.is_bound or form.actual_stocks.errors %}
+                        <div id= "errorMessage" style = "color:red;">
+                        {{form.actual_stocks.errors}} 
+                        </div>
+                    {% endif %}
+                    {% if form.is_bound or form.product_name.errors %}
+                    <div id= "errorMessage" style = "color:red;">
+                    {{form.product_name.errors}} 
+                    </div>
+                {% endif %}
                         <div class="row">
                             <div class="col-md-12">
                                 {% if form.name != "with_variation" and form.name != "actual_stocks" %}
@@ -70,7 +78,8 @@
                                         <label for="example-text-input"
                                             class="form-control-label">{{ form.actual_stocks.label }}</label>
                                         {{ form.actual_stocks }}
-                                        <p id="error6" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
+                                        <p id="error6" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p> 
+                                    <p id="error7" style="color:#f02849; font-size: 14px; margin-left: 10px;"></p>   
 
                                     </div>
                                 </div>

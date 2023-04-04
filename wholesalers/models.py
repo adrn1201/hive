@@ -209,7 +209,7 @@ class Wholesaler(TenantMixin):
         (ZoneIV , "Zone IV (Poblacion)"),
     ]
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
-    business_name = models.CharField(max_length=255)
+    business_name = models.CharField(max_length=255, unique = True)
     address = models.CharField(max_length=255, null=False, blank=True)
     barangay = models.CharField(max_length=255, choices=Barangay)
     region = models.CharField(max_length=255, default="Zamboanga Peninsula", editable=False)

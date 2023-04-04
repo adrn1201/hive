@@ -99,7 +99,7 @@ def dashboard(request):
         return redirect('login_admin')
     
     transactions = Transaction.objects.all().order_by('-created')
-    wholesalers = Wholesaler.objects.all().exclude(id=1)
+    wholesalers = Wholesaler.objects.all().order_by('-created').exclude(id=1)
 
     monthly_stats = (Transaction.objects.distinct().all()
     .annotate(year=ExtractYear('created'))

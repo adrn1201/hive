@@ -8,7 +8,27 @@ import string
 def positive_validator(value):
     if value < 0:
         raise ValidationError('Price must be a positive number.')
-
+    
+def nonzero_validator(value):
+    if value == 0:
+        raise ValidationError('Price must be more than 0.')
+    
+def min_positive_validator(value):
+    if value < 0:
+        raise ValidationError('Minimum Order must be a positive number.')
+    
+def min_nonzero_validator(value):
+    if value == 0:
+        raise ValidationError('Minimum Order must be more than 0.')
+    
+def stock_positive_validator(value):
+    if value < 0:
+        raise ValidationError('Stocks must be a positive number.')
+    
+def stock_nonzero_validator(value):
+    if value == 0:
+        raise ValidationError('Stocks Order must be more than 0.')
+    
 class Category(models.Model):
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, unique=True)
@@ -32,15 +52,17 @@ class Product(models.Model):
 
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products') 
-    product_name = models.CharField(max_length=200)
-    actual_stocks = models.IntegerField(default=0, null=True, blank=True)
-    tempo_stocks = models.IntegerField(default=0, null=True, blank=True)
-    price = models.FloatField(validators=[positive_validator],
+    product_name = models.CharField(max_length=200, unique=True)
+    actual_stocks = models.IntegerField(default=0, null=True, blank=True, validators=[stock_positive_validator,stock_nonzero_validator],
+                              error_messages={'invalid': 'Please enter a valid number.'})
+    tempo_stocks = models.IntegerField(default=0, null=True, blank=True,)
+    price = models.FloatField(validators=[positive_validator,nonzero_validator],
                               error_messages={'invalid': 'Please enter a valid price.'})
     with_variation = models.BooleanField(choices=STATUS)
     sold = models.IntegerField(default=0)
     description = models.TextField(max_length=200)
-    min_orders = models.IntegerField(default=actual_stocks)
+    min_orders = models.IntegerField(default=actual_stocks,validators=[min_positive_validator,min_nonzero_validator],
+                              error_messages={'invalid': 'Please enter a valid number.'})
     product_image = models.ImageField(default='products/default.jpg', upload_to="products/")
     created = models.DateTimeField(auto_now_add=True)
     analytics_date = models.DateField(null=True, blank=True)
