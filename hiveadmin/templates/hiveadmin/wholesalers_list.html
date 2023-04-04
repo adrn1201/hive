@@ -128,10 +128,10 @@
                   </td>
                   <td>
                     {%if wholesaler.is_active == False%}
-                    <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
+                    <span id= "status_acc" class=" badge badge-sm bg-warning font-weight-bold mb-0"> {{ wholesaler.is_active|yesno:"Active,Did not renew" }}</span>
                     {% endif %}
                     {%if wholesaler.is_active == True%}
-                    <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ wholesaler.is_active|yesno:"Active,Inactive" }}</span>
+                    <span id= "status_acc" class="badge badge-sm bg-success font-weight-bold mb-0">{{ wholesaler.is_active|yesno:"Active,Did not renew" }}</span>
                     {% endif %}
                   </td>
                   <td>

@@ -2,6 +2,7 @@ from django.db import models
 from colorfield.fields import ColorField
 from django.contrib.auth.models import User
 from django_tenants.models import DomainMixin, TenantMixin
+from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import ArrayField
 
 
@@ -228,6 +229,7 @@ class Wholesaler(TenantMixin):
 
 class Domain(DomainMixin):
     pass
+
 
 
 
