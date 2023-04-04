@@ -29,7 +29,16 @@
                         {{form.price.errors}} 
                       </div>
                     {% endif %}
-
+                    {% if form.is_bound or form.actual_stocks.errors %}
+                    <div id= "errorMessage" style = "color:red;">
+                    {{form.actual_stocks.errors}} 
+                    </div>
+                {% endif %}
+                {% if form.is_bound or form.product_name.errors %}
+                <div id= "errorMessage" style = "color:red;">
+                {{form.product_name.errors}} 
+                </div>
+            {% endif %}
                         <div class="row">
                             <div class="col-md-12">
 

@@ -207,7 +207,7 @@ class Retailer(models.Model):
     ]
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     wholesaler = models.ForeignKey(Wholesaler, on_delete=models.SET_NULL, related_name='retailers', null=True)
-    business_name = models.CharField(max_length=255, null=False, blank=False)
+    business_name = models.CharField(max_length=255, null=False, blank=False, unique = True)
     contact_name = models.CharField(max_length=255)
     contact_number = models.CharField(max_length=50)
     retailer_image = models.ImageField(default='products/default.jpg', upload_to="products/")
