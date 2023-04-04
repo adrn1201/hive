@@ -11,6 +11,10 @@ if (searchForm) {
     if (window.location.pathname !== '/analytics/') {
         const filterElement = document.getElementById("filter_category");
         filterElement.addEventListener("change", formData);
+        if (window.location.pathname === '/orders/') {
+            const filterMethod = document.getElementById("filter_method");
+            filterMethod.addEventListener("change", formData);
+        }
     } else {
         const period = document.getElementById("period");
         if (period) {
@@ -82,15 +86,24 @@ if (searchForm) {
         }
 
         if (window.location.pathname !== '/analytics/') {
-            if (urlParams.get('category') && this.value) {
-                console.log('condition 1 checked')
-                searchForm.innerHTML += `<input type="hidden" name="category" value="${this.value}" />`;
-            } else if (urlParams.get('category') && !this.value) {
-                console.log('condition 2 checked')
-                searchForm.innerHTML += `<input type="hidden" name="category" value="${urlParams.get('category')}" />`;
-            } else if (!urlParams.get('category') && this.value) {
-                console.log('condition 3 checked')
-                searchForm.innerHTML += `<input type="hidden" name="category" value="${this.value}" />`;
+            if (e.target.id === 'filter_category') {
+                if (urlParams.get('category') && e.target.value) {
+                    searchForm.innerHTML += `<input type="hidden" name="category" value="${e.target.value}" />`;
+                } else if (urlParams.get('category') && !e.target.value) {
+                    searchForm.innerHTML += `<input type="hidden" name="category" value="${urlParams.get('category')}" />`;
+                } else if (!urlParams.get('category') && e.target.value) {
+                    searchForm.innerHTML += `<input type="hidden" name="category" value="${e.target.value}" />`;
+                }
+            } else {
+                if (window.location.pathname === '/orders/') {
+                    if (urlParams.get('method') && e.target.value) {
+                        searchForm.innerHTML += `<input type="hidden" name="method" value="${e.target.value}" />`;
+                    } else if (urlParams.get('method') && !e.target.value) {
+                        searchForm.innerHTML += `<input type="hidden" name="method" value="${urlParams.get('method')}" />`;
+                    } else if (!urlParams.get('method') && e.target.value) {
+                        searchForm.innerHTML += `<input type="hidden" name="method" value="${e.target.value}" />`;
+                    }
+                }
             }
         } else {
             if (urlParams.get('period') && this.value) {

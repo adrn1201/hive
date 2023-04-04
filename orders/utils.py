@@ -34,12 +34,15 @@ def paginate_orders(request, orders, results):
 def search_orders(request):
     search_query = ''
     order_query = ''
+    method_query = ''
 
     if request.GET.get('q'):
         search_query = request.GET.get('q')
         
     if request.GET.get('category'):
         order_query = request.GET.get('category')
+    if request.GET.get('method'):
+        method_query = request.GET.get('method')
     
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
@@ -47,9 +50,9 @@ def search_orders(request):
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     
     order_filter = wholesaler.order_set.filter(status__icontains=order_query)
+    pay_method_filter = wholesaler.order_set.filter(mode_of_payment__icontains=method_query)
 
-    orders = wholesaler.order_set.distinct().filter(Q(id__in=order_filter) &(Q(business_name__icontains=search_query) | 
-                                                    Q(mode_of_payment__icontains=search_query) |
+    orders = wholesaler.order_set.distinct().filter((Q(id__in=order_filter) | Q(id__in=pay_method_filter)) &(Q(business_name__icontains=search_query) | 
                                                     Q(status__icontains=search_query))).order_by('-created')
 
     return orders, search_query

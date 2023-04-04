@@ -24,10 +24,10 @@ from django.db.models import Q
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-# SALE REPORT IMPORTS
 from django.http import JsonResponse
 from django.db.models import Sum, Count
 from datetime import datetime, timedelta
+import calendar
 
 
 @login_required(login_url='login_wholesaler')
@@ -36,24 +36,39 @@ def generate_sales(request):
         pass
     elif request.user.is_authenticated and (not request.user.is_wholesaler or not request.user.is_superuser):
         return redirect('show_shop')
-    
+
     hostname_without_port = remove_www(request.get_host().split(':')[0])
     domain = Domain.objects.get(domain=hostname_without_port)
     wholesaler_id = domain.tenant.id
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
 
-    # Retrieve orders from the last 30 days
-    today = datetime.now().date()
-    thirty_days_ago = today - timedelta(days=30)
-    # orders_thirty = Order.objects.filter(created__gte=thirty_days_ago)
+    month = request.POST.get('month')
+    week = request.POST.get('week')
+    year = request.POST.get('year')
 
-    orders_thirty = wholesaler.order_set.distinct().filter(
-        Q(mode_of_payment='Credit Card/Debit Card') |
-        Q(status='completed'),
-        created__gte=thirty_days_ago,
-        created__lte=today
-    ).values("created").order_by("created").annotate(sum=Sum('total_paid'))
-    
+    dob = datetime(int(year), int(month), 1)
+    num = dob.month
+    month_name = calendar.month_name[num]
+    # Retrieve orders for the selected month and week
+    if month and week:
+        start_date = datetime.strptime(f'{year}-{month}-{(int(week) - 1) * 7 + 1}', '%Y-%m-%d').date()
+        end_date = start_date + timedelta(days=6)
+        orders = wholesaler.order_set.distinct().filter(
+            Q(mode_of_payment='Credit Card/Debit Card') |
+            Q(status='completed'),
+            created__range=[start_date, end_date]
+        ).values("created").order_by("created").annotate(sum=Sum('total_paid'))
+    else:
+        # Retrieve orders from the last 30 days
+        today = datetime.now().date()
+        thirty_days_ago = today - timedelta(days=30)
+        orders = wholesaler.order_set.distinct().filter(
+            Q(mode_of_payment='Credit Card/Debit Card') |
+            Q(status='completed'),
+            created__gte=thirty_days_ago,
+            created__lte=today
+        ).values("created").order_by("created").annotate(sum=Sum('total_paid'))
+
     # Create a new PDF document
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{wholesaler.business_name}_Sales_Report".pdf'
@@ -61,10 +76,15 @@ def generate_sales(request):
 
     # Add a title to the document
     pdf_canvas.setFont('Helvetica-Bold', 16)
+    pdf_canvas.setFont('Helvetica-Bold', 16)
     title_text = f'{wholesaler.business_name} Sales Report'
+    month_week = f'{month_name} {year} (Week {week})'
+    
     title_width = pdf_canvas.stringWidth(title_text, 'Helvetica-Bold', 16)
+    month_width = pdf_canvas.stringWidth(month_week, 'Helvetica-Bold', 16)
     page_width, _ = letter
     pdf_canvas.drawString((page_width - title_width) / 2, 750, title_text)
+    pdf_canvas.drawString((page_width - month_width) / 2, 725, month_week)
 
     # Set the tab title to the business name
     tab_title = wholesaler.business_name
@@ -86,6 +106,9 @@ def generate_sales(request):
     x_test = 180
     for index, column in enumerate(table_columns):
         # Center the column header by adding half the difference between the total table width
+       
+
+        # Center the column header by adding half the difference between the total table width
         # and the sum of the column widths to the x-coordinate for the left edge of the table
         header_x = x_test + (index * column_widths[index]) + (table_width - sum(column_widths)) / 2
         pdf_canvas.drawCentredString(header_x, y_offset, column)
@@ -95,7 +118,7 @@ def generate_sales(request):
     pdf_canvas.setFont('Helvetica', 12)
     y_offset -= 30
     total_sales = 0
-    for order in orders_thirty:
+    for order in orders:
         # Center the column data by adding half the difference between the total table width
         # and the sum of the column widths to the x-coordinate for the left edge of the table
         data_x = x + (table_width - sum(column_widths)) / 2
