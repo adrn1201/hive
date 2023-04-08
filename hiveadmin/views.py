@@ -18,6 +18,7 @@ import datetime
 from .models import AdminRetailerLogs, AdminWholesalerLogs
 
 
+
 @login_required(login_url='login_admin')
 def wholesaler_activity_logs(request):
     if request.user.is_authenticated and request.user.is_superuser:
@@ -130,6 +131,20 @@ def list_wholesalers(request):
     custom_range, wholesalers = paginate_data(request, wholesalers, 10)
     context = {'wholesalers': wholesalers, 'search_query': search_query, 'custom_range': custom_range }
 
+    # Get a queryset of all Transaction objects
+    transactions = Transaction.objects.all()
+
+    # Loop through the transactions and get the corresponding Wholesaler objects
+    for transaction in transactions:
+        # Get the corresponding wholesaler object and print it
+        wholesaler = Wholesaler.objects.get(transaction_id=transaction.id)
+        wholesaler.transaction_status = transaction.payment_status
+        wholesaler.expiry_date = transaction.expires
+
+    # Save the wholesaler object
+        wholesaler.save()
+        
+
     if(request.method == "POST"):
         send_mail(
             'Hive Account Registration',
@@ -156,7 +171,6 @@ def transactions(request):
     transactions, search_query = search_transaction(request)
     custom_range, transactions = paginate_data(request, transactions, 10)
 
-    # transaction = Transaction.objects.all()
     context ={'transactions':transactions ,'searches':search_query, 'custom_range':custom_range}
     
     return render(request, 'hiveadmin/transactions.html', context)
@@ -311,9 +325,9 @@ def webhook_received(request):
             payment_method = 'Credit Card/Debit Card',             
             payment_status = 'Success',
             amount = subscription['amount_total'] / 100,
+            # expires = subscription['lines']['data']['period']['end'],
             subscription_id = subscription['subscription']
         )
-
         stripe_customer_id = subscription["customer"]
         stripe_customer = stripe.Customer.retrieve(stripe_customer_id)
 
@@ -328,10 +342,23 @@ def webhook_received(request):
         )
     elif event['type'] == 'customer.subscription.updated':
         subscription = event['data']['object']
+        print(subscription)
         if subscription['cancel_at_period_end']:
             transaction = Transaction.objects.filter(subscription_id=subscription['id'])[0]
-            transaction.payment_status = 'Cancelled'
+            transaction.payment_status = 'Did not renew'
             transaction.save()
+        else:
+            transaction = Transaction.objects.filter(subscription_id=subscription['id'])[0]
+            transaction.payment_status = 'Success'
+            transaction.save()
+    elif event['type'] == 'invoice.payment_succeeded':
+        subscription = event['data']['object']
+        transaction = Transaction.objects.filter(subscription_id=subscription['subscription'])[0]
+        expiry_date = subscription['lines']['data'][0]['period']['end']
+        transaction.expires = expiry_date
+        transaction.save()
+
+    
 
 
     return HttpResponse(status=200)

@@ -47,7 +47,7 @@
         <form action="{% url 'checkout_session_payment'%}" method="POST">
           {% csrf_token %}
           <input type="hidden" name="lookup_key" value="monthly" />
-          <button class="cd-select"  id="monthly" type="submit" disabled>Checkout</button>
+          <button class="cd-select"  id="monthly" type="submit" disabled>Subscribe</button>
         </form>
       </footer>
     </li>
@@ -80,7 +80,7 @@
         <form action="{% url 'checkout_session_payment'%}" method="POST">
           {% csrf_token %}
           <input type="hidden" name="lookup_key" value="Semi" />
-          <button class="cd-select"  id="semi" type="submit" disabled>Checkout</button>
+          <button class="cd-select"  id="semi" type="submit" disabled>Subscribe</button>
         </form>
       </footer>
     </li>
@@ -113,7 +113,7 @@
         <form action="{% url 'checkout_session_payment'%}" method="POST">
           {% csrf_token %}
           <input type="hidden" name="lookup_key" value="Annually" />
-          <button class="cd-select"  id="annually" type="submit" disabled>Checkout</button>
+          <button class="cd-select"  id="annually" type="submit" disabled>Subscribe</button>
         </form>
       </footer> 
     </li>

@@ -2,6 +2,14 @@
 {% block title %}Wholesalers{% endblock title %}
 {% block content %}
 
+
+<style>
+  .swal-modal .swal-text {
+      text-align: center;
+  }
+  
+  </style>
+
 <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
   <div class="container-fluid">
     <div class="navbar-toggle">
@@ -117,8 +125,14 @@
                   Date Joined
                 </th>
                 <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
-                  Action
+                  Expiry of subscription
                 </th>
+                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Payment status
+                </th>
+                <!-- <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
+                  Action
+                </th> -->
               </thead>
               <tbody>
                 {% for wholesaler in wholesalers %}
@@ -137,14 +151,30 @@
                   <td>
                     {{ wholesaler.created}}
                   </td>
+                  {% if wholesaler.is_expiring_soon %}
+                  <td style="background-color:#dc3545; color: white;"><a href="#" onclick="showAlert('{{ wholesaler.business_name }}')" style="color:white"><i class='fas fa-exclamation-circle'></i> {{ wholesaler.expiry_date }} </a>
+                  </td>
+                  {% else %}
+                      <td>{{ wholesaler.expiry_date }}</td>
+                  {% endif %}                
+                  
+                  <td >
+                    {%if wholesaler.transaction_status == 'Success'%}
+                    <span id= "status_acc" class=" badge badge-sm bg-success font-weight-bold mb-0">{{ wholesaler.transaction_status }}</span>
+                    {% endif %}
+                    {%if wholesaler.transaction_status == 'Did not renew'%}
+                    <span id= "status_acc" class="badge badge-sm bg-warning font-weight-bold mb-0">{{ wholesaler.transaction_status }}</span>
+                    {% endif %}
+                  </td>
+
                   <td>
-                    <form method="POST" action="{% url 'update_wholesaler' wholesaler.id %}" class="updateForm"
+                    <!-- <form method="POST" action="{% url 'update_wholesaler' wholesaler.id %}" class="updateForm"
                       data-product="{{wholesaler.business_name}}">
                       {% csrf_token %}
                       <button type="submit" class="btn  btn-info  btn-xs "><i class="far fa-edit"></i>
                       </button>
                     </form>
-                  </td>
+                  </td> -->
                 </tr>
                 {% endfor %}
               </tbody>
@@ -215,6 +245,33 @@ filterDropdown.addEventListener('change', (event) => {
       });
     });
   });
+
+  function showAlert(businessName) {
+      swal({
+      title: "Expiry",
+      text: "The subscription of "+ businessName +" is expiring soon or has already expired!",
+      icon: "warning",
+      buttons:  "OK",
+    });
+
+}
+
+var currentDate = new Date();
+
+var rows = document.getElementsByTagName("tr");
+for (var i = 0; i < rows.length; i++) {
+  var row = rows[i];
+
+  var expiryDateString = row.cells[3].textContent;
+  var expiryDate = new Date(expiryDateString);
+
+  if (currentDate > expiryDate) {
+    var statusCell = row.cells[4];
+    statusCell.innerHTML = '<span class="badge badge-sm bg-warning font-weight-bold mb-0">Did not renew</span>';
+    statusCell.classList.remove("bg-success");
+  }
+}
+
 </script>
 
 {% endblock content %}

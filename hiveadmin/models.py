@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
 import random
 import string
+import datetime
+from django.utils import timezone
+
 
 
 def random_string_generator(size=5, chars=string.ascii_lowercase + string.digits):
@@ -32,8 +35,29 @@ class Transaction(models.Model):
     amount = models.FloatField()
     payment_status = models.CharField(max_length=255)
     subscription_id = models.CharField(max_length=255, blank=True, null=True)
+    expires = models.DateField(blank=True, null=True)
     created = models.DateField(auto_now_add=True)
 
+    @property
+    def is_expiring_soon(self):
+        if not self.expires:
+            return False
+        today = timezone.now().date()
+        # Define a threshold for what is considered "near" expiry
+        expiry_threshold = 7  # days
+        return (self.expires - today).days <= expiry_threshold
+    
+
+def pre_save_set_expires(sender, instance, *args, **kwargs):
+    if instance.expires:
+        # Convert Unix timestamp to datetime object
+        expires_datetime = datetime.datetime.fromtimestamp(instance.expires)
+        # Extract the date part of the datetime object
+        expires_date = expires_datetime.date()
+        # Set the expires field to the date object
+        instance.expires = expires_date
+
+pre_save.connect(pre_save_set_expires, sender=Transaction)
 
 def pre_save_create_order_id(sender, instance, *args, **kwargs):
     if not instance.reference_number:

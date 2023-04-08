@@ -4,6 +4,13 @@
 {% load humanize %}
 {% block content %}
 
+<style>
+.swal-modal .swal-text {
+    text-align: center;
+}
+
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
   <div class="container-fluid">
     <div class="navbar-toggle">
@@ -79,9 +86,6 @@
                 <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
                   Date
                 </th>
-                <th class="text-uppercase  text-primary th-new font-weight-bolder opacity-7">
-                  Payment Status
-                </th>
               </thead>
               <tbody>
                 {% for transaction in transactions %}
@@ -101,15 +105,6 @@
                   <td>
                     {{ transaction.created }}
                   </td>
-                  <td >
-                    {%if transaction.payment_status == 'Success'%}
-                    <span id= "status_acc" class=" badge badge-sm bg-success font-weight-bold mb-0">{{ transaction.payment_status }}</span>
-                    {% endif %}
-                    {%if transaction.payment_status == 'Cancelled'%}
-                    <span id= "status_acc" class="badge badge-sm bg-warning font-weight-bold mb-0">{{ transaction.payment_status }}</span>
-                    {% endif %}
-                  </td>
-
                 </tr>
                 {% endfor %}
               </tbody>
@@ -170,6 +165,9 @@
       });
     });
   });
+
 </script>
+
+
 
 {% endblock content %}
