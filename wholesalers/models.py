@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 from django_tenants.models import DomainMixin, TenantMixin
 from django.core.exceptions import ValidationError
 from django.contrib.postgres.fields import ArrayField
+from hiveadmin.models import Transaction
+from django.utils import timezone
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class Wholesaler(TenantMixin):
@@ -219,13 +223,31 @@ class Wholesaler(TenantMixin):
     is_active = models.BooleanField(default=False)
     color = models.CharField(max_length=255, null=True, blank=True)
     wholesaler_image = models.ImageField(default='products/default.jpg', upload_to="products/")
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, null=True, blank=True)
+    expiry_date = models.DateField(blank=True, null=True)
+    transaction_status = models.CharField(max_length=255, null=True, blank=True)
     created = models.DateField(auto_now_add=True)
+
+    @property
+    def is_expiring_soon(self):
+        if not self.expiry_date:
+            return False
+        today = timezone.now().date()
+        # Define a threshold for what is considered "near" expiry
+        expiry_threshold = 7  # days
+        return (self.expiry_date - today).days <= expiry_threshold
     
     auto_create_schema = True
 
     auto_drop_schema = True
 
-    
+@receiver(pre_save, sender=Wholesaler)
+def set_is_active(sender, instance, **kwargs):
+    if instance.expiry_date and instance.expiry_date < timezone.now().date():
+        instance.is_active = False
+    else:
+        instance.is_active = True
+
 
 class Domain(DomainMixin):
     pass

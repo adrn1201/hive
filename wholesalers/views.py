@@ -41,6 +41,8 @@ def register_wholesalers(request):
 
 def wholesaler_create_profile(request, checkout):
     form = WholesalerCreationForm()
+    latest_transaction = Transaction.objects.latest('id')
+    transaction_id = latest_transaction.id
     if request.method == "POST":
         form = WholesalerCreationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -48,6 +50,7 @@ def wholesaler_create_profile(request, checkout):
             wholesaler.schema_name = wholesaler.business_name.lower()
             context_schema = wholesaler.schema_name
             wholesaler.is_active = True
+            wholesaler.transaction_id = transaction_id
             user_credentials.save()
             wholesaler.user = user_credentials
             wholesaler.save()
