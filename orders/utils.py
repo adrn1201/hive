@@ -50,10 +50,11 @@ def search_orders(request):
     wholesaler = Wholesaler.objects.get(id=wholesaler_id)
     
     order_filter = wholesaler.order_set.filter(status__icontains=order_query)
-    pay_method_filter = wholesaler.order_set.filter(mode_of_payment__icontains=method_query)
+    pay_method_filter = order_filter.filter(mode_of_payment__icontains=method_query)
 
-    orders = wholesaler.order_set.distinct().filter((Q(id__in=order_filter) | Q(id__in=pay_method_filter)) &(Q(business_name__icontains=search_query) | 
-                                                    Q(status__icontains=search_query))).order_by('-created')
+    orders = order_filter.distinct().filter((Q(id__in=pay_method_filter)) &(Q(business_name__icontains=search_query) | 
+                                                        Q(status__icontains=search_query))).order_by('-created')
+
 
     return orders, search_query
 
